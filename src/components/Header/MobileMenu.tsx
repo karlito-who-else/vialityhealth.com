@@ -1,111 +1,187 @@
 'use client'
 
-import type { Header } from '@/payload-types'
-
-import { CMSLink } from '@/components/Link'
-import { Button } from '@/components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
-import { useAuth } from '@/providers/Auth'
-import { MenuIcon } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { X } from 'lucide-react'
+import { motion, AnimatePresence, type Variants, type Easing } from 'framer-motion'
 
-interface Props {
-  menu: Header['navItems']
+const navLinks = [
+  { label: 'Shop',        href: '/shop',  index: '01' },
+  { label: 'About',       href: '/about', index: '02' },
+  { label: 'Lab Reports', href: '/about', index: '03' },
+  { label: 'Contact',     href: '/about', index: '04' },
+]
+
+const overlayVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] as Easing },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] as Easing, delay: 0.15 },
+  },
 }
 
-export function MobileMenu({ menu }: Props) {
-  const { user } = useAuth()
+const linkVariants: Variants = {
+  hidden: { opacity: 0, y: 40, skewY: 1.5 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    skewY: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.25, 0.1, 0.25, 1] as Easing,
+      delay: 0.18 + i * 0.075,
+    },
+  }),
+  exit: (i: number) => ({
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.3,
+      ease: 'easeIn' as Easing,
+      delay: i * 0.03,
+    },
+  }),
+}
 
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+export function MobileMenu({ menu: _menu }: { menu: any[] }) {
   const [isOpen, setIsOpen] = useState(false)
-
-  const closeMobileMenu = () => setIsOpen(false)
+  const pathname = usePathname()
+  const prevPathname = useRef(pathname)
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsOpen(false)
-      }
+    if (pathname !== prevPathname.current) {
+      setIsOpen(false)
+      prevPathname.current = pathname
     }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+  }, [pathname])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
   useEffect(() => {
-    setIsOpen(false)
-  }, [pathname, searchParams])
+    const handle = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false) }
+    window.addEventListener('keydown', handle)
+    return () => window.removeEventListener('keydown', handle)
+  }, [])
 
   return (
-    <Sheet onOpenChange={setIsOpen} open={isOpen}>
-      <SheetTrigger className="relative flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:bg-black dark:text-white">
-        <MenuIcon className="h-4" />
-      </SheetTrigger>
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        aria-label="Open menu"
+        className="md:hidden flex flex-col gap-[5px] p-1 transition-opacity hover:opacity-60 text-primary"
+      >
+        <span className="block w-5 h-[1.5px] bg-primary" />
+        <span className="block w-5 h-[1.5px] bg-primary" />
+      </button>
 
-      <SheetContent side="left" className="px-4">
-        <SheetHeader className="px-0 pt-4 pb-0">
-          <SheetTitle>My Store</SheetTitle>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            variants={overlayVariants}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="fixed inset-0 z-50 flex flex-col overflow-hidden"
+            style={{ background: '#131110' }}
+          >
+            <div
+              className="pointer-events-none absolute inset-0 z-0"
+              style={{
+                opacity: 0.055,
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                backgroundRepeat: 'repeat',
+                backgroundSize: '180px 180px',
+                mixBlendMode: 'screen',
+              }}
+            />
 
-          <SheetDescription />
-        </SheetHeader>
+            <div className="relative z-10 flex items-center justify-between px-6 md:px-12 h-[72px] shrink-0">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <Link
+                  href="/"
+                  onClick={() => setIsOpen(false)}
+                  className="font-serif italic font-light text-white/30 hover:text-white/55 transition-colors duration-300"
+                  style={{ fontSize: '1.05rem', letterSpacing: '0.2em' }}
+                >
+                  viality
+                </Link>
+              </motion.div>
 
-        <div className="py-4">
-          {menu?.length ? (
-            <ul className="flex w-full flex-col">
-              {menu.map((item) => (
-                <li className="py-2" key={item.id}>
-                  <CMSLink {...item.link} appearance="link" />
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-
-        {user ? (
-          <div className="mt-4">
-            <h2 className="text-xl mb-4">My account</h2>
-            <hr className="my-2" />
-            <ul className="flex flex-col gap-2">
-              <li>
-                <Link href="/orders">Orders</Link>
-              </li>
-              <li>
-                <Link href="/account/addresses">Addresses</Link>
-              </li>
-              <li>
-                <Link href="/account">Manage account</Link>
-              </li>
-              <li className="mt-6">
-                <Button asChild variant="outline">
-                  <Link href="/logout">Log out</Link>
-                </Button>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <div>
-            <h2 className="text-xl mb-4">My account</h2>
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-              <Button asChild className="w-full sm:flex-1" variant="outline">
-                <Link href="/login">Log in</Link>
-              </Button>
-              <span className="text-center text-sm text-muted-foreground sm:text-base">or</span>
-              <Button asChild className="w-full sm:flex-1">
-                <Link href="/create-account">Create an account</Link>
-              </Button>
+              <motion.button
+                initial={{ opacity: 0, rotate: -45 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, delay: 0.12 }}
+                onClick={() => setIsOpen(false)}
+                aria-label="Close menu"
+                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-white/80 transition-colors duration-200 -mr-2"
+              >
+                <X size={20} strokeWidth={1.2} />
+              </motion.button>
             </div>
-          </div>
+
+            <nav className="relative z-10 flex-1 flex flex-col justify-center px-8 md:px-16 xl:px-24 overflow-hidden">
+              <motion.div
+                initial={{ scaleY: 0, originY: 0 }}
+                animate={{ scaleY: 1 }}
+                exit={{ scaleY: 0, originY: 0 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+                className="absolute left-8 md:left-16 xl:left-24 top-8 bottom-8 w-px bg-white/8 origin-top"
+              />
+
+              <ul className="flex flex-col pl-5 md:pl-8">
+                {navLinks.map((link, i) => (
+                  <motion.li
+                    key={link.label}
+                    custom={i}
+                    variants={linkVariants}
+                    initial="hidden"
+                    animate="show"
+                    exit="exit"
+                    className="overflow-hidden py-0.5"
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="group flex items-baseline gap-4 md:gap-6 w-fit"
+                    >
+                      <span className="text-[9px] text-white/18 uppercase tracking-[0.2em] tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-white/35 hidden sm:block">
+                        {link.index}
+                      </span>
+                      <span
+                        className="font-serif italic text-white/85 leading-[1.1] transition-all duration-400 group-hover:text-white group-hover:translate-x-1.5 inline-block"
+                        style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5.5rem)' }}
+                      >
+                        {link.label}
+                      </span>
+                      <span className="text-white/0 group-hover:text-white/30 transition-all duration-300 translate-x-0 group-hover:translate-x-1 text-sm self-center font-light">
+                        →
+                      </span>
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+          </motion.div>
         )}
-      </SheetContent>
-    </Sheet>
+      </AnimatePresence>
+    </>
   )
 }

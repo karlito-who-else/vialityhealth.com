@@ -1,18 +1,20 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import type { Product, Variant } from '@/payload-types'
 
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import clsx from 'clsx'
 import { useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
 import { toast } from 'sonner'
+
 type Props = {
   product: Product
+  quantity?: number
+  className?: string
+  label?: string
 }
 
-export function AddToCart({ product }: Props) {
+export function AddToCart({ product, quantity = 1, className, label }: Props) {
   const { addItem, cart, isLoading } = useCart()
   const searchParams = useSearchParams()
 
@@ -44,11 +46,10 @@ export function AddToCart({ product }: Props) {
       addItem({
         product: product.id,
         variant: selectedVariant?.id ?? undefined,
-      }).then(() => {
-        toast.success('Item added to cart.')
-      })
+      }, quantity)
+      toast.success('Item added to cart.')
     },
-    [addItem, product, selectedVariant],
+    [addItem, product, selectedVariant, quantity],
   )
 
   const disabled = useMemo<boolean>(() => {
@@ -95,17 +96,14 @@ export function AddToCart({ product }: Props) {
   }, [selectedVariant, cart?.items, product])
 
   return (
-    <Button
+    <button
       aria-label="Add to cart"
-      variant={'outline'}
-      className={clsx({
-        'hover:opacity-90': true,
-      })}
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"
+      className={className || 'w-full h-12 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-primary/88 active:scale-[0.99] transition-all'}
     >
-      Add To Cart
-    </Button>
+      {label || 'Add to Cart'}
+    </button>
   )
 }

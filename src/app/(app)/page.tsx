@@ -1,5 +1,6 @@
-import PageTemplate, { generateMetadata } from './[slug]/page'
+import { VialityHome } from '@/components/VialityHome'
+import React from 'react'
 
-export default PageTemplate
-
-export { generateMetadata }
+export default function HomePage() {
+  return <VialityHome />
+}

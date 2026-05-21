@@ -1,14 +1,11 @@
 'use client'
-import { CMSLink } from '@/components/Link'
-import { Cart } from '@/components/Cart'
-import { OpenCartButton } from '@/components/Cart/OpenCart'
 import Link from 'next/link'
-import React, { Suspense } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 
 import { MobileMenu } from './MobileMenu'
+import { Cart } from '@/components/Cart'
 import type { Header } from 'src/payload-types'
 
-import { LogoIcon } from '@/components/icons/logo'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/utilities/cn'
 
@@ -19,48 +16,79 @@ type Props = {
 export function HeaderClient({ header }: Props) {
   const menu = header.navItems || []
   const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  const onHero = pathname === '/'
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 60)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const transparent = onHero && !isScrolled
 
   return (
-    <div className="relative z-20 border-b">
-      <nav className="flex items-center md:items-end justify-between container pt-2">
+    <nav
+      className={cn(
+        'fixed top-0 left-0 right-0 z-40 transition-all duration-500',
+        transparent
+          ? 'bg-transparent'
+          : 'bg-background/95 backdrop-blur-md border-b border-border/40'
+      )}
+    >
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-[72px] flex items-center justify-between gap-6">
+        {/* Mobile menu trigger */}
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
             <MobileMenu menu={menu} />
           </Suspense>
         </div>
-        <div className="flex w-full items-end justify-between">
-          <div className="flex w-full items-end gap-6 md:w-1/3">
-            <Link className="flex w-full items-center justify-center pt-4 pb-4 md:w-auto" href="/">
-              <LogoIcon className="w-6 h-auto" />
-            </Link>
-            {menu.length ? (
-              <ul className="hidden gap-4 text-sm md:flex md:items-center">
-                {menu.map((item) => (
-                  <li key={item.id}>
-                    <CMSLink
-                      {...item.link}
-                      size={'clear'}
-                      className={cn('relative navLink', {
-                        active:
-                          item.link.url && item.link.url !== '/'
-                            ? pathname.includes(item.link.url)
-                            : false,
-                      })}
-                      appearance="nav"
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
 
-          <div className="flex justify-end md:w-1/3 gap-4">
-            <Suspense fallback={<OpenCartButton />}>
+        {/* Logo — left */}
+        <Link
+          href="/"
+          className={cn(
+            'font-serif italic tracking-[0.18em] transition-opacity hover:opacity-60 shrink-0 font-light',
+            transparent ? 'text-[#f5f2ec]' : 'text-primary'
+          )}
+          style={{ fontSize: '1.15rem', letterSpacing: '0.18em' }}
+        >
+          viality
+        </Link>
+
+        {/* Center nav links — desktop only */}
+        <div className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
+          {[
+            { label: 'Shop', href: '/shop' },
+            { label: 'About', href: '/about' },
+            { label: 'Lab Reports', href: '/about' },
+            { label: 'Contact', href: '/about' },
+          ].map(({ label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              className={cn(
+                'text-[11px] uppercase tracking-[0.2em] transition-opacity hover:opacity-60',
+                transparent ? 'text-[#f5f2ec]' : 'text-primary'
+              )}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right — cart */}
+        <div className="flex items-center gap-4 shrink-0">
+          <div className={cn(transparent ? 'text-[#f5f2ec]' : 'text-primary')}>
+            <Suspense fallback={null}>
               <Cart />
             </Suspense>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   )
 }

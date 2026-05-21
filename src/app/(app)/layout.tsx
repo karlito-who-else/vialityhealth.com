@@ -4,52 +4,63 @@ import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { ensureStartsWith } from '@/utilities/ensureStartsWith'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Inter, EB_Garamond } from 'next/font/google'
 import React from 'react'
 import './globals.css'
 
-/* const { SITE_NAME, TWITTER_CREATOR, TWITTER_SITE } = process.env
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+  display: 'swap',
+})
+
 const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : 'http://localhost:3000'
-const twitterCreator = TWITTER_CREATOR ? ensureStartsWith(TWITTER_CREATOR, '@') : undefined
-const twitterSite = TWITTER_SITE ? ensureStartsWith(TWITTER_SITE, 'https://') : undefined
- */
-/* export const metadata = {
+
+export const metadata = {
   metadataBase: new URL(baseUrl),
   robots: {
     follow: true,
     index: true,
   },
-  title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
+  title: 'viality — Wellness, refined.',
+  description: 'viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
+  openGraph: {
+    title: 'viality — Wellness, refined.',
+    description: 'Modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
+    type: 'website',
   },
-  ...(twitterCreator &&
-    twitterSite && {
-      twitter: {
-        card: 'summary_large_image',
-        creator: twitterCreator,
-        site: twitterSite,
-      },
-    }),
-} */
+  twitter: {
+    card: 'summary_large_image',
+    title: 'viality — Wellness, refined.',
+    description: 'Modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
+  },
+}
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      className={[GeistSans.variable, GeistMono.variable].filter(Boolean).join(' ')}
+      className={[inter.variable, ebGaramond.variable].filter(Boolean).join(' ')}
       lang="en"
       suppressHydrationWarning
     >
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
         <Providers>
