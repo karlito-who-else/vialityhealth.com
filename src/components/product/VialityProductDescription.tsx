@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Minus, Plus, ChevronDown } from 'lucide-react'
-import type { Product } from '@/payload-types'
+import type { Product, Faq, Ingredient, TrustBadge } from '@/payload-types'
 import { AddToCart } from '@/components/Cart/AddToCart'
 import { RichText } from '@/components/RichText'
 
-export function VialityProductDescription({ product }: { product: Product }) {
+export function VialityProductDescription({ product, faqs, ingredients, trustBadges }: { product: Product; faqs: Faq[]; ingredients: Ingredient[]; trustBadges: TrustBadge[] }) {
   const [quantity, setQuantity] = useState(1)
   const [isSubscription, setIsSubscription] = useState(true)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
@@ -16,40 +16,6 @@ export function VialityProductDescription({ product }: { product: Product }) {
   const oneTimePrice = product.priceInUSD || 88
   const subPrice = Math.round(oneTimePrice * 0.85)
   const displayPrice = isSubscription ? subPrice : oneTimePrice
-
-  const faqs = [
-    {
-      q: 'When should I take Inner Reset?',
-      a: 'Take two capsules in the morning with water, ideally alongside a meal. Consistency is key — we recommend integrating it into a regular daily ritual for best results.',
-    },
-    {
-      q: 'Is Inner Reset third-party tested?',
-      a: 'Yes. Every production batch is independently tested by an ISO-accredited laboratory for identity, purity, potency, and heavy metals. Certificates of Analysis are available on request.',
-    },
-    {
-      q: 'How long does shipping take?',
-      a: 'Orders placed before 2 PM EST ship the same business day. Standard delivery is 3–5 business days. Express options are available at checkout. All orders over $75 qualify for complimentary shipping.',
-    },
-    {
-      q: 'Can I subscribe and save?',
-      a: 'Yes. The Ritual Subscription delivers your supply on a 30-day cycle at a 15% saving. You can pause, adjust, or cancel at any time through your account — no fees, no commitment.',
-    },
-    {
-      q: 'Is Inner Reset suitable for everyone?',
-      a: 'Inner Reset is designed for healthy adults. It is not intended for use during pregnancy or nursing, or by individuals under 18. Always consult a qualified healthcare professional before beginning any new supplement routine.',
-    },
-  ]
-
-  const ingredients = [
-    { name: 'Ashwagandha Extract (KSM-66)', dose: '300 mg' },
-    { name: 'Magnesium Glycinate', dose: '200 mg' },
-    { name: 'Rhodiola Rosea Extract', dose: '150 mg' },
-    { name: 'Lion\'s Mane Mushroom', dose: '500 mg' },
-    { name: 'Coenzyme Q10', dose: '100 mg' },
-    { name: 'Vitamin D3 (as Cholecalciferol)', dose: '2000 IU' },
-    { name: 'Zinc Bisglycinate', dose: '15 mg' },
-    { name: 'Black Pepper Extract (BioPerine)', dose: '5 mg' },
-  ]
 
   return (
     <motion.div
@@ -165,10 +131,9 @@ export function VialityProductDescription({ product }: { product: Product }) {
 
       {/* Trust badges */}
       <div className="grid grid-cols-2 gap-3 border-t border-border/40 pt-6">
-        <Badge label="Third-party tested" />
-        <Badge label="Premium formulation" />
-        <Badge label="Fast shipping" />
-        <Badge label="Batch transparency" />
+        {trustBadges.map((badge) => (
+          <Badge key={badge.slug} label={badge.label} />
+        ))}
       </div>
 
       <p className="text-[10px] text-primary/30 leading-relaxed">
@@ -203,9 +168,9 @@ export function VialityProductDescription({ product }: { product: Product }) {
               className="overflow-hidden"
             >
               <div className="pb-6 border-t border-border/40 pt-4">
-                {ingredients.map((ing, i) => (
+                {ingredients.map((ing) => (
                   <div
-                    key={i}
+                    key={ing.slug}
                     className="flex justify-between items-center py-3 border-b border-border/30"
                   >
                     <span className="text-sm text-primary/70 font-light">{ing.name}</span>
@@ -232,9 +197,9 @@ export function VialityProductDescription({ product }: { product: Product }) {
         <div>
           {faqs.map((faq, i) => (
             <AccordionItem
-              key={i}
-              q={faq.q}
-              a={faq.a}
+              key={faq.slug}
+              q={faq.question}
+              a={faq.answer}
               open={openFaq === i}
               onToggle={() => setOpenFaq(openFaq === i ? null : i)}
             />

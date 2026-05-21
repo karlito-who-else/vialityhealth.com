@@ -14,9 +14,16 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { Benefits } from '@/collections/Benefits'
 import { Categories } from '@/collections/Categories'
+import { Faqs } from '@/collections/Faqs'
+import { Ingredients } from '@/collections/Ingredients'
 import { Media } from '@/collections/Media'
 import { Pages } from '@/collections/Pages'
+import { Principles } from '@/collections/Principles'
+import { ShippingInfo } from '@/collections/ShippingInfo'
+import { TrustBadges } from '@/collections/TrustBadges'
+import { TrustItems } from '@/collections/TrustItems'
 import { Users } from '@/collections/Users'
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
@@ -37,7 +44,7 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-  collections: [Users, Pages, Categories, Media],
+  collections: [Users, Pages, Categories, Media, Principles, Faqs, Ingredients, Benefits, TrustItems, ShippingInfo, TrustBadges],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',

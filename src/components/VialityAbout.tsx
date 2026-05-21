@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion'
 import { useRef } from 'react'
+import type { Principle, TrustItem } from '@/payload-types'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -54,26 +55,7 @@ const pillars = [
   },
 ]
 
-const trustItems = [
-  {
-    label: 'Independent Lab Testing',
-    detail: 'Every batch is third-party verified by an ISO-accredited laboratory for identity, potency, and purity. We don\'t ask you to take our word for it.',
-  },
-  {
-    label: 'Traceable Sourcing',
-    detail: 'Every raw material is sourced from verified, ethical suppliers with full traceability. We know where it comes from — and you should too.',
-  },
-  {
-    label: 'Batch Transparency',
-    detail: 'Each product carries a batch number tied directly to its Certificate of Analysis. Clarity isn\'t a promise — it\'s a policy.',
-  },
-  {
-    label: 'No Proprietary Blends',
-    detail: 'Every ingredient and its exact dose is declared. No hidden quantities, no blended obscurity. What you see is precisely what you receive.',
-  },
-]
-
-export function VialityAbout() {
+export function VialityAbout({ trustItems }: { trustItems: TrustItem[] }) {
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
@@ -292,15 +274,15 @@ export function VialityAbout() {
 
               {trustItems.map((item, i) => (
                 <motion.div
-                  key={item.label}
+                  key={item.slug}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-30px' }}
                   transition={{ duration: 0.7, delay: i * 0.08, ease: 'easeOut' }}
                   className="border-t border-primary/10 pt-8"
                 >
-                  <h4 className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-3">{item.label}</h4>
-                  <p className="text-primary/55 text-sm leading-[1.85] font-light">{item.detail}</p>
+                  <h4 className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-3">{item.title}</h4>
+                  <p className="text-primary/55 text-sm leading-[1.85] font-light">{item.description}</p>
                 </motion.div>
               ))}
 

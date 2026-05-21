@@ -76,6 +76,13 @@ export interface Config {
     pages: Page;
     categories: Category;
     media: Media;
+    principles: Principle;
+    faqs: Faq;
+    ingredients: Ingredient;
+    benefits: Benefit;
+    trustItems: TrustItem;
+    shippingInfo: ShippingInfo;
+    trustBadges: TrustBadge;
     forms: Form;
     'form-submissions': FormSubmission;
     addresses: Address;
@@ -109,6 +116,13 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    principles: PrinciplesSelect<false> | PrinciplesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    ingredients: IngredientsSelect<false> | IngredientsSelect<true>;
+    benefits: BenefitsSelect<false> | BenefitsSelect<true>;
+    trustItems: TrustItemsSelect<false> | TrustItemsSelect<true>;
+    shippingInfo: ShippingInfoSelect<false> | ShippingInfoSelect<true>;
+    trustBadges: TrustBadgesSelect<false> | TrustBadgesSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     addresses: AddressesSelect<false> | AddressesSelect<true>;
@@ -1022,6 +1036,98 @@ export interface Address {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "principles".
+ */
+export interface Principle {
+  id: number;
+  title: string;
+  slug: string;
+  displayNumber: string;
+  body: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  slug: string;
+  answer: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ingredients".
+ */
+export interface Ingredient {
+  id: number;
+  name: string;
+  slug: string;
+  dose: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benefits".
+ */
+export interface Benefit {
+  id: number;
+  title: string;
+  slug: string;
+  body: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trustItems".
+ */
+export interface TrustItem {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  type: 'home' | 'about';
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shippingInfo".
+ */
+export interface ShippingInfo {
+  id: number;
+  label: string;
+  slug: string;
+  detail: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trustBadges".
+ */
+export interface TrustBadge {
+  id: number;
+  label: string;
+  slug: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -1076,6 +1182,34 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'principles';
+        value: number | Principle;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'ingredients';
+        value: number | Ingredient;
+      } | null)
+    | ({
+        relationTo: 'benefits';
+        value: number | Benefit;
+      } | null)
+    | ({
+        relationTo: 'trustItems';
+        value: number | TrustItem;
+      } | null)
+    | ({
+        relationTo: 'shippingInfo';
+        value: number | ShippingInfo;
+      } | null)
+    | ({
+        relationTo: 'trustBadges';
+        value: number | TrustBadge;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1387,6 +1521,91 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "principles_select".
+ */
+export interface PrinciplesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  displayNumber?: T;
+  body?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  slug?: T;
+  answer?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ingredients_select".
+ */
+export interface IngredientsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  dose?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benefits_select".
+ */
+export interface BenefitsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  body?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trustItems_select".
+ */
+export interface TrustItemsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  type?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shippingInfo_select".
+ */
+export interface ShippingInfoSelect<T extends boolean = true> {
+  label?: T;
+  slug?: T;
+  detail?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trustBadges_select".
+ */
+export interface TrustBadgesSelect<T extends boolean = true> {
+  label?: T;
+  slug?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

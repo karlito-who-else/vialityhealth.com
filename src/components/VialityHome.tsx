@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import type { TrustItem, ShippingInfo } from '@/payload-types'
 
 function GrainOverlay() {
   return (
@@ -49,20 +50,7 @@ const products = [
   { id: 3, name: "Clear Focus", desc: "Calm clarity. Designed for consistency.", price: "$90" },
 ]
 
-const trustItems = [
-  { title: "Evidence-led", desc: "Each compound earns its place through peer-reviewed science, not wellness trends." },
-  { title: "Third-Party Verified", desc: "Every batch is independently tested. Certificates of analysis, always available." },
-  { title: "Nothing unnecessary", desc: "No fillers, no artificial colorants. Only what belongs." },
-  { title: "GMP Manufactured", desc: "Produced in a certified facility where consistency is non-negotiable." },
-]
-
-const shippingItems = [
-  { label: "Complimentary Shipping", detail: "On all orders over $75" },
-  { label: "Batch Verified", detail: "Third-party COA available for every formulation" },
-  { label: "30-Day Guarantee", detail: "Designed for consistency. Backed by confidence." },
-]
-
-export function VialityHome() {
+export function VialityHome({ trustItems, shippingItems }: { trustItems: TrustItem[], shippingItems: ShippingInfo[] }) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO */}
@@ -273,7 +261,7 @@ export function VialityHome() {
           <div className="order-2 md:order-1 grid grid-cols-2 gap-x-8 gap-y-12">
             {trustItems.map((item, i) => (
               <motion.div
-                key={i}
+                key={item.slug}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -284,7 +272,7 @@ export function VialityHome() {
                   <div className="w-1.5 h-1.5 bg-accent" />
                 </div>
                 <h4 className="text-[11px] uppercase tracking-[0.18em] font-semibold">{item.title}</h4>
-                <p className="text-sm text-primary/55 leading-relaxed">{item.desc}</p>
+                <p className="text-sm text-primary/55 leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>

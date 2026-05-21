@@ -75,6 +75,15 @@ export default async function ProductPage({ params }: Args) {
   const relatedProducts =
     product.relatedProducts?.filter((relatedProduct) => typeof relatedProduct === 'object') ?? []
 
+  const marketingPayload = await getPayload({ config: configPromise })
+
+  const [{ docs: faqs }, { docs: ingredients }, { docs: benefits }, { docs: trustBadges }] = await Promise.all([
+    marketingPayload.find({ collection: 'faqs', sort: 'order', limit: 10 }),
+    marketingPayload.find({ collection: 'ingredients', sort: 'order', limit: 10 }),
+    marketingPayload.find({ collection: 'benefits', sort: 'order', limit: 10 }),
+    marketingPayload.find({ collection: 'trustBadges', sort: 'order', limit: 10 }),
+  ])
+
   return (
     <div className="min-h-screen bg-background pt-[72px]">
       {/* TOP SPLIT — GALLERY + PURCHASE */}
@@ -98,7 +107,7 @@ export default async function ProductPage({ params }: Args) {
 
         {/* RIGHT — Sticky purchase module */}
         <div className="lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] overflow-y-auto order-1 lg:order-2 border-l border-border/40">
-          <VialityProductDescription product={product} />
+          <VialityProductDescription product={product} faqs={faqs} ingredients={ingredients} trustBadges={trustBadges} />
         </div>
       </section>
 
@@ -112,26 +121,9 @@ export default async function ProductPage({ params }: Args) {
             </h2>
           </div>
           <div className="space-y-8">
-            {[
-              {
-                title: 'Designed for consistency',
-                body: 'Where science meets ritual. Built to be taken daily, over time — not as an experiment, but as a permanent part of how you care for yourself.',
-              },
-              {
-                title: 'Modern rituals for internal balance',
-                body: 'No complicated protocol. Designed to integrate into your morning with the same quiet ease as any other considered habit.',
-              },
-              {
-                title: 'Calm, sustained clarity',
-                body: 'Selected to support mental steadiness without stimulants — the kind of clarity that comes from giving your body what it actually needs.',
-              },
-              {
-                title: 'A quieter standard',
-                body: 'No aggressive claims. No overcrowded formula. Every ingredient earns its place through evidence, and its dose is disclosed without exception.',
-              },
-            ].map((b, i) => (
+            {benefits.map((b) => (
               <div
-                key={i}
+                key={b.slug}
                 className="border-l-2 border-accent/50 pl-5"
               >
                 <h3 className="text-[11px] uppercase tracking-[0.2em] font-semibold mb-1.5">{b.title}</h3>
