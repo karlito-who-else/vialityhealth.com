@@ -545,6 +545,20 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
+              label: 'Home',
+              url: '/',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Philosophy',
+              url: '/about',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
               label: 'Shop',
               url: '/shop',
             },
@@ -552,22 +566,8 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
-              label: 'Contact',
-              url: '/contact',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Account',
-              url: '/account',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Find my order',
-              url: '/find-order',
+              label: 'Lab Reports',
+              url: '/about',
             },
           },
         ],
