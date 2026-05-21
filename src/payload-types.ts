@@ -303,6 +303,7 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
+  featuredImage?: (number | null) | Media;
   gallery?:
     | {
         image: number | Media;
@@ -1140,10 +1141,7 @@ export interface TrustBadge {
  */
 export interface FeaturedProduct {
   id: number;
-  name: string;
-  slug: string;
-  description: string;
-  price: string;
+  product: number | Product;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -1638,10 +1636,7 @@ export interface TrustBadgesSelect<T extends boolean = true> {
  * via the `definition` "featuredProducts_select".
  */
 export interface FeaturedProductsSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  description?: T;
-  price?: T;
+  product?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1863,6 +1858,7 @@ export interface VariantOptionsSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  featuredImage?: T;
   gallery?:
     | T
     | {

@@ -78,6 +78,14 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
               required: false,
             },
             {
+              name: 'featuredImage',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
               name: 'gallery',
               type: 'array',
               minRows: 1,

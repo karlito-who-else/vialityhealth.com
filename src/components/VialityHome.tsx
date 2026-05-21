@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import type { TrustItem, ShippingInfo, FeaturedProduct, Home } from '@/payload-types'
+import type { TrustItem, ShippingInfo, FeaturedProduct, Home, Product } from '@/payload-types'
 
 function GrainOverlay() {
   return (
@@ -44,7 +44,7 @@ function VideoPanel({ src }: { src: string }) {
   )
 }
 
-export function VialityHome({ trustItems, shippingItems, featuredProducts, home }: { trustItems: TrustItem[]; shippingItems: ShippingInfo[]; featuredProducts: FeaturedProduct[]; home: Home }) {
+export function VialityHome({ trustItems, shippingItems, featuredProducts, home }: { trustItems: TrustItem[]; shippingItems: ShippingInfo[]; featuredProducts: (FeaturedProduct & { product: Product })[]; home: Home }) {
   const heroTagline = home?.heroTagline || 'Wellness, refined.'
   const heroTitle = home?.heroTitle || 'viality'
   const heroSubtext = home?.heroSubtext || 'Where science meets ritual.'
@@ -240,29 +240,42 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts, home 
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredProducts.map((product, i) => (
-              <motion.div
-                key={product.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group cursor-pointer"
-              >
-                <Link href="/shop">
-                  <div className="aspect-[3/4] mb-6 bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
-                    <div className="text-primary/20 font-serif italic text-6xl tracking-wider">v</div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                      <h3 className="uppercase tracking-[0.18em] text-xs font-medium">{product.name}</h3>
-                      <span className="text-sm font-light">{product.price}</span>
+            {featuredProducts.map((fp, i) => {
+              const p = fp.product
+              return (
+                <motion.div
+                  key={p.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="group cursor-pointer"
+                >
+                  <Link href="/shop">
+                    <div className="aspect-[3/4] mb-6 bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
+                      {p.featuredImage && typeof p.featuredImage === 'object' ? (
+                        <img
+                          src={p.featuredImage.url || ''}
+                          alt={p.featuredImage.alt || p.title}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-primary/20 font-serif italic text-6xl tracking-wider">v</div>
+                      )}
                     </div>
-                    <p className="text-primary/55 text-sm">{product.description}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-between items-center">
+                        <h3 className="uppercase tracking-[0.18em] text-xs font-medium">{p.title}</h3>
+                        {typeof p.priceInUSD === 'number' && (
+                          <span className="text-sm font-light">${p.priceInUSD.toFixed(0)}</span>
+                        )}
+                      </div>
+                      <p className="text-primary/55 text-sm">{p.meta?.description || ''}</p>
+                    </div>
+                  </Link>
+                </motion.div>
+              )
+            })}
           </div>
 
           <div className="mt-12 text-center md:hidden">

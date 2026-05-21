@@ -12,7 +12,7 @@ import { draftMode } from 'next/headers'
 import { homeStaticData } from '@/endpoints/seed/home-static'
 import React from 'react'
 
-import type { Page } from '@/payload-types'
+import type { FeaturedProduct, Page, Product } from '@/payload-types'
 import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
@@ -62,12 +62,18 @@ export default async function Page({ params }: Args) {
 
   if (slug === 'home') {
     const payload = await getPayload({ config: configPromise })
-    const [{ docs: trustItems }, { docs: shippingItems }, { docs: featuredProducts }, home] = await Promise.all([
+    const [{ docs: trustItems }, { docs: shippingItems }, { docs: rawFeatured }, home] = await Promise.all([
       payload.find({ collection: 'trustItems', where: { type: { equals: 'home' } }, sort: 'order', limit: 10 }),
       payload.find({ collection: 'shippingInfo', sort: 'order', limit: 10 }),
-      payload.find({ collection: 'featuredProducts', sort: 'order', limit: 10 }),
+      payload.find({ collection: 'featuredProducts', sort: 'order', limit: 10, depth: 2 }),
       getCachedGlobal('home', 1)(),
     ])
+
+    const featuredProducts = rawFeatured.filter(
+      (fp): fp is FeaturedProduct & { product: Product } =>
+        typeof fp.product === 'object' && fp.product !== null,
+    )
+
     return <VialityHome trustItems={trustItems} shippingItems={shippingItems} featuredProducts={featuredProducts} home={home} />
   }
 

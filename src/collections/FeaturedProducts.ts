@@ -12,30 +12,14 @@ export const FeaturedProducts: CollectionConfig = {
   },
   admin: {
     group: 'Marketing',
-    defaultColumns: ['name', 'order', 'updatedAt'],
-    useAsTitle: 'name',
+    defaultColumns: ['product', 'order', 'updatedAt'],
+    useAsTitle: 'product',
   },
   fields: [
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      index: true,
-    },
-    {
-      name: 'description',
-      type: 'textarea',
-      required: true,
-    },
-    {
-      name: 'price',
-      type: 'text',
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
       required: true,
     },
     {

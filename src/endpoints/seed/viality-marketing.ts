@@ -149,18 +149,44 @@ export const seedVialityMarketing = async ({
   }
 
   // ── Featured Products ──────────────────────────────────────
-  const featuredProductsData = [
-    { name: 'Inner Reset', slug: 'inner-reset', description: 'Daily balance, by design.', price: '$88', order: 0 },
-    { name: 'Evening Ritual', slug: 'evening-ritual', description: 'A quieter end to every day.', price: '$75', order: 1 },
-    { name: 'Clear Focus', slug: 'clear-focus', description: 'Calm clarity. Designed for consistency.', price: '$90', order: 2 },
+  const featuredProductDefs = [
+    { title: 'Inner Reset', slug: 'inner-reset', description: 'Daily balance, by design.', priceInUSD: 88, order: 0 },
+    { title: 'Evening Ritual', slug: 'evening-ritual', description: 'A quieter end to every day.', priceInUSD: 75, order: 1 },
+    { title: 'Clear Focus', slug: 'clear-focus', description: 'Calm clarity. Designed for consistency.', priceInUSD: 90, order: 2 },
   ]
 
-  for (const data of featuredProductsData) {
+  const createdProducts: { slug: string; id: number }[] = []
+
+  for (const def of featuredProductDefs) {
     const existing = await payload.find({
-      collection: 'featuredProducts',
-      where: { slug: { equals: data.slug } },
+      collection: 'products',
+      where: { slug: { equals: def.slug } },
       limit: 1,
     })
+    let product: { id: number }
+    const productData = {
+      title: def.title,
+      slug: def.slug,
+      _status: 'published' as const,
+      priceInUSD: def.priceInUSD,
+      meta: { description: def.description },
+    }
+    if (existing.docs.length > 0) {
+      product = await payload.update({ collection: 'products', id: existing.docs[0].id, data: productData })
+    } else {
+      product = await payload.create({ collection: 'products', data: productData })
+    }
+    createdProducts.push({ slug: def.slug, id: product.id })
+  }
+
+  // Create FeaturedProduct entries referencing the products
+  for (const fp of createdProducts) {
+    const existing = await payload.find({
+      collection: 'featuredProducts',
+      where: { product: { equals: fp.id } },
+      limit: 1,
+    })
+    const data = { product: fp.id, order: featuredProductDefs.find((d) => d.slug === fp.slug)?.order ?? 0 }
     if (existing.docs.length > 0) {
       await payload.update({ collection: 'featuredProducts', id: existing.docs[0].id, data })
     } else {
