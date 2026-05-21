@@ -14,7 +14,8 @@ type Props = {
 }
 
 export function HeaderClient({ header }: Props) {
-  const menu = header.navItems || []
+  const { siteTitle, navItems } = header
+  const menu = navItems || []
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -43,7 +44,7 @@ export function HeaderClient({ header }: Props) {
         {/* Mobile menu trigger */}
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
-            <MobileMenu menu={menu} />
+            <MobileMenu menu={menu} siteTitle={siteTitle || 'viality'} />
           </Suspense>
         </div>
 
@@ -56,28 +57,30 @@ export function HeaderClient({ header }: Props) {
           )}
           style={{ fontSize: '1.15rem', letterSpacing: '0.18em' }}
         >
-          viality
+          {siteTitle || 'viality'}
         </Link>
 
         {/* Center nav links — desktop only */}
         <div className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
-          {[
-            { label: 'Shop', href: '/shop' },
-            { label: 'About', href: '/about' },
-            { label: 'Lab Reports', href: '/about' },
-            { label: 'Contact', href: '/about' },
-          ].map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              className={cn(
-                'text-[11px] uppercase tracking-[0.2em] transition-opacity hover:opacity-60',
-                transparent ? 'text-[#f5f2ec]' : 'text-primary'
-              )}
-            >
-              {label}
-            </Link>
-          ))}
+          {menu.map(({ link }) => {
+            const href = link.type === 'reference' && link.reference?.value
+              ? typeof link.reference.value === 'object'
+                ? `/${link.reference.value.slug}`
+                : `/${link.reference.value}`
+              : link.url || '/'
+            return (
+              <Link
+                key={link.label}
+                href={href}
+                className={cn(
+                  'text-[11px] uppercase tracking-[0.2em] transition-opacity hover:opacity-60',
+                  transparent ? 'text-[#f5f2ec]' : 'text-primary'
+                )}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
         </div>
 
         {/* Right — cart */}

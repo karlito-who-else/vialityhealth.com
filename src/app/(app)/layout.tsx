@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -6,6 +7,7 @@ import { Header } from '@/components/Header'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Inter, EB_Garamond } from 'next/font/google'
 import React from 'react'
 import './globals.css'
@@ -29,24 +31,31 @@ const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : 'http://localhost:3000'
 
-export const metadata = {
-  metadataBase: new URL(baseUrl),
-  robots: {
-    follow: true,
-    index: true,
-  },
-  title: 'viality — Wellness, refined.',
-  description: 'viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
-  openGraph: {
-    title: 'viality — Wellness, refined.',
-    description: 'Modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'viality — Wellness, refined.',
-    description: 'Modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCachedGlobal('settings', 1)()
+
+  const defaultTitle = settings?.defaultTitle || 'viality — Wellness, refined.'
+  const defaultDescription = settings?.defaultDescription || 'viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.'
+
+  return {
+    metadataBase: new URL(baseUrl),
+    robots: {
+      follow: true,
+      index: true,
+    },
+    title: defaultTitle,
+    description: defaultDescription,
+    openGraph: {
+      title: defaultTitle,
+      description: defaultDescription,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: defaultTitle,
+      description: defaultDescription,
+    },
+  }
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {

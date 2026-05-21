@@ -6,13 +6,6 @@ import { usePathname } from 'next/navigation'
 import { X } from 'lucide-react'
 import { motion, AnimatePresence, type Variants, type Easing } from 'framer-motion'
 
-const navLinks = [
-  { label: 'Shop',        href: '/shop',  index: '01' },
-  { label: 'About',       href: '/about', index: '02' },
-  { label: 'Lab Reports', href: '/about', index: '03' },
-  { label: 'Contact',     href: '/about', index: '04' },
-]
-
 const overlayVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -48,7 +41,7 @@ const linkVariants: Variants = {
   }),
 }
 
-export function MobileMenu({ menu: _menu }: { menu: any[] }) {
+export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const prevPathname = useRef(pathname)
@@ -120,7 +113,7 @@ export function MobileMenu({ menu: _menu }: { menu: any[] }) {
                   className="font-serif italic font-light text-white/30 hover:text-white/55 transition-colors duration-300"
                   style={{ fontSize: '1.05rem', letterSpacing: '0.2em' }}
                 >
-                  viality
+                  {siteTitle}
                 </Link>
               </motion.div>
 
@@ -147,36 +140,43 @@ export function MobileMenu({ menu: _menu }: { menu: any[] }) {
               />
 
               <ul className="flex flex-col pl-5 md:pl-8">
-                {navLinks.map((link, i) => (
-                  <motion.li
-                    key={link.label}
-                    custom={i}
-                    variants={linkVariants}
-                    initial="hidden"
-                    animate="show"
-                    exit="exit"
-                    className="overflow-hidden py-0.5"
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="group flex items-baseline gap-4 md:gap-6 w-fit"
+                {menu.map(({ link }, i) => {
+                  const href = link.type === 'reference' && link.reference?.value
+                    ? typeof link.reference.value === 'object'
+                      ? `/${link.reference.value.slug}`
+                      : `/${link.reference.value}`
+                    : link.url || '/'
+                  return (
+                    <motion.li
+                      key={link.label}
+                      custom={i}
+                      variants={linkVariants}
+                      initial="hidden"
+                      animate="show"
+                      exit="exit"
+                      className="overflow-hidden py-0.5"
                     >
-                      <span className="text-[9px] text-white/18 uppercase tracking-[0.2em] tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-white/35 hidden sm:block">
-                        {link.index}
-                      </span>
-                      <span
-                        className="font-serif italic text-white/85 leading-[1.1] transition-all duration-400 group-hover:text-white group-hover:translate-x-1.5 inline-block"
-                        style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5.5rem)' }}
+                      <Link
+                        href={href}
+                        onClick={() => setIsOpen(false)}
+                        className="group flex items-baseline gap-4 md:gap-6 w-fit"
                       >
-                        {link.label}
-                      </span>
-                      <span className="text-white/0 group-hover:text-white/30 transition-all duration-300 translate-x-0 group-hover:translate-x-1 text-sm self-center font-light">
-                        →
-                      </span>
-                    </Link>
-                  </motion.li>
-                ))}
+                        <span className="text-[9px] text-white/18 uppercase tracking-[0.2em] tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-white/35 hidden sm:block">
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <span
+                          className="font-serif italic text-white/85 leading-[1.1] transition-all duration-400 group-hover:text-white group-hover:translate-x-1.5 inline-block"
+                          style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5.5rem)' }}
+                        >
+                          {link.label}
+                        </span>
+                        <span className="text-white/0 group-hover:text-white/30 transition-all duration-300 translate-x-0 group-hover:translate-x-1 text-sm self-center font-light">
+                          →
+                        </span>
+                      </Link>
+                    </motion.li>
+                  )
+                })}
               </ul>
             </nav>
           </motion.div>

@@ -41,7 +41,7 @@ const colorVariantOptions = [
   { label: 'White', value: 'white' },
 ]
 
-const globals: GlobalSlug[] = ['header', 'footer']
+const globals: GlobalSlug[] = ['header', 'footer', 'settings']
 
 const baseAddressUSData: Transaction['billingAddress'] = {
   title: 'Dr.',
@@ -92,9 +92,7 @@ export const seed = async ({
     globals.map((global) =>
       payload.updateGlobal({
         slug: global,
-        data: {
-          navItems: [],
-        },
+        data: {} as any,
         depth: 0,
         context: {
           disableRevalidate: true,
@@ -509,6 +507,7 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'header',
       data: {
+        siteTitle: 'viality',
         navItems: [
           {
             link: {
@@ -537,12 +536,30 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
+        brandName: 'viality',
+        brandDescription:
+          'Wellness, refined. Modern rituals for internal balance — designed for consistency, and held to a quieter standard.',
+        exploreHeading: 'Explore',
         navItems: [
           {
             link: {
               type: 'custom',
-              label: 'Admin',
-              url: '/admin',
+              label: 'Shop',
+              url: '/shop',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Contact',
+              url: '/contact',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Account',
+              url: '/account',
             },
           },
           {
@@ -552,23 +569,44 @@ export const seed = async ({
               url: '/find-order',
             },
           },
+        ],
+        connectHeading: 'Connect',
+        socialLinks: [
           {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/3.x/templates/website',
-            },
+            label: 'Contact',
+            url: '/contact',
           },
           {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
-            },
+            label: 'Instagram',
+            url: '#',
+          },
+          {
+            label: 'Wholesale',
+            url: '#',
           },
         ],
+        legalLinks: [
+          {
+            label: 'Privacy',
+            url: '#',
+          },
+          {
+            label: 'Terms',
+            url: '#',
+          },
+        ],
+        copyright: '© {year} viality. All rights reserved.',
+        complianceText:
+          'These statements have not been evaluated by the Food and Drug Administration.\nThis product is not intended to diagnose, treat, cure, or prevent any disease.',
+      },
+    }),
+    payload.updateGlobal({
+      slug: 'settings',
+      data: {
+        siteName: 'viality',
+        defaultTitle: 'viality — Wellness, refined.',
+        defaultDescription:
+          'viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
       },
     }),
   ])
