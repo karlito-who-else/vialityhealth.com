@@ -4,11 +4,11 @@
 @config '../../../tailwind.config.mjs';
 
 @custom-variant dark (&:is([data-theme='dark'] *));
-@custom-variant sm (@media (width >= theme(--breakpoint-sm)));
-@custom-variant md (@media (width >= theme(--breakpoint-md)));
-@custom-variant lg (@media (width >= theme(--breakpoint-lg)));
-@custom-variant xl (@media (width >= theme(--breakpoint-xl)));
-@custom-variant 2xl (@media (width >= theme(--breakpoint-2xl)));
+@custom-variant sm (@media (width >=theme(--breakpoint-sm)));
+@custom-variant md (@media (width >=theme(--breakpoint-md)));
+@custom-variant lg (@media (width >=theme(--breakpoint-lg)));
+@custom-variant xl (@media (width >=theme(--breakpoint-xl)));
+@custom-variant 2xl (@media (width >=theme(--breakpoint-2xl)));
 
 @layer base {
   h1,
@@ -43,9 +43,13 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  --font-mono: Menlo, monospace;
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-mono: Menlo,
+  monospace;
+  --font-sans: 'Inter',
+  sans-serif;
+  --font-serif: 'EB Garamond',
+  Georgia,
+  serif;
 }
 
 @layer utilities {
@@ -214,15 +218,19 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+
+  --adminbar-height: 2rem;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col font-sans antialiased;
+    @apply bg-background text-foreground min-h-screen flex flex-col font-sans antialiased;
   }
+
   p {
     text-transform: lowercase;
   }

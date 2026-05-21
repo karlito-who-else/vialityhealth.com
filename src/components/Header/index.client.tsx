@@ -1,13 +1,13 @@
 'use client'
 import Link from 'next/link'
-import React, { Suspense, useState, useEffect } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
-import { MobileMenu } from './MobileMenu'
 import { Cart } from '@/components/Cart'
 import type { Header } from 'src/payload-types'
+import { MobileMenu } from './MobileMenu'
 
-import { usePathname } from 'next/navigation'
 import { cn } from '@/utilities/cn'
+import { usePathname } from 'next/navigation'
 
 type Props = {
   header: Header
@@ -34,13 +34,13 @@ export function HeaderClient({ header }: Props) {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-40 transition-all duration-500',
+        'sticky top-0 left-0 right-0 z-40 transition-all duration-500',
         transparent
           ? 'bg-transparent'
-          : 'bg-background/95 backdrop-blur-md border-b border-border/40'
+          : 'bg-background/95 backdrop-blur-md'
       )}
     >
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-[72px] flex items-center justify-between gap-6">
+      <div className="h-18 max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between gap-6">
         {/* Mobile menu trigger */}
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>

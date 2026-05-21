@@ -8,8 +8,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { Inter, EB_Garamond } from 'next/font/google'
-import React from 'react'
+import { EB_Garamond, Inter } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -71,13 +70,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body>
+      <body className="group/body">
         <Providers>
           <AdminBar />
           <LivePreviewListener />
-
           <Header />
-          <main>{children}</main>
+          <main className="relative -top-18">{children}</main>
           <Footer />
         </Providers>
       </body>
