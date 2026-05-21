@@ -2,6 +2,7 @@ import type { Order } from '@/payload-types'
 import type { Metadata } from 'next'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 import { OrderItem } from '@/components/OrderItem'
 import { headers as getHeaders } from 'next/headers'
@@ -14,10 +15,16 @@ export default async function Orders() {
   const payload = await getPayload({ config: configPromise })
   const { user } = await payload.auth({ headers })
 
+  const settings = await getCachedGlobal('settings', 1)()
+
+  const ordersLoginWarning = settings?.ordersLoginWarning || 'Please login to access your orders.'
+  const ordersHeading = settings?.ordersHeading || 'Orders'
+  const noOrdersText = settings?.noOrdersText || 'You have no orders.'
+
   let orders: Order[] | null = null
 
   if (!user) {
-    redirect(`/login?warning=${encodeURIComponent('Please login to access your orders.')}`)
+    redirect(`/login?warning=${encodeURIComponent(ordersLoginWarning)}`)
   }
 
   try {
@@ -40,9 +47,9 @@ export default async function Orders() {
   return (
     <>
       <div className="border p-8 rounded-lg bg-primary-foreground w-full">
-        <h1 className="text-3xl font-medium mb-8">Orders</h1>
+        <h1 className="text-3xl font-medium mb-8">{ordersHeading}</h1>
         {(!orders || !Array.isArray(orders) || orders?.length === 0) && (
-          <p className="">You have no orders.</p>
+          <p className="">{noOrdersText}</p>
         )}
 
         {orders && orders.length > 0 && (
@@ -59,11 +66,15 @@ export default async function Orders() {
   )
 }
 
-export const metadata: Metadata = {
-  description: 'Your orders.',
-  openGraph: mergeOpenGraph({
-    title: 'Orders',
-    url: '/orders',
-  }),
-  title: 'Orders',
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCachedGlobal('settings', 1)()
+
+  return {
+    description: settings?.ordersHeading ? `${settings.ordersHeading}.` : 'Your orders.',
+    openGraph: mergeOpenGraph({
+      title: settings?.ordersHeading || 'Orders',
+      url: '/orders',
+    }),
+    title: settings?.ordersHeading || 'Orders',
+  }
 }

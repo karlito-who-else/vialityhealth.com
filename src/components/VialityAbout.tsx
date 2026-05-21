@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion'
 import { useRef } from 'react'
-import type { Principle, TrustItem } from '@/payload-types'
+import type { Principle, TrustItem, About } from '@/payload-types'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -37,10 +37,33 @@ function GrainOverlay({ opacity = 0.035 }: { opacity?: number }) {
   )
 }
 
-export function VialityAbout({ principles, trustItems }: { principles: Principle[]; trustItems: TrustItem[] }) {
+export function VialityAbout({ principles, trustItems, about }: { principles: Principle[]; trustItems: TrustItem[]; about: About }) {
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
+
+  const heroLabel = about?.heroLabel || 'Our Philosophy'
+  const heroHeading = about?.heroHeading || 'Wellness, refined.\nA quieter standard.'
+  const heroBody = about?.heroBody || ''
+  const philosophyLabel = about?.philosophyLabel || 'Brand Philosophy'
+  const philosophyHeading = about?.philosophyHeading || ''
+  const philosophyBody = about?.philosophyBody || []
+  const philosophyImageLabel = about?.philosophyImageLabel || 'viality — signature formula'
+  const principlesLabel = about?.principlesLabel || 'What We Stand For'
+  const principlesHeading = about?.principlesHeading || 'Three principles.\nNo exceptions.'
+  const trustLabel = about?.trustLabel || 'Our Standards'
+  const trustHeading = about?.trustHeading || 'The science is visible.\nBy design.'
+  const trustBody = about?.trustBody || ''
+  const trustImageLabel = about?.trustImageLabel || 'Third-Party Verified'
+  const trustButtonLabel = about?.trustButtonLabel || 'Request Certificate of Analysis'
+  const founderLabel = about?.founderLabel || 'A Note from the Founders'
+  const founderQuote = about?.founderQuote || ''
+  const founderSignature = about?.founderSignature || 'The viality Team'
+  const ctaHeading = about?.ctaHeading || 'Designed for\nconsistency.'
+  const ctaBody = about?.ctaBody || ''
+  const ctaShopLabel = about?.ctaShopLabel || 'Shop Formulas'
+  const ctaLabLabel = about?.ctaLabLabel || 'View Lab Reports'
+  const complianceText = about?.complianceText || ''
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
@@ -93,7 +116,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             custom={0.3}
             className="text-[10px] uppercase tracking-[0.3em] text-white/50 mb-8"
           >
-            Our Philosophy
+            {heroLabel}
           </motion.p>
 
           <motion.h1
@@ -104,18 +127,25 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             className="font-serif italic text-white leading-[1.05] mb-8"
             style={{ fontSize: 'clamp(2.6rem, 7vw, 6.5rem)' }}
           >
-            Wellness, refined.<br className="hidden md:block" /> A quieter standard.
+            {heroHeading.split('\n').map((line, i) => (
+              <span key={i}>
+                {i > 0 && <br className="hidden md:block" />}
+                {line}
+              </span>
+            ))}
           </motion.h1>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0.35}
-            className="text-white/65 text-sm md:text-base font-light leading-relaxed max-w-xl"
-          >
-            Modern rituals for internal balance — for those who understand that how you care for yourself is a reflection of how you live.
-          </motion.p>
+          {heroBody && (
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              custom={0.35}
+              className="text-white/65 text-sm md:text-base font-light leading-relaxed max-w-xl"
+            >
+              {heroBody}
+            </motion.p>
+          )}
         </div>
       </section>
 
@@ -133,25 +163,19 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
               custom={0}
               className="text-[10px] uppercase tracking-[0.3em] text-primary/40 mb-8"
             >
-              Brand Philosophy
+              {philosophyLabel}
             </motion.p>
             <motion.h2
               variants={fadeUp}
               custom={0}
               className="font-serif italic text-3xl md:text-4xl text-primary mb-8 leading-snug"
             >
-              Where science meets ritual — and neither is allowed to compromise the other.
+              {philosophyHeading}
             </motion.h2>
             <motion.div variants={fadeUp} custom={0.1} className="space-y-5 text-primary/60 text-sm leading-[1.85] font-light">
-              <p>
-                viality was built on one conviction: the things we bring into our bodies deserve the same scrutiny and care as everything else we consider important. We work with precision, not promise.
-              </p>
-              <p>
-                We occupy a quieter corner of the wellness world — one where claims are measured, ingredients are disclosed, and the ritual of taking care of yourself is treated with the seriousness it deserves. No noise. No theatre.
-              </p>
-              <p>
-                Designed for consistency. Every formulation is meant to be used daily, over time, as part of a considered routine — not as a quick fix or a seasonal experiment.
-              </p>
+              {philosophyBody.map((item) => (
+                <p key={item.id}>{item.paragraph}</p>
+              ))}
             </motion.div>
           </motion.div>
 
@@ -166,7 +190,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
               <div
                 className="absolute bottom-5 left-5 z-10"
               >
-                <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">viality — signature formula</p>
+                <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">{philosophyImageLabel}</p>
               </div>
             </div>
           </motion.div>
@@ -184,10 +208,12 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             className="mb-20"
           >
             <motion.p variants={fadeIn} custom={0} className="text-[10px] uppercase tracking-[0.3em] text-primary/40 mb-5">
-              What We Stand For
+              {principlesLabel}
             </motion.p>
             <motion.h2 variants={fadeUp} custom={0} className="font-serif italic text-4xl md:text-5xl text-primary">
-              Three principles.<br />No exceptions.
+              {principlesHeading.split('\n').map((line, i) => (
+                <span key={i}>{i > 0 && <br />}{line}</span>
+              ))}
             </motion.h2>
           </motion.div>
 
@@ -230,7 +256,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
               <div className="aspect-[3/4] bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
                 <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
                 <div className="absolute bottom-5 left-5 z-10">
-                  <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">Third-Party Verified</p>
+                  <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">{trustImageLabel}</p>
                 </div>
               </div>
             </motion.div>
@@ -243,15 +269,18 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
               >
                 <motion.p variants={fadeIn} custom={0} className="text-[10px] uppercase tracking-[0.3em] text-primary/40 mb-6">
-                  Our Standards
+                  {trustLabel}
                 </motion.p>
                 <motion.h2 variants={fadeUp} custom={0} className="font-serif italic text-4xl text-primary leading-snug mb-4">
-                  The science is visible.<br />By design.
+                  {trustHeading.split('\n').map((line, i) => (
+                    <span key={i}>{i > 0 && <br />}{line}</span>
+                  ))}
                 </motion.h2>
-                <motion.p variants={fadeUp} custom={0.1} className="text-primary/55 text-sm leading-relaxed font-light">
-                  We operate with complete openness. Nothing is hidden behind proprietary blends
-                  or ambiguous quantities. Every claim we make is verifiable.
-                </motion.p>
+                {trustBody && (
+                  <motion.p variants={fadeUp} custom={0.1} className="text-primary/55 text-sm leading-relaxed font-light">
+                    {trustBody}
+                  </motion.p>
+                )}
               </motion.div>
 
               {trustItems.map((item, i) => (
@@ -277,7 +306,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
                 <button
                   className="mt-2 text-[11px] uppercase tracking-[0.22em] border-b border-primary/30 pb-0.5 hover:border-primary transition-colors"
                 >
-                  Request Certificate of Analysis
+                  {trustButtonLabel}
                 </button>
               </motion.div>
             </div>
@@ -303,7 +332,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             transition={{ duration: 0.8 }}
             className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-10"
           >
-            A Note from the Founders
+            {founderLabel}
           </motion.p>
           <motion.blockquote
             initial={{ opacity: 0, y: 20 }}
@@ -313,7 +342,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             className="font-serif italic text-white/90 leading-[1.65] mb-14"
             style={{ fontSize: 'clamp(1.3rem, 3vw, 2.1rem)' }}
           >
-            "We built viality because we were tired of choosing between what works and what feels worthy of the care we put into ourselves. Modern rituals for internal balance shouldn't require compromise. That conviction is built into every decision we make — from the compounds we select to the language we use to describe them."
+            {founderQuote}
           </motion.blockquote>
           <motion.div
             initial={{ opacity: 0 }}
@@ -323,7 +352,7 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             className="flex flex-col items-center gap-1"
           >
             <div className="w-10 h-px bg-white/20 mb-5" />
-            <p className="text-white/50 text-[11px] uppercase tracking-[0.22em]">The viality Team</p>
+            <p className="text-white/50 text-[11px] uppercase tracking-[0.22em]">{founderSignature}</p>
           </motion.div>
         </div>
       </section>
@@ -341,7 +370,9 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
               className="font-serif italic text-primary leading-tight"
               style={{ fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
             >
-              Designed for<br />consistency.
+              {ctaHeading.split('\n').map((line, i) => (
+                <span key={i}>{i > 0 && <br />}{line}</span>
+              ))}
             </h2>
           </motion.div>
 
@@ -352,25 +383,29 @@ export function VialityAbout({ principles, trustItems }: { principles: Principle
             transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             className="flex flex-col gap-6"
           >
-            <p className="text-primary/60 text-sm leading-relaxed font-light max-w-sm">
-              Where science meets ritual. Formulations built to be used daily, for the long term — with complete transparency about everything inside them.
-            </p>
+            {ctaBody && (
+              <p className="text-primary/60 text-sm leading-relaxed font-light max-w-sm">
+                {ctaBody}
+              </p>
+            )}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/shop"
                 className="inline-block px-9 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.22em] hover:bg-primary/88 transition-colors"
               >
-                Shop Formulas
+                {ctaShopLabel}
               </Link>
               <button
                 className="inline-block px-9 py-4 border border-primary/25 text-primary text-[11px] uppercase tracking-[0.22em] hover:border-primary transition-colors"
               >
-                View Lab Reports
+                {ctaLabLabel}
               </button>
             </div>
-            <p className="text-[10px] text-primary/30 leading-relaxed max-w-sm mt-2">
-              These statements have not been evaluated by the Food and Drug Administration. Products are not intended to diagnose, treat, cure, or prevent any disease.
-            </p>
+            {complianceText && (
+              <p className="text-[10px] text-primary/30 leading-relaxed max-w-sm mt-2">
+                {complianceText}
+              </p>
+            )}
           </motion.div>
         </div>
       </section>

@@ -5,6 +5,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { VialityAbout } from '@/components/VialityAbout'
 import { VialityHome } from '@/components/VialityHome'
 import { generateMeta } from '@/utilities/generateMeta'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
@@ -61,21 +62,23 @@ export default async function Page({ params }: Args) {
 
   if (slug === 'home') {
     const payload = await getPayload({ config: configPromise })
-    const [{ docs: trustItems }, { docs: shippingItems }, { docs: featuredProducts }] = await Promise.all([
+    const [{ docs: trustItems }, { docs: shippingItems }, { docs: featuredProducts }, home] = await Promise.all([
       payload.find({ collection: 'trustItems', where: { type: { equals: 'home' } }, sort: 'order', limit: 10 }),
       payload.find({ collection: 'shippingInfo', sort: 'order', limit: 10 }),
       payload.find({ collection: 'featuredProducts', sort: 'order', limit: 10 }),
+      getCachedGlobal('home', 1)(),
     ])
-    return <VialityHome trustItems={trustItems} shippingItems={shippingItems} featuredProducts={featuredProducts} />
+    return <VialityHome trustItems={trustItems} shippingItems={shippingItems} featuredProducts={featuredProducts} home={home} />
   }
 
   if (slug === 'about') {
     const payload = await getPayload({ config: configPromise })
-    const [{ docs: principles }, { docs: trustItems }] = await Promise.all([
+    const [{ docs: principles }, { docs: trustItems }, about] = await Promise.all([
       payload.find({ collection: 'principles', sort: 'order', limit: 10 }),
       payload.find({ collection: 'trustItems', where: { type: { equals: 'about' } }, sort: 'order', limit: 10 }),
+      getCachedGlobal('about', 1)(),
     ])
-    return <VialityAbout principles={principles} trustItems={trustItems} />
+    return <VialityAbout principles={principles} trustItems={trustItems} about={about} />
   }
 
   const { hero, layout } = page

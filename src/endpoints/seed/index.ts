@@ -607,6 +607,138 @@ export const seed = async ({
         defaultTitle: 'viality — Wellness, refined.',
         defaultDescription:
           'viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.',
+        collectionLabel: 'viality — Flagship Collection',
+        supplyLabel: '60 Capsules · 30-Day Supply',
+        purchaseOptionLabel: 'Purchase Option',
+        subscribeLabel: 'Subscribe & Save 15%',
+        subscribeDetail: 'Delivered every 30 days. Cancel anytime.',
+        oneTimeLabel: 'One-Time Purchase',
+        quantityLabel: 'Quantity',
+        buyNowLabel: 'Buy Now',
+        shippingText:
+          'Free shipping on orders over $75. Same-day dispatch on orders placed before 2 PM EST.',
+        ingredientsHeading: 'Full formulation breakdown',
+        otherIngredientsText:
+          'Other ingredients: Hydroxypropyl methylcellulose (vegetable capsule), microcrystalline cellulose. Free from gluten, soy, dairy, artificial colorants, and preservatives.',
+        faqLabel: 'Questions',
+        faqHeading: 'Everything you need to know.',
+        benefitsLabelTemplate: 'Why {title}',
+        benefitsHeading: 'A quieter standard of vitality.',
+        usageRitualLabel: 'Usage Ritual',
+        usageRitualHeading: 'Unhurried. Intentional. Daily.',
+        usageRitualBody:
+          'Two capsules each morning with water, ideally alongside a meal. The ritual is simple by design — consistency is where the value accumulates. We recommend a minimum 30-day commitment before forming any assessment.',
+        usageRitualDisclaimer:
+          'Take as directed on packaging. Consult a qualified healthcare professional before beginning any new supplement routine, particularly if pregnant, nursing, or under medical supervision.',
+        verificationLabel: 'Verification',
+        verificationHeading: 'Verified clarity,\nbatch by batch.',
+        verificationBody:
+          "Certificates of Analysis are available for every production run. We don't ask you to take our word for it — the data is there, and it belongs to you.",
+        labReportLabel: 'View Lab Report',
+        requestCOALabel: 'Request Full COA',
+        completeRitualHeading: 'Complete the Ritual',
+        productDisclaimer:
+          'This product is not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. Individual results may vary. Always consult a qualified healthcare professional before beginning any new supplement routine, especially if you are pregnant, nursing, taking medications, or have an existing health condition.',
+        loginWarning: 'Please login to access your account settings.',
+        ordersLoginWarning: 'Please login to access your orders.',
+        alreadyLoggedInWarning: 'You are already logged in.',
+        accountHeading: 'Account settings',
+        recentOrdersHeading: 'Recent Orders',
+        recentOrdersDescription:
+          'These are the most recent orders you have placed. Each order is associated with an payment. As you place more orders, they will appear in your orders list.',
+        noOrdersText: 'You have no orders.',
+        viewAllOrdersLabel: 'View all orders',
+        ordersHeading: 'Orders',
+        allOrdersLabel: 'All orders',
+        orderNumberPrefix: 'Order #',
+        orderDateLabel: 'Order Date',
+        totalLabel: 'Total',
+        statusLabel: 'Status',
+        itemsLabel: 'Items',
+        itemUnavailableText: 'This item is no longer available.',
+        shippingAddressLabel: 'Shipping Address',
+        addressesHeading: 'Addresses',
+        loginHeading: 'Log in',
+        loginDescription:
+          'This is where your customers will login to manage their account, review their order history, and more. To manage all users, login to the admin dashboard.',
+        createAccountHeading: 'Create Account',
+      },
+    }),
+    payload.updateGlobal({
+      slug: 'about',
+      data: {
+        heroLabel: 'Our Philosophy',
+        heroHeading: 'Wellness, refined.\nA quieter standard.',
+        heroBody:
+          'Modern rituals for internal balance — for those who understand that how you care for yourself is a reflection of how you live.',
+        philosophyLabel: 'Brand Philosophy',
+        philosophyHeading:
+          'Where science meets ritual — and neither is allowed to compromise the other.',
+        philosophyBody: [
+          {
+            paragraph:
+              'viality was built on one conviction: the things we bring into our bodies deserve the same scrutiny and care as everything else we consider important. We work with precision, not promise.',
+          },
+          {
+            paragraph:
+              'We occupy a quieter corner of the wellness world — one where claims are measured, ingredients are disclosed, and the ritual of taking care of yourself is treated with the seriousness it deserves. No noise. No theatre.',
+          },
+          {
+            paragraph:
+              'Designed for consistency. Every formulation is meant to be used daily, over time, as part of a considered routine — not as a quick fix or a seasonal experiment.',
+          },
+        ],
+        philosophyImageLabel: 'viality — signature formula',
+        principlesLabel: 'What We Stand For',
+        principlesHeading: 'Three principles.\nNo exceptions.',
+        trustLabel: 'Our Standards',
+        trustHeading: 'The science is visible.\nBy design.',
+        trustBody:
+          'We operate with complete openness. Nothing is hidden behind proprietary blends or ambiguous quantities. Every claim we make is verifiable.',
+        trustImageLabel: 'Third-Party Verified',
+        trustButtonLabel: 'Request Certificate of Analysis',
+        founderLabel: 'A Note from the Founders',
+        founderQuote:
+          '"We built viality because we were tired of choosing between what works and what feels worthy of the care we put into ourselves. Modern rituals for internal balance shouldn\'t require compromise. That conviction is built into every decision we make — from the compounds we select to the language we use to describe them."',
+        founderSignature: 'The viality Team',
+        ctaHeading: 'Designed for\nconsistency.',
+        ctaBody:
+          'Where science meets ritual. Formulations built to be used daily, for the long term — with complete transparency about everything inside them.',
+        ctaShopLabel: 'Shop Formulas',
+        ctaLabLabel: 'View Lab Reports',
+        complianceText:
+          'These statements have not been evaluated by the Food and Drug Administration. Products are not intended to diagnose, treat, cure, or prevent any disease.',
+      },
+    }),
+    payload.updateGlobal({
+      slug: 'home',
+      data: {
+        heroTagline: 'Wellness, refined.',
+        heroTitle: 'viality',
+        heroSubtext: 'Where science meets ritual.',
+        heroCTALabel: 'Begin the Ritual',
+        heroCTALink: '/shop',
+        heroSecondaryLabel: 'Our Philosophy',
+        heroSecondaryLink: '/about',
+        heroScrollLabel: 'Scroll',
+        philosophyBody:
+          'Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.',
+        philosophyLinkLabel: 'Our Story',
+        philosophyLink: '/about',
+        collectionHeading: 'The Collection',
+        shopAllLabel: 'Shop All',
+        trustHeading: 'A quieter standard of vitality.',
+        trustBody:
+          'Every formulation is open. Every claim is earned. We believe in complete transparency — not as a selling point, but as the only responsible way to operate.',
+        trustCTALabel: 'View Lab Reports',
+        trustCTALink: '/about',
+        waitlistHeading: 'Begin your daily reset.',
+        waitlistBody:
+          'Early access to new formulations, considered notes on modern wellness, and invitations to private events. Nothing more.',
+        waitlistPlaceholder: 'YOUR EMAIL ADDRESS',
+        waitlistButtonLabel: 'Join Waitlist',
+        complianceText:
+          'These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary. Always consult your healthcare provider before beginning any new wellness routine.',
       },
     }),
   ])

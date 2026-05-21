@@ -5,6 +5,7 @@ import { Price } from '@/components/Price'
 import { Button } from '@/components/ui/button'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeftIcon } from 'lucide-react'
@@ -26,6 +27,17 @@ export default async function Order({ params, searchParams }: PageProps) {
   const headers = await getHeaders()
   const payload = await getPayload({ config: configPromise })
   const { user } = await payload.auth({ headers })
+
+  const settings = await getCachedGlobal('settings', 1)()
+
+  const allOrdersLabel = settings?.allOrdersLabel || 'All orders'
+  const orderNumberPrefix = settings?.orderNumberPrefix || 'Order #'
+  const orderDateLabel = settings?.orderDateLabel || 'Order Date'
+  const totalLabel = settings?.totalLabel || 'Total'
+  const statusLabel = settings?.statusLabel || 'Status'
+  const itemsLabel = settings?.itemsLabel || 'Items'
+  const itemUnavailableText = settings?.itemUnavailableText || 'This item is no longer available.'
+  const shippingAddressLabel = settings?.shippingAddressLabel || 'Shipping Address'
 
   const { id } = await params
   const { email = '', accessToken = '' } = await searchParams
@@ -120,7 +132,7 @@ export default async function Order({ params, searchParams }: PageProps) {
             <Button asChild variant="ghost">
               <Link href="/orders">
                 <ChevronLeftIcon />
-                All orders
+                {allOrdersLabel}
               </Link>
             </Button>
           </div>
@@ -129,14 +141,14 @@ export default async function Order({ params, searchParams }: PageProps) {
         )}
 
         <h1 className="text-sm uppercase font-mono px-2 bg-primary/10 rounded tracking-[0.07em]">
-          <span className="">{`Order #${order.id}`}</span>
+          <span className="">{`${orderNumberPrefix}${order.id}`}</span>
         </h1>
       </div>
 
       <div className="bg-card border rounded-lg px-6 py-4 flex flex-col gap-12">
         <div className="flex flex-col gap-6 lg:flex-row lg:justify-between">
           <div className="">
-            <p className="font-mono uppercase text-primary/50 mb-1 text-sm">Order Date</p>
+            <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{orderDateLabel}</p>
             <p className="text-lg">
               <time dateTime={order.createdAt}>
                 {formatDateTime({ date: order.createdAt, format: 'MMMM dd, yyyy' })}
@@ -145,13 +157,13 @@ export default async function Order({ params, searchParams }: PageProps) {
           </div>
 
           <div className="">
-            <p className="font-mono uppercase text-primary/50 mb-1 text-sm">Total</p>
+            <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{totalLabel}</p>
             {order.amount && <Price className="text-lg" amount={order.amount} />}
           </div>
 
           {order.status && (
             <div className="grow max-w-1/3">
-              <p className="font-mono uppercase text-primary/50 mb-1 text-sm">Status</p>
+              <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{statusLabel}</p>
               <OrderStatus className="text-sm" status={order.status} />
             </div>
           )}
@@ -159,7 +171,7 @@ export default async function Order({ params, searchParams }: PageProps) {
 
         {order.items && (
           <div>
-            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">Items</h2>
+            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">{itemsLabel}</h2>
             <ul className="flex flex-col gap-6">
               {order.items?.map((item, index) => {
                 if (typeof item.product === 'string') {
@@ -167,7 +179,7 @@ export default async function Order({ params, searchParams }: PageProps) {
                 }
 
                 if (!item.product || typeof item.product !== 'object') {
-                  return <div key={index}>This item is no longer available.</div>
+                  return <div key={index}>{itemUnavailableText}</div>
                 }
 
                 const variant =
@@ -189,7 +201,7 @@ export default async function Order({ params, searchParams }: PageProps) {
 
         {order.shippingAddress && (
           <div>
-            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">Shipping Address</h2>
+            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">{shippingAddressLabel}</h2>
 
             {/* @ts-expect-error - some kind of type hell */}
             <AddressItem address={order.shippingAddress} hideActions />
@@ -202,13 +214,14 @@ export default async function Order({ params, searchParams }: PageProps) {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params
+  const settings = await getCachedGlobal('settings', 1)()
 
   return {
-    description: `Order details for order ${id}.`,
+    description: `${settings?.orderNumberPrefix || 'Order #'}${id} details.`,
     openGraph: mergeOpenGraph({
-      title: `Order ${id}`,
+      title: `${settings?.orderNumberPrefix || 'Order #'}${id}`,
       url: `/orders/${id}`,
     }),
-    title: `Order ${id}`,
+    title: `${settings?.orderNumberPrefix || 'Order #'}${id}`,
   }
 }

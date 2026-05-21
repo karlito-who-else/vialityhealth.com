@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { RenderParams } from '@/components/RenderParams'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
@@ -15,8 +16,14 @@ export default async function Login() {
   const payload = await getPayload({ config: configPromise })
   const { user } = await payload.auth({ headers })
 
+  const settings = await getCachedGlobal('settings', 1)()
+
+  const alreadyLoggedInWarning = settings?.alreadyLoggedInWarning || 'You are already logged in.'
+  const loginHeading = settings?.loginHeading || 'Log in'
+  const loginDescription = settings?.loginDescription || ''
+
   if (user) {
-    redirect(`/account?warning=${encodeURIComponent('You are already logged in.')}`)
+    redirect(`/account?warning=${encodeURIComponent(alreadyLoggedInWarning)}`)
   }
 
   return (
@@ -24,22 +31,27 @@ export default async function Login() {
       <div className="max-w-xl mx-auto my-12">
         <RenderParams />
 
-        <h1 className="mb-4 text-[1.8rem]">Log in</h1>
-        <p className="mb-8">
-          {`This is where your customers will login to manage their account, review their order history, and more. To manage all users, `}
-          <Link href="/admin/collections/users">login to the admin dashboard</Link>.
-        </p>
+        <h1 className="mb-4 text-[1.8rem]">{loginHeading}</h1>
+        {loginDescription && (
+          <p className="mb-8">
+            {loginDescription}
+          </p>
+        )}
         <LoginForm />
       </div>
     </div>
   )
 }
 
-export const metadata: Metadata = {
-  description: 'Login or create an account to get started.',
-  openGraph: {
-    title: 'Login',
-    url: '/login',
-  },
-  title: 'Login',
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCachedGlobal('settings', 1)()
+
+  return {
+    description: settings?.loginDescription || 'Login or create an account to get started.',
+    openGraph: {
+      title: settings?.loginHeading || 'Login',
+      url: '/login',
+    },
+    title: settings?.loginHeading || 'Login',
+  }
 }

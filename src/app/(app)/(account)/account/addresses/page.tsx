@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { headers as getHeaders } from 'next/headers.js'
 import configPromise from '@payload-config'
 import { Order } from '@/payload-types'
@@ -14,11 +15,16 @@ export default async function AddressesPage() {
   const payload = await getPayload({ config: configPromise })
   const { user } = await payload.auth({ headers })
 
+  const settings = await getCachedGlobal('settings', 1)()
+
+  const loginWarning = settings?.loginWarning || 'Please login to access your account settings.'
+  const addressesHeading = settings?.addressesHeading || 'Addresses'
+
   let orders: Order[] | null = null
 
   if (!user) {
     redirect(
-      `/login?warning=${encodeURIComponent('Please login to access your account settings.')}`,
+      `/login?warning=${encodeURIComponent(loginWarning)}`,
     )
   }
 
@@ -38,16 +44,12 @@ export default async function AddressesPage() {
 
     orders = ordersResult?.docs || []
   } catch (error) {
-    // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
-    // so swallow the error here and simply render the page with fallback data where necessary
-    // in production you may want to redirect to a 404  page or at least log the error somewhere
-    // console.error(error)
   }
 
   return (
     <>
       <div className="border p-8 rounded-lg bg-primary-foreground">
-        <h1 className="text-3xl font-medium mb-8">Addresses</h1>
+        <h1 className="text-3xl font-medium mb-8">{addressesHeading}</h1>
 
         <div className="mb-8">
           <AddressListing />
@@ -59,11 +61,15 @@ export default async function AddressesPage() {
   )
 }
 
-export const metadata: Metadata = {
-  description: 'Manage your addresses.',
-  openGraph: mergeOpenGraph({
-    title: 'Addresses',
-    url: '/account/addresses',
-  }),
-  title: 'Addresses',
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCachedGlobal('settings', 1)()
+
+  return {
+    description: 'Manage your addresses.',
+    openGraph: mergeOpenGraph({
+      title: settings?.addressesHeading || 'Addresses',
+      url: '/account/addresses',
+    }),
+    title: settings?.addressesHeading || 'Addresses',
+  }
 }

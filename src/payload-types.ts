@@ -145,12 +145,16 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    about: About;
     header: Header;
+    home: Home;
     footer: Footer;
     settings: Setting;
   };
   globalsSelect: {
+    about: AboutSelect<false> | AboutSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
@@ -2042,6 +2046,42 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  heroLabel?: string | null;
+  heroHeading?: string | null;
+  heroBody?: string | null;
+  philosophyLabel?: string | null;
+  philosophyHeading?: string | null;
+  philosophyBody?:
+    | {
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  philosophyImageLabel?: string | null;
+  principlesLabel?: string | null;
+  principlesHeading?: string | null;
+  trustLabel?: string | null;
+  trustHeading?: string | null;
+  trustBody?: string | null;
+  trustImageLabel?: string | null;
+  trustButtonLabel?: string | null;
+  founderLabel?: string | null;
+  founderQuote?: string | null;
+  founderSignature?: string | null;
+  ctaHeading?: string | null;
+  ctaBody?: string | null;
+  ctaShopLabel?: string | null;
+  ctaLabLabel?: string | null;
+  complianceText?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
@@ -2062,6 +2102,37 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: number;
+  heroTagline?: string | null;
+  heroTitle?: string | null;
+  heroSubtext?: string | null;
+  heroCTALabel?: string | null;
+  heroCTALink?: string | null;
+  heroSecondaryLabel?: string | null;
+  heroSecondaryLink?: string | null;
+  heroScrollLabel?: string | null;
+  philosophyBody?: string | null;
+  philosophyLinkLabel?: string | null;
+  philosophyLink?: string | null;
+  collectionHeading?: string | null;
+  shopAllLabel?: string | null;
+  trustHeading?: string | null;
+  trustBody?: string | null;
+  trustCTALabel?: string | null;
+  trustCTALink?: string | null;
+  waitlistHeading?: string | null;
+  waitlistBody?: string | null;
+  waitlistPlaceholder?: string | null;
+  waitlistButtonLabel?: string | null;
+  complianceText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2126,8 +2197,91 @@ export interface Setting {
         id?: string | null;
       }[]
     | null;
+  benefitsLabelTemplate?: string | null;
+  benefitsHeading?: string | null;
+  usageRitualLabel?: string | null;
+  usageRitualHeading?: string | null;
+  usageRitualBody?: string | null;
+  usageRitualDisclaimer?: string | null;
+  verificationLabel?: string | null;
+  verificationHeading?: string | null;
+  verificationBody?: string | null;
+  labReportLabel?: string | null;
+  requestCOALabel?: string | null;
+  completeRitualHeading?: string | null;
+  productDisclaimer?: string | null;
+  collectionLabel?: string | null;
+  supplyLabel?: string | null;
+  purchaseOptionLabel?: string | null;
+  subscribeLabel?: string | null;
+  subscribeDetail?: string | null;
+  oneTimeLabel?: string | null;
+  quantityLabel?: string | null;
+  buyNowLabel?: string | null;
+  shippingText?: string | null;
+  ingredientsHeading?: string | null;
+  otherIngredientsText?: string | null;
+  faqLabel?: string | null;
+  faqHeading?: string | null;
+  loginWarning?: string | null;
+  ordersLoginWarning?: string | null;
+  alreadyLoggedInWarning?: string | null;
+  accountHeading?: string | null;
+  recentOrdersHeading?: string | null;
+  recentOrdersDescription?: string | null;
+  noOrdersText?: string | null;
+  viewAllOrdersLabel?: string | null;
+  ordersHeading?: string | null;
+  allOrdersLabel?: string | null;
+  orderNumberPrefix?: string | null;
+  orderDateLabel?: string | null;
+  totalLabel?: string | null;
+  statusLabel?: string | null;
+  itemsLabel?: string | null;
+  itemUnavailableText?: string | null;
+  shippingAddressLabel?: string | null;
+  addressesHeading?: string | null;
+  loginHeading?: string | null;
+  loginDescription?: string | null;
+  createAccountHeading?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  heroLabel?: T;
+  heroHeading?: T;
+  heroBody?: T;
+  philosophyLabel?: T;
+  philosophyHeading?: T;
+  philosophyBody?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  philosophyImageLabel?: T;
+  principlesLabel?: T;
+  principlesHeading?: T;
+  trustLabel?: T;
+  trustHeading?: T;
+  trustBody?: T;
+  trustImageLabel?: T;
+  trustButtonLabel?: T;
+  founderLabel?: T;
+  founderQuote?: T;
+  founderSignature?: T;
+  ctaHeading?: T;
+  ctaBody?: T;
+  ctaShopLabel?: T;
+  ctaLabLabel?: T;
+  complianceText?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2149,6 +2303,37 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  heroTagline?: T;
+  heroTitle?: T;
+  heroSubtext?: T;
+  heroCTALabel?: T;
+  heroCTALink?: T;
+  heroSecondaryLabel?: T;
+  heroSecondaryLink?: T;
+  heroScrollLabel?: T;
+  philosophyBody?: T;
+  philosophyLinkLabel?: T;
+  philosophyLink?: T;
+  collectionHeading?: T;
+  shopAllLabel?: T;
+  trustHeading?: T;
+  trustBody?: T;
+  trustCTALabel?: T;
+  trustCTALink?: T;
+  waitlistHeading?: T;
+  waitlistBody?: T;
+  waitlistPlaceholder?: T;
+  waitlistButtonLabel?: T;
+  complianceText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2212,6 +2397,53 @@ export interface SettingsSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  benefitsLabelTemplate?: T;
+  benefitsHeading?: T;
+  usageRitualLabel?: T;
+  usageRitualHeading?: T;
+  usageRitualBody?: T;
+  usageRitualDisclaimer?: T;
+  verificationLabel?: T;
+  verificationHeading?: T;
+  verificationBody?: T;
+  labReportLabel?: T;
+  requestCOALabel?: T;
+  completeRitualHeading?: T;
+  productDisclaimer?: T;
+  collectionLabel?: T;
+  supplyLabel?: T;
+  purchaseOptionLabel?: T;
+  subscribeLabel?: T;
+  subscribeDetail?: T;
+  oneTimeLabel?: T;
+  quantityLabel?: T;
+  buyNowLabel?: T;
+  shippingText?: T;
+  ingredientsHeading?: T;
+  otherIngredientsText?: T;
+  faqLabel?: T;
+  faqHeading?: T;
+  loginWarning?: T;
+  ordersLoginWarning?: T;
+  alreadyLoggedInWarning?: T;
+  accountHeading?: T;
+  recentOrdersHeading?: T;
+  recentOrdersDescription?: T;
+  noOrdersText?: T;
+  viewAllOrdersLabel?: T;
+  ordersHeading?: T;
+  allOrdersLabel?: T;
+  orderNumberPrefix?: T;
+  orderDateLabel?: T;
+  totalLabel?: T;
+  statusLabel?: T;
+  itemsLabel?: T;
+  itemUnavailableText?: T;
+  shippingAddressLabel?: T;
+  addressesHeading?: T;
+  loginHeading?: T;
+  loginDescription?: T;
+  createAccountHeading?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import type { TrustItem, ShippingInfo, FeaturedProduct } from '@/payload-types'
+import type { TrustItem, ShippingInfo, FeaturedProduct, Home } from '@/payload-types'
 
 function GrainOverlay() {
   return (
@@ -44,7 +44,30 @@ function VideoPanel({ src }: { src: string }) {
   )
 }
 
-export function VialityHome({ trustItems, shippingItems, featuredProducts }: { trustItems: TrustItem[]; shippingItems: ShippingInfo[]; featuredProducts: FeaturedProduct[] }) {
+export function VialityHome({ trustItems, shippingItems, featuredProducts, home }: { trustItems: TrustItem[]; shippingItems: ShippingInfo[]; featuredProducts: FeaturedProduct[]; home: Home }) {
+  const heroTagline = home?.heroTagline || 'Wellness, refined.'
+  const heroTitle = home?.heroTitle || 'viality'
+  const heroSubtext = home?.heroSubtext || 'Where science meets ritual.'
+  const heroCTALabel = home?.heroCTALabel || 'Begin the Ritual'
+  const heroCTALink = home?.heroCTALink || '/shop'
+  const heroSecondaryLabel = home?.heroSecondaryLabel || 'Our Philosophy'
+  const heroSecondaryLink = home?.heroSecondaryLink || '/about'
+  const heroScrollLabel = home?.heroScrollLabel || 'Scroll'
+  const philosophyBody = home?.philosophyBody || ''
+  const philosophyLinkLabel = home?.philosophyLinkLabel || 'Our Story'
+  const philosophyLink = home?.philosophyLink || '/about'
+  const collectionHeading = home?.collectionHeading || 'The Collection'
+  const shopAllLabel = home?.shopAllLabel || 'Shop All'
+  const trustHeading = home?.trustHeading || 'A quieter standard of vitality.'
+  const trustBody = home?.trustBody || ''
+  const trustCTALabel = home?.trustCTALabel || 'View Lab Reports'
+  const trustCTALink = home?.trustCTALink || '/about'
+  const waitlistHeading = home?.waitlistHeading || 'Begin your daily reset.'
+  const waitlistBody = home?.waitlistBody || ''
+  const waitlistPlaceholder = home?.waitlistPlaceholder || 'YOUR EMAIL ADDRESS'
+  const waitlistButtonLabel = home?.waitlistButtonLabel || 'Join Waitlist'
+  const complianceText = home?.complianceText || ''
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO */}
@@ -97,7 +120,7 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
             }}
             className="mb-8"
           >
-            Wellness, refined.
+            {heroTagline}
           </motion.p>
 
           <motion.h1
@@ -113,26 +136,28 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
               color: "#1E1E1E",
             }}
           >
-            viality
+            {heroTitle}
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 1, ease: "easeOut" }}
-            className="mt-5 max-w-xs"
-            style={{
-              fontFamily: '"Helvetica Neue", sans-serif',
-              fontWeight: 400,
-              fontSize: "16px",
-              lineHeight: 1.8,
-              letterSpacing: "-0.01em",
-              color: "#6F6F6F",
-              textTransform: "lowercase",
-            }}
-          >
-            Where science meets ritual.
-          </motion.p>
+          {heroSubtext && (
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 1, ease: "easeOut" }}
+              className="mt-5 max-w-xs"
+              style={{
+                fontFamily: '"Helvetica Neue", sans-serif',
+                fontWeight: 400,
+                fontSize: "16px",
+                lineHeight: 1.8,
+                letterSpacing: "-0.01em",
+                color: "#6F6F6F",
+                textTransform: "lowercase",
+              }}
+            >
+              {heroSubtext}
+            </motion.p>
+          )}
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -141,16 +166,16 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
             className="mt-10 flex flex-col sm:flex-row gap-4 items-center"
           >
             <Link
-              href="/shop"
+              href={heroCTALink}
               className="px-9 py-3.5 bg-white text-[#1c1916] text-[11px] uppercase tracking-[0.22em] hover:bg-white/90 active:bg-white/80 transition-colors duration-200"
             >
-              Begin the Ritual
+              {heroCTALabel}
             </Link>
             <Link
-              href="/about"
+              href={heroSecondaryLink}
               className="px-9 py-3.5 border border-white/50 text-white text-[11px] uppercase tracking-[0.22em] hover:border-white hover:bg-white/8 transition-all duration-200"
             >
-              Our Philosophy
+              {heroSecondaryLabel}
             </Link>
           </motion.div>
         </div>
@@ -166,22 +191,24 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="w-px h-10 bg-white/30"
           />
-          <span className="text-white/30 text-[9px] uppercase tracking-[0.25em]">Scroll</span>
+          <span className="text-white/30 text-[9px] uppercase tracking-[0.25em]">{heroScrollLabel}</span>
         </motion.div>
       </section>
 
       {/* BRAND PHILOSOPHY */}
       <section className="py-36 px-6 bg-background">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9 }}
-            className="font-serif text-2xl md:text-4xl leading-relaxed text-primary/90"
-          >
-            Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.
-          </motion.p>
+          {philosophyBody && (
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.9 }}
+              className="font-serif text-2xl md:text-4xl leading-relaxed text-primary/90"
+            >
+              {philosophyBody}
+            </motion.p>
+          )}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -190,10 +217,10 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
             className="mt-12"
           >
             <Link
-              href="/about"
+              href={philosophyLink}
               className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-[0.2em] hover:border-primary transition-colors"
             >
-              Our Story
+              {philosophyLinkLabel}
             </Link>
           </motion.div>
         </div>
@@ -203,12 +230,12 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
       <section className="py-24 px-6 bg-[#f7f5f0]">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-16">
-            <h2 className="font-serif italic text-4xl text-primary">The Collection</h2>
+            <h2 className="font-serif italic text-4xl text-primary">{collectionHeading}</h2>
             <Link
               href="/shop"
               className="text-[11px] uppercase tracking-[0.2em] hidden md:inline-block border-b border-transparent hover:border-primary/30 pb-1 transition-colors"
             >
-              Shop All
+              {shopAllLabel}
             </Link>
           </div>
 
@@ -243,7 +270,7 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
               href="/shop"
               className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-[0.2em]"
             >
-              Shop All
+              {shopAllLabel}
             </Link>
           </div>
         </div>
@@ -272,15 +299,17 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
           </div>
 
           <div className="order-1 md:order-2">
-            <h2 className="font-serif italic text-4xl mb-6">A quieter standard of vitality.</h2>
-            <p className="text-primary/65 mb-10 leading-relaxed max-w-md">
-              Every formulation is open. Every claim is earned. We believe in complete transparency — not as a selling point, but as the only responsible way to operate.
-            </p>
+            <h2 className="font-serif italic text-4xl mb-6">{trustHeading}</h2>
+            {trustBody && (
+              <p className="text-primary/65 mb-10 leading-relaxed max-w-md">
+                {trustBody}
+              </p>
+            )}
             <Link
-              href="/about"
+              href={trustCTALink}
               className="px-8 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-primary/88 transition-colors inline-block"
             >
-              View Lab Reports
+              {trustCTALabel}
             </Link>
           </div>
         </div>
@@ -296,15 +325,17 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
             transition={{ duration: 0.8 }}
             className="font-serif italic text-4xl mb-4"
           >
-            Begin your daily reset.
+            {waitlistHeading}
           </motion.h2>
-          <p className="text-primary-foreground/65 mb-10 text-sm max-w-md leading-relaxed">
-            Early access to new formulations, considered notes on modern wellness, and invitations to private events. Nothing more.
-          </p>
+          {waitlistBody && (
+            <p className="text-primary-foreground/65 mb-10 text-sm max-w-md leading-relaxed">
+              {waitlistBody}
+            </p>
+          )}
           <form className="w-full flex flex-col sm:flex-row gap-4 max-w-md">
             <input
               type="email"
-              placeholder="YOUR EMAIL ADDRESS"
+              placeholder={waitlistPlaceholder}
               className="flex-1 bg-transparent border-b border-primary-foreground/25 px-4 py-3 text-[11px] focus:outline-none focus:border-accent placeholder:text-primary-foreground/30 uppercase tracking-[0.18em] transition-colors"
               required
             />
@@ -312,7 +343,7 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
               type="button"
               className="px-8 py-3 bg-accent text-accent-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-accent/88 transition-colors"
             >
-              Join Waitlist
+              {waitlistButtonLabel}
             </button>
           </form>
         </div>
@@ -331,11 +362,13 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts }: { t
       </section>
 
       {/* Compliance */}
-      <section className="py-8 px-6 bg-background border-t border-border/20">
-        <p className="max-w-4xl mx-auto text-center text-[10px] text-primary/35 leading-relaxed tracking-wide">
-          These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary. Always consult your healthcare provider before beginning any new wellness routine.
-        </p>
-      </section>
+      {complianceText && (
+        <section className="py-8 px-6 bg-background border-t border-border/20">
+          <p className="max-w-4xl mx-auto text-center text-[10px] text-primary/35 leading-relaxed tracking-wide">
+            {complianceText}
+          </p>
+        </section>
+      )}
     </div>
   )
 }

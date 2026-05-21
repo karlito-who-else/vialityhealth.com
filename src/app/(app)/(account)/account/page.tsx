@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { Button } from '@/components/ui/button'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import { headers as getHeaders } from 'next/headers.js'
 import configPromise from '@payload-config'
@@ -16,11 +17,20 @@ export default async function AccountPage() {
   const payload = await getPayload({ config: configPromise })
   const { user } = await payload.auth({ headers })
 
+  const settings = await getCachedGlobal('settings', 1)()
+
+  const loginWarning = settings?.loginWarning || 'Please login to access your account settings.'
+  const accountHeading = settings?.accountHeading || 'Account settings'
+  const recentOrdersHeading = settings?.recentOrdersHeading || 'Recent Orders'
+  const recentOrdersDescription = settings?.recentOrdersDescription || ''
+  const noOrdersText = settings?.noOrdersText || 'You have no orders.'
+  const viewAllOrdersLabel = settings?.viewAllOrdersLabel || 'View all orders'
+
   let orders: Order[] | null = null
 
   if (!user) {
     redirect(
-      `/login?warning=${encodeURIComponent('Please login to access your account settings.')}`,
+      `/login?warning=${encodeURIComponent(loginWarning)}`,
     )
   }
 
@@ -40,31 +50,26 @@ export default async function AccountPage() {
 
     orders = ordersResult?.docs || []
   } catch (error) {
-    // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
-    // so swallow the error here and simply render the page with fallback data where necessary
-    // in production you may want to redirect to a 404  page or at least log the error somewhere
-    // console.error(error)
   }
 
   return (
     <>
       <div className="border p-8 rounded-lg bg-primary-foreground">
-        <h1 className="text-3xl font-medium mb-8">Account settings</h1>
+        <h1 className="text-3xl font-medium mb-8">{accountHeading}</h1>
         <AccountForm />
       </div>
 
       <div className=" border p-8 rounded-lg bg-primary-foreground">
-        <h2 className="text-3xl font-medium mb-8">Recent Orders</h2>
+        <h2 className="text-3xl font-medium mb-8">{recentOrdersHeading}</h2>
 
-        <div className="prose dark:prose-invert mb-8">
-          <p>
-            These are the most recent orders you have placed. Each order is associated with an
-            payment. As you place more orders, they will appear in your orders list.
-          </p>
-        </div>
+        {recentOrdersDescription && (
+          <div className="prose dark:prose-invert mb-8">
+            <p>{recentOrdersDescription}</p>
+          </div>
+        )}
 
         {(!orders || !Array.isArray(orders) || orders?.length === 0) && (
-          <p className="mb-8">You have no orders.</p>
+          <p className="mb-8">{noOrdersText}</p>
         )}
 
         {orders && orders.length > 0 && (
@@ -78,18 +83,22 @@ export default async function AccountPage() {
         )}
 
         <Button asChild variant="default">
-          <Link href="/orders">View all orders</Link>
+          <Link href="/orders">{viewAllOrdersLabel}</Link>
         </Button>
       </div>
     </>
   )
 }
 
-export const metadata: Metadata = {
-  description: 'Create an account or log in to your existing account.',
-  openGraph: mergeOpenGraph({
-    title: 'Account',
-    url: '/account',
-  }),
-  title: 'Account',
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCachedGlobal('settings', 1)()
+
+  return {
+    description: settings?.loginDescription || 'Create an account or log in to your existing account.',
+    openGraph: mergeOpenGraph({
+      title: settings?.accountHeading || 'Account',
+      url: '/account',
+    }),
+    title: settings?.accountHeading || 'Account',
+  }
 }

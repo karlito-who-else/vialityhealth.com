@@ -26,8 +26,10 @@ import { ShippingInfo } from '@/collections/ShippingInfo'
 import { TrustBadges } from '@/collections/TrustBadges'
 import { TrustItems } from '@/collections/TrustItems'
 import { Users } from '@/collections/Users'
+import { About } from '@/globals/About'
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
+import { Home } from '@/globals/Home'
 import { Settings } from '@/globals/Settings'
 import { plugins } from './plugins'
 
@@ -89,7 +91,7 @@ export default buildConfig({
   }),
   //email: nodemailerAdapter(),
   endpoints: [],
-  globals: [Header, Footer, Settings],
+  globals: [About, Header, Home, Footer, Settings],
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
