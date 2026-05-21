@@ -13,7 +13,7 @@ export const FeaturedProducts: CollectionConfig = {
   admin: {
     group: 'Marketing',
     defaultColumns: ['product', 'order', 'updatedAt'],
-    useAsTitle: 'product',
+    useAsTitle: 'id',
   },
   fields: [
     {
