@@ -83,6 +83,7 @@ export interface Config {
     trustItems: TrustItem;
     shippingInfo: ShippingInfo;
     trustBadges: TrustBadge;
+    featuredProducts: FeaturedProduct;
     forms: Form;
     'form-submissions': FormSubmission;
     addresses: Address;
@@ -123,6 +124,7 @@ export interface Config {
     trustItems: TrustItemsSelect<false> | TrustItemsSelect<true>;
     shippingInfo: ShippingInfoSelect<false> | ShippingInfoSelect<true>;
     trustBadges: TrustBadgesSelect<false> | TrustBadgesSelect<true>;
+    featuredProducts: FeaturedProductsSelect<false> | FeaturedProductsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     addresses: AddressesSelect<false> | AddressesSelect<true>;
@@ -1128,6 +1130,20 @@ export interface TrustBadge {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featuredProducts".
+ */
+export interface FeaturedProduct {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  price: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -1210,6 +1226,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'trustBadges';
         value: number | TrustBadge;
+      } | null)
+    | ({
+        relationTo: 'featuredProducts';
+        value: number | FeaturedProduct;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1603,6 +1623,19 @@ export interface ShippingInfoSelect<T extends boolean = true> {
 export interface TrustBadgesSelect<T extends boolean = true> {
   label?: T;
   slug?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featuredProducts_select".
+ */
+export interface FeaturedProductsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  price?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;

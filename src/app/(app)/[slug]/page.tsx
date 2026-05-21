@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
+import { VialityAbout } from '@/components/VialityAbout'
+import { VialityHome } from '@/components/VialityHome'
 import { generateMeta } from '@/utilities/generateMeta'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -27,7 +29,7 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      return doc.slug !== 'home'
+      return doc.slug !== 'home' && doc.slug !== 'about'
     })
     .map(({ slug }) => {
       return { slug }
@@ -44,19 +46,36 @@ type Args = {
 
 export default async function Page({ params }: Args) {
   const { slug = 'home' } = await params
-  const url = '/' + slug
 
   let page = await queryPageBySlug({
     slug,
   })
 
-  // Remove this code once your website is seeded
   if (!page && slug === 'home') {
     page = homeStaticData() as Page
   }
 
   if (!page) {
     return notFound()
+  }
+
+  if (slug === 'home') {
+    const payload = await getPayload({ config: configPromise })
+    const [{ docs: trustItems }, { docs: shippingItems }, { docs: featuredProducts }] = await Promise.all([
+      payload.find({ collection: 'trustItems', where: { type: { equals: 'home' } }, sort: 'order', limit: 10 }),
+      payload.find({ collection: 'shippingInfo', sort: 'order', limit: 10 }),
+      payload.find({ collection: 'featuredProducts', sort: 'order', limit: 10 }),
+    ])
+    return <VialityHome trustItems={trustItems} shippingItems={shippingItems} featuredProducts={featuredProducts} />
+  }
+
+  if (slug === 'about') {
+    const payload = await getPayload({ config: configPromise })
+    const [{ docs: principles }, { docs: trustItems }] = await Promise.all([
+      payload.find({ collection: 'principles', sort: 'order', limit: 10 }),
+      payload.find({ collection: 'trustItems', where: { type: { equals: 'about' } }, sort: 'order', limit: 10 }),
+    ])
+    return <VialityAbout principles={principles} trustItems={trustItems} />
   }
 
   const { hero, layout } = page

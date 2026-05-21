@@ -1,4 +1,4 @@
-import type { Payload, PayloadRequest } from 'payload'
+import type { Payload, PayloadRequest, RequiredDataFromCollectionSlug } from 'payload'
 
 export const seedVialityMarketing = async ({
   payload,
@@ -145,6 +145,127 @@ export const seedVialityMarketing = async ({
       await payload.update({ collection: 'shippingInfo', id: existing.docs[0].id, data })
     } else {
       await payload.create({ collection: 'shippingInfo', data })
+    }
+  }
+
+  // ── Featured Products ──────────────────────────────────────
+  const featuredProductsData = [
+    { name: 'Inner Reset', slug: 'inner-reset', description: 'Daily balance, by design.', price: '$88', order: 0 },
+    { name: 'Evening Ritual', slug: 'evening-ritual', description: 'A quieter end to every day.', price: '$75', order: 1 },
+    { name: 'Clear Focus', slug: 'clear-focus', description: 'Calm clarity. Designed for consistency.', price: '$90', order: 2 },
+  ]
+
+  for (const data of featuredProductsData) {
+    const existing = await payload.find({
+      collection: 'featuredProducts',
+      where: { slug: { equals: data.slug } },
+      limit: 1,
+    })
+    if (existing.docs.length > 0) {
+      await payload.update({ collection: 'featuredProducts', id: existing.docs[0].id, data })
+    } else {
+      await payload.create({ collection: 'featuredProducts', data })
+    }
+  }
+
+  // ── CMS Page Entries ────────────────────────────────────────
+  const pageEntryData: RequiredDataFromCollectionSlug<'pages'>[] = [
+    {
+      slug: 'home',
+      title: 'Home',
+      _status: 'published',
+      hero: {
+        type: 'none',
+      },
+      layout: [
+        {
+          blockType: 'content',
+          columns: [
+            {
+              size: 'full',
+              richText: {
+                root: {
+                  type: 'root',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [{ type: 'text', text: '' }],
+                      direction: 'ltr',
+                      format: '',
+                      indent: 0,
+                      textFormat: 0,
+                      version: 1,
+                    } as any,
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  version: 1,
+                } as any,
+              },
+            },
+          ],
+        },
+      ],
+      meta: {
+        title: 'viality — Wellness, Refined.',
+        description: 'Modern rituals for internal balance — formulated with precision, designed for consistency.',
+      },
+    },
+    {
+      slug: 'about',
+      title: 'About',
+      _status: 'published',
+      hero: {
+        type: 'none',
+      },
+      layout: [
+        {
+          blockType: 'content',
+          columns: [
+            {
+              size: 'full',
+              richText: {
+                root: {
+                  type: 'root',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [{ type: 'text', text: '' }],
+                      direction: 'ltr',
+                      format: '',
+                      indent: 0,
+                      textFormat: 0,
+                      version: 1,
+                    } as any,
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  version: 1,
+                } as any,
+              },
+            },
+          ],
+        },
+      ],
+      meta: {
+        title: 'Our Philosophy — viality',
+        description: 'Where science meets ritual — a quieter standard of vitality.',
+      },
+    },
+  ]
+
+  for (const data of pageEntryData) {
+    const existing = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: data.slug } },
+      limit: 1,
+    })
+    if (existing.docs.length > 0) {
+      await payload.update({ collection: 'pages', id: existing.docs[0].id, data })
+    } else {
+      await payload.create({ collection: 'pages', data })
     }
   }
 

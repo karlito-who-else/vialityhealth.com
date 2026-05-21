@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import type { TrustItem, ShippingInfo } from '@/payload-types'
+import type { TrustItem, ShippingInfo, FeaturedProduct } from '@/payload-types'
 
 function GrainOverlay() {
   return (
@@ -44,13 +44,7 @@ function VideoPanel({ src }: { src: string }) {
   )
 }
 
-const products = [
-  { id: 1, name: "Inner Reset", desc: "Daily balance, by design.", price: "$88" },
-  { id: 2, name: "Evening Ritual", desc: "A quieter end to every day.", price: "$75" },
-  { id: 3, name: "Clear Focus", desc: "Calm clarity. Designed for consistency.", price: "$90" },
-]
-
-export function VialityHome({ trustItems, shippingItems }: { trustItems: TrustItem[], shippingItems: ShippingInfo[] }) {
+export function VialityHome({ trustItems, shippingItems, featuredProducts }: { trustItems: TrustItem[]; shippingItems: ShippingInfo[]; featuredProducts: FeaturedProduct[] }) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO */}
@@ -219,9 +213,9 @@ export function VialityHome({ trustItems, shippingItems }: { trustItems: TrustIt
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {products.map((product, i) => (
+            {featuredProducts.map((product, i) => (
               <motion.div
-                key={product.id}
+                key={product.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -237,7 +231,7 @@ export function VialityHome({ trustItems, shippingItems }: { trustItems: TrustIt
                       <h3 className="uppercase tracking-[0.18em] text-xs font-medium">{product.name}</h3>
                       <span className="text-sm font-light">{product.price}</span>
                     </div>
-                    <p className="text-primary/55 text-sm">{product.desc}</p>
+                    <p className="text-primary/55 text-sm">{product.description}</p>
                   </div>
                 </Link>
               </motion.div>

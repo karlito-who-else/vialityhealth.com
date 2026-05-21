@@ -37,25 +37,7 @@ function GrainOverlay({ opacity = 0.035 }: { opacity?: number }) {
   )
 }
 
-const pillars = [
-  {
-    number: '01',
-    title: 'Precision',
-    body: 'Every compound is selected through careful evaluation of peer-reviewed evidence. We work with formulation experts who understand that getting the dose, the form, and the bioavailability right is the difference between a supplement and a ritual that works.',
-  },
-  {
-    number: '02',
-    title: 'Purity',
-    body: 'Nothing enters our formulations without a reason, and nothing unnecessary is permitted to remain. No fillers, no colorants, no compromises. Every batch is independently tested before it reaches you.',
-  },
-  {
-    number: '03',
-    title: 'Ritual',
-    body: 'A quieter standard of vitality begins with consistency. viality is designed to become a moment — unhurried, intentional, daily. Not a chore. Not a trend. A permanent fixture of how you care for yourself.',
-  },
-]
-
-export function VialityAbout({ trustItems }: { trustItems: TrustItem[] }) {
+export function VialityAbout({ principles, trustItems }: { principles: Principle[]; trustItems: TrustItem[] }) {
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
@@ -210,9 +192,9 @@ export function VialityAbout({ trustItems }: { trustItems: TrustItem[] }) {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-            {pillars.map((pillar, i) => (
+            {principles.map((principle, i) => (
               <motion.div
-                key={pillar.number}
+                key={principle.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
@@ -221,13 +203,13 @@ export function VialityAbout({ trustItems }: { trustItems: TrustItem[] }) {
               >
                 <div className="flex items-start gap-6 mb-8 pb-8 border-b border-primary/10">
                   <span className="font-serif italic text-5xl text-primary/12 leading-none select-none">
-                    {pillar.number}
+                    {principle.displayNumber}
                   </span>
                   <h3 className="font-serif italic text-3xl text-primary leading-none mt-1">
-                    {pillar.title}
+                    {principle.title}
                   </h3>
                 </div>
-                <p className="text-primary/55 text-sm leading-[1.9] font-light">{pillar.body}</p>
+                <p className="text-primary/55 text-sm leading-[1.9] font-light">{principle.body}</p>
               </motion.div>
             ))}
           </div>
