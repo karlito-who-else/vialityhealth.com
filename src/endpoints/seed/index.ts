@@ -540,7 +540,6 @@ export const seed = async ({
         brandName: 'viality',
         brandDescription:
           'Wellness, refined. Modern rituals for internal balance — designed for consistency, and held to a quieter standard.',
-        exploreHeading: 'Explore',
         navItems: [
           {
             link: {
@@ -571,7 +570,6 @@ export const seed = async ({
             },
           },
         ],
-        connectHeading: 'Connect',
         socialLinks: [
           {
             label: 'Contact',

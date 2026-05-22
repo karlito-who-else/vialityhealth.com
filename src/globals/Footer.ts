@@ -13,22 +13,24 @@ export const Footer: GlobalConfig = {
     {
       name: 'brandName',
       type: 'text',
-      defaultValue: 'viality',
+      admin: {
+        description: 'Brand wordmark shown top-left.',
+      },
     },
     {
       name: 'brandDescription',
       type: 'textarea',
-      defaultValue:
-        'Wellness, refined. Modern rituals for internal balance — designed for consistency, and held to a quieter standard.',
-    },
-    {
-      name: 'exploreHeading',
-      type: 'text',
-      defaultValue: 'Explore',
+      admin: {
+        description: 'Short tagline below the wordmark.',
+      },
     },
     {
       name: 'navItems',
       type: 'array',
+      label: 'Explore Links',
+      admin: {
+        description: 'Navigation links in the second column.',
+      },
       fields: [
         link({
           appearances: false,
@@ -37,14 +39,12 @@ export const Footer: GlobalConfig = {
       maxRows: 6,
     },
     {
-      name: 'connectHeading',
-      type: 'text',
-      defaultValue: 'Connect',
-    },
-    {
       name: 'socialLinks',
       type: 'array',
       label: 'Connect / Social Links',
+      admin: {
+        description: 'Social and contact links in the third column.',
+      },
       fields: [
         {
           name: 'label',
@@ -63,6 +63,9 @@ export const Footer: GlobalConfig = {
       name: 'legalLinks',
       type: 'array',
       label: 'Legal Links',
+      admin: {
+        description: 'Privacy, Terms, etc. shown in the bottom bar.',
+      },
       fields: [
         {
           name: 'label',
@@ -80,13 +83,16 @@ export const Footer: GlobalConfig = {
     {
       name: 'copyright',
       type: 'text',
-      defaultValue: '© {year} viality. All rights reserved.',
+      admin: {
+        description: 'Use {year} as a placeholder for the current year.',
+      },
     },
     {
       name: 'complianceText',
       type: 'textarea',
-      defaultValue:
-        'These statements have not been evaluated by the Food and Drug Administration.\nThis product is not intended to diagnose, treat, cure, or prevent any disease.',
+      admin: {
+        description: 'FDA disclaimer shown at the bottom. Newline-delimited.',
+      },
     },
   ],
 }

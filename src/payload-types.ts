@@ -2138,9 +2138,17 @@ export interface Home {
  */
 export interface Footer {
   id: number;
+  /**
+   * Brand wordmark shown top-left.
+   */
   brandName?: string | null;
+  /**
+   * Short tagline below the wordmark.
+   */
   brandDescription?: string | null;
-  exploreHeading?: string | null;
+  /**
+   * Navigation links in the second column.
+   */
   navItems?:
     | {
         link: {
@@ -2156,7 +2164,9 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  connectHeading?: string | null;
+  /**
+   * Social and contact links in the third column.
+   */
   socialLinks?:
     | {
         label: string;
@@ -2164,6 +2174,9 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Privacy, Terms, etc. shown in the bottom bar.
+   */
   legalLinks?:
     | {
         label: string;
@@ -2171,7 +2184,13 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Use {year} as a placeholder for the current year.
+   */
   copyright?: string | null;
+  /**
+   * FDA disclaimer shown at the bottom. Newline-delimited.
+   */
   complianceText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2341,7 +2360,6 @@ export interface HomeSelect<T extends boolean = true> {
 export interface FooterSelect<T extends boolean = true> {
   brandName?: T;
   brandDescription?: T;
-  exploreHeading?: T;
   navItems?:
     | T
     | {
@@ -2356,7 +2374,6 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  connectHeading?: T;
   socialLinks?:
     | T
     | {

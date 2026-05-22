@@ -8,17 +8,15 @@ export async function Footer() {
 
   const brandName = footer?.brandName || 'viality'
   const brandDescription = footer?.brandDescription
-  const exploreHeading = footer?.exploreHeading || 'Explore'
-  const connectHeading = footer?.connectHeading || 'Connect'
+  const navItems = footer?.navItems || []
   const socialLinks = footer?.socialLinks || []
   const legalLinks = footer?.legalLinks || []
-  const navItems = footer?.navItems || []
   const copyrightTemplate = footer?.copyright || '© {year} viality. All rights reserved.'
   const complianceText = footer?.complianceText
 
   const copyright = copyrightTemplate.replace(/\{year\}/g, String(currentYear))
 
-  const linkHref = (item: typeof navItems[0]) => {
+  const linkHref = (item: (typeof navItems)[number]) => {
     const link = item.link
     if (link.type === 'reference' && link.reference?.value) {
       return typeof link.reference.value === 'object'
@@ -47,7 +45,7 @@ export async function Footer() {
         </div>
 
         <div>
-          <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">{exploreHeading}</h4>
+          <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">Explore</h4>
           {navItems.length > 0 && (
             <ul className="space-y-4 text-sm text-primary-foreground/70">
               {navItems.map((item) => (
@@ -62,7 +60,7 @@ export async function Footer() {
         </div>
 
         <div>
-          <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">{connectHeading}</h4>
+          <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">Connect</h4>
           {socialLinks.length > 0 && (
             <ul className="space-y-4 text-sm text-primary-foreground/70">
               {socialLinks.map((link) => (
