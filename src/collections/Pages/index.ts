@@ -11,6 +11,21 @@ import { Content } from '@/blocks/Content/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { hero } from '@/fields/hero'
+import { VialityHero } from '@/blocks/VialityHeroBlock/config'
+import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config'
+import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
+import { VialityTrust } from '@/blocks/VialityTrustBlock/config'
+import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config'
+import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
+import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
+import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
+import { FaqsBlock } from '@/blocks/FaqsBlock/config'
+import { IngredientsBlock } from '@/blocks/IngredientsBlock/config'
+import { PrinciplesBlock } from '@/blocks/PrinciplesBlock/config'
+import { TrustItemsBlock } from '@/blocks/TrustItemsBlock/config'
+import { ShippingInfoBlock } from '@/blocks/ShippingInfoBlock/config'
+import { TrustBadgesBlock } from '@/blocks/TrustBadgesBlock/config'
+import { FeaturedProductsBlock } from '@/blocks/FeaturedProductsBlock/config'
 import { slugField } from 'payload'
 import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import {
@@ -96,6 +111,21 @@ export const Pages: CollectionConfig = {
                 ThreeItemGrid,
                 Banner,
                 FormBlock,
+                VialityHero,
+                VialityPhilosophy,
+                VialityFeaturedProducts,
+                VialityTrust,
+                VialityWaitlist,
+                VialityShipping,
+                VialityCompliance,
+                BenefitsBlock,
+                FaqsBlock,
+                IngredientsBlock,
+                PrinciplesBlock,
+                TrustItemsBlock,
+                ShippingInfoBlock,
+                TrustBadgesBlock,
+                FeaturedProductsBlock,
               ],
               required: true,
             },

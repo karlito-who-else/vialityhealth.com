@@ -1,618 +1,73 @@
-import type { Category, Media } from '@/payload-types'
+import type { Media } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
-type ProductArgs = {
+type HomeArgs = {
   metaImage: Media
   contentImage: Media
 }
 
-export const homePageData: (args: ProductArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
+export const homePageData: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   metaImage,
-  contentImage,
 }) => {
   return {
     slug: 'home',
     _status: 'published',
     hero: {
-      type: 'lowImpact',
-      links: [
-        {
-          link: {
-            type: 'custom',
-            appearance: 'default',
-            label: 'All products',
-            url: '/search',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            appearance: 'outline',
-            label: 'Contact',
-            url: '/contact',
-          },
-        },
-      ],
-      richText: {
-        root: {
-          type: 'root',
-          children: [
-            {
-              type: 'heading',
-              children: [
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Payload Ecommerce Template',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              tag: 'h1',
-              version: 1,
-            },
-            {
-              type: 'paragraph',
-              children: [
-                {
-                  type: 'link',
-                  children: [
-                    {
-                      type: 'text',
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Visit the admin dashboard',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  fields: {
-                    linkType: 'custom',
-                    newTab: false,
-                    url: '/admin',
-                  },
-                  format: '',
-                  indent: 0,
-                  version: 3,
-                },
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: " to begin managing this site's content. The code for this template is completely open-source and can be found ",
-                  version: 1,
-                },
-                {
-                  type: 'link',
-                  children: [
-                    {
-                      type: 'text',
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'on our Github',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  fields: {
-                    linkType: 'custom',
-                    newTab: true,
-                    url: 'https://github.com/payloadcms/payload/tree/3.x/templates/ecommerce',
-                  },
-                  format: '',
-                  indent: 0,
-                  version: 3,
-                },
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: '. ',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              textFormat: 0,
-              version: 1,
-            },
-          ],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          version: 1,
-        },
-      },
+      type: 'none',
     },
     layout: [
       {
-        blockName: 'Content Block',
-        blockType: 'content',
-        columns: [
-          {
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Core features',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h2',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'full',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Admin Dashboard',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: "Manage this site's pages and products from the ",
-                        version: 1,
-                      },
-                      {
-                        type: 'link',
-                        children: [
-                          {
-                            type: 'text',
-                            detail: 0,
-                            format: 0,
-                            mode: 'normal',
-                            style: '',
-                            text: 'admin dashboard',
-                            version: 1,
-                          },
-                        ],
-                        direction: 'ltr',
-                        fields: {
-                          linkType: 'custom',
-                          newTab: false,
-                          url: '/admin',
-                        },
-                        format: '',
-                        indent: 0,
-                        version: 2,
-                      },
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: '.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Preview',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Using versions, drafts, and preview, editors can review and share their changes before publishing them.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Page Builder',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Custom page builder allows you to create unique page and product layouts for any type of content.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'SEO',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Editors have complete control over SEO data and site content directly from the ',
-                        version: 1,
-                      },
-                      {
-                        type: 'link',
-                        children: [
-                          {
-                            type: 'text',
-                            detail: 0,
-                            format: 0,
-                            mode: 'normal',
-                            style: '',
-                            text: 'admin dashboard',
-                            version: 1,
-                          },
-                        ],
-                        direction: 'ltr',
-                        fields: {
-                          linkType: 'custom',
-                          newTab: false,
-                          url: '/admin',
-                        },
-                        format: '',
-                        indent: 0,
-                        version: 2,
-                      },
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: '.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Dark Mode',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Users will experience this site in their preferred color scheme and each block can be inverted.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-        ],
+        blockType: 'vialityHero',
+        tagline: 'Wellness, refined.',
+        title: 'viality',
+        subtext: 'Where science meets ritual.',
+        ctaLabel: 'Begin the Ritual',
+        ctaLink: '/shop',
+        secondaryLabel: 'Our Philosophy',
+        secondaryLink: '/about',
+        scrollLabel: 'Scroll',
       },
       {
-        blockName: 'Media Block',
-        blockType: 'mediaBlock',
-        media: contentImage,
+        blockType: 'vialityPhilosophy',
+        body: 'Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.',
+        linkLabel: 'Our Story',
+        link: '/about',
       },
       {
-        blockName: 'CTA',
-        blockType: 'cta',
-        links: [
-          {
-            link: {
-              type: 'custom',
-              appearance: 'default',
-              label: 'All products',
-              url: '/products',
-            },
-          },
-        ],
-        richText: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'heading',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'This is a call to action',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                tag: 'h3',
-                version: 1,
-              },
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'This is a custom layout building block ',
-                    version: 1,
-                  },
-                  {
-                    type: 'link',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'configured in the admin dashboard',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    fields: {
-                      linkType: 'custom',
-                      newTab: false,
-                      url: '/admin',
-                    },
-                    format: '',
-                    indent: 0,
-                    version: 2,
-                  },
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: '.',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                textFormat: 0,
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        },
+        blockType: 'vialityFeaturedProducts',
+        heading: 'The Collection',
+        shopAllLabel: 'Shop All',
+        products: [],
+      },
+      {
+        blockType: 'vialityTrust',
+        heading: 'A quieter standard of vitality.',
+        body: 'Every formulation is open. Every claim is earned.',
+        ctaLabel: 'View Lab Reports',
+        ctaLink: '/about',
+        items: [],
+      },
+      {
+        blockType: 'vialityWaitlist',
+        heading: 'Begin your daily reset.',
+        body: 'Early access to new formulations, considered notes on modern wellness, and invitations to private events.',
+        placeholder: 'YOUR EMAIL ADDRESS',
+        buttonLabel: 'Join Waitlist',
+      },
+      {
+        blockType: 'vialityShipping',
+        items: [],
+      },
+      {
+        blockType: 'vialityCompliance',
+        text: 'These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary. Always consult your healthcare provider before beginning any new wellness routine.',
       },
     ],
     meta: {
-      description: 'An open-source ecommerce site built with Payload and Next.js.',
+      description: 'Modern rituals for internal balance — formulated with precision, designed for consistency.',
       // @ts-ignore
       image: metaImage,
-      title: 'Payload Ecommerce Template',
+      title: 'viality — Wellness, Refined.',
     },
     title: 'Home',
   }

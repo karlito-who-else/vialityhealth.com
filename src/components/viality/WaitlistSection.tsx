@@ -1,0 +1,52 @@
+'use client'
+
+import { motion } from 'framer-motion'
+
+export type WaitlistSectionProps = {
+  heading: string
+  body?: string | null
+  placeholder: string
+  buttonLabel: string
+}
+
+export function WaitlistSection({
+  heading,
+  body,
+  placeholder,
+  buttonLabel,
+}: WaitlistSectionProps) {
+  return (
+    <section className="py-32 px-6 bg-primary text-primary-foreground text-center">
+      <div className="max-w-2xl mx-auto flex flex-col items-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="font-serif italic text-4xl mb-4"
+        >
+          {heading}
+        </motion.h2>
+        {body && (
+          <p className="text-primary-foreground/65 mb-10 text-sm max-w-md leading-relaxed">
+            {body}
+          </p>
+        )}
+        <form className="w-full flex flex-col sm:flex-row gap-4 max-w-md">
+          <input
+            type="email"
+            placeholder={placeholder}
+            className="flex-1 bg-transparent border-b border-primary-foreground/25 px-4 py-3 text-[11px] focus:outline-none focus:border-accent placeholder:text-primary-foreground/30 uppercase tracking-[0.18em] transition-colors"
+            required
+          />
+          <button
+            type="button"
+            className="px-8 py-3 bg-accent text-accent-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-accent/88 transition-colors"
+          >
+            {buttonLabel}
+          </button>
+        </form>
+      </div>
+    </section>
+  )
+}

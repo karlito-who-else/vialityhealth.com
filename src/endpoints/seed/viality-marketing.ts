@@ -195,6 +195,26 @@ export const seedVialityMarketing = async ({
   }
 
   // ── CMS Page Entries ────────────────────────────────────────
+
+  const { docs: homeTrustItemDocs } = await payload.find({
+    collection: 'trustItems',
+    where: { type: { equals: 'home' } },
+    sort: 'order',
+    limit: 10,
+  })
+
+  const { docs: allShippingInfo } = await payload.find({
+    collection: 'shippingInfo',
+    sort: 'order',
+    limit: 10,
+  })
+
+  const { docs: allProducts } = await payload.find({
+    collection: 'products',
+    sort: 'createdAt',
+    limit: 10,
+  })
+
   const pageEntryData: RequiredDataFromCollectionSlug<'pages'>[] = [
     {
       slug: 'home',
@@ -205,32 +225,50 @@ export const seedVialityMarketing = async ({
       },
       layout: [
         {
-          blockType: 'content',
-          columns: [
-            {
-              size: 'full',
-              richText: {
-                root: {
-                  type: 'root',
-                  children: [
-                    {
-                      type: 'paragraph',
-                      children: [{ type: 'text', text: '' }],
-                      direction: 'ltr',
-                      format: '',
-                      indent: 0,
-                      textFormat: 0,
-                      version: 1,
-                    } as any,
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  version: 1,
-                } as any,
-              },
-            },
-          ],
+          blockType: 'vialityHero',
+          tagline: 'Wellness, refined.',
+          title: 'viality',
+          subtext: 'Where science meets ritual.',
+          ctaLabel: 'Begin the Ritual',
+          ctaLink: '/shop',
+          secondaryLabel: 'Our Philosophy',
+          secondaryLink: '/about',
+          scrollLabel: 'Scroll',
+        },
+        {
+          blockType: 'vialityPhilosophy',
+          body: 'Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.',
+          linkLabel: 'Our Story',
+          link: '/about',
+        },
+        {
+          blockType: 'vialityFeaturedProducts',
+          heading: 'The Collection',
+          shopAllLabel: 'Shop All',
+          products: allProducts.map((p) => p.id),
+        },
+        {
+          blockType: 'vialityTrust',
+          heading: 'A quieter standard of vitality.',
+          body: 'Every formulation is open. Every claim is earned. We believe in complete transparency — not as a selling point, but as the only responsible way to operate.',
+          ctaLabel: 'View Lab Reports',
+          ctaLink: '/about',
+          items: homeTrustItemDocs.map((t) => t.id),
+        },
+        {
+          blockType: 'vialityWaitlist',
+          heading: 'Begin your daily reset.',
+          body: 'Early access to new formulations, considered notes on modern wellness, and invitations to private events. Nothing more.',
+          placeholder: 'YOUR EMAIL ADDRESS',
+          buttonLabel: 'Join Waitlist',
+        },
+        {
+          blockType: 'vialityShipping',
+          items: allShippingInfo.map((s) => s.id),
+        },
+        {
+          blockType: 'vialityCompliance',
+          text: 'These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary. Always consult your healthcare provider before beginning any new wellness routine.',
         },
       ],
       meta: {

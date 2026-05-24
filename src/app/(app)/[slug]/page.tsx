@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { VialityAbout } from '@/components/VialityAbout'
-import { VialityHome } from '@/components/VialityHome'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import configPromise from '@payload-config'
@@ -12,7 +11,7 @@ import { draftMode } from 'next/headers'
 import { homeStaticData } from '@/endpoints/seed/home-static'
 import React from 'react'
 
-import type { FeaturedProduct, Page, Product } from '@/payload-types'
+import type { Page } from '@/payload-types'
 import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
@@ -30,7 +29,7 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      return doc.slug !== 'home' && doc.slug !== 'about'
+      return doc.slug !== 'about'
     })
     .map(({ slug }) => {
       return { slug }
@@ -60,23 +59,6 @@ export default async function Page({ params }: Args) {
     return notFound()
   }
 
-  if (slug === 'home') {
-    const payload = await getPayload({ config: configPromise })
-    const [{ docs: trustItems }, { docs: shippingItems }, { docs: rawFeatured }, home] = await Promise.all([
-      payload.find({ collection: 'trustItems', where: { type: { equals: 'home' } }, sort: 'order', limit: 10 }),
-      payload.find({ collection: 'shippingInfo', sort: 'order', limit: 10 }),
-      payload.find({ collection: 'featuredProducts', sort: 'order', limit: 10, depth: 2 }),
-      getCachedGlobal('home', 1)(),
-    ])
-
-    const featuredProducts = rawFeatured.filter(
-      (fp): fp is FeaturedProduct & { product: Product } =>
-        typeof fp.product === 'object' && fp.product !== null,
-    )
-
-    return <VialityHome trustItems={trustItems} shippingItems={shippingItems} featuredProducts={featuredProducts} home={home} />
-  }
-
   if (slug === 'about') {
     const payload = await getPayload({ config: configPromise })
     const [{ docs: principles }, { docs: trustItems }, about] = await Promise.all([
@@ -88,6 +70,19 @@ export default async function Page({ params }: Args) {
   }
 
   const { hero, layout } = page
+
+  const hasVialityBlocks = layout?.some(
+    (block) => block.blockType?.startsWith('viality'),
+  )
+
+  if (hasVialityBlocks) {
+    return (
+      <>
+        <RenderHero {...hero} />
+        <RenderBlocks blocks={layout} />
+      </>
+    )
+  }
 
   return (
     <article className="pt-16 pb-24">
@@ -117,6 +112,7 @@ const queryPageBySlug = async ({ slug }: { slug: string }) => {
     draft,
     limit: 1,
     overrideAccess: draft,
+    depth: 2,
     pagination: false,
     where: {
       and: [

@@ -1,25 +1,53 @@
-import type { FeaturedProduct, Product } from '@/payload-types'
-
-import { VialityHome } from '@/components/VialityHome'
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { RenderHero } from '@/heros/RenderHero'
+import { homeStaticData } from '@/endpoints/seed/home-static'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { draftMode } from 'next/headers'
+import type { Page } from '@/payload-types'
 import React from 'react'
 
 export default async function HomePage() {
+  const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
-  const [{ docs: trustItems }, { docs: shippingItems }, { docs: rawFeatured }, home] = await Promise.all([
-    payload.find({ collection: 'trustItems', where: { type: { equals: 'home' } }, sort: 'order', limit: 10 }),
-    payload.find({ collection: 'shippingInfo', sort: 'order', limit: 10 }),
-    payload.find({ collection: 'featuredProducts', sort: 'order', limit: 10, depth: 2 }),
-    getCachedGlobal('home', 1)(),
-  ])
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    overrideAccess: draft,
+    depth: 2,
+    pagination: false,
+    where: {
+      and: [{ slug: { equals: 'home' } }, ...(draft ? [] : [{ _status: { equals: 'published' as const } }])],
+    },
+  })
 
-  const featuredProducts = rawFeatured.filter(
-    (fp): fp is FeaturedProduct & { product: Product } =>
-      typeof fp.product === 'object' && fp.product !== null,
+  let page = result.docs?.[0] || null
+
+  if (!page) {
+    page = homeStaticData() as Page
+  }
+
+  const { hero, layout } = page
+
+  const hasVialityBlocks = layout?.some(
+    (block) => block.blockType?.startsWith('viality'),
   )
 
-  return <VialityHome trustItems={trustItems} shippingItems={shippingItems} featuredProducts={featuredProducts} home={home} />
+  if (hasVialityBlocks) {
+    return (
+      <>
+        <RenderHero {...hero} />
+        <RenderBlocks blocks={layout} />
+      </>
+    )
+  }
+
+  return (
+    <article className="pt-16 pb-24">
+      <RenderHero {...hero} />
+      <RenderBlocks blocks={layout} />
+    </article>
+  )
 }
