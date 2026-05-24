@@ -143,7 +143,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                 {menu.map(({ link }, i) => {
                   const href = link.type === 'reference' && link.reference?.value
                     ? typeof link.reference.value === 'object'
-                      ? `/${link.reference.value.slug}`
+                      ? link.reference.value.slug ? `/${link.reference.value.slug}` : link.url || '/'
                       : `/${link.reference.value}`
                     : link.url || '/'
                   return (

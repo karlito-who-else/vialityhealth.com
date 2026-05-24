@@ -65,7 +65,7 @@ export function HeaderClient({ header }: Props) {
           {menu.map(({ link }) => {
             const href = link.type === 'reference' && link.reference?.value
               ? typeof link.reference.value === 'object'
-                ? `/${link.reference.value.slug}`
+                ? link.reference.value.slug ? `/${link.reference.value.slug}` : link.url || '/'
                 : `/${link.reference.value}`
               : link.url || '/'
             return (

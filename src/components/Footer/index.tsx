@@ -4,7 +4,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 
 export async function Footer() {
   const currentYear = new Date().getFullYear()
-  const footer = await getCachedGlobal('footer', 1)()
+  const footer = await getCachedGlobal('footer', 2)()
 
   const brandName = footer?.brandName || 'viality'
   const brandDescription = footer?.brandDescription
@@ -20,7 +20,7 @@ export async function Footer() {
     const link = item.link
     if (link.type === 'reference' && link.reference?.value) {
       return typeof link.reference.value === 'object'
-        ? `/${link.reference.value.slug}`
+        ? link.reference.value.slug ? `/${link.reference.value.slug}` : link.url || '/'
         : `/${link.reference.value}`
     }
     return link.url || '/'
