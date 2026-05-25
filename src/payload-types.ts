@@ -608,6 +608,7 @@ export interface AboutPhilosophyBlock {
         id?: string | null;
       }[]
     | null;
+  image?: (number | null) | Media;
   imageLabel?: string | null;
   id?: string | null;
   blockName?: string | null;
@@ -647,6 +648,7 @@ export interface AboutTrustBlock {
   label?: string | null;
   heading?: string | null;
   body?: string | null;
+  image?: (number | null) | Media;
   imageLabel?: string | null;
   buttonLabel?: string | null;
   items?: (number | TrustItem)[] | null;
@@ -2138,6 +2140,7 @@ export interface AboutPhilosophyBlockSelect<T extends boolean = true> {
         paragraph?: T;
         id?: T;
       };
+  image?: T;
   imageLabel?: T;
   id?: T;
   blockName?: T;
@@ -2161,6 +2164,7 @@ export interface AboutTrustBlockSelect<T extends boolean = true> {
   label?: T;
   heading?: T;
   body?: T;
+  image?: T;
   imageLabel?: T;
   buttonLabel?: T;
   items?: T;

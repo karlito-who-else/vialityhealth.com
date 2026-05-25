@@ -21,6 +21,11 @@ export const AboutTrust: Block = {
         "We operate with complete openness. Nothing is hidden behind proprietary blends or ambiguous quantities. Every claim we make is verifiable.",
     },
     {
+      name: "image",
+      type: "upload",
+      relationTo: "media",
+    },
+    {
       name: "imageLabel",
       type: "text",
       defaultValue: "Third-Party Verified",

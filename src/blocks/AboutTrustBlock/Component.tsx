@@ -2,7 +2,8 @@
 
 import { m } from "framer-motion";
 
-import type { AboutTrustBlock, TrustItem } from "@/payload-types";
+import type { AboutTrustBlock, Media, TrustItem } from "@/payload-types";
+import Image from "next/image";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -23,10 +24,11 @@ const fadeIn = {
 
 export const AboutTrustBlockComponent: React.FC<
   AboutTrustBlock & { id?: string }
-> = ({ label, heading, body, imageLabel, buttonLabel, items: rawItems }) => {
+> = ({ label, heading, body, image, imageLabel, buttonLabel, items: rawItems }) => {
   const items = (rawItems || []).filter(
     (t): t is TrustItem => typeof t === "object" && t !== null,
   );
+  const media = image && typeof image === "object" ? image as Media : null;
 
   return (
     <section className="bg-background py-28 md:py-36 px-6 md:px-16">
@@ -40,7 +42,17 @@ export const AboutTrustBlockComponent: React.FC<
             className="md:sticky md:top-28"
           >
             <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
-              <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+              {media?.url ? (
+                <Image
+                  src={media.url}
+                  alt={media.alt || imageLabel || ""}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              ) : (
+                <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+              )}
               <div className="absolute bottom-5 left-5 z-10">
                 <p className="text-xs uppercase tracking-widest text-primary/35">
                   {imageLabel || "Third-Party Verified"}

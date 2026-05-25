@@ -2,7 +2,8 @@
 
 import { m } from "framer-motion";
 
-import type { AboutPhilosophyBlock } from "@/payload-types";
+import type { AboutPhilosophyBlock, Media } from "@/payload-types";
+import Image from "next/image";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -23,7 +24,9 @@ const fadeIn = {
 
 export const AboutPhilosophyBlockComponent: React.FC<
   AboutPhilosophyBlock & { id?: string }
-> = ({ label, heading, body, imageLabel }) => {
+> = ({ label, heading, body, image, imageLabel }) => {
+  const media = image && typeof image === "object" ? image as Media : null;
+
   return (
     <section className="bg-background py-28 md:py-36 px-6 md:px-16">
       <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
@@ -65,7 +68,17 @@ export const AboutPhilosophyBlockComponent: React.FC<
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] as const }}
         >
           <div className="aspect-3/4 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
-            <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+            {media?.url ? (
+              <Image
+                src={media.url}
+                alt={media.alt || imageLabel || ""}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            ) : (
+              <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+            )}
             <div className="absolute bottom-5 left-5 z-10">
               <p className="text-xs uppercase tracking-widest text-primary/35">
                 {imageLabel || "viality — signature formula"}

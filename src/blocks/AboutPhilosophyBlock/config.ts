@@ -28,6 +28,11 @@ export const AboutPhilosophy: Block = {
       ],
     },
     {
+      name: "image",
+      type: "upload",
+      relationTo: "media",
+    },
+    {
       name: "imageLabel",
       type: "text",
       defaultValue: "viality — signature formula",
