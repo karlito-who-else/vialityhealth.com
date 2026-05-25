@@ -105,7 +105,7 @@ const queryPageBySlug = async ({ slug }: { slug: string }) => {
     draft,
     limit: 1,
     overrideAccess: draft,
-    depth: 2,
+    depth: 3,
     pagination: false,
     where: {
       and: [

@@ -48,6 +48,7 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
     variantOptions: true,
     variants: true,
     enableVariants: true,
+    featuredImage: true,
     gallery: true,
     priceInUSD: true,
     inventory: true,

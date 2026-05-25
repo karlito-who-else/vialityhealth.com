@@ -71,15 +71,7 @@ export interface Config {
     users: UserAuthOperations;
     'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
-  blocks: {
-    vialityHero: VialityHeroBlock;
-    vialityPhilosophy: VialityPhilosophyBlock;
-    vialityFeaturedProducts: VialityFeaturedProductsBlock;
-    vialityTrust: VialityTrustBlock;
-    vialityWaitlist: VialityWaitlistBlock;
-    vialityShipping: VialityShippingBlock;
-    vialityCompliance: VialityComplianceBlock;
-  };
+  blocks: {};
   collections: {
     users: User;
     pages: Page;
@@ -229,44 +221,82 @@ export interface PayloadMcpApiKeyAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VialityHeroBlock".
+ * via the `definition` "users".
  */
-export interface VialityHeroBlock {
-  tagline?: string | null;
-  title?: string | null;
-  subtext?: string | null;
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
-  secondaryLabel?: string | null;
-  secondaryLink?: string | null;
-  scrollLabel?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'vialityHero';
+export interface User {
+  id: number;
+  name?: string | null;
+  roles?: ('admin' | 'customer')[] | null;
+  orders?: {
+    docs?: (number | Order)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  cart?: {
+    docs?: (number | Cart)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  addresses?: {
+    docs?: (number | Address)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VialityPhilosophyBlock".
+ * via the `definition` "orders".
  */
-export interface VialityPhilosophyBlock {
-  body?: string | null;
-  linkLabel?: string | null;
-  link?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'vialityPhilosophy';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VialityFeaturedProductsBlock".
- */
-export interface VialityFeaturedProductsBlock {
-  heading?: string | null;
-  shopAllLabel?: string | null;
-  products?: (number | Product)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'vialityFeaturedProducts';
+export interface Order {
+  id: number;
+  items?:
+    | {
+        product?: (number | null) | Product;
+        variant?: (number | null) | Variant;
+        quantity: number;
+        id?: string | null;
+      }[]
+    | null;
+  shippingAddress?: {
+    title?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    company?: string | null;
+    addressLine1?: string | null;
+    addressLine2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+    phone?: string | null;
+  };
+  customer?: (number | null) | User;
+  customerEmail?: string | null;
+  transactions?: (number | Transaction)[] | null;
+  status?: OrderStatus;
+  amount?: number | null;
+  currency?: 'USD' | null;
+  accessToken?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -893,6 +923,47 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VialityHeroBlock".
+ */
+export interface VialityHeroBlock {
+  tagline?: string | null;
+  title?: string | null;
+  subtext?: string | null;
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  secondaryLabel?: string | null;
+  secondaryLink?: string | null;
+  scrollLabel?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vialityHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VialityPhilosophyBlock".
+ */
+export interface VialityPhilosophyBlock {
+  body?: string | null;
+  linkLabel?: string | null;
+  link?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vialityPhilosophy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VialityFeaturedProductsBlock".
+ */
+export interface VialityFeaturedProductsBlock {
+  heading?: string | null;
+  shopAllLabel?: string | null;
+  products?: (number | Product)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vialityFeaturedProducts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "VialityTrustBlock".
  */
 export interface VialityTrustBlock {
@@ -984,85 +1055,6 @@ export interface Variant {
   createdAt: string;
   deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  roles?: ('admin' | 'customer')[] | null;
-  orders?: {
-    docs?: (number | Order)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  cart?: {
-    docs?: (number | Cart)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  addresses?: {
-    docs?: (number | Address)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orders".
- */
-export interface Order {
-  id: number;
-  items?:
-    | {
-        product?: (number | null) | Product;
-        variant?: (number | null) | Variant;
-        quantity: number;
-        id?: string | null;
-      }[]
-    | null;
-  shippingAddress?: {
-    title?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
-    company?: string | null;
-    addressLine1?: string | null;
-    addressLine2?: string | null;
-    city?: string | null;
-    state?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-    phone?: string | null;
-  };
-  customer?: (number | null) | User;
-  customerEmail?: string | null;
-  transactions?: (number | Transaction)[] | null;
-  status?: OrderStatus;
-  amount?: number | null;
-  currency?: 'USD' | null;
-  accessToken?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

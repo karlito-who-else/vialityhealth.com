@@ -18,14 +18,6 @@ import { fileURLToPath } from 'url';
 import { Benefits } from '@/collections/Benefits';
 import { Categories } from '@/collections/Categories';
 import { Faqs } from '@/collections/Faqs';
-
-import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config';
-import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config';
-import { VialityHero } from '@/blocks/VialityHeroBlock/config';
-import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config';
-import { VialityShipping } from '@/blocks/VialityShippingBlock/config';
-import { VialityTrust } from '@/blocks/VialityTrustBlock/config';
-import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config';
 import { Ingredients } from '@/collections/Ingredients';
 import { Media } from '@/collections/Media';
 import { Pages } from '@/collections/Pages';
@@ -102,15 +94,6 @@ export default buildConfig({
   //email: nodemailerAdapter(),
   endpoints: [],
   globals: [About, Header, Footer, Settings],
-  blocks: [
-    VialityHero,
-    VialityPhilosophy,
-    VialityFeaturedProducts,
-    VialityTrust,
-    VialityWaitlist,
-    VialityShipping,
-    VialityCompliance,
-  ],
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

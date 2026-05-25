@@ -22,7 +22,7 @@ export default async function HomePage() {
     draft,
     limit: 1,
     overrideAccess: draft,
-    depth: 2,
+    depth: 3,
     pagination: false,
     where: {
       and: [{ slug: { equals: 'home' } }, ...(draft ? [] : [{ _status: { equals: 'published' as const } }])],
