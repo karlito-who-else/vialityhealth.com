@@ -100,7 +100,7 @@ export async function Footer() {
       </div>
 
       {complianceText && (
-        <div className="max-w-7xl mx-auto mt-12 text-[10px] text-primary-foreground/30 text-center uppercase tracking-widest leading-relaxed">
+        <div className="max-w-7xl mx-auto mt-12 text-xs text-primary-foreground/30 text-center uppercase tracking-widest leading-relaxed">
           {complianceText.split('\n').map((line, i) => (
             <p key={i}>{line}</p>
           ))}

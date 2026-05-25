@@ -40,13 +40,13 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
     >
       {/* Header */}
       <div>
-        <p className="text-[9px] uppercase tracking-widest text-primary/35 mb-3">
+        <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">
           {collectionLabel}
         </p>
         <h1 className="font-serif italic text-4xl xl:text-5xl text-primary leading-tight mb-2">
           {product.title}
         </h1>
-        <p className="text-[10px] uppercase tracking-widest text-primary/40 mb-5">
+        <p className="text-xs uppercase tracking-widest text-primary/40 mb-5">
           {supplyLabel}
         </p>
         <p className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
@@ -56,7 +56,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
 
       {/* Subscribe & Save toggle */}
       <div className="space-y-2.5">
-        <p className="text-[9px] uppercase tracking-widest text-primary/35 mb-3">
+        <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">
           {purchaseOptionLabel}
         </p>
         <button
@@ -76,13 +76,13 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
               {isSubscription && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
             </div>
             <div className="text-left">
-              <div className="text-[11px] uppercase tracking-widest font-medium">{subscribeLabel}</div>
-              <div className="text-[9px] text-primary/40 mt-0.5 tracking-wide">{subscribeDetail}</div>
+              <div className="text-xs uppercase tracking-widest font-medium">{subscribeLabel}</div>
+              <div className="text-xs text-primary/40 mt-0.5 tracking-wide">{subscribeDetail}</div>
             </div>
           </div>
           <div className="flex flex-col items-end">
             <span className="text-sm font-medium">${subPrice}.00</span>
-            <span className="text-[9px] text-primary/35 line-through">${oneTimePrice}.00</span>
+            <span className="text-xs text-primary/35 line-through">${oneTimePrice}.00</span>
           </div>
         </button>
 
@@ -102,7 +102,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
             >
               {!isSubscription && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
             </div>
-            <div className="text-[11px] uppercase tracking-widest font-medium">{oneTimeLabel}</div>
+            <div className="text-xs uppercase tracking-widest font-medium">{oneTimeLabel}</div>
           </div>
           <span className="text-sm font-medium">${oneTimePrice}.00</span>
         </button>
@@ -110,7 +110,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
 
       {/* Quantity + Add to Cart */}
       <div className="space-y-3">
-        <p className="text-[9px] uppercase tracking-widest text-primary/35">{quantityLabel}</p>
+        <p className="text-xs uppercase tracking-widest text-primary/35">{quantityLabel}</p>
         <div className="flex gap-3">
           <div className="flex items-center border border-border/60">
             <button
@@ -133,12 +133,12 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
           <AddToCart
             product={product}
             quantity={quantity}
-            className="flex-1 h-12 bg-primary text-primary-foreground text-[11px] uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all flex items-center justify-center"
+            className="flex-1 h-12 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all flex items-center justify-center"
             label={`Add to Cart — $${(displayPrice * quantity).toFixed(2)}`}
           />
         </div>
 
-        <button className="w-full h-11 border border-primary/25 text-primary text-[11px] uppercase tracking-widest hover:border-primary/50 transition-colors">
+        <button className="w-full h-11 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary/50 transition-colors">
           {buyNowLabel}
         </button>
       </div>
@@ -151,7 +151,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
       </div>
 
       {shippingText && (
-        <p className="text-[10px] text-primary/30 leading-relaxed">
+        <p className="text-xs text-primary/30 leading-relaxed">
           {shippingText}
         </p>
       )}
@@ -190,14 +190,14 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
                     className="flex justify-between items-center py-3 border-b border-border/30"
                   >
                     <span className="text-sm text-primary/70 font-light">{ing.name}</span>
-                    <span className="text-[11px] text-primary/40 uppercase tracking-widest tabular-nums shrink-0 ml-4">
+                    <span className="text-xs text-primary/40 uppercase tracking-widest tabular-nums shrink-0 ml-4">
                       {ing.dose}
                     </span>
                   </div>
                 ))}
               </div>
               {otherIngredientsText && (
-                <p className="text-[10px] text-primary/30 leading-relaxed pb-4">
+                <p className="text-xs text-primary/30 leading-relaxed pb-4">
                   {otherIngredientsText}
                 </p>
               )}
@@ -208,7 +208,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
 
       {/* FAQ */}
       <div className="border-t border-border/40 pt-6">
-        <p className="text-[10px] uppercase tracking-widest text-primary/35 mb-4">{faqLabel}</p>
+        <p className="text-xs uppercase tracking-widest text-primary/35 mb-4">{faqLabel}</p>
         <h2 className="font-serif italic text-2xl text-primary leading-snug mb-6">
           {faqHeading}
         </h2>
@@ -230,7 +230,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
 
 function Badge({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-2 text-[9px] uppercase tracking-widest text-primary/45">
+    <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-primary/45">
       <div className="w-3.5 h-3.5 border border-primary/20 flex items-center justify-center shrink-0">
         <div className="w-1 h-1 bg-accent" />
       </div>
@@ -256,7 +256,7 @@ function AccordionItem({
         onClick={onToggle}
         className="w-full py-4 flex justify-between items-center text-left gap-6 group"
       >
-        <span className="text-[11px] uppercase tracking-widest font-medium group-hover:text-primary/70 transition-colors">
+        <span className="text-xs uppercase tracking-widest font-medium group-hover:text-primary/70 transition-colors">
           {q}
         </span>
         <motion.span

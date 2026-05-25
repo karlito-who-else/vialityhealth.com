@@ -75,7 +75,7 @@ export function HeaderClient({ className, header }: Props) {
                 key={link.label}
                 href={href}
                 className={cn(
-                  'text-[11px] uppercase tracking-widest transition-opacity hover:opacity-60',
+                  'text-xs uppercase tracking-widest transition-opacity hover:opacity-60',
                   transparent ? 'text-foreground' : 'text-foreground'
                 )}
               >

@@ -130,7 +130,7 @@ export default async function ProductPage({ params }: Args) {
       <section className="bg-surface-warm py-24 md:py-32 px-6 md:px-16">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-primary/35 mb-6">{benefitsLabelTemplate.replace('{title}', product.title)}</p>
+            <p className="text-xs uppercase tracking-widest text-primary/35 mb-6">{benefitsLabelTemplate.replace('{title}', product.title)}</p>
             <h2 className="font-serif italic text-4xl md:text-5xl text-primary leading-tight">
               {benefitsHeading}
             </h2>
@@ -141,7 +141,7 @@ export default async function ProductPage({ params }: Args) {
                 key={b.slug}
                 className="border-l-2 border-accent/50 pl-5"
               >
-                <h3 className="text-[11px] uppercase tracking-widest font-semibold mb-1.5">{b.title}</h3>
+                <h3 className="text-xs uppercase tracking-widest font-semibold mb-1.5">{b.title}</h3>
                 <p className="text-sm text-primary/55 font-light leading-[1.8]">{b.body}</p>
               </div>
             ))}
@@ -152,7 +152,7 @@ export default async function ProductPage({ params }: Args) {
       {/* USAGE RITUAL */}
       <section className="bg-background py-20 md:py-28 px-6 md:px-16 border-t border-border/30">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-[200px_1fr] gap-10 md:gap-20 items-start">
-          <p className="text-[10px] uppercase tracking-widest text-primary/35 md:pt-1">{usageRitualLabel}</p>
+          <p className="text-xs uppercase tracking-widest text-primary/35 md:pt-1">{usageRitualLabel}</p>
           <div>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary mb-6">
               {usageRitualHeading}
@@ -163,7 +163,7 @@ export default async function ProductPage({ params }: Args) {
               </p>
             )}
             {usageRitualDisclaimer && (
-              <p className="text-[11px] text-primary/40 font-light italic">
+              <p className="text-xs text-primary/40 font-light italic">
                 {usageRitualDisclaimer}
               </p>
             )}
@@ -184,7 +184,7 @@ export default async function ProductPage({ params }: Args) {
         />
         <div className="relative z-10 mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-10">
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-primary-foreground/25 mb-4">{verificationLabel}</p>
+            <p className="text-xs uppercase tracking-widest text-primary-foreground/25 mb-4">{verificationLabel}</p>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
               {verificationHeading.split('\n').map((line, i) => (
                 <span key={i}>{i > 0 && <br />}{line}</span>
@@ -197,7 +197,7 @@ export default async function ProductPage({ params }: Args) {
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-            <button className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-[11px] uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
+            <button className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-xs uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
@@ -206,7 +206,7 @@ export default async function ProductPage({ params }: Args) {
               </svg>
               {labReportLabel}
             </button>
-            <button className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-[11px] uppercase tracking-widest hover:bg-primary-foreground/12 transition-all">
+            <button className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-xs uppercase tracking-widest hover:bg-primary-foreground/12 transition-all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
@@ -225,7 +225,7 @@ export default async function ProductPage({ params }: Args) {
       {/* DISCLAIMER */}
       {productDisclaimer && (
         <section className="bg-background border-t border-border/25 py-10 px-6 md:px-16">
-          <p className="mx-auto text-[10px] text-primary/28 leading-relaxed tracking-wide">
+          <p className="mx-auto text-xs text-primary/28 leading-relaxed tracking-wide">
             {productDisclaimer}
           </p>
         </section>

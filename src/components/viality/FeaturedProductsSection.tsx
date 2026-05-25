@@ -23,7 +23,7 @@ export function FeaturedProductsSection({
           {shopAllLabel && (
             <Link
               href="/shop"
-              className="text-[11px] uppercase tracking-widest hidden md:inline-block border-b border-transparent hover:border-primary/30 pb-1 transition-colors"
+              className="text-xs uppercase tracking-widest hidden md:inline-block border-b border-transparent hover:border-primary/30 pb-1 transition-colors"
             >
               {shopAllLabel}
             </Link>
@@ -70,7 +70,7 @@ export function FeaturedProductsSection({
           <div className="mt-12 text-center md:hidden">
             <Link
               href="/shop"
-              className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-widest"
+              className="inline-block border-b border-primary/30 pb-1 text-xs uppercase tracking-widest"
             >
               {shopAllLabel}
             </Link>

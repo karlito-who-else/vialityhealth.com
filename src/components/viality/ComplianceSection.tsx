@@ -7,7 +7,7 @@ export function ComplianceSection({ text }: ComplianceSectionProps) {
 
   return (
     <section className="py-8 px-6 bg-background border-t border-border/20">
-      <p className="max-w-4xl mx-auto text-center text-[10px] text-primary/35 leading-relaxed tracking-wide">
+      <p className="max-w-4xl mx-auto text-center text-xs text-primary/35 leading-relaxed tracking-wide">
         {text}
       </p>
     </section>

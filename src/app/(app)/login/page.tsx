@@ -31,7 +31,7 @@ export default async function Login() {
       <div className="max-w-xl mx-auto my-12">
         <RenderParams />
 
-        <h1 className="mb-4 text-[1.8rem]">{loginHeading}</h1>
+        <h1 className="mb-4 text-3xl">{loginHeading}</h1>
         {loginDescription && (
           <p className="mb-8">
             {loginDescription}
