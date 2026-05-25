@@ -294,7 +294,7 @@ export const seedVialityMarketing = async ({
                   type: 'root',
                   children: [
                     {
-                      type: 'paragraph',
+                       type: 'paragraph',
                       children: [{ type: 'text', text: '' }],
                       direction: 'ltr',
                       format: '',
