@@ -122,14 +122,14 @@ export function HeroSection({
         >
           <Link
             href={ctaLink}
-            className="px-9 py-3.5 bg-primary-foreground text-ink text-[11px] uppercase tracking-[0.22em] hover:bg-primary-foreground/90 active:bg-primary-foreground/80 transition-colors duration-200"
+            className="px-9 py-3.5 bg-primary-foreground text-ink text-[11px] uppercase tracking-widest hover:bg-primary-foreground/90 active:bg-primary-foreground/80 transition-colors duration-200"
           >
             {ctaLabel}
           </Link>
           {secondaryLabel && secondaryLink && (
             <Link
               href={secondaryLink}
-              className="px-9 py-3.5 border border-primary-foreground/50 text-primary-foreground text-[11px] uppercase tracking-[0.22em] hover:border-primary-foreground hover:bg-primary-foreground/8 transition-all duration-200"
+              className="px-9 py-3.5 border border-primary-foreground/50 text-primary-foreground text-[11px] uppercase tracking-widest hover:border-primary-foreground hover:bg-primary-foreground/8 transition-all duration-200"
             >
               {secondaryLabel}
             </Link>
@@ -148,7 +148,7 @@ export function HeroSection({
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="w-px h-10 bg-primary-foreground/30"
         />
-        <span className="text-primary-foreground/30 text-[9px] uppercase tracking-[0.25em]">{scrollLabel}</span>
+        <span className="text-primary-foreground/30 text-[9px] uppercase tracking-widest">{scrollLabel}</span>
       </motion.div>
     </section>
   )

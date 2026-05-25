@@ -161,7 +161,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                         onClick={() => setIsOpen(false)}
                         className="group flex items-baseline gap-4 md:gap-6 w-fit"
                       >
-                        <span className="text-[9px] text-primary-foreground/18 uppercase tracking-[0.2em] tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-primary-foreground/35 hidden sm:block">
+                        <span className="text-[9px] text-primary-foreground/18 uppercase tracking-widest tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-primary-foreground/35 hidden sm:block">
                           {String(i + 1).padStart(2, '0')}
                         </span>
                         <span

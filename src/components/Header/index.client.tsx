@@ -54,7 +54,7 @@ export function HeaderClient({ className, header }: Props) {
         <Link
           href="/"
           className={cn(
-            'font-serif italic tracking-[0.18em] transition-opacity hover:opacity-60 shrink-0 font-light',
+            'font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light',
             transparent ? 'text-foreground' : 'text-foreground  '
           )}
           style={{ fontSize: '1.15rem', letterSpacing: '0.18em' }}
@@ -75,7 +75,7 @@ export function HeaderClient({ className, header }: Props) {
                 key={link.label}
                 href={href}
                 className={cn(
-                  'text-[11px] uppercase tracking-[0.2em] transition-opacity hover:opacity-60',
+                  'text-[11px] uppercase tracking-widest transition-opacity hover:opacity-60',
                   transparent ? 'text-foreground' : 'text-foreground'
                 )}
               >

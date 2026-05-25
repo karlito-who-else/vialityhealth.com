@@ -140,7 +140,7 @@ export default async function Order({ params, searchParams }: PageProps) {
           <div></div>
         )}
 
-        <h1 className="text-sm uppercase font-mono px-2 bg-primary/10 rounded tracking-[0.07em]">
+        <h1 className="text-sm uppercase font-mono px-2 bg-primary/10 rounded tracking-wider">
           <span className="">{`${orderNumberPrefix}${order.id}`}</span>
         </h1>
       </div>

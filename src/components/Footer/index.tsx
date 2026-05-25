@@ -32,7 +32,7 @@ export async function Footer() {
         <div className="col-span-1 md:col-span-2">
           <Link
             href="/"
-            className="font-serif italic font-light tracking-[0.2em] block mb-6 hover:opacity-70 transition-opacity"
+            className="font-serif italic font-light tracking-widest block mb-6 hover:opacity-70 transition-opacity"
             style={{ fontSize: '1.45rem' }}
           >
             {brandName}

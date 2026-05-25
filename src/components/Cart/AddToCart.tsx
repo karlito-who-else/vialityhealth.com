@@ -101,7 +101,7 @@ export function AddToCart({ product, quantity = 1, className, label }: Props) {
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"
-      className={className || 'w-full h-12 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-primary/88 active:scale-[0.99] transition-all'}
+      className={className || 'w-full h-12 bg-primary text-primary-foreground text-[11px] uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all'}
     >
       {label || 'Add to Cart'}
     </button>

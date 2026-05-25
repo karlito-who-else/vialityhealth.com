@@ -23,7 +23,7 @@ export function FeaturedProductsSection({
           {shopAllLabel && (
             <Link
               href="/shop"
-              className="text-[11px] uppercase tracking-[0.2em] hidden md:inline-block border-b border-transparent hover:border-primary/30 pb-1 transition-colors"
+              className="text-[11px] uppercase tracking-widest hidden md:inline-block border-b border-transparent hover:border-primary/30 pb-1 transition-colors"
             >
               {shopAllLabel}
             </Link>
@@ -54,7 +54,7 @@ export function FeaturedProductsSection({
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-center">
-                    <h3 className="uppercase tracking-[0.18em] text-xs font-medium">{product.title}</h3>
+                    <h3 className="uppercase tracking-widest text-xs font-medium">{product.title}</h3>
                     {typeof product.priceInUSD === 'number' && (
                       <span className="text-sm font-light">${product.priceInUSD.toFixed(0)}</span>
                     )}
@@ -70,7 +70,7 @@ export function FeaturedProductsSection({
           <div className="mt-12 text-center md:hidden">
             <Link
               href="/shop"
-              className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-[0.2em]"
+              className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-widest"
             >
               {shopAllLabel}
             </Link>

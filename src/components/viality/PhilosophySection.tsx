@@ -38,7 +38,7 @@ export function PhilosophySection({
           >
             <Link
               href={link}
-              className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-[0.2em] hover:border-primary transition-colors"
+              className="inline-block border-b border-primary/30 pb-1 text-[11px] uppercase tracking-widest hover:border-primary transition-colors"
             >
               {linkLabel}
             </Link>

@@ -114,7 +114,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             initial="hidden"
             animate="show"
             custom={0.3}
-            className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/50 mb-8"
+            className="text-[10px] uppercase tracking-widest text-primary-foreground/50 mb-8"
           >
             {heroLabel}
           </motion.p>
@@ -161,7 +161,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             <motion.p
               variants={fadeIn}
               custom={0}
-              className="text-[10px] uppercase tracking-[0.3em] text-primary/40 mb-8"
+              className="text-[10px] uppercase tracking-widest text-primary/40 mb-8"
             >
               {philosophyLabel}
             </motion.p>
@@ -190,7 +190,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
               <div
                 className="absolute bottom-5 left-5 z-10"
               >
-                <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">{philosophyImageLabel}</p>
+                <p className="text-[9px] uppercase tracking-widest text-primary/35">{philosophyImageLabel}</p>
               </div>
             </div>
           </motion.div>
@@ -207,7 +207,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
             className="mb-20"
           >
-            <motion.p variants={fadeIn} custom={0} className="text-[10px] uppercase tracking-[0.3em] text-primary/40 mb-5">
+            <motion.p variants={fadeIn} custom={0} className="text-[10px] uppercase tracking-widest text-primary/40 mb-5">
               {principlesLabel}
             </motion.p>
             <motion.h2 variants={fadeUp} custom={0} className="font-serif italic text-4xl md:text-5xl text-primary">
@@ -256,7 +256,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
               <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                 <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
                 <div className="absolute bottom-5 left-5 z-10">
-                  <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">{trustImageLabel}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-primary/35">{trustImageLabel}</p>
                 </div>
               </div>
             </motion.div>
@@ -268,7 +268,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                 viewport={{ once: true }}
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
               >
-                <motion.p variants={fadeIn} custom={0} className="text-[10px] uppercase tracking-[0.3em] text-primary/40 mb-6">
+                <motion.p variants={fadeIn} custom={0} className="text-[10px] uppercase tracking-widest text-primary/40 mb-6">
                   {trustLabel}
                 </motion.p>
                 <motion.h2 variants={fadeUp} custom={0} className="font-serif italic text-4xl text-primary leading-snug mb-4">
@@ -292,7 +292,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                   transition={{ duration: 0.7, delay: i * 0.08, ease: 'easeOut' }}
                   className="border-t border-primary/10 pt-8"
                 >
-                  <h4 className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-3">{item.title}</h4>
+                  <h4 className="text-[11px] uppercase tracking-widest font-semibold mb-3">{item.title}</h4>
                   <p className="text-primary/55 text-sm leading-[1.85] font-light">{item.description}</p>
                 </motion.div>
               ))}
@@ -304,7 +304,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
                 <button
-                  className="mt-2 text-[11px] uppercase tracking-[0.22em] border-b border-primary/30 pb-0.5 hover:border-primary transition-colors"
+                  className="mt-2 text-[11px] uppercase tracking-widest border-b border-primary/30 pb-0.5 hover:border-primary transition-colors"
                 >
                   {trustButtonLabel}
                 </button>
@@ -330,7 +330,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/30 mb-10"
+            className="text-[10px] uppercase tracking-widest text-primary-foreground/30 mb-10"
           >
             {founderLabel}
           </motion.p>
@@ -352,7 +352,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             className="flex flex-col items-center gap-1"
           >
             <div className="w-10 h-px bg-primary-foreground/20 mb-5" />
-            <p className="text-primary-foreground/50 text-[11px] uppercase tracking-[0.22em]">{founderSignature}</p>
+            <p className="text-primary-foreground/50 text-[11px] uppercase tracking-widest">{founderSignature}</p>
           </motion.div>
         </div>
       </section>
@@ -391,12 +391,12 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/shop"
-                className="inline-block px-9 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.22em] hover:bg-primary/88 transition-colors"
+                className="inline-block px-9 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-widest hover:bg-primary/88 transition-colors"
               >
                 {ctaShopLabel}
               </Link>
               <button
-                className="inline-block px-9 py-4 border border-primary/25 text-primary text-[11px] uppercase tracking-[0.22em] hover:border-primary transition-colors"
+                className="inline-block px-9 py-4 border border-primary/25 text-primary text-[11px] uppercase tracking-widest hover:border-primary transition-colors"
               >
                 {ctaLabLabel}
               </button>

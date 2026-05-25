@@ -35,7 +35,7 @@ export function TrustSection({
               <div className="w-7 h-7 border border-primary/15 flex items-center justify-center mb-2">
                 <div className="w-1.5 h-1.5 bg-accent" />
               </div>
-              <h4 className="text-[11px] uppercase tracking-[0.18em] font-semibold">{item.title}</h4>
+              <h4 className="text-[11px] uppercase tracking-widest font-semibold">{item.title}</h4>
               <p className="text-sm text-primary/55 leading-relaxed">{item.description}</p>
             </motion.div>
           ))}
@@ -51,7 +51,7 @@ export function TrustSection({
           {ctaLabel && ctaLink && (
             <Link
               href={ctaLink}
-              className="px-8 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-primary/88 transition-colors inline-block"
+              className="px-8 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-widest hover:bg-primary/88 transition-colors inline-block"
             >
               {ctaLabel}
             </Link>

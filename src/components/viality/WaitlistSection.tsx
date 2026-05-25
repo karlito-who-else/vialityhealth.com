@@ -36,12 +36,12 @@ export function WaitlistSection({
           <input
             type="email"
             placeholder={placeholder}
-            className="flex-1 bg-transparent border-b border-primary-foreground/25 px-4 py-3 text-[11px] focus:outline-none focus:border-accent placeholder:text-primary-foreground/30 uppercase tracking-[0.18em] transition-colors"
+            className="flex-1 bg-transparent border-b border-primary-foreground/25 px-4 py-3 text-[11px] focus:outline-none focus:border-accent placeholder:text-primary-foreground/30 uppercase tracking-widest transition-colors"
             required
           />
           <button
             type="button"
-            className="px-8 py-3 bg-accent text-accent-foreground text-[11px] uppercase tracking-[0.2em] hover:bg-accent/88 transition-colors"
+            className="px-8 py-3 bg-accent text-accent-foreground text-[11px] uppercase tracking-widest hover:bg-accent/88 transition-colors"
           >
             {buttonLabel}
           </button>
