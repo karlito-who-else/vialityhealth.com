@@ -15,7 +15,7 @@ export function FeaturedProductsSection({
   shopAllLabel,
   products,
 }: FeaturedProductsSectionProps) {
-  console.log({ products })
+  console.log({ products });
   return (
     <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">

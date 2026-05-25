@@ -31,6 +31,7 @@
     "@payloadcms/next": "3.84.1",
     "@payloadcms/plugin-ecommerce": "3.84.1",
     "@payloadcms/plugin-form-builder": "3.84.1",
+    "@payloadcms/plugin-mcp": "^3.84.1",
     "@payloadcms/plugin-seo": "3.84.1",
     "@payloadcms/richtext-lexical": "3.84.1",
     "@payloadcms/translations": "3.84.1",
@@ -101,12 +102,5 @@
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@vercel/git-hooks",
-      "esbuild",
-      "sharp",
-      "unrs-resolver"
-    ]
-  }
+  "packageManager": "pnpm@11.3.0+sha512.2c403d6594527287672b1f7056343a1f7c3634036a67ffabfcc2b3d7595d843768f8787148d1b57cf7956c90606bbd192857c363af19e96d2d0ec9ec5741d215"
 }

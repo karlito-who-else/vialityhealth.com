@@ -69,6 +69,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {
     vialityHero: VialityHeroBlock;
@@ -101,6 +102,7 @@ export interface Config {
     carts: Cart;
     orders: Order;
     transactions: Transaction;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -141,6 +143,7 @@ export interface Config {
     carts: CartsSelect<false> | CartsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     transactions: TransactionsSelect<false> | TransactionsSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -166,7 +169,7 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: User | PayloadMcpApiKey;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -189,6 +192,24 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface PayloadMcpApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -1252,6 +1273,483 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
+ * API keys control which collections, resources, tools, and prompts MCP clients can access
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys".
+ */
+export interface PayloadMcpApiKey {
+  id: number;
+  /**
+   * The user that the API key is associated with.
+   */
+  user: number | User;
+  /**
+   * A useful label for the API key.
+   */
+  label?: string | null;
+  /**
+   * The purpose of the API key.
+   */
+  description?: string | null;
+  pages?: {
+    /**
+     * Allow clients to find pages.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create pages.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update pages.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete pages.
+     */
+    delete?: boolean | null;
+  };
+  categories?: {
+    /**
+     * Allow clients to find categories.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create categories.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update categories.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete categories.
+     */
+    delete?: boolean | null;
+  };
+  media?: {
+    /**
+     * Allow clients to find media.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create media.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update media.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete media.
+     */
+    delete?: boolean | null;
+  };
+  principles?: {
+    /**
+     * Allow clients to find principles.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create principles.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update principles.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete principles.
+     */
+    delete?: boolean | null;
+  };
+  faqs?: {
+    /**
+     * Allow clients to find faqs.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create faqs.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update faqs.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete faqs.
+     */
+    delete?: boolean | null;
+  };
+  ingredients?: {
+    /**
+     * Allow clients to find ingredients.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create ingredients.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update ingredients.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete ingredients.
+     */
+    delete?: boolean | null;
+  };
+  benefits?: {
+    /**
+     * Allow clients to find benefits.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create benefits.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update benefits.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete benefits.
+     */
+    delete?: boolean | null;
+  };
+  trustItems?: {
+    /**
+     * Allow clients to find trustItems.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create trustItems.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update trustItems.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete trustItems.
+     */
+    delete?: boolean | null;
+  };
+  shippingInfo?: {
+    /**
+     * Allow clients to find shippingInfo.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create shippingInfo.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update shippingInfo.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete shippingInfo.
+     */
+    delete?: boolean | null;
+  };
+  trustBadges?: {
+    /**
+     * Allow clients to find trustBadges.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create trustBadges.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update trustBadges.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete trustBadges.
+     */
+    delete?: boolean | null;
+  };
+  forms?: {
+    /**
+     * Allow clients to find forms.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create forms.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update forms.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete forms.
+     */
+    delete?: boolean | null;
+  };
+  formSubmissions?: {
+    /**
+     * Allow clients to find form-submissions.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create form-submissions.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update form-submissions.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete form-submissions.
+     */
+    delete?: boolean | null;
+  };
+  addresses?: {
+    /**
+     * Allow clients to find addresses.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create addresses.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update addresses.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete addresses.
+     */
+    delete?: boolean | null;
+  };
+  variants?: {
+    /**
+     * Allow clients to find variants.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create variants.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update variants.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete variants.
+     */
+    delete?: boolean | null;
+  };
+  variantTypes?: {
+    /**
+     * Allow clients to find variantTypes.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create variantTypes.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update variantTypes.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete variantTypes.
+     */
+    delete?: boolean | null;
+  };
+  variantOptions?: {
+    /**
+     * Allow clients to find variantOptions.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create variantOptions.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update variantOptions.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete variantOptions.
+     */
+    delete?: boolean | null;
+  };
+  products?: {
+    /**
+     * Allow clients to find products.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create products.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update products.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete products.
+     */
+    delete?: boolean | null;
+  };
+  carts?: {
+    /**
+     * Allow clients to find carts.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create carts.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update carts.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete carts.
+     */
+    delete?: boolean | null;
+  };
+  orders?: {
+    /**
+     * Allow clients to find orders.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create orders.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update orders.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete orders.
+     */
+    delete?: boolean | null;
+  };
+  transactions?: {
+    /**
+     * Allow clients to find transactions.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create transactions.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update transactions.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete transactions.
+     */
+    delete?: boolean | null;
+  };
+  payloadMcpApiKeys?: {
+    /**
+     * Allow clients to find payload-mcp-api-keys.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create payload-mcp-api-keys.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update payload-mcp-api-keys.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete payload-mcp-api-keys.
+     */
+    delete?: boolean | null;
+  };
+  payloadKv?: {
+    /**
+     * Allow clients to find payload-kv.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create payload-kv.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update payload-kv.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete payload-kv.
+     */
+    delete?: boolean | null;
+  };
+  payloadLockedDocuments?: {
+    /**
+     * Allow clients to find payload-locked-documents.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create payload-locked-documents.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update payload-locked-documents.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete payload-locked-documents.
+     */
+    delete?: boolean | null;
+  };
+  payloadPreferences?: {
+    /**
+     * Allow clients to find payload-preferences.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create payload-preferences.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update payload-preferences.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete payload-preferences.
+     */
+    delete?: boolean | null;
+  };
+  payloadMigrations?: {
+    /**
+     * Allow clients to find payload-migrations.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create payload-migrations.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update payload-migrations.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete payload-migrations.
+     */
+    delete?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'payload-mcp-api-keys';
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -1358,12 +1856,21 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'transactions';
         value: number | Transaction;
+      } | null)
+    | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -1373,10 +1880,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
+      };
   key?: string | null;
   value?:
     | {
@@ -2161,6 +2673,220 @@ export interface TransactionsSelect<T extends boolean = true> {
   currency?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys_select".
+ */
+export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
+  user?: T;
+  label?: T;
+  description?: T;
+  pages?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  categories?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  media?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  principles?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  faqs?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  ingredients?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  benefits?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  trustItems?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  shippingInfo?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  trustBadges?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  forms?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  formSubmissions?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  addresses?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  variants?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  variantTypes?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  variantOptions?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  products?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  carts?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  orders?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  transactions?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  payloadMcpApiKeys?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  payloadKv?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  payloadLockedDocuments?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  payloadPreferences?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  payloadMigrations?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

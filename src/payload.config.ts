@@ -1,5 +1,5 @@
-import { neon } from '@neondatabase/serverless'
-import { postgresAdapter } from '@payloadcms/db-postgres'
+// import { Pool } from '@neondatabase/serverless';
+import { postgresAdapter } from '@payloadcms/db-postgres';
 import {
   BoldFeature,
   EXPERIMENTAL_TableFeature,
@@ -10,35 +10,35 @@ import {
   UnderlineFeature,
   UnorderedListFeature,
   lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
+} from '@payloadcms/richtext-lexical';
+import path from 'path';
+import { buildConfig } from 'payload';
+import { fileURLToPath } from 'url';
 
-import { Benefits } from '@/collections/Benefits'
-import { Categories } from '@/collections/Categories'
-import { Faqs } from '@/collections/Faqs'
+import { Benefits } from '@/collections/Benefits';
+import { Categories } from '@/collections/Categories';
+import { Faqs } from '@/collections/Faqs';
 
-import { Ingredients } from '@/collections/Ingredients'
-import { Media } from '@/collections/Media'
-import { Pages } from '@/collections/Pages'
-import { Principles } from '@/collections/Principles'
-import { ShippingInfo } from '@/collections/ShippingInfo'
-import { TrustBadges } from '@/collections/TrustBadges'
-import { TrustItems } from '@/collections/TrustItems'
-import { Users } from '@/collections/Users'
-import { About } from '@/globals/About'
-import { Footer } from '@/globals/Footer'
-import { Header } from '@/globals/Header'
-import { Settings } from '@/globals/Settings'
-import { VialityHero } from '@/blocks/VialityHeroBlock/config'
-import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config'
-import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
-import { VialityTrust } from '@/blocks/VialityTrustBlock/config'
-import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config'
-import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
-import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
-import { plugins } from './plugins'
+import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config';
+import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config';
+import { VialityHero } from '@/blocks/VialityHeroBlock/config';
+import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config';
+import { VialityShipping } from '@/blocks/VialityShippingBlock/config';
+import { VialityTrust } from '@/blocks/VialityTrustBlock/config';
+import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config';
+import { Ingredients } from '@/collections/Ingredients';
+import { Media } from '@/collections/Media';
+import { Pages } from '@/collections/Pages';
+import { Principles } from '@/collections/Principles';
+import { ShippingInfo } from '@/collections/ShippingInfo';
+import { TrustBadges } from '@/collections/TrustBadges';
+import { TrustItems } from '@/collections/TrustItems';
+import { Users } from '@/collections/Users';
+import { About } from '@/globals/About';
+import { Footer } from '@/globals/Footer';
+import { Header } from '@/globals/Header';
+import { Settings } from '@/globals/Settings';
+import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -60,6 +60,9 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    // pool: new Pool({
+    //   connectionString: process.env.DATABASE_URL || '',
+    // }) as any,
   }),
   editor: lexicalEditor({
     features: () => {
