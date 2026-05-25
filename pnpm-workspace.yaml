@@ -1,5 +1,10 @@
 allowBuilds:
+  '@parcel/watcher': true
   '@vercel/git-hooks': true
   esbuild: true
+  fallow: true
+  msw: true
+  puppeteer: true
   sharp: true
   unrs-resolver: true
+  vue-demi: true
