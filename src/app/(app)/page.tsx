@@ -8,7 +8,7 @@ import type { Page } from '@/payload-types'
 import React from 'react'
 
 function hasVialityBlocks(page: Page) {
-  return page.layout?.some(
+  return page.content?.some(
     (block) => block.blockType?.startsWith('viality'),
   )
 }
@@ -35,12 +35,12 @@ export default async function HomePage() {
     page = homeStaticData() as Page
   }
 
-  const { hero, layout } = page
+  const { hero, content } = page
 
   return (
     <>
       <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      <RenderBlocks blocks={content} />
     </>
   )
 }

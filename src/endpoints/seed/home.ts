@@ -15,7 +15,7 @@ export const homePageData: (args: HomeArgs) => RequiredDataFromCollectionSlug<'p
     hero: {
       type: 'none',
     },
-    layout: [
+    content: [
       {
         blockType: 'vialityHero',
         tagline: 'Wellness, refined.',

@@ -15,7 +15,7 @@ export const contactPageData: (args: ProductArgs) => RequiredDataFromCollectionS
     hero: {
       type: 'none',
     },
-    layout: [
+    content: [
       {
         blockType: 'formBlock',
         enableIntro: true,

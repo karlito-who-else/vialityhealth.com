@@ -223,7 +223,7 @@ export const seedVialityMarketing = async ({
       hero: {
         type: 'none',
       },
-      layout: [
+      content: [
         {
           blockType: 'vialityHero',
           tagline: 'Wellness, refined.',
@@ -283,7 +283,7 @@ export const seedVialityMarketing = async ({
       hero: {
         type: 'none',
       },
-      layout: [
+      content: [
         {
           blockType: 'content',
           columns: [

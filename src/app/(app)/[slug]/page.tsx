@@ -15,7 +15,7 @@ import type { Page } from '@/payload-types'
 import { notFound } from 'next/navigation'
 
 function hasVialityBlocks(page: Page) {
-  return page.layout?.some(
+  return page.content?.some(
     (block) => block.blockType?.startsWith('viality'),
   )
 }
@@ -75,12 +75,12 @@ export default async function Page({ params }: Args) {
     return <VialityAbout principles={principles} trustItems={trustItems} about={about} />
   }
 
-  const { hero, layout } = page
+  const { hero, content } = page
 
   return (
     <>
       <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      <RenderBlocks blocks={content} />
     </>
   )
 }

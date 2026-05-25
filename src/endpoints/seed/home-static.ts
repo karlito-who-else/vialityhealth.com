@@ -7,7 +7,7 @@ export const homeStaticData: () => RequiredDataFromCollectionSlug<'pages'> = () 
     hero: {
       type: 'none',
     },
-    layout: [
+    content: [
       {
         blockType: 'vialityHero',
         tagline: 'Wellness, refined.',

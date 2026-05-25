@@ -34,7 +34,7 @@ export function HeaderClient({ header }: Props) {
   return (
     <nav
       className={cn(
-        'sticky top-0 left-0 right-0 z-40 transition-all duration-500',
+        'sticky top-0 left-0 right-0 z-40 transition-all duration-500 text-foreground',
         transparent
           ? 'bg-transparent'
           : 'bg-background/95 backdrop-blur-md'
