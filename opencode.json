@@ -8,6 +8,11 @@
       "headers": {
         "Authorization": "Bearer 4dfe0e8a-72f7-48b4-a545-cebb7bc6df58"
       }
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest", "--headless=true", "--isolated=true"],
+      "enabled": true
     }
   }
 }
