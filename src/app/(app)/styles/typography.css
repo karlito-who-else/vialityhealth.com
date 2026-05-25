@@ -19,3 +19,20 @@
     text-transform: lowercase;
   }
 }
+
+:root {
+  --tw-prose-body: var(--color-foreground);
+  --tw-prose-headings: var(--color-foreground);
+}
+
+.prose {
+  h1 {
+    font-size: 4rem;
+    font-weight: normal;
+    margin-bottom: 0.25em;
+  }
+
+  a {
+    color: inherit;
+  }
+}
