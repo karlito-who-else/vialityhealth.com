@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react";
 
-import { CMSLink } from '@/components/Link'
-import { RichText } from '@/components/RichText'
-import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
+import { CMSLink } from "@/components/Link";
+import { RichText } from "@/components/RichText";
+import type { CallToActionBlock as CTABlockProps } from "@/payload-types";
 
 export const CallToActionBlock: React.FC<
   CTABlockProps & {
-    id?: string | number
-    className?: string
+    id?: string | number;
+    className?: string;
   }
 > = (props) => {
-  const { links, richText } = props
+  const { links, richText } = props;
   return (
     <section className="container" {...props}>
       <div className="bg-card rounded border-border border p-4 flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
@@ -19,10 +19,10 @@ export const CallToActionBlock: React.FC<
         </div>
         <div className="flex flex-col gap-8">
           {(links || []).map(({ link }, i) => {
-            return <CMSLink key={i} size="lg" {...link} />
+            return <CMSLink key={i} size="lg" {...link} />;
           })}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};

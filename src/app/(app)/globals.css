@@ -1,13 +1,13 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
-@import './styles/admin.css';
-@import './styles/colours.css';
-@import './styles/interactive.css';
-@import './styles/typography.css';
-@import './styles/layout.css';
-@import './styles/animations.css';
-@import './styles/utilities.css';
+@import "./styles/admin.css";
+@import "./styles/colours.css";
+@import "./styles/interactive.css";
+@import "./styles/typography.css";
+@import "./styles/layout.css";
+@import "./styles/animations.css";
+@import "./styles/utilities.css";
 
 @plugin "@tailwindcss/typography";
 
@@ -25,7 +25,7 @@
 @source inline("bg-warning/30");
 
 @utility animation-delay-* {
-  animation-delay: --value(integer * 1ms);
+  animation-delay: --value(integer* 1ms);
 }
 
 /* ── Focus styles ──────────────────────────────────────────── */
@@ -35,5 +35,7 @@ input:focus-visible,
 button:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px var(--color-ring), 0 0 0 2px var(--color-background);
+  box-shadow:
+    0 0 0 4px var(--color-ring),
+    0 0 0 2px var(--color-background);
 }

@@ -1,8 +1,8 @@
-import type { ShippingInfo } from '@/payload-types'
+import type { ShippingInfo } from "@/payload-types";
 
 export type ShippingSectionProps = {
-  items: ShippingInfo[]
-}
+  items: ShippingInfo[];
+};
 
 export function ShippingSection({ items }: ShippingSectionProps) {
   return (
@@ -16,5 +16,5 @@ export function ShippingSection({ items }: ShippingSectionProps) {
         ))}
       </div>
     </section>
-  )
+  );
 }

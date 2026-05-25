@@ -1,15 +1,15 @@
-import type { ReactNode } from 'react'
+import configPromise from "@payload-config";
+import { headers as getHeaders } from "next/headers.js";
+import { getPayload } from "payload";
+import type { ReactNode } from "react";
 
-import { headers as getHeaders } from 'next/headers.js'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { RenderParams } from '@/components/RenderParams'
-import { AccountNav } from '@/components/AccountNav'
+import { AccountNav } from "@/components/AccountNav";
+import { RenderParams } from "@/components/RenderParams";
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const headers = await getHeaders()
-  const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const headers = await getHeaders();
+  const payload = await getPayload({ config: configPromise });
+  const { user } = await payload.auth({ headers });
 
   return (
     <div>
@@ -23,5 +23,5 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <div className="flex flex-col gap-12 grow">{children}</div>
       </div>
     </div>
-  )
+  );
 }

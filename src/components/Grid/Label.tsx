@@ -1,19 +1,19 @@
-import clsx from 'clsx'
-import React from 'react'
+import clsx from "clsx";
+import React from "react";
 
-import { Price } from '@/components/Price'
+import { Price } from "@/components/Price";
 
 type Props = {
-  amount: number
-  position?: 'bottom' | 'center'
-  title: string
-}
+  amount: number;
+  position?: "bottom" | "center";
+  title: string;
+};
 
-export const Label: React.FC<Props> = ({ amount, position = 'bottom', title }) => {
+export const Label: React.FC<Props> = ({ amount, position = "bottom", title }) => {
   return (
     <div
-      className={clsx('absolute bottom-0 left-0 flex w-full px-4 pb-4 @container/label', {
-        '': position === 'center',
+      className={clsx("absolute bottom-0 left-0 flex w-full px-4 pb-4 @container/label", {
+        "": position === "center",
       })}
     >
       <div className="flex items-end justify-between text-sm grow font-semibold ">
@@ -28,5 +28,5 @@ export const Label: React.FC<Props> = ({ amount, position = 'bottom', title }) =
         />
       </div>
     </div>
-  )
-}
+  );
+};

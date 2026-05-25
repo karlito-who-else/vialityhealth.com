@@ -1,40 +1,43 @@
-import type { Metadata } from 'next'
-import type { ReactNode } from 'react'
+import type { Metadata } from "next";
+import { EB_Garamond, Inter } from "next/font/google";
+import type { ReactNode } from "react";
 
-import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/Header'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { Providers } from '@/providers'
-import { InitTheme } from '@/providers/Theme/InitTheme'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import { EB_Garamond, Inter } from 'next/font/google'
-import './globals.css'
+import { AdminBar } from "@/components/AdminBar";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { LivePreviewListener } from "@/components/LivePreviewListener";
+import { Providers } from "@/providers";
+import { InitTheme } from "@/providers/Theme/InitTheme";
+import { getCachedGlobal } from "@/utilities/getGlobals";
+
+import "./globals.css";
 
 const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-sans',
-  display: 'swap',
-})
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 const ebGaramond = EB_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-})
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : 'http://localhost:3000'
+  : "http://localhost:3000";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
-  const defaultTitle = settings?.defaultTitle || 'viality — Wellness, refined.'
-  const defaultDescription = settings?.defaultDescription || 'viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.'
+  const defaultTitle = settings?.defaultTitle || "viality — Wellness, refined.";
+  const defaultDescription =
+    settings?.defaultDescription ||
+    "viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.";
 
   return {
     metadataBase: new URL(baseUrl),
@@ -47,20 +50,20 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: defaultTitle,
       description: defaultDescription,
-      type: 'website',
+      type: "website",
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: defaultTitle,
       description: defaultDescription,
     },
-  }
+  };
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      className={[inter.variable, ebGaramond.variable].filter(Boolean).join(' ')}
+      className={[inter.variable, ebGaramond.variable].filter(Boolean).join(" ")}
       lang="en"
       suppressHydrationWarning
     >
@@ -80,5 +83,5 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </Providers>
       </body>
     </html>
-  )
+  );
 }

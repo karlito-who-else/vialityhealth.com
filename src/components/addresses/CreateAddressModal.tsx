@@ -1,6 +1,9 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import React, { useState } from 'react'
+"use client";
+import { DefaultDocumentIDType } from "payload";
+import React, { useState } from "react";
+
+import { AddressForm } from "@/components/forms/AddressForm";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,51 +11,49 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { AddressForm } from '@/components/forms/AddressForm'
-import { Address } from '@/payload-types'
-import { DefaultDocumentIDType } from 'payload'
+} from "@/components/ui/dialog";
+import { Address } from "@/payload-types";
 
 type Props = {
-  addressID?: DefaultDocumentIDType
-  initialData?: Partial<Omit<Address, 'country'>> & { country?: string }
-  buttonText?: string
-  modalTitle?: string
-  callback?: (address: Partial<Address>) => void
-  skipSubmission?: boolean
-  disabled?: boolean
-}
+  addressID?: DefaultDocumentIDType;
+  initialData?: Partial<Omit<Address, "country">> & { country?: string };
+  buttonText?: string;
+  modalTitle?: string;
+  callback?: (address: Partial<Address>) => void;
+  skipSubmission?: boolean;
+  disabled?: boolean;
+};
 
 export const CreateAddressModal: React.FC<Props> = ({
   addressID,
   initialData,
-  buttonText = 'Add a new address',
-  modalTitle = 'Add a new address',
+  buttonText = "Add a new address",
+  modalTitle = "Add a new address",
   callback,
   skipSubmission,
   disabled,
 }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const handleOpenChange = (state: boolean) => {
-    setOpen(state)
-  }
+    setOpen(state);
+  };
 
   const closeModal = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   const handleCallback = (data: Partial<Address>) => {
-    closeModal()
+    closeModal();
 
     if (callback) {
-      callback(data)
+      callback(data);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild disabled={disabled}>
-        <Button variant={'outline'}>{buttonText}</Button>
+        <Button variant={"outline"}>{buttonText}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -68,5 +69,5 @@ export const CreateAddressModal: React.FC<Props> = ({
         />
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

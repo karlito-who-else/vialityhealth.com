@@ -1,16 +1,16 @@
-import type { Block } from 'payload'
+import type { Block } from "payload";
 
 export const TestBlock: Block = {
-  slug: 'test-block',
-  interfaceName: 'TestBlock',
+  slug: "test-block",
+  interfaceName: "TestBlock",
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
     },
   ],
   labels: {
-    plural: 'Test Blocks',
-    singular: 'Test Block',
+    plural: "Test Blocks",
+    singular: "Test Block",
   },
-}
+};

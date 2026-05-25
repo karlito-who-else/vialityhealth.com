@@ -1,19 +1,19 @@
-import type { Block } from 'payload'
+import type { Block } from "payload";
 
 export const VialityShipping: Block = {
-  slug: 'vialityShipping',
-  interfaceName: 'VialityShippingBlock',
+  slug: "vialityShipping",
+  interfaceName: "VialityShippingBlock",
   fields: [
     {
-      name: 'items',
-      type: 'relationship',
-      relationTo: 'shippingInfo',
+      name: "items",
+      type: "relationship",
+      relationTo: "shippingInfo",
       hasMany: true,
-      label: 'Shipping Info Items',
+      label: "Shipping Info Items",
     },
   ],
   labels: {
-    plural: 'Viality Shippings',
-    singular: 'Viality Shipping',
+    plural: "Viality Shippings",
+    singular: "Viality Shipping",
   },
-}
+};

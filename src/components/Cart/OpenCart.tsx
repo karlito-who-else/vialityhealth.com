@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react";
 
 export function OpenCartButton({
   className,
   quantity,
   ...rest
 }: {
-  className?: string
-  quantity?: number
+  className?: string;
+  quantity?: number;
 }) {
   return (
     <button
-      className={`relative transition-opacity hover:opacity-60 ${className || ''}`}
+      className={`relative transition-opacity hover:opacity-60 ${className || ""}`}
       aria-label="Cart"
       {...rest}
     >
@@ -30,9 +30,9 @@ export function OpenCartButton({
       </svg>
       {quantity ? (
         <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center tabular-nums leading-none">
-          {quantity > 9 ? '9+' : quantity}
+          {quantity > 9 ? "9+" : quantity}
         </span>
       ) : null}
     </button>
-  )
+  );
 }

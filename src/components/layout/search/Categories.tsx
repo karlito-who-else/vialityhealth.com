@@ -1,18 +1,18 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import clsx from 'clsx'
-import React, { Suspense } from 'react'
+import configPromise from "@payload-config";
+import clsx from "clsx";
+import { getPayload } from "payload";
+import React, { Suspense } from "react";
 
-import { FilterList } from './filter'
-import { CategoryItem } from './Categories.client'
+import { CategoryItem } from "./Categories.client";
+import { FilterList } from "./filter";
 
 async function CategoryList() {
-  const payload = await getPayload({ config: configPromise })
+  const payload = await getPayload({ config: configPromise });
 
   const categories = await payload.find({
-    collection: 'categories',
-    sort: 'title',
-  })
+    collection: "categories",
+    sort: "title",
+  });
 
   return (
     <div>
@@ -24,16 +24,16 @@ async function CategoryList() {
             <li key={category.id}>
               <CategoryItem category={category} />
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
+  );
 }
 
-const skeleton = 'mb-3 h-4 w-5/6 animate-pulse rounded'
-const activeAndTitles = 'bg-primary/10'
-const items = 'bg-muted-foreground/20'
+const skeleton = "mb-3 h-4 w-5/6 animate-pulse rounded";
+const activeAndTitles = "bg-primary/10";
+const items = "bg-muted-foreground/20";
 
 export function Categories() {
   return (
@@ -55,5 +55,5 @@ export function Categories() {
     >
       <CategoryList />
     </Suspense>
-  )
+  );
 }

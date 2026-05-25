@@ -1,35 +1,49 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Minus, Plus, ChevronDown } from 'lucide-react'
-import type { Product, Faq, Ingredient, TrustBadge, Setting } from '@/payload-types'
-import { AddToCart } from '@/components/Cart/AddToCart'
-import { RichText } from '@/components/RichText'
+import { motion, AnimatePresence } from "framer-motion";
+import { Minus, Plus, ChevronDown } from "lucide-react";
+import { useState } from "react";
 
-export function VialityProductDescription({ product, faqs, ingredients, trustBadges, productContent }: { product: Product; faqs: Faq[]; ingredients: Ingredient[]; trustBadges: TrustBadge[]; productContent: Setting }) {
-  const [quantity, setQuantity] = useState(1)
-  const [isSubscription, setIsSubscription] = useState(true)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const [ingredientsOpen, setIngredientsOpen] = useState(false)
+import { AddToCart } from "@/components/Cart/AddToCart";
+import { RichText } from "@/components/RichText";
+import type { Product, Faq, Ingredient, TrustBadge, Setting } from "@/payload-types";
 
-  const oneTimePrice = product.priceInUSD || 88
-  const subPrice = Math.round(oneTimePrice * 0.85)
-  const displayPrice = isSubscription ? subPrice : oneTimePrice
+export function VialityProductDescription({
+  product,
+  faqs,
+  ingredients,
+  trustBadges,
+  productContent,
+}: {
+  product: Product;
+  faqs: Faq[];
+  ingredients: Ingredient[];
+  trustBadges: TrustBadge[];
+  productContent: Setting;
+}) {
+  const [quantity, setQuantity] = useState(1);
+  const [isSubscription, setIsSubscription] = useState(true);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [ingredientsOpen, setIngredientsOpen] = useState(false);
 
-  const collectionLabel = productContent?.collectionLabel || 'viality — Flagship Collection'
-  const supplyLabel = productContent?.supplyLabel || '60 Capsules · 30-Day Supply'
-  const purchaseOptionLabel = productContent?.purchaseOptionLabel || 'Purchase Option'
-  const subscribeLabel = productContent?.subscribeLabel || 'Subscribe & Save 15%'
-  const subscribeDetail = productContent?.subscribeDetail || 'Delivered every 30 days. Cancel anytime.'
-  const oneTimeLabel = productContent?.oneTimeLabel || 'One-Time Purchase'
-  const quantityLabel = productContent?.quantityLabel || 'Quantity'
-  const buyNowLabel = productContent?.buyNowLabel || 'Buy Now'
-  const shippingText = productContent?.shippingText || ''
-  const ingredientsHeading = productContent?.ingredientsHeading || 'Full formulation breakdown'
-  const otherIngredientsText = productContent?.otherIngredientsText || ''
-  const faqLabel = productContent?.faqLabel || 'Questions'
-  const faqHeading = productContent?.faqHeading || 'Everything you need to know.'
+  const oneTimePrice = product.priceInUSD || 88;
+  const subPrice = Math.round(oneTimePrice * 0.85);
+  const displayPrice = isSubscription ? subPrice : oneTimePrice;
+
+  const collectionLabel = productContent?.collectionLabel || "viality — Flagship Collection";
+  const supplyLabel = productContent?.supplyLabel || "60 Capsules · 30-Day Supply";
+  const purchaseOptionLabel = productContent?.purchaseOptionLabel || "Purchase Option";
+  const subscribeLabel = productContent?.subscribeLabel || "Subscribe & Save 15%";
+  const subscribeDetail =
+    productContent?.subscribeDetail || "Delivered every 30 days. Cancel anytime.";
+  const oneTimeLabel = productContent?.oneTimeLabel || "One-Time Purchase";
+  const quantityLabel = productContent?.quantityLabel || "Quantity";
+  const buyNowLabel = productContent?.buyNowLabel || "Buy Now";
+  const shippingText = productContent?.shippingText || "";
+  const ingredientsHeading = productContent?.ingredientsHeading || "Full formulation breakdown";
+  const otherIngredientsText = productContent?.otherIngredientsText || "";
+  const faqLabel = productContent?.faqLabel || "Questions";
+  const faqHeading = productContent?.faqHeading || "Everything you need to know.";
 
   return (
     <motion.div
@@ -40,17 +54,17 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
     >
       {/* Header */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">
-          {collectionLabel}
-        </p>
+        <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">{collectionLabel}</p>
         <h1 className="font-serif italic text-4xl xl:text-5xl text-primary leading-tight mb-2">
           {product.title}
         </h1>
-        <p className="text-xs uppercase tracking-widest text-primary/40 mb-5">
-          {supplyLabel}
-        </p>
+        <p className="text-xs uppercase tracking-widest text-primary/40 mb-5">{supplyLabel}</p>
         <p className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
-          {product.description ? <RichText data={product.description} /> : 'Modern rituals for internal balance. A quietly precise daily formula — designed for consistency, and held to a standard most wellness products never meet.'}
+          {product.description ? (
+            <RichText data={product.description} />
+          ) : (
+            "Modern rituals for internal balance. A quietly precise daily formula — designed for consistency, and held to a standard most wellness products never meet."
+          )}
         </p>
       </div>
 
@@ -63,14 +77,14 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
           onClick={() => setIsSubscription(true)}
           className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
             isSubscription
-              ? 'border-primary/60 bg-primary/[0.03]'
-              : 'border-border/50 hover:border-primary/20'
+              ? "border-primary/60 bg-primary/[0.03]"
+              : "border-border/50 hover:border-primary/20"
           }`}
         >
           <div className="flex items-center gap-3.5">
             <div
               className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors ${
-                isSubscription ? 'border-primary' : 'border-border'
+                isSubscription ? "border-primary" : "border-border"
               }`}
             >
               {isSubscription && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
@@ -90,14 +104,14 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
           onClick={() => setIsSubscription(false)}
           className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
             !isSubscription
-              ? 'border-primary/60 bg-primary/[0.03]'
-              : 'border-border/50 hover:border-primary/20'
+              ? "border-primary/60 bg-primary/[0.03]"
+              : "border-border/50 hover:border-primary/20"
           }`}
         >
           <div className="flex items-center gap-3.5">
             <div
               className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors ${
-                !isSubscription ? 'border-primary' : 'border-border'
+                !isSubscription ? "border-primary" : "border-border"
               }`}
             >
               {!isSubscription && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
@@ -119,9 +133,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
             >
               <Minus size={13} />
             </button>
-            <span className="w-9 text-center text-sm tabular-nums">
-              {quantity}
-            </span>
+            <span className="w-9 text-center text-sm tabular-nums">{quantity}</span>
             <button
               onClick={() => setQuantity(quantity + 1)}
               className="w-10 h-12 flex items-center justify-center text-primary/40 hover:text-primary transition-colors"
@@ -150,11 +162,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
         ))}
       </div>
 
-      {shippingText && (
-        <p className="text-xs text-primary/30 leading-relaxed">
-          {shippingText}
-        </p>
-      )}
+      {shippingText && <p className="text-xs text-primary/30 leading-relaxed">{shippingText}</p>}
 
       {/* INGREDIENTS */}
       <div className="border-t border-border/40 pt-6">
@@ -178,9 +186,9 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
           {ingredientsOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
+              animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
               className="overflow-hidden"
             >
               <div className="pb-6 border-t border-border/40 pt-4">
@@ -209,9 +217,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
       {/* FAQ */}
       <div className="border-t border-border/40 pt-6">
         <p className="text-xs uppercase tracking-widest text-primary/35 mb-4">{faqLabel}</p>
-        <h2 className="font-serif italic text-2xl text-primary leading-snug mb-6">
-          {faqHeading}
-        </h2>
+        <h2 className="font-serif italic text-2xl text-primary leading-snug mb-6">{faqHeading}</h2>
         <div>
           {faqs.map((faq, i) => (
             <AccordionItem
@@ -225,7 +231,7 @@ export function VialityProductDescription({ product, faqs, ingredients, trustBad
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 function Badge({ label }: { label: string }) {
@@ -236,7 +242,7 @@ function Badge({ label }: { label: string }) {
       </div>
       {label}
     </div>
-  )
+  );
 }
 
 function AccordionItem({
@@ -245,10 +251,10 @@ function AccordionItem({
   open,
   onToggle,
 }: {
-  q: string
-  a: string
-  open: boolean
-  onToggle: () => void
+  q: string;
+  a: string;
+  open: boolean;
+  onToggle: () => void;
 }) {
   return (
     <div className="border-b border-border/60">
@@ -271,9 +277,9 @@ function AccordionItem({
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
             <p className="pb-4 text-sm text-primary/55 font-light leading-[1.85]">{a}</p>
@@ -281,5 +287,5 @@ function AccordionItem({
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

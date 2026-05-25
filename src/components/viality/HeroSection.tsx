@@ -1,20 +1,21 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { GrainOverlay } from './GrainOverlay'
-import { VideoPanel } from './VideoPanel'
+import { motion } from "framer-motion";
+import Link from "next/link";
+
+import { GrainOverlay } from "./GrainOverlay";
+import { VideoPanel } from "./VideoPanel";
 
 export type HeroSectionProps = {
-  tagline: string
-  title: string
-  subtext?: string | null
-  ctaLabel: string
-  ctaLink: string
-  secondaryLabel?: string | null
-  secondaryLink?: string | null
-  scrollLabel: string
-}
+  tagline: string;
+  title: string;
+  subtext?: string | null;
+  ctaLabel: string;
+  ctaLink: string;
+  secondaryLabel?: string | null;
+  secondaryLink?: string | null;
+  scrollLabel: string;
+};
 
 export function HeroSection({
   tagline,
@@ -53,7 +54,8 @@ export function HeroSection({
           <div
             className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none"
             style={{
-              background: "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)",
+              background:
+                "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)",
             }}
           />
         </div>
@@ -148,8 +150,10 @@ export function HeroSection({
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="w-px h-10 bg-primary-foreground/30"
         />
-        <span className="text-primary-foreground/30 text-xs uppercase tracking-widest">{scrollLabel}</span>
+        <span className="text-primary-foreground/30 text-xs uppercase tracking-widest">
+          {scrollLabel}
+        </span>
       </motion.div>
     </section>
-  )
+  );
 }

@@ -1,9 +1,10 @@
-import type { CollectionConfig } from 'payload'
-import { adminOnly } from '@/access/adminOnly'
-import { publicAccess } from '@/access/publicAccess'
+import type { CollectionConfig } from "payload";
+
+import { adminOnly } from "@/access/adminOnly";
+import { publicAccess } from "@/access/publicAccess";
 
 export const Principles: CollectionConfig = {
-  slug: 'principles',
+  slug: "principles",
   access: {
     create: adminOnly,
     delete: adminOnly,
@@ -11,38 +12,38 @@ export const Principles: CollectionConfig = {
     update: adminOnly,
   },
   admin: {
-    group: 'Marketing',
-    defaultColumns: ['title', 'order', 'updatedAt'],
-    useAsTitle: 'title',
+    group: "Marketing",
+    defaultColumns: ["title", "order", "updatedAt"],
+    useAsTitle: "title",
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
     },
     {
-      name: 'slug',
-      type: 'text',
+      name: "slug",
+      type: "text",
       required: true,
       unique: true,
       index: true,
     },
     {
-      name: 'displayNumber',
-      type: 'text',
+      name: "displayNumber",
+      type: "text",
       required: true,
-      defaultValue: '01',
+      defaultValue: "01",
     },
     {
-      name: 'body',
-      type: 'textarea',
+      name: "body",
+      type: "textarea",
       required: true,
     },
     {
-      name: 'order',
-      type: 'number',
+      name: "order",
+      type: "number",
       defaultValue: 0,
     },
   ],
-}
+};

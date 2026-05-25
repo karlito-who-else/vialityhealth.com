@@ -1,9 +1,8 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
+import React, { Fragment } from "react";
 
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import React, { Fragment } from 'react'
-
-import { CheckoutPage } from '@/components/checkout/CheckoutPage'
+import { CheckoutPage } from "@/components/checkout/CheckoutPage";
+import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default function Checkout() {
   return (
@@ -11,7 +10,7 @@ export default function Checkout() {
       {!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && (
         <div>
           <Fragment>
-            {'To enable checkout, you must '}
+            {"To enable checkout, you must "}
             <a
               href="https://dashboard.stripe.com/test/apikeys"
               rel="noopener noreferrer"
@@ -19,7 +18,7 @@ export default function Checkout() {
             >
               obtain your Stripe API Keys
             </a>
-            {' then set them as environment variables. See the '}
+            {" then set them as environment variables. See the "}
             <a
               href="https://github.com/payloadcms/payload/blob/3.x/templates/ecommerce/README.md#stripe"
               rel="noopener noreferrer"
@@ -27,7 +26,7 @@ export default function Checkout() {
             >
               README
             </a>
-            {' for more details.'}
+            {" for more details."}
           </Fragment>
         </div>
       )}
@@ -36,14 +35,14 @@ export default function Checkout() {
 
       <CheckoutPage />
     </div>
-  )
+  );
 }
 
 export const metadata: Metadata = {
-  description: 'Checkout.',
+  description: "Checkout.",
   openGraph: mergeOpenGraph({
-    title: 'Checkout',
-    url: '/checkout',
+    title: "Checkout",
+    url: "/checkout",
   }),
-  title: 'Checkout',
-}
+  title: "Checkout",
+};

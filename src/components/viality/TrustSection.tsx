@@ -1,24 +1,19 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import type { TrustItem } from '@/payload-types'
+import { motion } from "framer-motion";
+import Link from "next/link";
+
+import type { TrustItem } from "@/payload-types";
 
 export type TrustSectionProps = {
-  heading: string
-  body?: string | null
-  ctaLabel?: string | null
-  ctaLink?: string | null
-  items: TrustItem[]
-}
+  heading: string;
+  body?: string | null;
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  items: TrustItem[];
+};
 
-export function TrustSection({
-  heading,
-  body,
-  ctaLabel,
-  ctaLink,
-  items,
-}: TrustSectionProps) {
+export function TrustSection({ heading, body, ctaLabel, ctaLink, items }: TrustSectionProps) {
   return (
     <section className="py-24 px-6 bg-background">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -43,11 +38,7 @@ export function TrustSection({
 
         <div className="order-1 md:order-2">
           <h2 className="font-serif italic text-4xl mb-6">{heading}</h2>
-          {body && (
-            <p className="text-primary/65 mb-10 leading-relaxed max-w-md">
-              {body}
-            </p>
-          )}
+          {body && <p className="text-primary/65 mb-10 leading-relaxed max-w-md">{body}</p>}
           {ctaLabel && ctaLink && (
             <Link
               href={ctaLink}
@@ -59,5 +50,5 @@ export function TrustSection({
         </div>
       </div>
     </section>
-  )
+  );
 }

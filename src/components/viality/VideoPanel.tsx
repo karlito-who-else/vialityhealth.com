@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 export function VideoPanel({ src }: { src: string }) {
   return (
-    <div className="relative flex-1 overflow-hidden bg-ink-well">
+    <div className="relative flex-1 overflow-hidden">
       <video
         src={src}
         autoPlay
@@ -20,8 +20,11 @@ export function VideoPanel({ src }: { src: string }) {
       />
       <div
         className="absolute bottom-0 left-0 right-0 h-2/5 pointer-events-none"
-        style={{ background: "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)" }}
+        style={{
+          background:
+            "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)",
+        }}
       />
     </div>
-  )
+  );
 }

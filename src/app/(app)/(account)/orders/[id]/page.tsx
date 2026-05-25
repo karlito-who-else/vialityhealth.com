@@ -1,54 +1,54 @@
-import type { Order } from '@/payload-types'
-import type { Metadata } from 'next'
+import configPromise from "@payload-config";
+import { ChevronLeftIcon } from "lucide-react";
+import type { Metadata } from "next";
+import { headers as getHeaders } from "next/headers.js";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getPayload } from "payload";
 
-import { Price } from '@/components/Price'
-import { Button } from '@/components/ui/button'
-import { formatDateTime } from '@/utilities/formatDateTime'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { ChevronLeftIcon } from 'lucide-react'
-import { ProductItem } from '@/components/ProductItem'
-import { headers as getHeaders } from 'next/headers.js'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { OrderStatus } from '@/components/OrderStatus'
-import { AddressItem } from '@/components/addresses/AddressItem'
+import { AddressItem } from "@/components/addresses/AddressItem";
+import { OrderStatus } from "@/components/OrderStatus";
+import { Price } from "@/components/Price";
+import { ProductItem } from "@/components/ProductItem";
+import { Button } from "@/components/ui/button";
+import type { Order } from "@/payload-types";
+import { formatDateTime } from "@/utilities/formatDateTime";
+import { getCachedGlobal } from "@/utilities/getGlobals";
+import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 type PageProps = {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ email?: string; accessToken?: string }>
-}
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ email?: string; accessToken?: string }>;
+};
 
 export default async function Order({ params, searchParams }: PageProps) {
-  const headers = await getHeaders()
-  const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const headers = await getHeaders();
+  const payload = await getPayload({ config: configPromise });
+  const { user } = await payload.auth({ headers });
 
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
-  const allOrdersLabel = settings?.allOrdersLabel || 'All orders'
-  const orderNumberPrefix = settings?.orderNumberPrefix || 'Order #'
-  const orderDateLabel = settings?.orderDateLabel || 'Order Date'
-  const totalLabel = settings?.totalLabel || 'Total'
-  const statusLabel = settings?.statusLabel || 'Status'
-  const itemsLabel = settings?.itemsLabel || 'Items'
-  const itemUnavailableText = settings?.itemUnavailableText || 'This item is no longer available.'
-  const shippingAddressLabel = settings?.shippingAddressLabel || 'Shipping Address'
+  const allOrdersLabel = settings?.allOrdersLabel || "All orders";
+  const orderNumberPrefix = settings?.orderNumberPrefix || "Order #";
+  const orderDateLabel = settings?.orderDateLabel || "Order Date";
+  const totalLabel = settings?.totalLabel || "Total";
+  const statusLabel = settings?.statusLabel || "Status";
+  const itemsLabel = settings?.itemsLabel || "Items";
+  const itemUnavailableText = settings?.itemUnavailableText || "This item is no longer available.";
+  const shippingAddressLabel = settings?.shippingAddressLabel || "Shipping Address";
 
-  const { id } = await params
-  const { email = '', accessToken = '' } = await searchParams
+  const { id } = await params;
+  const { email = "", accessToken = "" } = await searchParams;
 
-  let order: Order | null = null
+  let order: Order | null = null;
 
   try {
     const {
       docs: [orderResult],
     } = await payload.find({
-      collection: 'orders',
+      collection: "orders",
       user,
       overrideAccess: !user,
       depth: 2,
@@ -96,7 +96,7 @@ export default async function Order({ params, searchParams }: PageProps) {
         updatedAt: true,
         shippingAddress: true,
       },
-    })
+    });
 
     const canAccessAsGuest =
       !user &&
@@ -104,24 +104,24 @@ export default async function Order({ params, searchParams }: PageProps) {
       accessToken &&
       orderResult &&
       orderResult.customerEmail &&
-      orderResult.customerEmail === email
+      orderResult.customerEmail === email;
     const canAccessAsUser =
       user &&
       orderResult &&
       orderResult.customer &&
-      (typeof orderResult.customer === 'object'
+      (typeof orderResult.customer === "object"
         ? orderResult.customer.id
-        : orderResult.customer) === user.id
+        : orderResult.customer) === user.id;
 
     if (orderResult && (canAccessAsGuest || canAccessAsUser)) {
-      order = orderResult
+      order = orderResult;
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 
   if (!order) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -151,7 +151,7 @@ export default async function Order({ params, searchParams }: PageProps) {
             <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{orderDateLabel}</p>
             <p className="text-lg">
               <time dateTime={order.createdAt}>
-                {formatDateTime({ date: order.createdAt, format: 'MMMM dd, yyyy' })}
+                {formatDateTime({ date: order.createdAt, format: "MMMM dd, yyyy" })}
               </time>
             </p>
           </div>
@@ -174,16 +174,16 @@ export default async function Order({ params, searchParams }: PageProps) {
             <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">{itemsLabel}</h2>
             <ul className="flex flex-col gap-6">
               {order.items?.map((item, index) => {
-                if (typeof item.product === 'string') {
-                  return null
+                if (typeof item.product === "string") {
+                  return null;
                 }
 
-                if (!item.product || typeof item.product !== 'object') {
-                  return <div key={index}>{itemUnavailableText}</div>
+                if (!item.product || typeof item.product !== "object") {
+                  return <div key={index}>{itemUnavailableText}</div>;
                 }
 
                 const variant =
-                  item.variant && typeof item.variant === 'object' ? item.variant : undefined
+                  item.variant && typeof item.variant === "object" ? item.variant : undefined;
 
                 return (
                   <li key={item.id}>
@@ -193,7 +193,7 @@ export default async function Order({ params, searchParams }: PageProps) {
                       variant={variant}
                     />
                   </li>
-                )
+                );
               })}
             </ul>
           </div>
@@ -201,7 +201,9 @@ export default async function Order({ params, searchParams }: PageProps) {
 
         {order.shippingAddress && (
           <div>
-            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">{shippingAddressLabel}</h2>
+            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">
+              {shippingAddressLabel}
+            </h2>
 
             {/* @ts-expect-error - some kind of type hell */}
             <AddressItem address={order.shippingAddress} hideActions />
@@ -209,19 +211,19 @@ export default async function Order({ params, searchParams }: PageProps) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params
-  const settings = await getCachedGlobal('settings', 1)()
+  const { id } = await params;
+  const settings = await getCachedGlobal("settings", 1)();
 
   return {
-    description: `${settings?.orderNumberPrefix || 'Order #'}${id} details.`,
+    description: `${settings?.orderNumberPrefix || "Order #"}${id} details.`,
     openGraph: mergeOpenGraph({
-      title: `${settings?.orderNumberPrefix || 'Order #'}${id}`,
+      title: `${settings?.orderNumberPrefix || "Order #"}${id}`,
       url: `/orders/${id}`,
     }),
-    title: `${settings?.orderNumberPrefix || 'Order #'}${id}`,
-  }
+    title: `${settings?.orderNumberPrefix || "Order #"}${id}`,
+  };
 }

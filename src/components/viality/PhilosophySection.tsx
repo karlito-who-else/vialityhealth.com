@@ -1,19 +1,15 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 export type PhilosophySectionProps = {
-  body?: string | null
-  linkLabel?: string | null
-  link?: string | null
-}
+  body?: string | null;
+  linkLabel?: string | null;
+  link?: string | null;
+};
 
-export function PhilosophySection({
-  body,
-  linkLabel,
-  link,
-}: PhilosophySectionProps) {
+export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionProps) {
   return (
     <section className="py-36 px-6 bg-background">
       <div className="max-w-4xl mx-auto text-center">
@@ -46,5 +42,5 @@ export function PhilosophySection({
         )}
       </div>
     </section>
-  )
+  );
 }

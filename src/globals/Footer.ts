@@ -1,35 +1,35 @@
-import type { GlobalConfig } from 'payload'
+import type { GlobalConfig } from "payload";
 
-import { adminOnly } from '@/access/adminOnly'
-import { link } from '@/fields/link'
+import { adminOnly } from "@/access/adminOnly";
+import { link } from "@/fields/link";
 
 export const Footer: GlobalConfig = {
-  slug: 'footer',
+  slug: "footer",
   access: {
     read: () => true,
     update: adminOnly,
   },
   fields: [
     {
-      name: 'brandName',
-      type: 'text',
+      name: "brandName",
+      type: "text",
       admin: {
-        description: 'Brand wordmark shown top-left.',
+        description: "Brand wordmark shown top-left.",
       },
     },
     {
-      name: 'brandDescription',
-      type: 'textarea',
+      name: "brandDescription",
+      type: "textarea",
       admin: {
-        description: 'Short tagline below the wordmark.',
+        description: "Short tagline below the wordmark.",
       },
     },
     {
-      name: 'navItems',
-      type: 'array',
-      label: 'Explore Links',
+      name: "navItems",
+      type: "array",
+      label: "Explore Links",
       admin: {
-        description: 'Navigation links in the second column.',
+        description: "Navigation links in the second column.",
       },
       fields: [
         link({
@@ -39,60 +39,60 @@ export const Footer: GlobalConfig = {
       maxRows: 6,
     },
     {
-      name: 'socialLinks',
-      type: 'array',
-      label: 'Connect / Social Links',
+      name: "socialLinks",
+      type: "array",
+      label: "Connect / Social Links",
       admin: {
-        description: 'Social and contact links in the third column.',
+        description: "Social and contact links in the third column.",
       },
       fields: [
         {
-          name: 'label',
-          type: 'text',
+          name: "label",
+          type: "text",
           required: true,
         },
         {
-          name: 'url',
-          type: 'text',
+          name: "url",
+          type: "text",
           required: true,
         },
       ],
       maxRows: 6,
     },
     {
-      name: 'legalLinks',
-      type: 'array',
-      label: 'Legal Links',
+      name: "legalLinks",
+      type: "array",
+      label: "Legal Links",
       admin: {
-        description: 'Privacy, Terms, etc. shown in the bottom bar.',
+        description: "Privacy, Terms, etc. shown in the bottom bar.",
       },
       fields: [
         {
-          name: 'label',
-          type: 'text',
+          name: "label",
+          type: "text",
           required: true,
         },
         {
-          name: 'url',
-          type: 'text',
+          name: "url",
+          type: "text",
           required: true,
         },
       ],
       maxRows: 6,
     },
     {
-      name: 'copyright',
-      type: 'text',
+      name: "copyright",
+      type: "text",
       admin: {
-        description: 'Use {year} as a placeholder for the current year.',
+        description: "Use {year} as a placeholder for the current year.",
       },
     },
     {
-      name: 'complianceText',
-      type: 'textarea',
+      name: "complianceText",
+      type: "textarea",
       admin: {
-        description: 'FDA disclaimer shown at the bottom. Newline-delimited.',
+        description: "FDA disclaimer shown at the bottom. Newline-delimited.",
       },
     },
   ],
-}
+};

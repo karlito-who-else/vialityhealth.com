@@ -1,36 +1,34 @@
-import type { Metadata } from 'next'
+import configPromise from "@payload-config";
+import type { Metadata } from "next";
+import { headers as getHeaders } from "next/headers.js";
+import { redirect } from "next/navigation";
+import { getPayload } from "payload";
 
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import { headers as getHeaders } from 'next/headers.js'
-import configPromise from '@payload-config'
-import { Order } from '@/payload-types'
-import { getPayload } from 'payload'
-import { redirect } from 'next/navigation'
-import { AddressListing } from '@/components/addresses/AddressListing'
-import { CreateAddressModal } from '@/components/addresses/CreateAddressModal'
+import { AddressListing } from "@/components/addresses/AddressListing";
+import { CreateAddressModal } from "@/components/addresses/CreateAddressModal";
+import { Order } from "@/payload-types";
+import { getCachedGlobal } from "@/utilities/getGlobals";
+import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function AddressesPage() {
-  const headers = await getHeaders()
-  const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const headers = await getHeaders();
+  const payload = await getPayload({ config: configPromise });
+  const { user } = await payload.auth({ headers });
 
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
-  const loginWarning = settings?.loginWarning || 'Please login to access your account settings.'
-  const addressesHeading = settings?.addressesHeading || 'Addresses'
+  const loginWarning = settings?.loginWarning || "Please login to access your account settings.";
+  const addressesHeading = settings?.addressesHeading || "Addresses";
 
-  let orders: Order[] | null = null
+  let orders: Order[] | null = null;
 
   if (!user) {
-    redirect(
-      `/login?warning=${encodeURIComponent(loginWarning)}`,
-    )
+    redirect(`/login?warning=${encodeURIComponent(loginWarning)}`);
   }
 
   try {
     const ordersResult = await payload.find({
-      collection: 'orders',
+      collection: "orders",
       limit: 5,
       user,
       overrideAccess: false,
@@ -40,11 +38,10 @@ export default async function AddressesPage() {
           equals: user?.id,
         },
       },
-    })
+    });
 
-    orders = ordersResult?.docs || []
-  } catch (error) {
-  }
+    orders = ordersResult?.docs || [];
+  } catch (error) {}
 
   return (
     <>
@@ -58,18 +55,18 @@ export default async function AddressesPage() {
         <CreateAddressModal />
       </div>
     </>
-  )
+  );
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
   return {
-    description: 'Manage your addresses.',
+    description: "Manage your addresses.",
     openGraph: mergeOpenGraph({
-      title: settings?.addressesHeading || 'Addresses',
-      url: '/account/addresses',
+      title: settings?.addressesHeading || "Addresses",
+      url: "/account/addresses",
     }),
-    title: settings?.addressesHeading || 'Addresses',
-  }
+    title: settings?.addressesHeading || "Addresses",
+  };
 }

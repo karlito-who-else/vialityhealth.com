@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { X } from 'lucide-react'
-import { motion, AnimatePresence, type Variants, type Easing } from 'framer-motion'
+import { motion, AnimatePresence, type Variants, type Easing } from "framer-motion";
+import { X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 
 const overlayVariants: Variants = {
   hidden: { opacity: 0 },
@@ -16,7 +16,7 @@ const overlayVariants: Variants = {
     opacity: 0,
     transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] as Easing, delay: 0.15 },
   },
-}
+};
 
 const linkVariants: Variants = {
   hidden: { opacity: 0, y: 40, skewY: 1.5 },
@@ -35,38 +35,42 @@ const linkVariants: Variants = {
     y: -20,
     transition: {
       duration: 0.3,
-      ease: 'easeIn' as Easing,
+      ease: "easeIn" as Easing,
       delay: i * 0.03,
     },
   }),
-}
+};
 
 export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
-  const prevPathname = useRef(pathname)
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const prevPathname = useRef(pathname);
 
   useEffect(() => {
     if (pathname !== prevPathname.current) {
-      setIsOpen(false)
-      prevPathname.current = pathname
+      setIsOpen(false);
+      prevPathname.current = pathname;
     }
-  }, [pathname])
+  }, [pathname]);
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ''
+      document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = '' }
-  }, [isOpen])
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   useEffect(() => {
-    const handle = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false) }
-    window.addEventListener('keydown', handle)
-    return () => window.removeEventListener('keydown', handle)
-  }, [])
+    const handle = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", handle);
+    return () => window.removeEventListener("keydown", handle);
+  }, []);
 
   return (
     <>
@@ -87,16 +91,16 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
             animate="show"
             exit="exit"
             className="fixed inset-0 z-50 flex flex-col overflow-hidden"
-            style={{ background: 'var(--color-ink-well)' }}
+            style={{ background: "var(--color-ink-well)" }}
           >
             <div
               className="pointer-events-none absolute inset-0 z-0"
               style={{
                 opacity: 0.055,
                 backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                backgroundRepeat: 'repeat',
-                backgroundSize: '180px 180px',
-                mixBlendMode: 'screen',
+                backgroundRepeat: "repeat",
+                backgroundSize: "180px 180px",
+                mixBlendMode: "screen",
               }}
             />
 
@@ -111,7 +115,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                   href="/"
                   onClick={() => setIsOpen(false)}
                   className="font-serif italic font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
-                  style={{ fontSize: '1.05rem', letterSpacing: '0.2em' }}
+                  style={{ fontSize: "1.05rem", letterSpacing: "0.2em" }}
                 >
                   {siteTitle}
                 </Link>
@@ -141,11 +145,14 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
 
               <ul className="flex flex-col pl-5 md:pl-8">
                 {menu.map(({ link }, i) => {
-                  const href = link.type === 'reference' && link.reference?.value
-                    ? typeof link.reference.value === 'object'
-                      ? link.reference.value.slug ? `/${link.reference.value.slug}` : link.url || '/'
-                      : `/${link.reference.value}`
-                    : link.url || '/'
+                  const href =
+                    link.type === "reference" && link.reference?.value
+                      ? typeof link.reference.value === "object"
+                        ? link.reference.value.slug
+                          ? `/${link.reference.value.slug}`
+                          : link.url || "/"
+                        : `/${link.reference.value}`
+                      : link.url || "/";
                   return (
                     <motion.li
                       key={link.label}
@@ -162,11 +169,11 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                         className="group flex items-baseline gap-4 md:gap-6 w-fit"
                       >
                         <span className="text-xs text-primary-foreground/18 uppercase tracking-widest tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-primary-foreground/35 hidden sm:block">
-                          {String(i + 1).padStart(2, '0')}
+                          {String(i + 1).padStart(2, "0")}
                         </span>
                         <span
                           className="font-serif italic text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
-                          style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5.5rem)' }}
+                          style={{ fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)" }}
                         >
                           {link.label}
                         </span>
@@ -175,7 +182,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                         </span>
                       </Link>
                     </motion.li>
-                  )
+                  );
                 })}
               </ul>
             </nav>
@@ -183,5 +190,5 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }

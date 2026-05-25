@@ -1,16 +1,15 @@
-'use client'
+"use client";
 
-import type { StaticImageData } from 'next/image'
+import type { StaticImageData } from "next/image";
+import NextImage from "next/image";
+import React from "react";
 
-import { cn } from '@/utilities/cn'
-import NextImage from 'next/image'
-import React from 'react'
+import { cssVariables } from "@/cssVariables";
+import { cn } from "@/utilities/cn";
 
-import type { Props as MediaProps } from '../types'
+import type { Props as MediaProps } from "../types";
 
-import { cssVariables } from '@/cssVariables'
-
-const { breakpoints } = cssVariables
+const { breakpoints } = cssVariables;
 
 export const Image: React.FC<MediaProps> = (props) => {
   const {
@@ -25,31 +24,31 @@ export const Image: React.FC<MediaProps> = (props) => {
     size: sizeFromProps,
     src: srcFromProps,
     width: widthFromProps,
-  } = props
+  } = props;
 
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  let width: number | undefined | null
-  let height: number | undefined | null
-  let alt = altFromProps
-  let src: StaticImageData | string = srcFromProps || ''
+  let width: number | undefined | null;
+  let height: number | undefined | null;
+  let alt = altFromProps;
+  let src: StaticImageData | string = srcFromProps || "";
 
-  if (!src && resource && typeof resource === 'object') {
+  if (!src && resource && typeof resource === "object") {
     const {
       alt: altFromResource,
       filename: fullFilename,
       height: fullHeight,
       url,
       width: fullWidth,
-    } = resource
+    } = resource;
 
-    width = widthFromProps ?? fullWidth
-    height = heightFromProps ?? fullHeight
-    alt = altFromResource
+    width = widthFromProps ?? fullWidth;
+    height = heightFromProps ?? fullHeight;
+    alt = altFromResource;
 
-    const filename = fullFilename
+    const filename = fullFilename;
 
-    src = `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`
+    src = `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`;
   }
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
@@ -57,19 +56,19 @@ export const Image: React.FC<MediaProps> = (props) => {
     ? sizeFromProps
     : Object.entries(breakpoints)
         .map(([, value]) => `(max-width: ${value}px) ${value}px`)
-        .join(', ')
+        .join(", ");
 
   return (
     <NextImage
-      alt={alt || ''}
+      alt={alt || ""}
       className={cn(imgClassName)}
       fill={fill}
       height={!fill ? height || heightFromProps : undefined}
       onClick={onClick}
       onLoad={() => {
-        setIsLoading(false)
-        if (typeof onLoadFromProps === 'function') {
-          onLoadFromProps()
+        setIsLoading(false);
+        if (typeof onLoadFromProps === "function") {
+          onLoadFromProps();
         }
       }}
       priority={priority}
@@ -78,5 +77,5 @@ export const Image: React.FC<MediaProps> = (props) => {
       src={src}
       width={!fill ? width || widthFromProps : undefined}
     />
-  )
-}
+  );
+};

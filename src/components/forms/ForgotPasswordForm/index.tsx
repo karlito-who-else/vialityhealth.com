@@ -1,28 +1,29 @@
-'use client'
+"use client";
 
-import { FormError } from '@/components/forms/FormError'
-import { FormItem } from '@/components/forms/FormItem'
-import { Message } from '@/components/Message'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import React, { Fragment, useCallback, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import Link from "next/link";
+import React, { Fragment, useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+
+import { FormError } from "@/components/forms/FormError";
+import { FormItem } from "@/components/forms/FormItem";
+import { Message } from "@/components/Message";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type FormData = {
-  email: string
-}
+  email: string;
+};
 
 export const ForgotPasswordForm: React.FC = () => {
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const {
     formState: { errors },
     handleSubmit,
     register,
-  } = useForm<FormData>()
+  } = useForm<FormData>();
 
   const onSubmit = useCallback(async (data: FormData) => {
     const response = await fetch(
@@ -30,21 +31,21 @@ export const ForgotPasswordForm: React.FC = () => {
       {
         body: JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        method: 'POST',
+        method: "POST",
       },
-    )
+    );
 
     if (response.ok) {
-      setSuccess(true)
-      setError('')
+      setSuccess(true);
+      setError("");
     } else {
       setError(
-        'There was a problem while attempting to send you a password reset email. Please try again.',
-      )
+        "There was a problem while attempting to send you a password reset email. Please try again.",
+      );
     }
-  }, [])
+  }, []);
 
   return (
     <Fragment>
@@ -67,7 +68,7 @@ export const ForgotPasswordForm: React.FC = () => {
               </Label>
               <Input
                 id="email"
-                {...register('email', { required: 'Please provide your email.' })}
+                {...register("email", { required: "Please provide your email." })}
                 type="email"
               />
               {errors.email && <FormError message={errors.email.message} />}
@@ -88,5 +89,5 @@ export const ForgotPasswordForm: React.FC = () => {
         </React.Fragment>
       )}
     </Fragment>
-  )
-}
+  );
+};

@@ -1,11 +1,10 @@
 @theme {
   --font-mono: Menlo, monospace;
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "EB Garamond", Georgia, serif;
 }
 
 @layer base {
-
   h1,
   h2,
   h3,

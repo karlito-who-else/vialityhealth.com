@@ -1,48 +1,49 @@
-'use client'
+"use client";
 
-import { FormError } from '@/components/forms/FormError'
-import { FormItem } from '@/components/forms/FormItem'
-import { Message } from '@/components/Message'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useAuth } from '@/providers/Auth'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useCallback, useRef } from "react";
+import { useForm } from "react-hook-form";
+
+import { FormError } from "@/components/forms/FormError";
+import { FormItem } from "@/components/forms/FormItem";
+import { Message } from "@/components/Message";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/providers/Auth";
 
 type FormData = {
-  email: string
-  password: string
-}
+  email: string;
+  password: string;
+};
 
 export const LoginForm: React.FC = () => {
-  const searchParams = useSearchParams()
-  const allParams = searchParams.toString() ? `?${searchParams.toString()}` : ''
-  const redirect = useRef(searchParams.get('redirect'))
-  const { login } = useAuth()
-  const router = useRouter()
-  const [error, setError] = React.useState<null | string>(null)
+  const searchParams = useSearchParams();
+  const allParams = searchParams.toString() ? `?${searchParams.toString()}` : "";
+  const redirect = useRef(searchParams.get("redirect"));
+  const { login } = useAuth();
+  const router = useRouter();
+  const [error, setError] = React.useState<null | string>(null);
 
   const {
     formState: { errors, isLoading },
     handleSubmit,
     register,
-  } = useForm<FormData>()
+  } = useForm<FormData>();
 
   const onSubmit = useCallback(
     async (data: FormData) => {
       try {
-        await login(data)
-        if (redirect?.current) router.push(redirect.current)
-        else router.push('/account')
+        await login(data);
+        if (redirect?.current) router.push(redirect.current);
+        else router.push("/account");
       } catch (_) {
-        setError('There was an error with the credentials provided. Please try again.')
+        setError("There was an error with the credentials provided. Please try again.");
       }
     },
     [login, router],
-  )
+  );
 
   return (
     <form className="" onSubmit={handleSubmit(onSubmit)}>
@@ -53,7 +54,7 @@ export const LoginForm: React.FC = () => {
           <Input
             id="email"
             type="email"
-            {...register('email', { required: 'Email is required.' })}
+            {...register("email", { required: "Email is required." })}
           />
           {errors.email && <FormError message={errors.email.message} />}
         </FormItem>
@@ -63,14 +64,14 @@ export const LoginForm: React.FC = () => {
           <Input
             id="password"
             type="password"
-            {...register('password', { required: 'Please provide a password.' })}
+            {...register("password", { required: "Please provide a password." })}
           />
           {errors.password && <FormError message={errors.password.message} />}
         </FormItem>
 
         <div className="text-primary/70 mb-6 prose prose-a:hover:text-primary dark:prose-invert">
           <p>
-            Forgot your password?{' '}
+            Forgot your password?{" "}
             <Link href={`/forgot-password${allParams}`}>Click here to reset it</Link>
           </p>
         </div>
@@ -83,9 +84,9 @@ export const LoginForm: React.FC = () => {
           </Link>
         </Button>
         <Button className="grow" disabled={isLoading} size="lg" type="submit" variant="default">
-          {isLoading ? 'Processing' : 'Continue'}
+          {isLoading ? "Processing" : "Continue"}
         </Button>
       </div>
     </form>
-  )
-}
+  );
+};

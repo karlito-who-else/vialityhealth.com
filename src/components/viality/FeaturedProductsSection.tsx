@@ -1,14 +1,15 @@
-'use client'
+"use client";
 
-import type { Product } from '@/payload-types'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { motion } from "framer-motion";
+import Link from "next/link";
+
+import type { Product } from "@/payload-types";
 
 export type FeaturedProductsSectionProps = {
-  heading: string
-  shopAllLabel?: string | null
-  products: Product[]
-}
+  heading: string;
+  shopAllLabel?: string | null;
+  products: Product[];
+};
 
 export function FeaturedProductsSection({
   heading,
@@ -42,24 +43,28 @@ export function FeaturedProductsSection({
             >
               <Link href="/shop">
                 <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
-                  {product.featuredImage && typeof product.featuredImage === 'object' ? (
+                  {product.featuredImage && typeof product.featuredImage === "object" ? (
                     <img
-                      src={product.featuredImage.url || ''}
+                      src={product.featuredImage.url || ""}
                       alt={product.featuredImage.alt || product.title}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="text-primary/20 font-serif italic text-6xl tracking-wider">v</div>
+                    <div className="text-primary/20 font-serif italic text-6xl tracking-wider">
+                      v
+                    </div>
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-center">
-                    <h3 className="uppercase tracking-widest text-xs font-medium">{product.title}</h3>
-                    {typeof product.priceInUSD === 'number' && (
+                    <h3 className="uppercase tracking-widest text-xs font-medium">
+                      {product.title}
+                    </h3>
+                    {typeof product.priceInUSD === "number" && (
                       <span className="text-sm font-light">${product.priceInUSD.toFixed(0)}</span>
                     )}
                   </div>
-                  <p className="text-primary/55 text-sm">{product.meta?.description || ''}</p>
+                  <p className="text-primary/55 text-sm">{product.meta?.description || ""}</p>
                 </div>
               </Link>
             </motion.article>
@@ -78,5 +83,5 @@ export function FeaturedProductsSection({
         )}
       </div>
     </section>
-  )
+  );
 }

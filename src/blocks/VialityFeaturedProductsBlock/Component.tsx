@@ -1,20 +1,26 @@
-import { FeaturedProductsSection } from '@/components/viality'
-import type { Product, VialityFeaturedProductsBlock as VialityFeaturedProductsBlockProps } from '@/payload-types'
-import React from 'react'
+import React from "react";
 
-export const VialityFeaturedProductsBlock: React.FC<VialityFeaturedProductsBlockProps> = (props) => {
-  const { heading, shopAllLabel, products: rawProducts, blockName, blockType, id, ...rest } = props
+import { FeaturedProductsSection } from "@/components/viality";
+import type {
+  Product,
+  VialityFeaturedProductsBlock as VialityFeaturedProductsBlockProps,
+} from "@/payload-types";
+
+export const VialityFeaturedProductsBlock: React.FC<VialityFeaturedProductsBlockProps> = (
+  props,
+) => {
+  const { heading, shopAllLabel, products: rawProducts, blockName, blockType, id, ...rest } = props;
   const products = (rawProducts || []).filter(
-    (p): p is Product => typeof p === 'object' && p !== null,
-  )
+    (p): p is Product => typeof p === "object" && p !== null,
+  );
 
   return (
     <section {...rest}>
       <FeaturedProductsSection
-        heading={heading || 'The Collection'}
+        heading={heading || "The Collection"}
         shopAllLabel={shopAllLabel}
         products={products}
       />
     </section>
-  )
-}
+  );
+};

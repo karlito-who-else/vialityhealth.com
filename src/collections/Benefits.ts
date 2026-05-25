@@ -1,9 +1,10 @@
-import type { CollectionConfig } from 'payload'
-import { adminOnly } from '@/access/adminOnly'
-import { publicAccess } from '@/access/publicAccess'
+import type { CollectionConfig } from "payload";
+
+import { adminOnly } from "@/access/adminOnly";
+import { publicAccess } from "@/access/publicAccess";
 
 export const Benefits: CollectionConfig = {
-  slug: 'benefits',
+  slug: "benefits",
   access: {
     create: adminOnly,
     delete: adminOnly,
@@ -11,32 +12,32 @@ export const Benefits: CollectionConfig = {
     update: adminOnly,
   },
   admin: {
-    group: 'Marketing',
-    defaultColumns: ['title', 'order', 'updatedAt'],
-    useAsTitle: 'title',
+    group: "Marketing",
+    defaultColumns: ["title", "order", "updatedAt"],
+    useAsTitle: "title",
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
     },
     {
-      name: 'slug',
-      type: 'text',
+      name: "slug",
+      type: "text",
       required: true,
       unique: true,
       index: true,
     },
     {
-      name: 'body',
-      type: 'textarea',
+      name: "body",
+      type: "textarea",
       required: true,
     },
     {
-      name: 'order',
-      type: 'number',
+      name: "order",
+      type: "number",
       defaultValue: 0,
     },
   ],
-}
+};

@@ -1,31 +1,30 @@
-import { ecommercePlugin } from '@payloadcms/plugin-ecommerce'
-import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
-import { mcpPlugin } from '@payloadcms/plugin-mcp'
-import { seoPlugin } from '@payloadcms/plugin-seo'
-import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { Plugin } from 'payload'
+import { ecommercePlugin } from "@payloadcms/plugin-ecommerce";
+import { stripeAdapter } from "@payloadcms/plugin-ecommerce/payments/stripe";
+import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
+import { mcpPlugin } from "@payloadcms/plugin-mcp";
+import { seoPlugin } from "@payloadcms/plugin-seo";
+import { GenerateTitle, GenerateURL } from "@payloadcms/plugin-seo/types";
+import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
+import { Plugin } from "payload";
 
-import { stripeAdapter } from '@payloadcms/plugin-ecommerce/payments/stripe'
-
-import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
-import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
-import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
-import { isAdmin } from '@/access/isAdmin'
-import { isDocumentOwner } from '@/access/isDocumentOwner'
-import { ProductsCollection } from '@/collections/Products'
-import { Page, Product } from '@/payload-types'
-import { getServerSideURL } from '@/utilities/getURL'
+import { adminOnlyFieldAccess } from "@/access/adminOnlyFieldAccess";
+import { adminOrPublishedStatus } from "@/access/adminOrPublishedStatus";
+import { customerOnlyFieldAccess } from "@/access/customerOnlyFieldAccess";
+import { isAdmin } from "@/access/isAdmin";
+import { isDocumentOwner } from "@/access/isDocumentOwner";
+import { ProductsCollection } from "@/collections/Products";
+import { Page, Product } from "@/payload-types";
+import { getServerSideURL } from "@/utilities/getURL";
 
 const generateTitle: GenerateTitle<Product | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Ecommerce Template` : 'Payload Ecommerce Template'
-}
+  return doc?.title ? `${doc.title} | Payload Ecommerce Template` : "Payload Ecommerce Template";
+};
 
 const generateURL: GenerateURL<Product | Page> = ({ doc }) => {
-  const url = getServerSideURL()
+  const url = getServerSideURL();
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
-}
+  return doc?.slug ? `${url}/${doc.slug}` : url;
+};
 
 export const plugins: Plugin[] = [
   mcpPlugin({
@@ -66,7 +65,7 @@ export const plugins: Plugin[] = [
       forms: {
         enabled: true,
       },
-      'form-submissions': {
+      "form-submissions": {
         enabled: true,
       },
       addresses: {
@@ -93,19 +92,19 @@ export const plugins: Plugin[] = [
       transactions: {
         enabled: true,
       },
-      'payload-mcp-api-keys': {
+      "payload-mcp-api-keys": {
         enabled: true,
       },
-      'payload-kv': {
+      "payload-kv": {
         enabled: true,
       },
-      'payload-locked-documents': {
+      "payload-locked-documents": {
         enabled: true,
       },
-      'payload-preferences': {
+      "payload-preferences": {
         enabled: true,
       },
-      'payload-migrations': {
+      "payload-migrations": {
         enabled: true,
       },
     },
@@ -125,7 +124,7 @@ export const plugins: Plugin[] = [
         update: isAdmin,
       },
       admin: {
-        group: 'Content',
+        group: "Content",
       },
     },
     formOverrides: {
@@ -136,11 +135,11 @@ export const plugins: Plugin[] = [
         create: isAdmin,
       },
       admin: {
-        group: 'Content',
+        group: "Content",
       },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
-          if ('name' in field && field.name === 'confirmationMessage') {
+          if ("name" in field && field.name === "confirmationMessage") {
             return {
               ...field,
               editor: lexicalEditor({
@@ -148,14 +147,14 @@ export const plugins: Plugin[] = [
                   return [
                     ...rootFeatures,
                     FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                  ]
+                    HeadingFeature({ enabledHeadingSizes: ["h1", "h2", "h3", "h4"] }),
+                  ];
                 },
               }),
-            }
+            };
           }
-          return field
-        })
+          return field;
+        });
       },
     },
   }),
@@ -168,7 +167,7 @@ export const plugins: Plugin[] = [
       isDocumentOwner,
     },
     customers: {
-      slug: 'users',
+      slug: "users",
     },
     orders: {
       ordersCollectionOverride: ({ defaultCollection }) => ({
@@ -176,21 +175,21 @@ export const plugins: Plugin[] = [
         fields: [
           ...defaultCollection.fields,
           {
-            name: 'accessToken',
-            type: 'text',
+            name: "accessToken",
+            type: "text",
             unique: true,
             index: true,
             admin: {
-              position: 'sidebar',
+              position: "sidebar",
               readOnly: true,
             },
             hooks: {
               beforeValidate: [
                 ({ value, operation }) => {
-                  if (operation === 'create' || !value) {
-                    return crypto.randomUUID()
+                  if (operation === "create" || !value) {
+                    return crypto.randomUUID();
                   }
-                  return value
+                  return value;
                 },
               ],
             },
@@ -211,4 +210,4 @@ export const plugins: Plugin[] = [
       productsCollectionOverride: ProductsCollection,
     },
   }),
-]
+];

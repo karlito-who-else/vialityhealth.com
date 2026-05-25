@@ -1,11 +1,11 @@
-import type { SortFilterItem } from '@/lib/constants'
+import React, { Suspense } from "react";
 
-import React, { Suspense } from 'react'
+import type { SortFilterItem } from "@/lib/constants";
 
-import { FilterItemDropdown } from './FilterItemDropdown'
-import { FilterItem } from './FilterItem'
-export type ListItem = PathFilterItem | SortFilterItem
-export type PathFilterItem = { path: string; title: string }
+import { FilterItem } from "./FilterItem";
+import { FilterItemDropdown } from "./FilterItemDropdown";
+export type ListItem = PathFilterItem | SortFilterItem;
+export type PathFilterItem = { path: string; title: string };
 
 function FilterItemList({ list }: { list: ListItem[] }) {
   return (
@@ -14,16 +14,14 @@ function FilterItemList({ list }: { list: ListItem[] }) {
         <FilterItem item={item} key={i} />
       ))}
     </React.Fragment>
-  )
+  );
 }
 
 export function FilterList({ list, title }: { list: ListItem[]; title?: string }) {
   return (
     <React.Fragment>
       <nav>
-        {title ? (
-          <h3 className="text-xs mb-2 text-muted-foreground">{title}</h3>
-        ) : null}
+        {title ? <h3 className="text-xs mb-2 text-muted-foreground">{title}</h3> : null}
         <ul className="hidden md:block">
           <Suspense fallback={null}>
             <FilterItemList list={list} />
@@ -36,5 +34,5 @@ export function FilterList({ list, title }: { list: ListItem[]; title?: string }
         </ul>
       </nav>
     </React.Fragment>
-  )
+  );
 }

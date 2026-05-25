@@ -1,6 +1,14 @@
-'use client'
+"use client";
 
-import { Price } from '@/components/Price'
+import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
+import { ShoppingCart } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
+
+import { Price } from "@/components/Price";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -8,35 +16,28 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import { ShoppingCart } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useMemo, useState } from 'react'
+} from "@/components/ui/sheet";
+import { Product } from "@/payload-types";
 
-import { DeleteItemButton } from './DeleteItemButton'
-import { EditItemQuantityButton } from './EditItemQuantityButton'
-import { OpenCartButton } from './OpenCart'
-import { Button } from '@/components/ui/button'
-import { Product } from '@/payload-types'
+import { DeleteItemButton } from "./DeleteItemButton";
+import { EditItemQuantityButton } from "./EditItemQuantityButton";
+import { OpenCartButton } from "./OpenCart";
 
 export function CartModal() {
-  const { cart } = useCart()
-  const [isOpen, setIsOpen] = useState(false)
+  const { cart } = useCart();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   useEffect(() => {
     // Close the cart modal when the pathname changes.
-    setIsOpen(false)
-  }, [pathname])
+    setIsOpen(false);
+  }, [pathname]);
 
   const totalQuantity = useMemo(() => {
-    if (!cart || !cart.items || !cart.items.length) return undefined
-    return cart.items.reduce((quantity, item) => (item.quantity || 0) + quantity, 0)
-  }, [cart])
+    if (!cart || !cart.items || !cart.items.length) return undefined;
+    return cart.items.reduce((quantity, item) => (item.quantity || 0) + quantity, 0);
+  }, [cart]);
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
@@ -61,47 +62,47 @@ export function CartModal() {
             <div className="flex flex-col justify-between w-full">
               <ul className="grow overflow-auto py-4">
                 {cart?.items?.map((item, i) => {
-                  const product = item.product
-                  const variant = item.variant
+                  const product = item.product;
+                  const variant = item.variant;
 
-                  if (typeof product !== 'object' || !item || !product || !product.slug)
-                    return <React.Fragment key={i} />
+                  if (typeof product !== "object" || !item || !product || !product.slug)
+                    return <React.Fragment key={i} />;
 
                   const metaImage =
-                    product.meta?.image && typeof product.meta?.image === 'object'
+                    product.meta?.image && typeof product.meta?.image === "object"
                       ? product.meta.image
-                      : undefined
+                      : undefined;
 
                   const firstGalleryImage =
-                    typeof product.gallery?.[0]?.image === 'object'
+                    typeof product.gallery?.[0]?.image === "object"
                       ? product.gallery?.[0]?.image
-                      : undefined
+                      : undefined;
 
-                  let image = firstGalleryImage || metaImage
-                  let price = product.priceInUSD
+                  let image = firstGalleryImage || metaImage;
+                  let price = product.priceInUSD;
 
-                  const isVariant = Boolean(variant) && typeof variant === 'object'
+                  const isVariant = Boolean(variant) && typeof variant === "object";
 
                   if (isVariant) {
-                    price = variant?.priceInUSD
+                    price = variant?.priceInUSD;
 
                     const imageVariant = product.gallery?.find((item: any) => {
-                      if (!item.variantOption) return false
+                      if (!item.variantOption) return false;
                       const variantOptionID =
-                        typeof item.variantOption === 'object'
+                        typeof item.variantOption === "object"
                           ? item.variantOption.id
-                          : item.variantOption
+                          : item.variantOption;
 
                       const hasMatch = variant?.options?.some((option: any) => {
-                        if (typeof option === 'object') return option.id === variantOptionID
-                        else return option === variantOptionID
-                      })
+                        if (typeof option === "object") return option.id === variantOptionID;
+                        else return option === variantOptionID;
+                      });
 
-                      return hasMatch
-                    })
+                      return hasMatch;
+                    });
 
-                    if (imageVariant && typeof imageVariant.image === 'object') {
-                      image = imageVariant.image
+                    if (imageVariant && typeof imageVariant.image === "object") {
+                      image = imageVariant.image;
                     }
                   }
 
@@ -118,7 +119,7 @@ export function CartModal() {
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
                             {image?.url && (
                               <Image
-                                alt={image?.alt || product?.title || ''}
+                                alt={image?.alt || product?.title || ""}
                                 className="h-full w-full object-cover"
                                 height={94}
                                 src={image.url}
@@ -133,16 +134,16 @@ export function CartModal() {
                               <p className="text-sm text-muted-foreground capitalize">
                                 {(variant.options as any[])
                                   ?.map((option: any) => {
-                                    if (typeof option === 'object') return option.label
-                                    return null
+                                    if (typeof option === "object") return option.label;
+                                    return null;
                                   })
-                                  .join(', ')}
+                                  .join(", ")}
                               </p>
                             ) : null}
                           </div>
                         </Link>
                         <div className="flex h-16 flex-col justify-between">
-                          {typeof price === 'number' && (
+                          {typeof price === "number" && (
                             <Price
                               amount={price}
                               className="flex justify-end space-y-2 text-right text-sm"
@@ -158,13 +159,13 @@ export function CartModal() {
                         </div>
                       </div>
                     </li>
-                  )
+                  );
                 })}
               </ul>
 
               <div className="px-4">
                 <div className="py-4 text-sm text-muted-foreground">
-                  {typeof cart?.subtotal === 'number' && (
+                  {typeof cart?.subtotal === "number" && (
                     <div className="mb-3 flex items-center justify-between border-b border-border pb-1 pt-1">
                       <p>Total</p>
                       <Price
@@ -186,5 +187,5 @@ export function CartModal() {
         )}
       </SheetContent>
     </Sheet>
-  )
+  );
 }

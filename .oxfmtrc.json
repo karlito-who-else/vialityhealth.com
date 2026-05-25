@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    "build-config.json",
+    "next-env.d.ts",
+    "dist/**",
+    "src/components-catalyst/**",
+    "src/graphql-bigcommerce.d.ts",
+    "src/graphql-statamic.d.ts",
+    "src/vibes/**",
+    "tests/visual-regression/components-catalyst/**"
+  ],
+  "sortImports": {
+    "groups": [
+      ["type-builtin", "builtin"],
+      ["type-external", "external"],
+      ["type-internal", "internal"],
+      ["parent", "sibling", "index"]
+    ]
+  }
+}

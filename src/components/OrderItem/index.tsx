@@ -1,16 +1,17 @@
-import { OrderStatus } from '@/components/OrderStatus'
-import { Price } from '@/components/Price'
-import { Button } from '@/components/ui/button'
-import { Order } from '@/payload-types'
-import { formatDateTime } from '@/utilities/formatDateTime'
-import Link from 'next/link'
+import Link from "next/link";
+
+import { OrderStatus } from "@/components/OrderStatus";
+import { Price } from "@/components/Price";
+import { Button } from "@/components/ui/button";
+import { Order } from "@/payload-types";
+import { formatDateTime } from "@/utilities/formatDateTime";
 
 type Props = {
-  order: Order
-}
+  order: Order;
+};
 
 export const OrderItem: React.FC<Props> = ({ order }) => {
-  const itemsLabel = order.items?.length === 1 ? 'Item' : 'Items'
+  const itemsLabel = order.items?.length === 1 ? "Item" : "Items";
 
   return (
     <div className="bg-card border rounded-lg px-4 py-2 md:px-6 md:py-4 flex flex-col sm:flex-row gap-12 sm:items-center sm:justify-between">
@@ -20,7 +21,7 @@ export const OrderItem: React.FC<Props> = ({ order }) => {
         <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-6">
           <p className="text-xl">
             <time dateTime={order.createdAt}>
-              {formatDateTime({ date: order.createdAt, format: 'MMMM dd, yyyy' })}
+              {formatDateTime({ date: order.createdAt, format: "MMMM dd, yyyy" })}
             </time>
           </p>
 
@@ -44,5 +45,5 @@ export const OrderItem: React.FC<Props> = ({ order }) => {
         <Link href={`/orders/${order.id}`}>View Order</Link>
       </Button>
     </div>
-  )
-}
+  );
+};

@@ -1,28 +1,27 @@
-import type { Metadata } from 'next'
+import configPromise from "@payload-config";
+import type { Metadata } from "next";
+import { headers as getHeaders } from "next/headers";
+import { redirect } from "next/navigation";
+import { getPayload } from "payload";
+import React from "react";
 
-import { RenderParams } from '@/components/RenderParams'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import React from 'react'
-import { headers as getHeaders } from 'next/headers'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-
-import { CreateAccountForm } from '@/components/forms/CreateAccountForm'
-import { redirect } from 'next/navigation'
+import { CreateAccountForm } from "@/components/forms/CreateAccountForm";
+import { RenderParams } from "@/components/RenderParams";
+import { getCachedGlobal } from "@/utilities/getGlobals";
+import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function CreateAccount() {
-  const headers = await getHeaders()
-  const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const headers = await getHeaders();
+  const payload = await getPayload({ config: configPromise });
+  const { user } = await payload.auth({ headers });
 
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
-  const alreadyLoggedInWarning = settings?.alreadyLoggedInWarning || 'You are already logged in.'
-  const createAccountHeading = settings?.createAccountHeading || 'Create Account'
+  const alreadyLoggedInWarning = settings?.alreadyLoggedInWarning || "You are already logged in.";
+  const createAccountHeading = settings?.createAccountHeading || "Create Account";
 
   if (user) {
-    redirect(`/account?warning=${encodeURIComponent(alreadyLoggedInWarning)}`)
+    redirect(`/account?warning=${encodeURIComponent(alreadyLoggedInWarning)}`);
   }
 
   return (
@@ -31,18 +30,20 @@ export default async function CreateAccount() {
       <RenderParams />
       <CreateAccountForm />
     </div>
-  )
+  );
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
   return {
-    description: settings?.createAccountHeading ? `Create an ${settings.createAccountHeading.toLowerCase()} or log in to your existing account.` : 'Create an account or log in to your existing account.',
+    description: settings?.createAccountHeading
+      ? `Create an ${settings.createAccountHeading.toLowerCase()} or log in to your existing account.`
+      : "Create an account or log in to your existing account.",
     openGraph: mergeOpenGraph({
-      title: settings?.createAccountHeading || 'Account',
-      url: '/account',
+      title: settings?.createAccountHeading || "Account",
+      url: "/account",
     }),
-    title: settings?.createAccountHeading || 'Account',
-  }
+    title: settings?.createAccountHeading || "Account",
+  };
 }

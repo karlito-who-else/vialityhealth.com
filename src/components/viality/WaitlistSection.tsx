@@ -1,20 +1,15 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 
 export type WaitlistSectionProps = {
-  heading: string
-  body?: string | null
-  placeholder: string
-  buttonLabel: string
-}
+  heading: string;
+  body?: string | null;
+  placeholder: string;
+  buttonLabel: string;
+};
 
-export function WaitlistSection({
-  heading,
-  body,
-  placeholder,
-  buttonLabel,
-}: WaitlistSectionProps) {
+export function WaitlistSection({ heading, body, placeholder, buttonLabel }: WaitlistSectionProps) {
   return (
     <section className="py-32 px-6 bg-primary text-primary-foreground text-center">
       <div className="max-w-2xl mx-auto flex flex-col items-center">
@@ -48,5 +43,5 @@ export function WaitlistSection({
         </form>
       </div>
     </section>
-  )
+  );
 }

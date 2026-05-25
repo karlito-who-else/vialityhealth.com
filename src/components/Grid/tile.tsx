@@ -1,20 +1,20 @@
-import type { Media as MediaType } from '@/payload-types'
+import clsx from "clsx";
+import React from "react";
 
-import { Media } from '@/components/Media'
-import { Label } from '@/components/Grid/Label'
-import clsx from 'clsx'
-import React from 'react'
+import { Label } from "@/components/Grid/Label";
+import { Media } from "@/components/Media";
+import type { Media as MediaType } from "@/payload-types";
 
 type Props = {
-  active?: boolean
-  isInteractive?: boolean
+  active?: boolean;
+  isInteractive?: boolean;
   label?: {
-    amount: number
-    position?: 'bottom' | 'center'
-    title: string
-  }
-  media: MediaType
-}
+    amount: number;
+    position?: "bottom" | "center";
+    title: string;
+  };
+  media: MediaType;
+};
 
 export const GridTileImage: React.FC<Props> = ({
   active,
@@ -25,18 +25,18 @@ export const GridTileImage: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'group flex h-full w-full items-center justify-center overflow-hidden rounded-lg border bg-card hover:border-ring dark:bg-ink-well',
+        "group flex h-full w-full items-center justify-center overflow-hidden rounded-lg border bg-card hover:border-ring dark:bg-ink-well",
         {
-          'border-2 border-ring': active,
-          'border-border dark:border-card': !active,
+          "border-2 border-ring": active,
+          "border-border dark:border-card": !active,
           relative: label,
         },
       )}
     >
       {props.media ? (
         <Media
-          className={clsx('relative h-full w-full object-cover', {
-            'transition duration-300 ease-in-out group-hover:scale-105': isInteractive,
+          className={clsx("relative h-full w-full object-cover", {
+            "transition duration-300 ease-in-out group-hover:scale-105": isInteractive,
           })}
           height={80}
           imgClassName="h-full w-full object-cover"
@@ -46,5 +46,5 @@ export const GridTileImage: React.FC<Props> = ({
       ) : null}
       {label ? <Label amount={label.amount} position={label.position} title={label.title} /> : null}
     </div>
-  )
-}
+  );
+};

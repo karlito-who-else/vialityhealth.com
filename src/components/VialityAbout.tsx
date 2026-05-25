@@ -1,9 +1,10 @@
-'use client'
+"use client";
 
-import type { About, Principle, TrustItem } from '@/payload-types'
-import { motion, useScroll, useTransform, type Variants } from 'framer-motion'
-import Link from 'next/link'
-import { useRef } from 'react'
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import Link from "next/link";
+import { useRef } from "react";
+
+import type { About, Principle, TrustItem } from "@/payload-types";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -12,15 +13,15 @@ const fadeUp: Variants = {
     y: 0,
     transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1], delay } as any,
   }),
-}
+};
 
 const fadeIn: Variants = {
   hidden: { opacity: 0 },
   show: (delay: number = 0) => ({
     opacity: 1,
-    transition: { duration: 1, ease: 'easeOut', delay } as any,
+    transition: { duration: 1, ease: "easeOut", delay } as any,
   }),
-}
+};
 
 function GrainOverlay({ opacity = 0.035 }: { opacity?: number }) {
   return (
@@ -29,41 +30,49 @@ function GrainOverlay({ opacity = 0.035 }: { opacity?: number }) {
       style={{
         opacity,
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: '128px 128px',
-        mixBlendMode: 'multiply',
+        backgroundRepeat: "repeat",
+        backgroundSize: "128px 128px",
+        mixBlendMode: "multiply",
       }}
     />
-  )
+  );
 }
 
-export function VialityAbout({ principles, trustItems, about }: { principles: Principle[]; trustItems: TrustItem[]; about: About }) {
-  const heroRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
+export function VialityAbout({
+  principles,
+  trustItems,
+  about,
+}: {
+  principles: Principle[];
+  trustItems: TrustItem[];
+  about: About;
+}) {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
 
-  const heroLabel = about?.heroLabel || 'Our Philosophy'
-  const heroHeading = about?.heroHeading || 'Wellness, refined.\nA quieter standard.'
-  const heroBody = about?.heroBody || ''
-  const philosophyLabel = about?.philosophyLabel || 'Brand Philosophy'
-  const philosophyHeading = about?.philosophyHeading || ''
-  const philosophyBody = about?.philosophyBody || []
-  const philosophyImageLabel = about?.philosophyImageLabel || 'viality — signature formula'
-  const principlesLabel = about?.principlesLabel || 'What We Stand For'
-  const principlesHeading = about?.principlesHeading || 'Three principles.\nNo exceptions.'
-  const trustLabel = about?.trustLabel || 'Our Standards'
-  const trustHeading = about?.trustHeading || 'The science is visible.\nBy design.'
-  const trustBody = about?.trustBody || ''
-  const trustImageLabel = about?.trustImageLabel || 'Third-Party Verified'
-  const trustButtonLabel = about?.trustButtonLabel || 'Request Certificate of Analysis'
-  const founderLabel = about?.founderLabel || 'A Note from the Founders'
-  const founderQuote = about?.founderQuote || ''
-  const founderSignature = about?.founderSignature || 'The viality Team'
-  const ctaHeading = about?.ctaHeading || 'Designed for\nconsistency.'
-  const ctaBody = about?.ctaBody || ''
-  const ctaShopLabel = about?.ctaShopLabel || 'Shop Formulas'
-  const ctaLabLabel = about?.ctaLabLabel || 'View Lab Reports'
-  const complianceText = about?.complianceText || ''
+  const heroLabel = about?.heroLabel || "Our Philosophy";
+  const heroHeading = about?.heroHeading || "Wellness, refined.\nA quieter standard.";
+  const heroBody = about?.heroBody || "";
+  const philosophyLabel = about?.philosophyLabel || "Brand Philosophy";
+  const philosophyHeading = about?.philosophyHeading || "";
+  const philosophyBody = about?.philosophyBody || [];
+  const philosophyImageLabel = about?.philosophyImageLabel || "viality — signature formula";
+  const principlesLabel = about?.principlesLabel || "What We Stand For";
+  const principlesHeading = about?.principlesHeading || "Three principles.\nNo exceptions.";
+  const trustLabel = about?.trustLabel || "Our Standards";
+  const trustHeading = about?.trustHeading || "The science is visible.\nBy design.";
+  const trustBody = about?.trustBody || "";
+  const trustImageLabel = about?.trustImageLabel || "Third-Party Verified";
+  const trustButtonLabel = about?.trustButtonLabel || "Request Certificate of Analysis";
+  const founderLabel = about?.founderLabel || "A Note from the Founders";
+  const founderQuote = about?.founderQuote || "";
+  const founderSignature = about?.founderSignature || "The viality Team";
+  const ctaHeading = about?.ctaHeading || "Designed for\nconsistency.";
+  const ctaBody = about?.ctaBody || "";
+  const ctaShopLabel = about?.ctaShopLabel || "Shop Formulas";
+  const ctaLabLabel = about?.ctaLabLabel || "View Lab Reports";
+  const complianceText = about?.complianceText || "";
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
@@ -77,32 +86,32 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(160deg, #e6e0d6 0%, #d8d0c4 35%, #cac3b8 65%, #d2cdc5 100%)',
+                "linear-gradient(160deg, #e6e0d6 0%, #d8d0c4 35%, #cac3b8 65%, #d2cdc5 100%)",
             }}
           />
           <motion.div
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse 65% 60% at 25% 70%, rgba(195,183,166,0.8) 0%, transparent 65%)',
+                "radial-gradient(ellipse 65% 60% at 25% 70%, rgba(195,183,166,0.8) 0%, transparent 65%)",
             }}
             animate={{ x: [0, 20, -14, 0], y: [0, -16, 20, 0] }}
-            transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse 50% 55% at 78% 30%, rgba(210,205,198,0.6) 0%, transparent 60%)',
+                "radial-gradient(ellipse 50% 55% at 78% 30%, rgba(210,205,198,0.6) 0%, transparent 60%)",
             }}
             animate={{ x: [0, -18, 12, 0], y: [0, 22, -12, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 3 }}
           />
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to top, rgba(20,18,14,0.5) 0%, rgba(20,18,14,0.1) 40%, transparent 100%)',
+                "linear-gradient(to top, rgba(20,18,14,0.5) 0%, rgba(20,18,14,0.1) 40%, transparent 100%)",
             }}
           />
           <GrainOverlay opacity={0.04} />
@@ -125,9 +134,9 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             animate="show"
             custom={0.1}
             className="font-serif italic text-primary-foreground leading-[1.05] mb-8"
-            style={{ fontSize: 'clamp(2.6rem, 7vw, 6.5rem)' }}
+            style={{ fontSize: "clamp(2.6rem, 7vw, 6.5rem)" }}
           >
-            {heroHeading.split('\n').map((line, i) => (
+            {heroHeading.split("\n").map((line, i) => (
               <span key={i}>
                 {i > 0 && <br className="hidden md:block" />}
                 {line}
@@ -155,7 +164,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
           >
             <motion.p
@@ -172,7 +181,11 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             >
               {philosophyHeading}
             </motion.h2>
-            <motion.div variants={fadeUp} custom={0.1} className="space-y-5 text-primary/60 text-sm leading-[1.85] font-light">
+            <motion.div
+              variants={fadeUp}
+              custom={0.1}
+              className="space-y-5 text-primary/60 text-sm leading-[1.85] font-light"
+            >
               {philosophyBody.map((item) => (
                 <p key={item.id}>{item.paragraph}</p>
               ))}
@@ -182,15 +195,15 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <div className="aspect-3/4 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
               <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
-              <div
-                className="absolute bottom-5 left-5 z-10"
-              >
-                <p className="text-xs uppercase tracking-widest text-primary/35">{philosophyImageLabel}</p>
+              <div className="absolute bottom-5 left-5 z-10">
+                <p className="text-xs uppercase tracking-widest text-primary/35">
+                  {philosophyImageLabel}
+                </p>
               </div>
             </div>
           </motion.div>
@@ -203,16 +216,27 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, margin: "-60px" }}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
             className="mb-20"
           >
-            <motion.p variants={fadeIn} custom={0} className="text-xs uppercase tracking-widest text-primary/40 mb-5">
+            <motion.p
+              variants={fadeIn}
+              custom={0}
+              className="text-xs uppercase tracking-widest text-primary/40 mb-5"
+            >
               {principlesLabel}
             </motion.p>
-            <motion.h2 variants={fadeUp} custom={0} className="font-serif italic text-4xl md:text-5xl text-primary">
-              {principlesHeading.split('\n').map((line, i) => (
-                <span key={i}>{i > 0 && <br />}{line}</span>
+            <motion.h2
+              variants={fadeUp}
+              custom={0}
+              className="font-serif italic text-4xl md:text-5xl text-primary"
+            >
+              {principlesHeading.split("\n").map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
               ))}
             </motion.h2>
           </motion.div>
@@ -223,7 +247,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                 key={principle.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
+                viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.8, delay: i * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
                 className="flex flex-col"
               >
@@ -249,14 +273,16 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
+              viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
               className="md:sticky md:top-28"
             >
               <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                 <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
                 <div className="absolute bottom-5 left-5 z-10">
-                  <p className="text-xs uppercase tracking-widest text-primary/35">{trustImageLabel}</p>
+                  <p className="text-xs uppercase tracking-widest text-primary/35">
+                    {trustImageLabel}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -268,16 +294,31 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                 viewport={{ once: true }}
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
               >
-                <motion.p variants={fadeIn} custom={0} className="text-xs uppercase tracking-widest text-primary/40 mb-6">
+                <motion.p
+                  variants={fadeIn}
+                  custom={0}
+                  className="text-xs uppercase tracking-widest text-primary/40 mb-6"
+                >
                   {trustLabel}
                 </motion.p>
-                <motion.h2 variants={fadeUp} custom={0} className="font-serif italic text-4xl text-primary leading-snug mb-4">
-                  {trustHeading.split('\n').map((line, i) => (
-                    <span key={i}>{i > 0 && <br />}{line}</span>
+                <motion.h2
+                  variants={fadeUp}
+                  custom={0}
+                  className="font-serif italic text-4xl text-primary leading-snug mb-4"
+                >
+                  {trustHeading.split("\n").map((line, i) => (
+                    <span key={i}>
+                      {i > 0 && <br />}
+                      {line}
+                    </span>
                   ))}
                 </motion.h2>
                 {trustBody && (
-                  <motion.p variants={fadeUp} custom={0.1} className="text-primary/55 text-sm leading-relaxed font-light">
+                  <motion.p
+                    variants={fadeUp}
+                    custom={0.1}
+                    className="text-primary/55 text-sm leading-relaxed font-light"
+                  >
                     {trustBody}
                   </motion.p>
                 )}
@@ -288,12 +329,16 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                   key={item.slug}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-30px' }}
-                  transition={{ duration: 0.7, delay: i * 0.08, ease: 'easeOut' }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.7, delay: i * 0.08, ease: "easeOut" }}
                   className="border-t border-primary/10 pt-8"
                 >
-                  <h4 className="text-xs uppercase tracking-widest font-semibold mb-3">{item.title}</h4>
-                  <p className="text-primary/55 text-sm leading-[1.85] font-light">{item.description}</p>
+                  <h4 className="text-xs uppercase tracking-widest font-semibold mb-3">
+                    {item.title}
+                  </h4>
+                  <p className="text-primary/55 text-sm leading-[1.85] font-light">
+                    {item.description}
+                  </p>
                 </motion.div>
               ))}
 
@@ -303,9 +348,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <button
-                  className="mt-2 text-xs uppercase tracking-widest border-b border-primary/30 pb-0.5 hover:border-primary transition-colors"
-                >
+                <button className="mt-2 text-xs uppercase tracking-widest border-b border-primary/30 pb-0.5 hover:border-primary transition-colors">
                   {trustButtonLabel}
                 </button>
               </motion.div>
@@ -321,7 +364,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 60% 50% at 50% 60%, rgba(180,160,130,0.07) 0%, transparent 70%)',
+              "radial-gradient(ellipse 60% 50% at 50% 60%, rgba(180,160,130,0.07) 0%, transparent 70%)",
           }}
         />
         <div className="relative z-10 max-w-3xl mx-auto text-center">
@@ -337,10 +380,10 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <motion.blockquote
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
             className="font-serif italic text-primary-foreground/90 leading-[1.65] mb-14"
-            style={{ fontSize: 'clamp(1.3rem, 3vw, 2.1rem)' }}
+            style={{ fontSize: "clamp(1.3rem, 3vw, 2.1rem)" }}
           >
             {founderQuote}
           </motion.blockquote>
@@ -352,7 +395,9 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             className="flex flex-col items-center gap-1"
           >
             <div className="w-10 h-px bg-primary-foreground/20 mb-5" />
-            <p className="text-primary-foreground/50 text-xs uppercase tracking-widest">{founderSignature}</p>
+            <p className="text-primary-foreground/50 text-xs uppercase tracking-widest">
+              {founderSignature}
+            </p>
           </motion.div>
         </div>
       </section>
@@ -363,15 +408,18 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <h2
               className="font-serif italic text-primary leading-tight"
-              style={{ fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
+              style={{ fontSize: "clamp(2.2rem, 5vw, 4.5rem)" }}
             >
-              {ctaHeading.split('\n').map((line, i) => (
-                <span key={i}>{i > 0 && <br />}{line}</span>
+              {ctaHeading.split("\n").map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
               ))}
             </h2>
           </motion.div>
@@ -379,7 +427,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             className="flex flex-col gap-6"
           >
@@ -395,9 +443,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
               >
                 {ctaShopLabel}
               </Link>
-              <button
-                className="inline-block px-9 py-4 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary transition-colors"
-              >
+              <button className="inline-block px-9 py-4 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary transition-colors">
                 {ctaLabLabel}
               </button>
             </div>
@@ -410,5 +456,5 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
         </div>
       </section>
     </div>
-  )
+  );
 }

@@ -1,36 +1,37 @@
-import type { CollectionConfig } from 'payload'
-
-import { adminOnly } from '@/access/adminOnly'
-import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
-import { Archive } from '@/blocks/ArchiveBlock/config'
-import { Banner } from '@/blocks/Banner/config'
-import { CallToAction } from '@/blocks/CallToAction/config'
-import { Carousel } from '@/blocks/Carousel/config'
-import { Content } from '@/blocks/Content/config'
-import { FormBlock } from '@/blocks/Form/config'
-import { MediaBlock } from '@/blocks/MediaBlock/config'
-import { ThreeItemGrid } from '@/blocks/ThreeItemGrid/config'
-import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
-import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
-import { VialityHero } from '@/blocks/VialityHeroBlock/config'
-import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config'
-import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
-import { VialityTrust } from '@/blocks/VialityTrustBlock/config'
-import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config'
-import { hero } from '@/fields/hero'
-import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import {
   MetaDescriptionField,
   MetaImageField,
   MetaTitleField,
   OverviewField,
   PreviewField,
-} from '@payloadcms/plugin-seo/fields'
-import { slugField } from 'payload'
-import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+} from "@payloadcms/plugin-seo/fields";
+import type { CollectionConfig } from "payload";
+import { slugField } from "payload";
+
+import { adminOnly } from "@/access/adminOnly";
+import { adminOrPublishedStatus } from "@/access/adminOrPublishedStatus";
+import { Archive } from "@/blocks/ArchiveBlock/config";
+import { Banner } from "@/blocks/Banner/config";
+import { CallToAction } from "@/blocks/CallToAction/config";
+import { Carousel } from "@/blocks/Carousel/config";
+import { Content } from "@/blocks/Content/config";
+import { FormBlock } from "@/blocks/Form/config";
+import { MediaBlock } from "@/blocks/MediaBlock/config";
+import { ThreeItemGrid } from "@/blocks/ThreeItemGrid/config";
+import { VialityCompliance } from "@/blocks/VialityComplianceBlock/config";
+import { VialityFeaturedProducts } from "@/blocks/VialityFeaturedProductsBlock/config";
+import { VialityHero } from "@/blocks/VialityHeroBlock/config";
+import { VialityPhilosophy } from "@/blocks/VialityPhilosophyBlock/config";
+import { VialityShipping } from "@/blocks/VialityShippingBlock/config";
+import { VialityTrust } from "@/blocks/VialityTrustBlock/config";
+import { VialityWaitlist } from "@/blocks/VialityWaitlistBlock/config";
+import { hero } from "@/fields/hero";
+import { generatePreviewPath } from "@/utilities/generatePreviewPath";
+
+import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 
 export const Pages: CollectionConfig = {
-  slug: 'pages',
+  slug: "pages",
   access: {
     create: adminOnly,
     delete: adminOnly,
@@ -38,62 +39,62 @@ export const Pages: CollectionConfig = {
     update: adminOnly,
   },
   admin: {
-    group: 'Content',
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    group: "Content",
+    defaultColumns: ["title", "slug", "updatedAt"],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
           slug: data?.slug,
-          collection: 'pages',
+          collection: "pages",
           req,
         }),
     },
     preview: (data, { req }) =>
       generatePreviewPath({
         slug: data?.slug as string,
-        collection: 'pages',
+        collection: "pages",
         req,
       }),
-    useAsTitle: 'title',
+    useAsTitle: "title",
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
     },
     {
-      name: 'publishedOn',
-      type: 'date',
+      name: "publishedOn",
+      type: "date",
       admin: {
         date: {
-          pickerAppearance: 'dayAndTime',
+          pickerAppearance: "dayAndTime",
         },
-        position: 'sidebar',
+        position: "sidebar",
       },
       hooks: {
         beforeChange: [
           ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
+            if (siblingData._status === "published" && !value) {
+              return new Date();
             }
-            return value
+            return value;
           },
         ],
       },
     },
     {
-      type: 'tabs',
+      type: "tabs",
       tabs: [
         {
           fields: [hero],
-          label: 'Hero',
+          label: "Hero",
         },
         {
           fields: [
             {
-              name: 'content',
-              type: 'blocks',
+              name: "content",
+              type: "blocks",
               blocks: [
                 CallToAction,
                 Content,
@@ -114,22 +115,22 @@ export const Pages: CollectionConfig = {
               required: true,
             },
           ],
-          label: 'Content',
+          label: "Content",
         },
         {
-          name: 'meta',
-          label: 'SEO',
+          name: "meta",
+          label: "SEO",
           fields: [
             OverviewField({
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
+              titlePath: "meta.title",
+              descriptionPath: "meta.description",
+              imagePath: "meta.image",
             }),
             MetaTitleField({
               hasGenerateFn: true,
             }),
             MetaImageField({
-              relationTo: 'media',
+              relationTo: "media",
             }),
 
             MetaDescriptionField({}),
@@ -138,8 +139,8 @@ export const Pages: CollectionConfig = {
               hasGenerateFn: true,
 
               // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
+              titlePath: "meta.title",
+              descriptionPath: "meta.description",
             }),
           ],
         },
@@ -157,4 +158,4 @@ export const Pages: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
-}
+};

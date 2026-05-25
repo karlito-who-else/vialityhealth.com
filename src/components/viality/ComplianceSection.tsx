@@ -1,9 +1,9 @@
 export type ComplianceSectionProps = {
-  text?: string | null
-}
+  text?: string | null;
+};
 
 export function ComplianceSection({ text }: ComplianceSectionProps) {
-  if (!text) return null
+  if (!text) return null;
 
   return (
     <section className="py-8 px-6 bg-background border-t border-border/20">
@@ -11,5 +11,5 @@ export function ComplianceSection({ text }: ComplianceSectionProps) {
         {text}
       </p>
     </section>
-  )
+  );
 }

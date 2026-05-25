@@ -1,16 +1,17 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
-import clsx from 'clsx'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import clsx from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
 
 type Props = {
-  className?: string
-}
+  className?: string;
+};
 
 export const AccountNav: React.FC<Props> = ({ className }) => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <div className={clsx(className)}>
@@ -19,8 +20,8 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
           <Button asChild variant="link">
             <Link
               href="/account"
-              className={clsx('text-primary/50 hover:text-primary hover:no-underline', {
-                'text-primary': pathname === '/account',
+              className={clsx("text-primary/50 hover:text-primary hover:no-underline", {
+                "text-primary": pathname === "/account",
               })}
             >
               Account settings
@@ -32,8 +33,8 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
           <Button asChild variant="link">
             <Link
               href="/account/addresses"
-              className={clsx('text-primary/50 hover:text-primary hover:no-underline', {
-                'text-primary': pathname === '/account/addresses',
+              className={clsx("text-primary/50 hover:text-primary hover:no-underline", {
+                "text-primary": pathname === "/account/addresses",
               })}
             >
               Addresses
@@ -45,8 +46,8 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
           <Button
             asChild
             variant="link"
-            className={clsx('text-primary/50 hover:text-primary hover:no-underline', {
-              'text-primary': pathname === '/orders' || pathname.includes('/orders'),
+            className={clsx("text-primary/50 hover:text-primary hover:no-underline", {
+              "text-primary": pathname === "/orders" || pathname.includes("/orders"),
             })}
           >
             <Link href="/orders">Orders</Link>
@@ -59,12 +60,12 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
       <Button
         asChild
         variant="link"
-        className={clsx('text-primary/50 hover:text-primary hover:no-underline', {
-          'text-primary': pathname === '/logout',
+        className={clsx("text-primary/50 hover:text-primary hover:no-underline", {
+          "text-primary": pathname === "/logout",
         })}
       >
         <Link href="/logout">Log out</Link>
       </Button>
     </div>
-  )
-}
+  );
+};

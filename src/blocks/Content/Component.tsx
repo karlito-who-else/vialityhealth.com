@@ -1,25 +1,26 @@
-import { RichText } from '@/components/RichText'
-import type { ContentBlock as ContentBlockProps } from '@/payload-types'
-import { cn } from '@/utilities/cn'
-import type { DefaultDocumentIDType } from 'payload'
-import React from 'react'
+import type { DefaultDocumentIDType } from "payload";
+import React from "react";
 
-import { CMSLink } from '../../components/Link'
+import { RichText } from "@/components/RichText";
+import type { ContentBlock as ContentBlockProps } from "@/payload-types";
+import { cn } from "@/utilities/cn";
+
+import { CMSLink } from "../../components/Link";
 
 export const ContentBlock: React.FC<
   ContentBlockProps & {
-    id?: DefaultDocumentIDType
-    className?: string
+    id?: DefaultDocumentIDType;
+    className?: string;
   }
 > = (props) => {
-  const { columns } = props
+  const { columns } = props;
 
   const colsSpanClasses = {
-    full: '12',
-    half: '6',
-    oneThird: '4',
-    twoThirds: '8',
-  }
+    full: "12",
+    half: "6",
+    oneThird: "4",
+    twoThirds: "8",
+  };
 
   return (
     <section className="container my-16" {...props}>
@@ -27,12 +28,12 @@ export const ContentBlock: React.FC<
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
-            const { enableLink, link, richText, size } = col
+            const { enableLink, link, richText, size } = col;
 
             return (
               <div
                 className={cn(`col-span-4 lg:col-span-${colsSpanClasses[size!]}`, {
-                  'md:col-span-2': size !== 'full',
+                  "md:col-span-2": size !== "full",
                 })}
                 key={index}
               >
@@ -40,9 +41,9 @@ export const ContentBlock: React.FC<
 
                 {enableLink && <CMSLink {...link} />}
               </div>
-            )
+            );
           })}
       </div>
     </section>
-  )
-}
+  );
+};

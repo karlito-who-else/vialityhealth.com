@@ -1,35 +1,34 @@
-import type { Order } from '@/payload-types'
-import type { Metadata } from 'next'
+import configPromise from "@payload-config";
+import type { Metadata } from "next";
+import { headers as getHeaders } from "next/headers";
+import { redirect } from "next/navigation";
+import { getPayload } from "payload";
 
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-
-import { OrderItem } from '@/components/OrderItem'
-import { headers as getHeaders } from 'next/headers'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { redirect } from 'next/navigation'
+import { OrderItem } from "@/components/OrderItem";
+import type { Order } from "@/payload-types";
+import { getCachedGlobal } from "@/utilities/getGlobals";
+import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function Orders() {
-  const headers = await getHeaders()
-  const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const headers = await getHeaders();
+  const payload = await getPayload({ config: configPromise });
+  const { user } = await payload.auth({ headers });
 
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
-  const ordersLoginWarning = settings?.ordersLoginWarning || 'Please login to access your orders.'
-  const ordersHeading = settings?.ordersHeading || 'Orders'
-  const noOrdersText = settings?.noOrdersText || 'You have no orders.'
+  const ordersLoginWarning = settings?.ordersLoginWarning || "Please login to access your orders.";
+  const ordersHeading = settings?.ordersHeading || "Orders";
+  const noOrdersText = settings?.noOrdersText || "You have no orders.";
 
-  let orders: Order[] | null = null
+  let orders: Order[] | null = null;
 
   if (!user) {
-    redirect(`/login?warning=${encodeURIComponent(ordersLoginWarning)}`)
+    redirect(`/login?warning=${encodeURIComponent(ordersLoginWarning)}`);
   }
 
   try {
     const ordersResult = await payload.find({
-      collection: 'orders',
+      collection: "orders",
       limit: 0,
       pagination: false,
       user,
@@ -39,9 +38,9 @@ export default async function Orders() {
           equals: user?.id,
         },
       },
-    })
+    });
 
-    orders = ordersResult?.docs || []
+    orders = ordersResult?.docs || [];
   } catch (error) {}
 
   return (
@@ -63,18 +62,18 @@ export default async function Orders() {
         )}
       </div>
     </>
-  )
+  );
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = await getCachedGlobal("settings", 1)();
 
   return {
-    description: settings?.ordersHeading ? `${settings.ordersHeading}.` : 'Your orders.',
+    description: settings?.ordersHeading ? `${settings.ordersHeading}.` : "Your orders.",
     openGraph: mergeOpenGraph({
-      title: settings?.ordersHeading || 'Orders',
-      url: '/orders',
+      title: settings?.ordersHeading || "Orders",
+      url: "/orders",
     }),
-    title: settings?.ordersHeading || 'Orders',
-  }
+    title: settings?.ordersHeading || "Orders",
+  };
 }

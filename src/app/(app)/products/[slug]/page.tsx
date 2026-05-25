@@ -1,48 +1,48 @@
-import type { Media, Product } from '@/payload-types'
+import configPromise from "@payload-config";
+import { Metadata } from "next";
+import { draftMode } from "next/headers";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getPayload } from "payload";
+import { Suspense } from "react";
 
-import { Gallery } from '@/components/product/Gallery'
-import { VialityProductDescription } from '@/components/product/VialityProductDescription'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import configPromise from '@payload-config'
-import { Metadata } from 'next'
-import { draftMode } from 'next/headers'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import { Suspense } from 'react'
+import { Gallery } from "@/components/product/Gallery";
+import { VialityProductDescription } from "@/components/product/VialityProductDescription";
+import type { Media, Product } from "@/payload-types";
+import { getCachedGlobal } from "@/utilities/getGlobals";
 
 type Args = {
   params: Promise<{
-    slug: string
-  }>
-}
+    slug: string;
+  }>;
+};
 
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
-  const { slug } = await params
-  const product = await queryProductBySlug({ slug })
+  const { slug } = await params;
+  const product = await queryProductBySlug({ slug });
 
-  if (!product) return notFound()
+  if (!product) return notFound();
 
-  const gallery = product.gallery?.filter((item) => typeof item.image === 'object') || []
+  const gallery = product.gallery?.filter((item) => typeof item.image === "object") || [];
 
-  const metaImage = typeof product.meta?.image === 'object' ? product.meta?.image : undefined
-  const canIndex = product._status === 'published'
+  const metaImage = typeof product.meta?.image === "object" ? product.meta?.image : undefined;
+  const canIndex = product._status === "published";
 
-  const seoImage = metaImage || (gallery.length ? (gallery[0]?.image as Media) : undefined)
+  const seoImage = metaImage || (gallery.length ? (gallery[0]?.image as Media) : undefined);
 
   return {
-    description: product.meta?.description || '',
+    description: product.meta?.description || "",
     openGraph: seoImage?.url
       ? {
-        images: [
-          {
-            alt: seoImage?.alt,
-            height: seoImage.height!,
-            url: seoImage?.url,
-            width: seoImage.width!,
-          },
-        ],
-      }
+          images: [
+            {
+              alt: seoImage?.alt,
+              height: seoImage.height!,
+              url: seoImage?.url,
+              width: seoImage.width!,
+            },
+          ],
+        }
       : null,
     robots: {
       follow: canIndex,
@@ -53,51 +53,58 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
       index: canIndex,
     },
     title: product.meta?.title || product.title,
-  }
+  };
 }
 
 export default async function ProductPage({ params }: Args) {
-  const { slug } = await params
-  const product = await queryProductBySlug({ slug })
+  const { slug } = await params;
+  const product = await queryProductBySlug({ slug });
 
-  if (!product) return notFound()
+  if (!product) return notFound();
 
   const gallery =
     product.gallery
-      ?.filter((item) => typeof item.image === 'object')
+      ?.filter((item) => typeof item.image === "object")
       .map((item) => ({
         ...item,
         image: item.image as Media,
-      })) || []
+      })) || [];
 
-  const metaImage = typeof product.meta?.image === 'object' ? product.meta?.image : undefined
+  const metaImage = typeof product.meta?.image === "object" ? product.meta?.image : undefined;
 
   const relatedProducts =
-    product.relatedProducts?.filter((relatedProduct) => typeof relatedProduct === 'object') ?? []
+    product.relatedProducts?.filter((relatedProduct) => typeof relatedProduct === "object") ?? [];
 
-  const marketingPayload = await getPayload({ config: configPromise })
+  const marketingPayload = await getPayload({ config: configPromise });
 
-  const [{ docs: faqs }, { docs: ingredients }, { docs: benefits }, { docs: trustBadges }, productContent] = await Promise.all([
-    marketingPayload.find({ collection: 'faqs', sort: 'order', limit: 10 }),
-    marketingPayload.find({ collection: 'ingredients', sort: 'order', limit: 10 }),
-    marketingPayload.find({ collection: 'benefits', sort: 'order', limit: 10 }),
-    marketingPayload.find({ collection: 'trustBadges', sort: 'order', limit: 10 }),
-    getCachedGlobal('settings', 1)(),
-  ])
+  const [
+    { docs: faqs },
+    { docs: ingredients },
+    { docs: benefits },
+    { docs: trustBadges },
+    productContent,
+  ] = await Promise.all([
+    marketingPayload.find({ collection: "faqs", sort: "order", limit: 10 }),
+    marketingPayload.find({ collection: "ingredients", sort: "order", limit: 10 }),
+    marketingPayload.find({ collection: "benefits", sort: "order", limit: 10 }),
+    marketingPayload.find({ collection: "trustBadges", sort: "order", limit: 10 }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
-  const benefitsLabelTemplate = productContent?.benefitsLabelTemplate || 'Why {title}'
-  const benefitsHeading = productContent?.benefitsHeading || 'A quieter standard of vitality.'
-  const usageRitualLabel = productContent?.usageRitualLabel || 'Usage Ritual'
-  const usageRitualHeading = productContent?.usageRitualHeading || 'Unhurried. Intentional. Daily.'
-  const usageRitualBody = productContent?.usageRitualBody || ''
-  const usageRitualDisclaimer = productContent?.usageRitualDisclaimer || ''
-  const verificationLabel = productContent?.verificationLabel || 'Verification'
-  const verificationHeading = productContent?.verificationHeading || 'Verified clarity,\nbatch by batch.'
-  const verificationBody = productContent?.verificationBody || ''
-  const labReportLabel = productContent?.labReportLabel || 'View Lab Report'
-  const requestCOALabel = productContent?.requestCOALabel || 'Request Full COA'
-  const completeRitualHeading = productContent?.completeRitualHeading || 'Complete the Ritual'
-  const productDisclaimer = productContent?.productDisclaimer || ''
+  const benefitsLabelTemplate = productContent?.benefitsLabelTemplate || "Why {title}";
+  const benefitsHeading = productContent?.benefitsHeading || "A quieter standard of vitality.";
+  const usageRitualLabel = productContent?.usageRitualLabel || "Usage Ritual";
+  const usageRitualHeading = productContent?.usageRitualHeading || "Unhurried. Intentional. Daily.";
+  const usageRitualBody = productContent?.usageRitualBody || "";
+  const usageRitualDisclaimer = productContent?.usageRitualDisclaimer || "";
+  const verificationLabel = productContent?.verificationLabel || "Verification";
+  const verificationHeading =
+    productContent?.verificationHeading || "Verified clarity,\nbatch by batch.";
+  const verificationBody = productContent?.verificationBody || "";
+  const labReportLabel = productContent?.labReportLabel || "View Lab Report";
+  const requestCOALabel = productContent?.requestCOALabel || "Request Full COA";
+  const completeRitualHeading = productContent?.completeRitualHeading || "Complete the Ritual";
+  const productDisclaimer = productContent?.productDisclaimer || "";
 
   return (
     <div className="min-h-screen bg-background pt-[72px]">
@@ -122,7 +129,13 @@ export default async function ProductPage({ params }: Args) {
 
         {/* RIGHT — Sticky purchase module */}
         <div className="lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] overflow-y-auto order-1 lg:order-2 border-l border-border/40">
-          <VialityProductDescription product={product} faqs={faqs} ingredients={ingredients} trustBadges={trustBadges} productContent={productContent} />
+          <VialityProductDescription
+            product={product}
+            faqs={faqs}
+            ingredients={ingredients}
+            trustBadges={trustBadges}
+            productContent={productContent}
+          />
         </div>
       </section>
 
@@ -130,18 +143,19 @@ export default async function ProductPage({ params }: Args) {
       <section className="bg-surface-warm py-24 md:py-32 px-6 md:px-16">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
-            <p className="text-xs uppercase tracking-widest text-primary/35 mb-6">{benefitsLabelTemplate.replace('{title}', product.title)}</p>
+            <p className="text-xs uppercase tracking-widest text-primary/35 mb-6">
+              {benefitsLabelTemplate.replace("{title}", product.title)}
+            </p>
             <h2 className="font-serif italic text-4xl md:text-5xl text-primary leading-tight">
               {benefitsHeading}
             </h2>
           </div>
           <div className="space-y-8">
             {benefits.map((b) => (
-              <div
-                key={b.slug}
-                className="border-l-2 border-accent/50 pl-5"
-              >
-                <h3 className="text-xs uppercase tracking-widest font-semibold mb-1.5">{b.title}</h3>
+              <div key={b.slug} className="border-l-2 border-accent/50 pl-5">
+                <h3 className="text-xs uppercase tracking-widest font-semibold mb-1.5">
+                  {b.title}
+                </h3>
                 <p className="text-sm text-primary/55 font-light leading-[1.8]">{b.body}</p>
               </div>
             ))}
@@ -152,7 +166,9 @@ export default async function ProductPage({ params }: Args) {
       {/* USAGE RITUAL */}
       <section className="bg-background py-20 md:py-28 px-6 md:px-16 border-t border-border/30">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-[200px_1fr] gap-10 md:gap-20 items-start">
-          <p className="text-xs uppercase tracking-widest text-primary/35 md:pt-1">{usageRitualLabel}</p>
+          <p className="text-xs uppercase tracking-widest text-primary/35 md:pt-1">
+            {usageRitualLabel}
+          </p>
           <div>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary mb-6">
               {usageRitualHeading}
@@ -163,9 +179,7 @@ export default async function ProductPage({ params }: Args) {
               </p>
             )}
             {usageRitualDisclaimer && (
-              <p className="text-xs text-primary/40 font-light italic">
-                {usageRitualDisclaimer}
-              </p>
+              <p className="text-xs text-primary/40 font-light italic">{usageRitualDisclaimer}</p>
             )}
           </div>
         </div>
@@ -177,17 +191,22 @@ export default async function ProductPage({ params }: Args) {
           className="absolute inset-0 pointer-events-none opacity-[0.04]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-            backgroundSize: '128px',
-            mixBlendMode: 'screen',
+            backgroundRepeat: "repeat",
+            backgroundSize: "128px",
+            mixBlendMode: "screen",
           }}
         />
         <div className="relative z-10 mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-10">
           <div>
-            <p className="text-xs uppercase tracking-widest text-primary-foreground/25 mb-4">{verificationLabel}</p>
+            <p className="text-xs uppercase tracking-widest text-primary-foreground/25 mb-4">
+              {verificationLabel}
+            </p>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
-              {verificationHeading.split('\n').map((line, i) => (
-                <span key={i}>{i > 0 && <br />}{line}</span>
+              {verificationHeading.split("\n").map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
               ))}
             </h2>
             {verificationBody && (
@@ -198,7 +217,16 @@ export default async function ProductPage({ params }: Args) {
           </div>
           <div className="flex flex-col sm:flex-row gap-4 shrink-0">
             <button className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-xs uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" />
@@ -207,7 +235,16 @@ export default async function ProductPage({ params }: Args) {
               {labReportLabel}
             </button>
             <button className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-xs uppercase tracking-widest hover:bg-primary-foreground/12 transition-all">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
               </svg>
@@ -219,7 +256,10 @@ export default async function ProductPage({ params }: Args) {
 
       {/* RELATED PRODUCTS */}
       {relatedProducts.length ? (
-        <RelatedProducts products={relatedProducts as Product[]} completeRitualHeading={completeRitualHeading} />
+        <RelatedProducts
+          products={relatedProducts as Product[]}
+          completeRitualHeading={completeRitualHeading}
+        />
       ) : null}
 
       {/* DISCLAIMER */}
@@ -231,11 +271,17 @@ export default async function ProductPage({ params }: Args) {
         </section>
       )}
     </div>
-  )
+  );
 }
 
-function RelatedProducts({ products, completeRitualHeading }: { products: Product[]; completeRitualHeading: string }) {
-  if (!products.length) return null
+function RelatedProducts({
+  products,
+  completeRitualHeading,
+}: {
+  products: Product[];
+  completeRitualHeading: string;
+}) {
+  if (!products.length) return null;
 
   return (
     <section className="py-24 px-6 bg-surface-warm">
@@ -246,11 +292,13 @@ function RelatedProducts({ products, completeRitualHeading }: { products: Produc
             <li key={product.id}>
               <Link href={`/products/${product.slug}`} className="group">
                 <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
-                  <span className="text-primary/20 font-serif italic text-6xl tracking-wider">v</span>
+                  <span className="text-primary/20 font-serif italic text-6xl tracking-wider">
+                    v
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <h3 className="uppercase tracking-widest text-xs font-medium">{product.title}</h3>
-                  {typeof product.priceInUSD === 'number' && (
+                  {typeof product.priceInUSD === "number" && (
                     <span className="text-sm font-light">${product.priceInUSD.toFixed(0)}</span>
                   )}
                 </div>
@@ -260,16 +308,16 @@ function RelatedProducts({ products, completeRitualHeading }: { products: Produc
         </ul>
       </div>
     </section>
-  )
+  );
 }
 
 const queryProductBySlug = async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
+  const { isEnabled: draft } = await draftMode();
 
-  const payload = await getPayload({ config: configPromise })
+  const payload = await getPayload({ config: configPromise });
 
   const result = await payload.find({
-    collection: 'products',
+    collection: "products",
     depth: 3,
     draft,
     limit: 1,
@@ -282,7 +330,7 @@ const queryProductBySlug = async ({ slug }: { slug: string }) => {
             equals: slug,
           },
         },
-        ...(draft ? [] : [{ _status: { equals: 'published' } }]),
+        ...(draft ? [] : [{ _status: { equals: "published" } }]),
       ],
     },
     populate: {
@@ -293,7 +341,7 @@ const queryProductBySlug = async ({ slug }: { slug: string }) => {
         options: true,
       },
     },
-  })
+  });
 
-  return result.docs?.[0] || null
-}
+  return result.docs?.[0] || null;
+};

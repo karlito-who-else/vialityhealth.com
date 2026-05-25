@@ -1,42 +1,43 @@
-'use client'
+"use client";
 
-import { cn } from '@/utilities/cn'
-import { createUrl } from '@/utilities/createUrl'
-import { SearchIcon } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import { SearchIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+
+import { cn } from "@/utilities/cn";
+import { createUrl } from "@/utilities/createUrl";
 
 type Props = {
-  className?: string
-}
+  className?: string;
+};
 
 export const Search: React.FC<Props> = ({ className }) => {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const val = e.target as HTMLFormElement
-    const search = val.search as HTMLInputElement
-    const newParams = new URLSearchParams(searchParams.toString())
+    const val = e.target as HTMLFormElement;
+    const search = val.search as HTMLInputElement;
+    const newParams = new URLSearchParams(searchParams.toString());
 
     if (search.value) {
-      newParams.set('q', search.value)
+      newParams.set("q", search.value);
     } else {
-      newParams.delete('q')
+      newParams.delete("q");
     }
 
-    router.push(createUrl('/shop', newParams))
+    router.push(createUrl("/shop", newParams));
   }
 
   return (
-    <form className={cn('relative w-full', className)} onSubmit={onSubmit}>
+    <form className={cn("relative w-full", className)} onSubmit={onSubmit}>
       <input
         autoComplete="off"
         className="w-full rounded-lg border bg-card px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground dark:border-card dark:bg-ink-well dark:text-primary-foreground dark:placeholder:text-muted-foreground"
-        defaultValue={searchParams?.get('q') || ''}
-        key={searchParams?.get('q')}
+        defaultValue={searchParams?.get("q") || ""}
+        key={searchParams?.get("q")}
         name="search"
         placeholder="Search for products..."
         type="text"
@@ -45,5 +46,5 @@ export const Search: React.FC<Props> = ({ className }) => {
         <SearchIcon className="h-4" />
       </div>
     </form>
-  )
-}
+  );
+};

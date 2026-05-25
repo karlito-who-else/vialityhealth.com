@@ -1,0 +1,51 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["jsx-a11y", "nextjs", "node", "react-perf", "react", "typescript", "vitest"],
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    "build-config.json",
+    "next-env.d.ts",
+    "dist/**",
+    "src/components-catalyst/**",
+    "src/graphql-bigcommerce.d.ts",
+    "src/graphql-statamic.d.ts",
+    "src/vibes/**",
+    "tests/visual-regression/components-catalyst/**"
+  ],
+  "jsPlugins": [{ "name": "react-doctor", "specifier": "react-doctor/oxlint-plugin" }],
+  "rules": {
+    "no-unused-vars": "warn",
+    "jsx-a11y/media-has-caption": "warn",
+    "node/no-process-env": "error",
+    "react-doctor/no-fetch-in-effect": "warn",
+    "react-doctor/no-derived-state-effect": "warn",
+    "typescript/no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "next/link",
+            "message": "Please import 'Link' from '~/components/atoms/Link' instead."
+          },
+          {
+            "name": "next/image",
+            "importNames": ["default"],
+            "message": "Please import 'Image' from '~/components-catalyst/image' instead. This component handles CDN and static image optimization."
+          },
+          {
+            "name": "@playwright/test",
+            "importNames": ["expect", "test"],
+            "message": "Please import from `~/tests/fixtures` instead."
+          }
+        ]
+      }
+    ]
+  }
+}

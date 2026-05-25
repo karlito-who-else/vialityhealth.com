@@ -1,44 +1,42 @@
-'use client'
-import Link from 'next/link'
-import { Suspense, useEffect, useState } from 'react'
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import type { Header } from "src/payload-types";
 
-import { Cart } from '@/components/Cart'
-import type { Header } from 'src/payload-types'
-import { MobileMenu } from './MobileMenu'
+import { Cart } from "@/components/Cart";
+import { cn } from "@/utilities/cn";
 
-import { cn } from '@/utilities/cn'
-import { usePathname } from 'next/navigation'
+import { MobileMenu } from "./MobileMenu";
 
 type Props = {
   className?: string;
-  header: Header
-}
+  header: Header;
+};
 
 export function HeaderClient({ className, header }: Props) {
-  const { siteTitle, navItems } = header
-  const menu = navItems || []
-  const pathname = usePathname()
-  const [isScrolled, setIsScrolled] = useState(false)
+  const { siteTitle, navItems } = header;
+  const menu = navItems || [];
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const onHero = pathname === '/'
+  const onHero = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 60);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const transparent = onHero && !isScrolled
+  const transparent = onHero && !isScrolled;
 
   return (
     <nav
       className={cn(
-        'sticky top-0 left-0 right-0 z-40 transition-all duration-500',
-        transparent
-          ? 'bg-transparent'
-          : 'bg-background/95 backdrop-blur-md',
+        "sticky top-0 left-0 right-0 z-40 transition-all duration-500",
+        transparent ? "bg-transparent" : "bg-background/95 backdrop-blur-md",
         className,
       )}
     >
@@ -46,7 +44,7 @@ export function HeaderClient({ className, header }: Props) {
         {/* Mobile menu trigger */}
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
-            <MobileMenu menu={menu} siteTitle={siteTitle || 'viality'} />
+            <MobileMenu menu={menu} siteTitle={siteTitle || "viality"} />
           </Suspense>
         </div>
 
@@ -54,40 +52,43 @@ export function HeaderClient({ className, header }: Props) {
         <Link
           href="/"
           className={cn(
-            'font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light',
-            transparent ? 'text-foreground' : 'text-foreground  '
+            "font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light",
+            transparent ? "text-foreground" : "text-foreground  ",
           )}
-          style={{ fontSize: '1.15rem', letterSpacing: '0.18em' }}
+          style={{ fontSize: "1.15rem", letterSpacing: "0.18em" }}
         >
-          {siteTitle || 'viality'}
+          {siteTitle || "viality"}
         </Link>
 
         {/* Center nav links — desktop only */}
         <div className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
           {menu.map(({ link }) => {
-            const href = link.type === 'reference' && link.reference?.value
-              ? typeof link.reference.value === 'object'
-                ? link.reference.value.slug ? `/${link.reference.value.slug}` : link.url || '/'
-                : `/${link.reference.value}`
-              : link.url || '/'
+            const href =
+              link.type === "reference" && link.reference?.value
+                ? typeof link.reference.value === "object"
+                  ? link.reference.value.slug
+                    ? `/${link.reference.value.slug}`
+                    : link.url || "/"
+                  : `/${link.reference.value}`
+                : link.url || "/";
             return (
               <Link
                 key={link.label}
                 href={href}
                 className={cn(
-                  'text-xs uppercase tracking-widest transition-opacity hover:opacity-60',
-                  transparent ? 'text-foreground' : 'text-foreground'
+                  "text-xs uppercase tracking-widest transition-opacity hover:opacity-60",
+                  transparent ? "text-foreground" : "text-foreground",
                 )}
               >
                 {link.label}
               </Link>
-            )
+            );
           })}
         </div>
 
         {/* Right — cart */}
         <div className="flex items-center gap-4 shrink-0">
-          <div className={cn(transparent ? 'text-foreground' : 'text-foreground')}>
+          <div className={cn(transparent ? "text-foreground" : "text-foreground")}>
             <Suspense fallback={null}>
               <Cart />
             </Suspense>
@@ -95,5 +96,5 @@ export function HeaderClient({ className, header }: Props) {
         </div>
       </div>
     </nav>
-  )
+  );
 }

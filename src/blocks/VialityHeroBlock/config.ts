@@ -1,52 +1,52 @@
-import type { Block } from 'payload'
+import type { Block } from "payload";
 
 export const VialityHero: Block = {
-  slug: 'vialityHero',
-  interfaceName: 'VialityHeroBlock',
+  slug: "vialityHero",
+  interfaceName: "VialityHeroBlock",
   fields: [
     {
-      name: 'tagline',
-      type: 'text',
-      defaultValue: 'Wellness, refined.',
+      name: "tagline",
+      type: "text",
+      defaultValue: "Wellness, refined.",
     },
     {
-      name: 'title',
-      type: 'text',
-      defaultValue: 'viality',
+      name: "title",
+      type: "text",
+      defaultValue: "viality",
     },
     {
-      name: 'subtext',
-      type: 'text',
-      defaultValue: 'Where science meets ritual.',
+      name: "subtext",
+      type: "text",
+      defaultValue: "Where science meets ritual.",
     },
     {
-      name: 'ctaLabel',
-      type: 'text',
-      defaultValue: 'Begin the Ritual',
+      name: "ctaLabel",
+      type: "text",
+      defaultValue: "Begin the Ritual",
     },
     {
-      name: 'ctaLink',
-      type: 'text',
-      defaultValue: '/shop',
+      name: "ctaLink",
+      type: "text",
+      defaultValue: "/shop",
     },
     {
-      name: 'secondaryLabel',
-      type: 'text',
-      defaultValue: 'Our Philosophy',
+      name: "secondaryLabel",
+      type: "text",
+      defaultValue: "Our Philosophy",
     },
     {
-      name: 'secondaryLink',
-      type: 'text',
-      defaultValue: '/about',
+      name: "secondaryLink",
+      type: "text",
+      defaultValue: "/about",
     },
     {
-      name: 'scrollLabel',
-      type: 'text',
-      defaultValue: 'Scroll',
+      name: "scrollLabel",
+      type: "text",
+      defaultValue: "Scroll",
     },
   ],
   labels: {
-    plural: 'Viality Heroes',
-    singular: 'Viality Hero',
+    plural: "Viality Heroes",
+    singular: "Viality Hero",
   },
-}
+};

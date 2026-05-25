@@ -1,9 +1,10 @@
-import type { CollectionConfig } from 'payload'
-import { adminOnly } from '@/access/adminOnly'
-import { publicAccess } from '@/access/publicAccess'
+import type { CollectionConfig } from "payload";
+
+import { adminOnly } from "@/access/adminOnly";
+import { publicAccess } from "@/access/publicAccess";
 
 export const TrustBadges: CollectionConfig = {
-  slug: 'trustBadges',
+  slug: "trustBadges",
   access: {
     create: adminOnly,
     delete: adminOnly,
@@ -11,27 +12,27 @@ export const TrustBadges: CollectionConfig = {
     update: adminOnly,
   },
   admin: {
-    group: 'Marketing',
-    defaultColumns: ['label', 'order', 'updatedAt'],
-    useAsTitle: 'label',
+    group: "Marketing",
+    defaultColumns: ["label", "order", "updatedAt"],
+    useAsTitle: "label",
   },
   fields: [
     {
-      name: 'label',
-      type: 'text',
+      name: "label",
+      type: "text",
       required: true,
     },
     {
-      name: 'slug',
-      type: 'text',
+      name: "slug",
+      type: "text",
       required: true,
       unique: true,
       index: true,
     },
     {
-      name: 'order',
-      type: 'number',
+      name: "order",
+      type: "number",
       defaultValue: 0,
     },
   ],
-}
+};

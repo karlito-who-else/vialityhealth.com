@@ -1,8 +1,9 @@
-import { Categories } from '@/components/layout/search/Categories'
-import { FilterList } from '@/components/layout/search/filter'
-import { sorting } from '@/lib/constants'
-import { Search } from '@/components/Search'
-import React, { Suspense } from 'react'
+import React, { Suspense } from "react";
+
+import { Categories } from "@/components/layout/search/Categories";
+import { FilterList } from "@/components/layout/search/filter";
+import { Search } from "@/components/Search";
+import { sorting } from "@/lib/constants";
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,5 +20,5 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
         </div>
       </div>
     </Suspense>
-  )
+  );
 }

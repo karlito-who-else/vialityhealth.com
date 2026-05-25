@@ -1,10 +1,11 @@
-import React from 'react'
+import React from "react";
 
-import { CartModal } from './CartModal'
-import { Cart as CartType } from '@/payload-types'
+import { Cart as CartType } from "@/payload-types";
 
-export type CartItem = NonNullable<CartType['items']>[number]
+import { CartModal } from "./CartModal";
+
+export type CartItem = NonNullable<CartType["items"]>[number];
 
 export function Cart() {
-  return <CartModal />
+  return <CartModal />;
 }

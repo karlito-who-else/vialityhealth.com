@@ -1,6 +1,6 @@
 allowBuilds:
-  '@parcel/watcher': true
-  '@vercel/git-hooks': true
+  "@parcel/watcher": true
+  "@vercel/git-hooks": true
   esbuild: true
   fallow: true
   msw: true

@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React from 'react'
+import React from "react";
 
 export default function Error({ reset }: { reset: () => void }) {
   return (
@@ -18,5 +18,5 @@ export default function Error({ reset }: { reset: () => void }) {
         Try Again
       </button>
     </div>
-  )
+  );
 }
