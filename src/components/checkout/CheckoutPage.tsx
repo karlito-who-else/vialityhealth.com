@@ -27,7 +27,7 @@ import { useAuth } from "@/providers/Auth";
 import { env } from "@/utilities/env";
 import { useTheme } from "@/providers/Theme";
 
-const apiKey = env('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY');
+const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripe = loadStripe(apiKey);
 
 export const CheckoutPage: React.FC = () => {

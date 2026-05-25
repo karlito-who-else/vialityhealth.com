@@ -38,7 +38,7 @@ export const Providers: React.FC<{
             }}
             paymentMethods={[
               stripeAdapterClient({
-                publishableKey: env('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY', ''),
+                publishableKey: env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '',
               }),
             ]}
           >

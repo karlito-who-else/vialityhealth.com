@@ -11,7 +11,7 @@ export const generateMeta = async (args: { doc: Page | Product }): Promise<Metad
     typeof doc?.meta?.image === "object" &&
     doc.meta.image !== null &&
     "url" in doc.meta.image &&
-    `${env('NEXT_PUBLIC_SERVER_URL')}${doc.meta.image.url}`;
+    `${env.NEXT_PUBLIC_SERVER_URL}${doc.meta.image.url}`;
 
   return {
     description: doc?.meta?.description,

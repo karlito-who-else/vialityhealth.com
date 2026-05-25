@@ -38,7 +38,7 @@ export const CheckoutForm: React.FC<Props> = ({
 
       if (stripe && elements) {
         try {
-          const returnUrl = `${env('NEXT_PUBLIC_SERVER_URL')}/checkout/confirm-order${customerEmail ? `?email=${customerEmail}` : ""}`;
+          const returnUrl = `${env.NEXT_PUBLIC_SERVER_URL}/checkout/confirm-order${customerEmail ? `?email=${customerEmail}` : ""}`;
 
           const { error: stripeError, paymentIntent } = await stripe.confirmPayment({
             confirmParams: {

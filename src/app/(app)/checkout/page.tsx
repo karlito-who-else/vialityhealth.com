@@ -8,7 +8,7 @@ import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 export default function Checkout() {
   return (
     <div className="container min-h-[90vh] flex">
-      {!env('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY', '') && (
+      {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '') && (
         <div>
           <Fragment>
             {"To enable checkout, you must "}
