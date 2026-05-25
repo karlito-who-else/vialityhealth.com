@@ -1,0 +1,39 @@
+:root {
+    --radius: 0.125rem;
+
+    --background: light-dark(40 30% 96%, 220 15% 12%);
+    --foreground: light-dark(220 15% 18%, 40 30% 96%);
+    --border: light-dark(40 20% 88%, 220 15% 20%);
+    --card: light-dark(40 25% 98%, 220 15% 14%);
+    --card-foreground: light-dark(220 15% 18%, 40 30% 96%);
+    --card-border: light-dark(40 20% 88%, 220 15% 20%);
+    --popover: light-dark(40 25% 98%, 220 15% 14%);
+    --popover-foreground: light-dark(220 15% 18%, 40 30% 96%);
+    --popover-border: light-dark(40 20% 88%, 220 15% 20%);
+    --primary: light-dark(220 15% 18%, 40 30% 96%);
+    --primary-foreground: light-dark(40 30% 96%, 220 15% 18%);
+    --secondary: light-dark(40 20% 90%, 220 15% 20%);
+    --secondary-foreground: light-dark(220 15% 25%, 40 30% 90%);
+    --muted: light-dark(40 15% 92%, 220 15% 18%);
+    --muted-foreground: light-dark(220 10% 50%, 40 10% 60%);
+    --accent: light-dark(43 40% 78%, 43 40% 30%);
+    --accent-foreground: light-dark(220 15% 18%, 40 30% 96%);
+    --destructive: light-dark(0 65% 45%, 0 65% 45%);
+    --destructive-foreground: light-dark(0 0% 98%, 0 0% 98%);
+    --input: light-dark(40 20% 85%, 220 15% 25%);
+    --ring: light-dark(43 40% 65%, 43 40% 45%);
+
+    --sidebar: light-dark(40 25% 94%, 220 15% 12%);
+    --sidebar-foreground: light-dark(220 15% 18%, 40 30% 96%);
+    --sidebar-border: light-dark(40 20% 88%, 220 15% 20%);
+    --sidebar-primary: light-dark(220 15% 18%, 40 30% 96%);
+    --sidebar-primary-foreground: light-dark(40 30% 96%, 220 15% 12%);
+    --sidebar-accent: light-dark(43 40% 78%, 43 40% 25%);
+    --sidebar-accent-foreground: light-dark(220 15% 18%, 40 30% 96%);
+    --sidebar-ring: light-dark(43 40% 65%, 43 40% 35%);
+    --success: light-dark(oklch(78% 0.08 200deg), oklch(28% 0.1 200deg));
+    --warning: light-dark(oklch(89% 0.1 75deg), oklch(35% 0.08 70deg));
+    --error: light-dark(oklch(75% 0.15 25deg), oklch(45% 0.1 25deg));
+
+    --adminbar-height: 2rem;
+}

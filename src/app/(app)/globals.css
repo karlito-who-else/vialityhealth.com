@@ -3,14 +3,13 @@
 
 @import './styles/admin.css';
 @import './styles/colours.css';
+@import './styles/interactive.css';
 @import './styles/typography.css';
 @import './styles/layout.css';
 @import './styles/animations.css';
 @import './styles/utilities.css';
 
 @plugin "@tailwindcss/typography";
-
-@custom-variant dark (&:is([data-theme='dark'] *));
 
 @source inline("lg:col-span-4");
 @source inline("lg:col-span-6");

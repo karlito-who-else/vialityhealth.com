@@ -1,0 +1,19 @@
+@layer interactive {
+  :where(a, button) {
+    cursor: pointer;
+
+    &:where(:focus, :hover) {
+      color: var(--color-primary);
+    }
+
+    &:where(:focus-visible) {
+      outline-style: none;
+    }
+  }
+
+  .btn {
+    display: flex;
+    gap: calc(var(--spacing) * 2);
+    place-items: center;
+  }
+}
