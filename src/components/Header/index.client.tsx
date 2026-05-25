@@ -6,6 +6,7 @@ import type { Header } from "src/payload-types";
 
 import { Cart } from "@/components/Cart";
 import { cn } from "@/utilities/cn";
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
 
 import { MobileMenu } from "./MobileMenu";
 
@@ -62,25 +63,18 @@ export function HeaderClient({ className, header }: Props) {
 
         {/* Center nav links — desktop only */}
         <div className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
-          {menu.map(({ link }) => {
-            const href =
-              link.type === "reference" && link.reference?.value
-                ? typeof link.reference.value === "object"
-                  ? link.reference.value.slug
-                    ? `/${link.reference.value.slug}`
-                    : link.url || "/"
-                  : `/${link.reference.value}`
-                : link.url || "/";
+          {menu.map((item) => {
+            const href = resolveLinkHref(item.link);
             return (
               <Link
-                key={link.label}
+                key={item.id}
                 href={href}
                 className={cn(
                   "text-xs uppercase tracking-widest transition-opacity hover:opacity-60",
                   transparent ? "text-foreground" : "text-foreground",
                 )}
               >
-                {link.label}
+                {item.link.label}
               </Link>
             );
           })}

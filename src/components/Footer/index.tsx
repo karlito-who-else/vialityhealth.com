@@ -1,6 +1,7 @@
 import { Link } from "@/components/atoms/Link";
 
 import { getCachedGlobal } from "@/utilities/getGlobals";
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
 
 export async function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,18 +16,6 @@ export async function Footer() {
   const complianceText = footer?.complianceText;
 
   const copyright = copyrightTemplate.replace(/\{year\}/g, String(currentYear));
-
-  const linkHref = (item: (typeof navItems)[number]) => {
-    const link = item.link;
-    if (link.type === "reference" && link.reference?.value) {
-      return typeof link.reference.value === "object"
-        ? link.reference.value.slug
-          ? `/${link.reference.value.slug}`
-          : link.url || "/"
-        : `/${link.reference.value}`;
-    }
-    return link.url || "/";
-  };
 
   return (
     <footer className="scheme-only-light bg-primary text-primary-foreground py-16 px-6 mt-24">
@@ -52,7 +41,7 @@ export async function Footer() {
             <ul className="space-y-4 text-sm text-primary-foreground/70">
               {navItems.map((item) => (
                 <li key={item.id}>
-                  <Link href={linkHref(item)} className="hover:text-accent transition-colors">
+                  <Link href={resolveLinkHref(item.link)} className="hover:text-accent transition-colors">
                     {item.link.label}
                   </Link>
                 </li>

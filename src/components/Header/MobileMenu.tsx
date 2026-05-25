@@ -3,6 +3,7 @@
 import { LazyMotion, domAnimation, m, AnimatePresence, type Variants, type Easing } from "framer-motion";
 import { X } from "lucide-react";
 import { Link } from "@/components/atoms/Link";
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
@@ -146,18 +147,11 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
               />
 
               <ul className="flex flex-col pl-5 md:pl-8">
-                {menu.map(({ link }, i) => {
-                  const href =
-                    link.type === "reference" && link.reference?.value
-                      ? typeof link.reference.value === "object"
-                        ? link.reference.value.slug
-                          ? `/${link.reference.value.slug}`
-                          : link.url || "/"
-                        : `/${link.reference.value}`
-                      : link.url || "/";
+                {menu.map((item, i) => {
+                  const href = resolveLinkHref(item.link);
                   return (
                     <m.li
-                      key={link.label}
+                      key={item.id}
                       custom={i}
                       variants={linkVariants}
                       initial="hidden"
@@ -177,7 +171,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                           className="font-serif italic text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
                           style={{ fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)" }}
                         >
-                          {link.label}
+                          {item.link.label}
                         </span>
                         <span className="text-primary-foreground/0 group-hover:text-primary-foreground/30 transition-all duration-300 translate-x-0 group-hover:translate-x-1 text-sm self-center font-light">
                           →
