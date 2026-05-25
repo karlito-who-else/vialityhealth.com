@@ -1,19 +1,11 @@
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { BannerBlock } from '@/blocks/Banner/Component'
-import { BenefitsBlockComponent } from '@/blocks/BenefitsBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { CarouselBlock } from '@/blocks/Carousel/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
-import { FaqsBlockComponent } from '@/blocks/FaqsBlock/Component'
-import { FeaturedProductsBlockComponent } from '@/blocks/FeaturedProductsBlock/Component'
 import { FormBlock } from '@/blocks/Form/Component'
-import { IngredientsBlockComponent } from '@/blocks/IngredientsBlock/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { PrinciplesBlockComponent } from '@/blocks/PrinciplesBlock/Component'
-import { ShippingInfoBlockComponent } from '@/blocks/ShippingInfoBlock/Component'
 import { ThreeItemGridBlock } from '@/blocks/ThreeItemGrid/Component'
-import { TrustBadgesBlockComponent } from '@/blocks/TrustBadgesBlock/Component'
-import { TrustItemsBlockComponent } from '@/blocks/TrustItemsBlock/Component'
 import { VialityComplianceBlock } from '@/blocks/VialityComplianceBlock/Component'
 import { VialityFeaturedProductsBlock } from '@/blocks/VialityFeaturedProductsBlock/Component'
 import { VialityHeroBlock } from '@/blocks/VialityHeroBlock/Component'
@@ -42,14 +34,6 @@ const blockComponents = {
   vialityWaitlist: VialityWaitlistBlock,
   vialityShipping: VialityShippingBlock,
   vialityCompliance: VialityComplianceBlock,
-  benefits: BenefitsBlockComponent,
-  faqs: FaqsBlockComponent,
-  ingredients: IngredientsBlockComponent,
-  principles: PrinciplesBlockComponent,
-  trustItems: TrustItemsBlockComponent,
-  shippingInfo: ShippingInfoBlockComponent,
-  trustBadges: TrustBadgesBlockComponent,
-  featuredProducts: FeaturedProductsBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
@@ -70,14 +54,11 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="my-16" key={index} data-block-type={blockType}>
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore - weird type mismatch here */}
-                  <Block id={toKebabCase(blockName!)} {...block} />
-                </div>
+                <Block id={toKebabCase(blockName!)} key={index} data-block-type={blockType} {...block} />
               )
             }
           }
+
           return null
         })}
       </Fragment>

@@ -78,14 +78,6 @@ export interface Config {
     vialityWaitlist: VialityWaitlistBlock;
     vialityShipping: VialityShippingBlock;
     vialityCompliance: VialityComplianceBlock;
-    benefits: BenefitsBlockType;
-    faqs: FaqsBlockType;
-    ingredients: IngredientsBlockType;
-    principles: PrinciplesBlockType;
-    trustItems: TrustItemsBlockType;
-    shippingInfo: ShippingInfoBlockType;
-    trustBadges: TrustBadgesBlockType;
-    featuredProducts: FeaturedProductsBlockType;
   };
   collections: {
     users: User;
@@ -489,14 +481,6 @@ export interface Page {
     | VialityWaitlistBlock
     | VialityShippingBlock
     | VialityComplianceBlock
-    | BenefitsBlockType
-    | FaqsBlockType
-    | IngredientsBlockType
-    | PrinciplesBlockType
-    | TrustItemsBlockType
-    | ShippingInfoBlockType
-    | TrustBadgesBlockType
-    | FeaturedProductsBlockType
   )[];
   meta?: {
     title?: string | null;
@@ -962,160 +946,6 @@ export interface VialityComplianceBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BenefitsBlockType".
- */
-export interface BenefitsBlockType {
-  heading?: string | null;
-  items?: (number | Benefit)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'benefits';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "benefits".
- */
-export interface Benefit {
-  id: number;
-  title: string;
-  slug: string;
-  body: string;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FaqsBlockType".
- */
-export interface FaqsBlockType {
-  heading?: string | null;
-  items?: (number | Faq)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'faqs';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs".
- */
-export interface Faq {
-  id: number;
-  question: string;
-  slug: string;
-  answer: string;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "IngredientsBlockType".
- */
-export interface IngredientsBlockType {
-  heading?: string | null;
-  items?: (number | Ingredient)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'ingredients';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ingredients".
- */
-export interface Ingredient {
-  id: number;
-  name: string;
-  slug: string;
-  dose: string;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PrinciplesBlockType".
- */
-export interface PrinciplesBlockType {
-  heading?: string | null;
-  subheadline?: string | null;
-  items?: (number | Principle)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'principles';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "principles".
- */
-export interface Principle {
-  id: number;
-  title: string;
-  slug: string;
-  displayNumber: string;
-  body: string;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TrustItemsBlockType".
- */
-export interface TrustItemsBlockType {
-  heading?: string | null;
-  body?: string | null;
-  items?: (number | TrustItem)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'trustItems';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ShippingInfoBlockType".
- */
-export interface ShippingInfoBlockType {
-  items?: (number | ShippingInfo)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'shippingInfo';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TrustBadgesBlockType".
- */
-export interface TrustBadgesBlockType {
-  heading?: string | null;
-  items?: (number | TrustBadge)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'trustBadges';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "trustBadges".
- */
-export interface TrustBadge {
-  id: number;
-  label: string;
-  slug: string;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturedProductsBlockType".
- */
-export interface FeaturedProductsBlockType {
-  heading?: string | null;
-  products?: (number | Product)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'featuredProducts';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "variants".
  */
 export interface Variant {
@@ -1336,6 +1166,71 @@ export interface Address {
     | 'SE'
     | 'CH';
   phone?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "principles".
+ */
+export interface Principle {
+  id: number;
+  title: string;
+  slug: string;
+  displayNumber: string;
+  body: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  slug: string;
+  answer: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ingredients".
+ */
+export interface Ingredient {
+  id: number;
+  name: string;
+  slug: string;
+  dose: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benefits".
+ */
+export interface Benefit {
+  id: number;
+  title: string;
+  slug: string;
+  body: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trustBadges".
+ */
+export interface TrustBadge {
+  id: number;
+  label: string;
+  slug: string;
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1580,14 +1475,6 @@ export interface PagesSelect<T extends boolean = true> {
         vialityWaitlist?: T | VialityWaitlistBlockSelect<T>;
         vialityShipping?: T | VialityShippingBlockSelect<T>;
         vialityCompliance?: T | VialityComplianceBlockSelect<T>;
-        benefits?: T | BenefitsBlockTypeSelect<T>;
-        faqs?: T | FaqsBlockTypeSelect<T>;
-        ingredients?: T | IngredientsBlockTypeSelect<T>;
-        principles?: T | PrinciplesBlockTypeSelect<T>;
-        trustItems?: T | TrustItemsBlockTypeSelect<T>;
-        shippingInfo?: T | ShippingInfoBlockTypeSelect<T>;
-        trustBadges?: T | TrustBadgesBlockTypeSelect<T>;
-        featuredProducts?: T | FeaturedProductsBlockTypeSelect<T>;
       };
   meta?:
     | T
@@ -1798,87 +1685,6 @@ export interface VialityShippingBlockSelect<T extends boolean = true> {
  */
 export interface VialityComplianceBlockSelect<T extends boolean = true> {
   text?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BenefitsBlockType_select".
- */
-export interface BenefitsBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FaqsBlockType_select".
- */
-export interface FaqsBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "IngredientsBlockType_select".
- */
-export interface IngredientsBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PrinciplesBlockType_select".
- */
-export interface PrinciplesBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  subheadline?: T;
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TrustItemsBlockType_select".
- */
-export interface TrustItemsBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  body?: T;
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ShippingInfoBlockType_select".
- */
-export interface ShippingInfoBlockTypeSelect<T extends boolean = true> {
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TrustBadgesBlockType_select".
- */
-export interface TrustBadgesBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  items?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturedProductsBlockType_select".
- */
-export interface FeaturedProductsBlockTypeSelect<T extends boolean = true> {
-  heading?: T;
-  products?: T;
   id?: T;
   blockName?: T;
 }

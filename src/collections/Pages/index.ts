@@ -4,20 +4,12 @@ import { adminOnly } from '@/access/adminOnly'
 import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Banner } from '@/blocks/Banner/config'
-import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Carousel } from '@/blocks/Carousel/config'
 import { Content } from '@/blocks/Content/config'
-import { FaqsBlock } from '@/blocks/FaqsBlock/config'
-import { FeaturedProductsBlock } from '@/blocks/FeaturedProductsBlock/config'
 import { FormBlock } from '@/blocks/Form/config'
-import { IngredientsBlock } from '@/blocks/IngredientsBlock/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
-import { PrinciplesBlock } from '@/blocks/PrinciplesBlock/config'
-import { ShippingInfoBlock } from '@/blocks/ShippingInfoBlock/config'
 import { ThreeItemGrid } from '@/blocks/ThreeItemGrid/config'
-import { TrustBadgesBlock } from '@/blocks/TrustBadgesBlock/config'
-import { TrustItemsBlock } from '@/blocks/TrustItemsBlock/config'
 import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
 import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
 import { VialityHero } from '@/blocks/VialityHeroBlock/config'
@@ -118,14 +110,6 @@ export const Pages: CollectionConfig = {
                 VialityWaitlist,
                 VialityShipping,
                 VialityCompliance,
-                BenefitsBlock,
-                FaqsBlock,
-                IngredientsBlock,
-                PrinciplesBlock,
-                TrustItemsBlock,
-                ShippingInfoBlock,
-                TrustBadgesBlock,
-                FeaturedProductsBlock,
               ],
               required: true,
             },

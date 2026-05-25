@@ -38,14 +38,6 @@ import { VialityTrust } from '@/blocks/VialityTrustBlock/config'
 import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config'
 import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
 import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
-import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
-import { FaqsBlock } from '@/blocks/FaqsBlock/config'
-import { IngredientsBlock } from '@/blocks/IngredientsBlock/config'
-import { PrinciplesBlock } from '@/blocks/PrinciplesBlock/config'
-import { TrustItemsBlock } from '@/blocks/TrustItemsBlock/config'
-import { ShippingInfoBlock } from '@/blocks/ShippingInfoBlock/config'
-import { TrustBadgesBlock } from '@/blocks/TrustBadgesBlock/config'
-import { FeaturedProductsBlock } from '@/blocks/FeaturedProductsBlock/config'
 import { plugins } from './plugins'
 
 const filename = fileURLToPath(import.meta.url)
@@ -115,14 +107,6 @@ export default buildConfig({
     VialityWaitlist,
     VialityShipping,
     VialityCompliance,
-    BenefitsBlock,
-    FaqsBlock,
-    IngredientsBlock,
-    PrinciplesBlock,
-    TrustItemsBlock,
-    ShippingInfoBlock,
-    TrustBadgesBlock,
-    FeaturedProductsBlock,
   ],
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
