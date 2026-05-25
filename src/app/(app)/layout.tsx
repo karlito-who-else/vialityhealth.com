@@ -75,7 +75,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <AdminBar />
           <LivePreviewListener />
           <Header />
-          <main className="relative -top-16">{children}</main>
+          <main>{children}</main>
           <Footer />
         </Providers>
       </body>

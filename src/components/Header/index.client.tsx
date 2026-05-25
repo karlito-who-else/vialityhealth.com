@@ -10,10 +10,11 @@ import { cn } from '@/utilities/cn'
 import { usePathname } from 'next/navigation'
 
 type Props = {
+  className?: string;
   header: Header
 }
 
-export function HeaderClient({ header }: Props) {
+export function HeaderClient({ className, header }: Props) {
   const { siteTitle, navItems } = header
   const menu = navItems || []
   const pathname = usePathname()
@@ -37,7 +38,8 @@ export function HeaderClient({ header }: Props) {
         'sticky top-0 left-0 right-0 z-40 transition-all duration-500',
         transparent
           ? 'bg-transparent'
-          : 'bg-background/95 backdrop-blur-md'
+          : 'bg-background/95 backdrop-blur-md',
+        className,
       )}
     >
       <div className="h-18 container mx-auto px-6 md:px-10 flex items-center justify-between gap-6">
