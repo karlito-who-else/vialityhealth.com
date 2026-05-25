@@ -30,8 +30,10 @@
 
 /* ── Focus styles ──────────────────────────────────────────── */
 
-a,
-input,
-button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+a:focus-visible,
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-ring), 0 0 0 2px var(--color-background);
 }
