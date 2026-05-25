@@ -24,10 +24,6 @@
 @source inline("border-warning");
 @source inline("bg-warning/30");
 
-@utility animation-delay-* {
-  animation-delay: --value(integer* 1ms);
-}
-
 /* ── Focus styles ──────────────────────────────────────────── */
 
 a:focus-visible,
@@ -41,7 +37,10 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
