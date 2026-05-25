@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
-import { motion } from 'framer-motion'
 import type { Product } from '@/payload-types'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export type FeaturedProductsSectionProps = {
   heading: string
@@ -15,6 +15,7 @@ export function FeaturedProductsSection({
   shopAllLabel,
   products,
 }: FeaturedProductsSectionProps) {
+  console.log({ products })
   return (
     <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
@@ -31,9 +32,9 @@ export function FeaturedProductsSection({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {products.map((p, i) => (
+          {products.map((product, i) => (
             <motion.div
-              key={p.slug}
+              key={product.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -41,11 +42,11 @@ export function FeaturedProductsSection({
               className="group cursor-pointer"
             >
               <Link href="/shop">
-                <div className="aspect-[3/4] mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
-                  {p.featuredImage && typeof p.featuredImage === 'object' ? (
+                <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
+                  {product.featuredImage && typeof product.featuredImage === 'object' ? (
                     <img
-                      src={p.featuredImage.url || ''}
-                      alt={p.featuredImage.alt || p.title}
+                      src={product.featuredImage.url || ''}
+                      alt={product.featuredImage.alt || product.title}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
@@ -54,12 +55,12 @@ export function FeaturedProductsSection({
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-center">
-                    <h3 className="uppercase tracking-[0.18em] text-xs font-medium">{p.title}</h3>
-                    {typeof p.priceInUSD === 'number' && (
-                      <span className="text-sm font-light">${p.priceInUSD.toFixed(0)}</span>
+                    <h3 className="uppercase tracking-[0.18em] text-xs font-medium">{product.title}</h3>
+                    {typeof product.priceInUSD === 'number' && (
+                      <span className="text-sm font-light">${product.priceInUSD.toFixed(0)}</span>
                     )}
                   </div>
-                  <p className="text-primary/55 text-sm">{p.meta?.description || ''}</p>
+                  <p className="text-primary/55 text-sm">{product.meta?.description || ''}</p>
                 </div>
               </Link>
             </motion.div>
