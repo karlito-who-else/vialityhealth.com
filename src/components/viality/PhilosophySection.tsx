@@ -1,7 +1,7 @@
 "use client";
 
-import { LazyMotion, domAnimation, m } from "framer-motion";
 import { Link } from "@/components/atoms/Link";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 
 export type PhilosophySectionProps = {
   body?: string | null;
@@ -12,36 +12,36 @@ export type PhilosophySectionProps = {
 export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionProps) {
   return (
     <LazyMotion features={domAnimation}>
-      <section className="py-36 px-6 bg-background">
-      <div className="max-w-4xl mx-auto text-center">
-        {body && (
-          <m.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9 }}
-            className="font-serif text-2xl md:text-4xl leading-relaxed text-primary/90"
-          >
-            {body}
-          </m.p>
-        )}
-        {linkLabel && link && (
-          <m.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mt-12"
-          >
-            <Link
-              href={link}
-              className="inline-block border-b border-primary/30 pb-1 text-xs uppercase tracking-widest hover:border-primary transition-colors"
+      <section className="py-36 px-6 bg-background" data-component="PhilosophySection">
+        <div className="max-w-4xl mx-auto text-center">
+          {body && (
+            <m.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.9 }}
+              className="font-serif text-2xl md:text-4xl leading-relaxed text-primary/90"
             >
-              {linkLabel}
-            </Link>
-          </m.div>
-        )}
-      </div>
+              {body}
+            </m.p>
+          )}
+          {linkLabel && link && (
+            <m.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="mt-12"
+            >
+              <Link
+                href={link}
+                className="inline-block border-b border-primary/30 pb-1 text-xs uppercase tracking-widest hover:border-primary transition-colors"
+              >
+                {linkLabel}
+              </Link>
+            </m.div>
+          )}
+        </div>
       </section>
     </LazyMotion>
   );

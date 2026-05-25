@@ -6,7 +6,7 @@ export type ShippingSectionProps = {
 
 export function ShippingSection({ items }: ShippingSectionProps) {
   return (
-    <section className="py-16 px-6 bg-surface-section border-t border-border/30">
+    <section className="py-16 px-6 bg-surface-section border-t border-border/30" data-component="ShippingSection">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
         {items.map((item) => (
           <div key={item.label} className="flex flex-col gap-2">

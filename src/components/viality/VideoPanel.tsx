@@ -2,7 +2,7 @@
 
 export function VideoPanel({ src }: { src: string }) {
   return (
-    <div className="relative flex-1 overflow-hidden">
+    <div className="relative flex-1 overflow-hidden" data-component="VideoPanel">
       <video
         src={src}
         autoPlay

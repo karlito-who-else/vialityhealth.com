@@ -12,7 +12,7 @@ export type WaitlistSectionProps = {
 export function WaitlistSection({ heading, body, placeholder, buttonLabel }: WaitlistSectionProps) {
   return (
     <LazyMotion features={domAnimation}>
-      <section className="scheme-only-light py-32 px-6 bg-primary text-primary-foreground text-center">
+      <section className="scheme-only-light py-32 px-6 bg-primary text-primary-foreground text-center" data-component="WaitlistSection">
         <div className="max-w-2xl mx-auto flex flex-col items-center">
           <m.h2
             initial={{ opacity: 0, y: 16 }}
