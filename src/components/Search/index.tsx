@@ -15,14 +15,13 @@ const SearchInner: React.FC<Props> = (props) => {
   const { className } = props;
   const { push } = useRouter();
   const searchParams = useSearchParams();
-  const { get, toString } = searchParams;
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const val = e.target as HTMLFormElement;
     const search = val.search as HTMLInputElement;
-    const newParams = new URLSearchParams(toString());
+    const newParams = new URLSearchParams(searchParams.toString());
 
     if (search.value) {
       newParams.set("q", search.value);
@@ -38,8 +37,8 @@ const SearchInner: React.FC<Props> = (props) => {
       <input
         autoComplete="off"
         className="w-full rounded-lg border bg-card px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground dark:border-card dark:bg-ink-well dark:text-primary-foreground dark:placeholder:text-muted-foreground"
-        defaultValue={get("q") || ""}
-        key={get("q")}
+        defaultValue={searchParams.get("q") || ""}
+        key={searchParams.get("q")}
         name="search"
         placeholder="Search for products..."
         type="text"
