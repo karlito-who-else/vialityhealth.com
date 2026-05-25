@@ -7,6 +7,12 @@ import { draftMode } from 'next/headers'
 import type { Page } from '@/payload-types'
 import React from 'react'
 
+function hasVialityBlocks(page: Page) {
+  return page.layout?.some(
+    (block) => block.blockType?.startsWith('viality'),
+  )
+}
+
 export default async function HomePage() {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
@@ -25,29 +31,16 @@ export default async function HomePage() {
 
   let page = result.docs?.[0] || null
 
-  if (!page) {
+  if (!page || !hasVialityBlocks(page)) {
     page = homeStaticData() as Page
   }
 
   const { hero, layout } = page
 
-  const hasVialityBlocks = layout?.some(
-    (block) => block.blockType?.startsWith('viality'),
-  )
-
-  if (hasVialityBlocks) {
-    return (
-      <>
-        <RenderHero {...hero} />
-        <RenderBlocks blocks={layout} />
-      </>
-    )
-  }
-
   return (
-    <article className="pt-16 pb-24">
+    <>
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
-    </article>
+    </>
   )
 }

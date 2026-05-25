@@ -14,6 +14,6 @@ export const ShippingInfoBlock: Block = {
   ],
   labels: {
     plural: 'Shipping Info',
-    singular: 'Shipping Info',
+    singular: 'Shipping Info Item',
   },
 }

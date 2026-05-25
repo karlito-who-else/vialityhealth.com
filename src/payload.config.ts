@@ -30,8 +30,22 @@ import { Users } from '@/collections/Users'
 import { About } from '@/globals/About'
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
-import { Home } from '@/globals/Home'
 import { Settings } from '@/globals/Settings'
+import { VialityHero } from '@/blocks/VialityHeroBlock/config'
+import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config'
+import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
+import { VialityTrust } from '@/blocks/VialityTrustBlock/config'
+import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config'
+import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
+import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
+import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
+import { FaqsBlock } from '@/blocks/FaqsBlock/config'
+import { IngredientsBlock } from '@/blocks/IngredientsBlock/config'
+import { PrinciplesBlock } from '@/blocks/PrinciplesBlock/config'
+import { TrustItemsBlock } from '@/blocks/TrustItemsBlock/config'
+import { ShippingInfoBlock } from '@/blocks/ShippingInfoBlock/config'
+import { TrustBadgesBlock } from '@/blocks/TrustBadgesBlock/config'
+import { FeaturedProductsBlock } from '@/blocks/FeaturedProductsBlock/config'
 import { plugins } from './plugins'
 
 const filename = fileURLToPath(import.meta.url)
@@ -92,7 +106,24 @@ export default buildConfig({
   }),
   //email: nodemailerAdapter(),
   endpoints: [],
-  globals: [About, Header, Home, Footer, Settings],
+  globals: [About, Header, Footer, Settings],
+  blocks: [
+    VialityHero,
+    VialityPhilosophy,
+    VialityFeaturedProducts,
+    VialityTrust,
+    VialityWaitlist,
+    VialityShipping,
+    VialityCompliance,
+    BenefitsBlock,
+    FaqsBlock,
+    IngredientsBlock,
+    PrinciplesBlock,
+    TrustItemsBlock,
+    ShippingInfoBlock,
+    TrustBadgesBlock,
+    FeaturedProductsBlock,
+  ],
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

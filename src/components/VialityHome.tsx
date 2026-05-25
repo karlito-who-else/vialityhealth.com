@@ -1,6 +1,6 @@
 'use client'
 
-import type { TrustItem, ShippingInfo, FeaturedProduct, Home, Product } from '@/payload-types'
+import type { TrustItem, ShippingInfo, Product } from '@/payload-types'
 import {
   HeroSection,
   PhilosophySection,
@@ -11,9 +11,42 @@ import {
   ComplianceSection,
 } from '@/components/viality'
 
-export function VialityHome({ trustItems, shippingItems, featuredProducts, home }: { trustItems: TrustItem[]; shippingItems: ShippingInfo[]; featuredProducts: (FeaturedProduct & { product: Product })[]; home: Home }) {
-  const products = featuredProducts.map((fp) => fp.product)
+export type VialityHomeProps = Partial<{
+  heroTagline: string
+  heroTitle: string
+  heroSubtext: string
+  heroCTALabel: string
+  heroCTALink: string
+  heroSecondaryLabel: string
+  heroSecondaryLink: string
+  heroScrollLabel: string
+  philosophyBody: string
+  philosophyLinkLabel: string
+  philosophyLink: string
+  collectionHeading: string
+  shopAllLabel: string
+  trustHeading: string
+  trustBody: string
+  trustCTALabel: string
+  trustCTALink: string
+  waitlistHeading: string
+  waitlistBody: string
+  waitlistPlaceholder: string
+  waitlistButtonLabel: string
+  complianceText: string
+}>
 
+export function VialityHome({
+  trustItems,
+  shippingItems,
+  featuredProducts,
+  home,
+}: {
+  trustItems: TrustItem[]
+  shippingItems: ShippingInfo[]
+  featuredProducts: Product[]
+  home?: VialityHomeProps
+}) {
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSection
@@ -34,7 +67,7 @@ export function VialityHome({ trustItems, shippingItems, featuredProducts, home 
       <FeaturedProductsSection
         heading={home?.collectionHeading || 'The Collection'}
         shopAllLabel={home?.shopAllLabel || 'Shop All'}
-        products={products}
+        products={featuredProducts}
       />
       <TrustSection
         heading={home?.trustHeading || 'A quieter standard of vitality.'}

@@ -1,33 +1,32 @@
 import type { CollectionConfig } from 'payload'
 
-import { Banner } from '@/blocks/Banner/config'
-import { Carousel } from '@/blocks/Carousel/config'
-import { ThreeItemGrid } from '@/blocks/ThreeItemGrid/config'
-import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { adminOnly } from '@/access/adminOnly'
+import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { Archive } from '@/blocks/ArchiveBlock/config'
+import { Banner } from '@/blocks/Banner/config'
+import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
+import { Carousel } from '@/blocks/Carousel/config'
 import { Content } from '@/blocks/Content/config'
+import { FaqsBlock } from '@/blocks/FaqsBlock/config'
+import { FeaturedProductsBlock } from '@/blocks/FeaturedProductsBlock/config'
 import { FormBlock } from '@/blocks/Form/config'
+import { IngredientsBlock } from '@/blocks/IngredientsBlock/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
-import { hero } from '@/fields/hero'
+import { PrinciplesBlock } from '@/blocks/PrinciplesBlock/config'
+import { ShippingInfoBlock } from '@/blocks/ShippingInfoBlock/config'
+import { ThreeItemGrid } from '@/blocks/ThreeItemGrid/config'
+import { TrustBadgesBlock } from '@/blocks/TrustBadgesBlock/config'
+import { TrustItemsBlock } from '@/blocks/TrustItemsBlock/config'
+import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
+import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
 import { VialityHero } from '@/blocks/VialityHeroBlock/config'
 import { VialityPhilosophy } from '@/blocks/VialityPhilosophyBlock/config'
-import { VialityFeaturedProducts } from '@/blocks/VialityFeaturedProductsBlock/config'
+import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
 import { VialityTrust } from '@/blocks/VialityTrustBlock/config'
 import { VialityWaitlist } from '@/blocks/VialityWaitlistBlock/config'
-import { VialityShipping } from '@/blocks/VialityShippingBlock/config'
-import { VialityCompliance } from '@/blocks/VialityComplianceBlock/config'
-import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
-import { FaqsBlock } from '@/blocks/FaqsBlock/config'
-import { IngredientsBlock } from '@/blocks/IngredientsBlock/config'
-import { PrinciplesBlock } from '@/blocks/PrinciplesBlock/config'
-import { TrustItemsBlock } from '@/blocks/TrustItemsBlock/config'
-import { ShippingInfoBlock } from '@/blocks/ShippingInfoBlock/config'
-import { TrustBadgesBlock } from '@/blocks/TrustBadgesBlock/config'
-import { FeaturedProductsBlock } from '@/blocks/FeaturedProductsBlock/config'
-import { slugField } from 'payload'
-import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
+import { hero } from '@/fields/hero'
+import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -35,7 +34,8 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
+import { slugField } from 'payload'
+import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -100,7 +100,7 @@ export const Pages: CollectionConfig = {
         {
           fields: [
             {
-              name: 'layout',
+              name: 'content',
               type: 'blocks',
               blocks: [
                 CallToAction,

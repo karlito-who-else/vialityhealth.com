@@ -709,37 +709,6 @@ export const seed = async ({
           'These statements have not been evaluated by the Food and Drug Administration. Products are not intended to diagnose, treat, cure, or prevent any disease.',
       },
     }),
-    payload.updateGlobal({
-      slug: 'home',
-      data: {
-        heroTagline: 'Wellness, refined.',
-        heroTitle: 'viality',
-        heroSubtext: 'Where science meets ritual.',
-        heroCTALabel: 'Begin the Ritual',
-        heroCTALink: '/shop',
-        heroSecondaryLabel: 'Our Philosophy',
-        heroSecondaryLink: '/about',
-        heroScrollLabel: 'Scroll',
-        philosophyBody:
-          'Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.',
-        philosophyLinkLabel: 'Our Story',
-        philosophyLink: '/about',
-        collectionHeading: 'The Collection',
-        shopAllLabel: 'Shop All',
-        trustHeading: 'A quieter standard of vitality.',
-        trustBody:
-          'Every formulation is open. Every claim is earned. We believe in complete transparency — not as a selling point, but as the only responsible way to operate.',
-        trustCTALabel: 'View Lab Reports',
-        trustCTALink: '/about',
-        waitlistHeading: 'Begin your daily reset.',
-        waitlistBody:
-          'Early access to new formulations, considered notes on modern wellness, and invitations to private events. Nothing more.',
-        waitlistPlaceholder: 'YOUR EMAIL ADDRESS',
-        waitlistButtonLabel: 'Join Waitlist',
-        complianceText:
-          'These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary. Always consult your healthcare provider before beginning any new wellness routine.',
-      },
-    }),
   ])
 
   payload.logger.info('Seeded database successfully!')

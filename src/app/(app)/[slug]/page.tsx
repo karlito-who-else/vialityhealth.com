@@ -14,6 +14,12 @@ import React from 'react'
 import type { Page } from '@/payload-types'
 import { notFound } from 'next/navigation'
 
+function hasVialityBlocks(page: Page) {
+  return page.layout?.some(
+    (block) => block.blockType?.startsWith('viality'),
+  )
+}
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -51,7 +57,7 @@ export default async function Page({ params }: Args) {
     slug,
   })
 
-  if (!page && slug === 'home') {
+  if (slug === 'home' && (!page || !hasVialityBlocks(page))) {
     page = homeStaticData() as Page
   }
 
@@ -71,24 +77,11 @@ export default async function Page({ params }: Args) {
 
   const { hero, layout } = page
 
-  const hasVialityBlocks = layout?.some(
-    (block) => block.blockType?.startsWith('viality'),
-  )
-
-  if (hasVialityBlocks) {
-    return (
-      <>
-        <RenderHero {...hero} />
-        <RenderBlocks blocks={layout} />
-      </>
-    )
-  }
-
   return (
-    <article className="pt-16 pb-24">
+    <>
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
-    </article>
+    </>
   )
 }
 

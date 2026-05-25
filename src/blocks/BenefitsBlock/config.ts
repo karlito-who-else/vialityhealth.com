@@ -19,6 +19,6 @@ export const BenefitsBlock: Block = {
   ],
   labels: {
     plural: 'Benefits',
-    singular: 'Benefits',
+    singular: 'Benefit',
   },
 }

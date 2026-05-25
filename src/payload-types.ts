@@ -70,7 +70,23 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    vialityHero: VialityHeroBlock;
+    vialityPhilosophy: VialityPhilosophyBlock;
+    vialityFeaturedProducts: VialityFeaturedProductsBlock;
+    vialityTrust: VialityTrustBlock;
+    vialityWaitlist: VialityWaitlistBlock;
+    vialityShipping: VialityShippingBlock;
+    vialityCompliance: VialityComplianceBlock;
+    benefits: BenefitsBlockType;
+    faqs: FaqsBlockType;
+    ingredients: IngredientsBlockType;
+    principles: PrinciplesBlockType;
+    trustItems: TrustItemsBlockType;
+    shippingInfo: ShippingInfoBlockType;
+    trustBadges: TrustBadgesBlockType;
+    featuredProducts: FeaturedProductsBlockType;
+  };
   collections: {
     users: User;
     pages: Page;
@@ -147,14 +163,12 @@ export interface Config {
   globals: {
     about: About;
     header: Header;
-    home: Home;
     footer: Footer;
     settings: Setting;
   };
   globalsSelect: {
     about: AboutSelect<false> | AboutSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
-    home: HomeSelect<false> | HomeSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
@@ -204,82 +218,44 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "VialityHeroBlock".
  */
-export interface User {
-  id: number;
-  name?: string | null;
-  roles?: ('admin' | 'customer')[] | null;
-  orders?: {
-    docs?: (number | Order)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  cart?: {
-    docs?: (number | Cart)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  addresses?: {
-    docs?: (number | Address)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
+export interface VialityHeroBlock {
+  tagline?: string | null;
+  title?: string | null;
+  subtext?: string | null;
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  secondaryLabel?: string | null;
+  secondaryLink?: string | null;
+  scrollLabel?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vialityHero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orders".
+ * via the `definition` "VialityPhilosophyBlock".
  */
-export interface Order {
-  id: number;
-  items?:
-    | {
-        product?: (number | null) | Product;
-        variant?: (number | null) | Variant;
-        quantity: number;
-        id?: string | null;
-      }[]
-    | null;
-  shippingAddress?: {
-    title?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
-    company?: string | null;
-    addressLine1?: string | null;
-    addressLine2?: string | null;
-    city?: string | null;
-    state?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-    phone?: string | null;
-  };
-  customer?: (number | null) | User;
-  customerEmail?: string | null;
-  transactions?: (number | Transaction)[] | null;
-  status?: OrderStatus;
-  amount?: number | null;
-  currency?: 'USD' | null;
-  accessToken?: string | null;
-  updatedAt: string;
-  createdAt: string;
+export interface VialityPhilosophyBlock {
+  body?: string | null;
+  linkLabel?: string | null;
+  link?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vialityPhilosophy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VialityFeaturedProductsBlock".
+ */
+export interface VialityFeaturedProductsBlock {
+  heading?: string | null;
+  shopAllLabel?: string | null;
+  products?: (number | Product)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vialityFeaturedProducts';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -499,7 +475,7 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (
+  content: (
     | CallToActionBlock
     | ContentBlock
     | MediaBlock
@@ -914,47 +890,6 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VialityHeroBlock".
- */
-export interface VialityHeroBlock {
-  tagline?: string | null;
-  title?: string | null;
-  subtext?: string | null;
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
-  secondaryLabel?: string | null;
-  secondaryLink?: string | null;
-  scrollLabel?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'vialityHero';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VialityPhilosophyBlock".
- */
-export interface VialityPhilosophyBlock {
-  body?: string | null;
-  linkLabel?: string | null;
-  link?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'vialityPhilosophy';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VialityFeaturedProductsBlock".
- */
-export interface VialityFeaturedProductsBlock {
-  heading?: string | null;
-  shopAllLabel?: string | null;
-  products?: (number | Product)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'vialityFeaturedProducts';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "VialityTrustBlock".
  */
 export interface VialityTrustBlock {
@@ -1200,6 +1135,85 @@ export interface Variant {
   createdAt: string;
   deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  roles?: ('admin' | 'customer')[] | null;
+  orders?: {
+    docs?: (number | Order)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  cart?: {
+    docs?: (number | Cart)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  addresses?: {
+    docs?: (number | Address)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  items?:
+    | {
+        product?: (number | null) | Product;
+        variant?: (number | null) | Variant;
+        quantity: number;
+        id?: string | null;
+      }[]
+    | null;
+  shippingAddress?: {
+    title?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    company?: string | null;
+    addressLine1?: string | null;
+    addressLine2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+    phone?: string | null;
+  };
+  customer?: (number | null) | User;
+  customerEmail?: string | null;
+  transactions?: (number | Transaction)[] | null;
+  status?: OrderStatus;
+  amount?: number | null;
+  currency?: 'USD' | null;
+  accessToken?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1565,7 +1579,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         media?: T;
       };
-  layout?:
+  content?:
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
@@ -2472,37 +2486,6 @@ export interface Header {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home".
- */
-export interface Home {
-  id: number;
-  heroTagline?: string | null;
-  heroTitle?: string | null;
-  heroSubtext?: string | null;
-  heroCTALabel?: string | null;
-  heroCTALink?: string | null;
-  heroSecondaryLabel?: string | null;
-  heroSecondaryLink?: string | null;
-  heroScrollLabel?: string | null;
-  philosophyBody?: string | null;
-  philosophyLinkLabel?: string | null;
-  philosophyLink?: string | null;
-  collectionHeading?: string | null;
-  shopAllLabel?: string | null;
-  trustHeading?: string | null;
-  trustBody?: string | null;
-  trustCTALabel?: string | null;
-  trustCTALink?: string | null;
-  waitlistHeading?: string | null;
-  waitlistBody?: string | null;
-  waitlistPlaceholder?: string | null;
-  waitlistButtonLabel?: string | null;
-  complianceText?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
  */
 export interface Footer {
@@ -2687,37 +2670,6 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home_select".
- */
-export interface HomeSelect<T extends boolean = true> {
-  heroTagline?: T;
-  heroTitle?: T;
-  heroSubtext?: T;
-  heroCTALabel?: T;
-  heroCTALink?: T;
-  heroSecondaryLabel?: T;
-  heroSecondaryLink?: T;
-  heroScrollLabel?: T;
-  philosophyBody?: T;
-  philosophyLinkLabel?: T;
-  philosophyLink?: T;
-  collectionHeading?: T;
-  shopAllLabel?: T;
-  trustHeading?: T;
-  trustBody?: T;
-  trustCTALabel?: T;
-  trustCTALink?: T;
-  waitlistHeading?: T;
-  waitlistBody?: T;
-  waitlistPlaceholder?: T;
-  waitlistButtonLabel?: T;
-  complianceText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
