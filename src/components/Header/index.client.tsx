@@ -34,13 +34,13 @@ export function HeaderClient({ header }: Props) {
   return (
     <nav
       className={cn(
-        'sticky top-0 left-0 right-0 z-40 transition-all duration-500 text-foreground',
+        'sticky top-0 left-0 right-0 z-40 transition-all duration-500',
         transparent
           ? 'bg-transparent'
           : 'bg-background/95 backdrop-blur-md'
       )}
     >
-      <div className="h-18 max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between gap-6">
+      <div className="h-18 container mx-auto px-6 md:px-10 flex items-center justify-between gap-6">
         {/* Mobile menu trigger */}
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
@@ -52,8 +52,8 @@ export function HeaderClient({ header }: Props) {
         <Link
           href="/"
           className={cn(
-            'font-serif italic tracking-[0.18em] transition-opacity hover:opacity-60 shrink-0 font-light text-foreground',
-            // transparent ? 'text-foreground' : 'text-primary'
+            'font-serif italic tracking-[0.18em] transition-opacity hover:opacity-60 shrink-0 font-light',
+            transparent ? 'text-foreground' : 'text-foreground  '
           )}
           style={{ fontSize: '1.15rem', letterSpacing: '0.18em' }}
         >
@@ -74,7 +74,7 @@ export function HeaderClient({ header }: Props) {
                 href={href}
                 className={cn(
                   'text-[11px] uppercase tracking-[0.2em] transition-opacity hover:opacity-60',
-                  transparent ? 'text-primary-foreground' : 'text-primary'
+                  transparent ? 'text-foreground' : 'text-foreground'
                 )}
               >
                 {link.label}
@@ -85,7 +85,7 @@ export function HeaderClient({ header }: Props) {
 
         {/* Right — cart */}
         <div className="flex items-center gap-4 shrink-0">
-          <div className={cn(transparent ? 'text-primary-foreground' : 'text-primary')}>
+          <div className={cn(transparent ? 'text-foreground' : 'text-foreground')}>
             <Suspense fallback={null}>
               <Cart />
             </Suspense>

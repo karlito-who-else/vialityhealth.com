@@ -43,41 +43,39 @@ export const AdminBar: React.FC<{
 
   return (
     <section
-      className={cn('admin-bar py-2 bg-ink text-primary-foreground min-h-(--adminbar-height)', {
+      className={cn('admin-bar bg-ink text-primary-foreground grid min-h-(--adminbar-height)', {
         block: show,
         hidden: !show,
       })}
     >
-      <div className="container">
-        <PayloadAdminBar
-          {...adminBarProps}
-          className="py-2 text-primary-foreground"
-          classNames={{
-            controls: 'font-medium text-primary-foreground',
-            logo: 'text-primary-foreground',
-            user: 'text-primary-foreground',
-          }}
-          cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
-          collectionLabels={{
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore - todo fix, not sure why this is erroring
-            plural: collectionLabels[collection]?.plural || 'Pages',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore - todo fix, not sure why this is erroring
-            singular: collectionLabels[collection]?.singular || 'Page',
-          }}
-          logo={<Title />}
+      <PayloadAdminBar
+        {...adminBarProps}
+        className="container mx-auto px-4 py-2"
+        classNames={{
+          controls: 'font-medium text-primary-foreground',
+          logo: 'text-primary-foreground',
+          user: 'text-primary-foreground',
+        }}
+        cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
+        collectionLabels={{
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore - todo fix, not sure why this is erroring
-          onAuthChange={onAuthChange}
-          style={{
-            backgroundColor: 'transparent',
-            padding: 0,
-            position: 'relative',
-            zIndex: 'unset',
-          }}
-        />
-      </div>
+          plural: collectionLabels[collection]?.plural || 'Pages',
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore - todo fix, not sure why this is erroring
+          singular: collectionLabels[collection]?.singular || 'Page',
+        }}
+        logo={<Title />}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore - todo fix, not sure why this is erroring
+        onAuthChange={onAuthChange}
+        style={{
+          backgroundColor: 'transparent',
+          padding: 0,
+          position: 'relative',
+          zIndex: 'unset',
+        }}
+      />
     </section>
   )
 }
