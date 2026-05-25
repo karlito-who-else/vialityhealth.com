@@ -18,7 +18,7 @@ import { fileURLToPath } from 'url'
 import { Benefits } from '@/collections/Benefits'
 import { Categories } from '@/collections/Categories'
 import { Faqs } from '@/collections/Faqs'
-import { FeaturedProducts } from '@/collections/FeaturedProducts'
+
 import { Ingredients } from '@/collections/Ingredients'
 import { Media } from '@/collections/Media'
 import { Pages } from '@/collections/Pages'
@@ -63,7 +63,7 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-  collections: [Users, Pages, Categories, Media, Principles, Faqs, Ingredients, Benefits, TrustItems, ShippingInfo, TrustBadges, FeaturedProducts],
+  collections: [Users, Pages, Categories, Media, Principles, Faqs, Ingredients, Benefits, TrustItems, ShippingInfo, TrustBadges],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',

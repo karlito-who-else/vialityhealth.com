@@ -179,21 +179,6 @@ export const seedVialityMarketing = async ({
     createdProducts.push({ slug: def.slug, id: product.id })
   }
 
-  // Create FeaturedProduct entries referencing the products
-  for (const fp of createdProducts) {
-    const existing = await payload.find({
-      collection: 'featuredProducts',
-      where: { product: { equals: fp.id } },
-      limit: 1,
-    })
-    const data = { product: fp.id, order: featuredProductDefs.find((d) => d.slug === fp.slug)?.order ?? 0 }
-    if (existing.docs.length > 0) {
-      await payload.update({ collection: 'featuredProducts', id: existing.docs[0].id, data })
-    } else {
-      await payload.create({ collection: 'featuredProducts', data })
-    }
-  }
-
   // ── CMS Page Entries ────────────────────────────────────────
 
   const { docs: homeTrustItemDocs } = await payload.find({
