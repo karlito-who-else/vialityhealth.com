@@ -1,5 +1,4 @@
 import { Link } from "@/components/atoms/Link";
-import React from "react";
 
 import { getCachedGlobal } from "@/utilities/getGlobals";
 
@@ -30,7 +29,7 @@ export async function Footer() {
   };
 
   return (
-    <footer className="bg-primary text-primary-foreground py-16 px-6 mt-24">
+    <footer className="scheme-only-light bg-primary text-primary-foreground py-16 px-6 mt-24">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-2">
           <Link
