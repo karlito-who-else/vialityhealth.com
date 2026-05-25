@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+/* oxlint-disable node/no-process-env */
+
 const variables = {
   DATABASE_URL: process.env.DATABASE_URL,
   NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -20,13 +22,13 @@ const sharedVariablesSchema = z.object({
 });
 
 const clientVariablesSchema = z.object({
-  DATABASE_URL: z.undefined(),
-  PAYLOAD_PUBLIC_SERVER_URL: z.undefined(),
-  PAYLOAD_SECRET: z.undefined(),
-  PREVIEW_SECRET: z.undefined(),
-  STRIPE_SECRET_KEY: z.undefined(),
-  STRIPE_WEBHOOKS_SIGNING_SECRET: z.undefined(),
-  VERCEL_PROJECT_PRODUCTION_URL: z.undefined(),
+  DATABASE_URL: z.string().optional(),
+  PAYLOAD_PUBLIC_SERVER_URL: z.string().optional(),
+  PAYLOAD_SECRET: z.string().optional(),
+  PREVIEW_SECRET: z.string().optional(),
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOKS_SIGNING_SECRET: z.string().optional(),
+  VERCEL_PROJECT_PRODUCTION_URL: z.string().optional(),
 });
 
 const serverVariablesSchema = z.object({
