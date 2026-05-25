@@ -1,10 +1,12 @@
 "use client";
 
 import type { StaticImageData } from "next/image";
+// eslint-disable-next-line typescript/no-restricted-imports
 import NextImage from "next/image";
 import React from "react";
 
 import { cssVariables } from "@/cssVariables";
+import { env } from "@/utilities/env";
 import { cn } from "@/utilities/cn";
 
 import type { Props as MediaProps } from "../types";
@@ -26,7 +28,7 @@ export const Image: React.FC<MediaProps> = (props) => {
     width: widthFromProps,
   } = props;
 
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [_isLoading, setIsLoading] = React.useState(true);
 
   let width: number | undefined | null;
   let height: number | undefined | null;
@@ -36,7 +38,7 @@ export const Image: React.FC<MediaProps> = (props) => {
   if (!src && resource && typeof resource === "object") {
     const {
       alt: altFromResource,
-      filename: fullFilename,
+      filename: _fullFilename,
       height: fullHeight,
       url,
       width: fullWidth,
@@ -46,9 +48,7 @@ export const Image: React.FC<MediaProps> = (props) => {
     height = heightFromProps ?? fullHeight;
     alt = altFromResource;
 
-    const filename = fullFilename;
-
-    src = `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`;
+    src = `${env('NEXT_PUBLIC_SERVER_URL')}${url}`;
   }
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes

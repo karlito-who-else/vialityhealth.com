@@ -1,6 +1,7 @@
 "use server";
 
 import configPromise from "@payload-config";
+import { after } from "next/server";
 import { getPayload } from "payload";
 
 import { getServerSideURL } from "@/utilities/getURL";
@@ -15,6 +16,9 @@ type SendOrderAccessEmailResult = {
   error?: string;
 };
 
+// This server action is intentionally public — it lets unauthenticated customers
+// access their orders via email + order ID without requiring a login.
+// eslint-disable-next-line react-doctor/server-auth-actions
 export async function sendOrderAccessEmail({
   email,
   orderID,
@@ -49,7 +53,7 @@ export async function sendOrderAccessEmail({
         <p>This link will give you access to view your order details.</p>
       `;
 
-    console.log("[sendOrderAccessEmail] Email body:", emailBody);
+    after(() => console.log("[sendOrderAccessEmail] Email body:", emailBody));
 
     await payload.sendEmail({
       to: email,

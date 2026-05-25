@@ -8,3 +8,9 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   vue-demi: true
+
+minimumReleaseAge: 10080
+
+minimumReleaseAgeExclude:
+  - framer-motion@12.40.0
+  - motion-dom@12.40.0

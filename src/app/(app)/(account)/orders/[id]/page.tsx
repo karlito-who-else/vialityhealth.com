@@ -2,7 +2,7 @@ import configPromise from "@payload-config";
 import { ChevronLeftIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers.js";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
@@ -24,11 +24,11 @@ type PageProps = {
 };
 
 export default async function Order({ params, searchParams }: PageProps) {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
-  const { user } = await payload.auth({ headers });
-
-  const settings = await getCachedGlobal("settings", 1)();
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
+  const [{ user }, settings] = await Promise.all([
+    payload.auth({ headers }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
   const allOrdersLabel = settings?.allOrdersLabel || "All orders";
   const orderNumberPrefix = settings?.orderNumberPrefix || "Order #";
@@ -39,8 +39,7 @@ export default async function Order({ params, searchParams }: PageProps) {
   const itemUnavailableText = settings?.itemUnavailableText || "This item is no longer available.";
   const shippingAddressLabel = settings?.shippingAddressLabel || "Shipping Address";
 
-  const { id } = await params;
-  const { email = "", accessToken = "" } = await searchParams;
+  const [{ id }, { email = "", accessToken = "" }] = await Promise.all([params, searchParams]);
 
   let order: Order | null = null;
 
@@ -179,7 +178,7 @@ export default async function Order({ params, searchParams }: PageProps) {
                 }
 
                 if (!item.product || typeof item.product !== "object") {
-                  return <div key={index}>{itemUnavailableText}</div>;
+                  return <div key={item.id || index}>{itemUnavailableText}</div>;
                 }
 
                 const variant =
@@ -215,8 +214,7 @@ export default async function Order({ params, searchParams }: PageProps) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const settings = await getCachedGlobal("settings", 1)();
+  const [{ id }, settings] = await Promise.all([params, getCachedGlobal("settings", 1)()]);
 
   return {
     description: `${settings?.orderNumberPrefix || "Order #"}${id} details.`,

@@ -10,6 +10,7 @@ export function OpenCartButton({
 }) {
   return (
     <button
+      type="button"
       className={`relative transition-opacity hover:opacity-60 ${className || ""}`}
       aria-label="Cart"
       {...rest}
@@ -29,7 +30,7 @@ export function OpenCartButton({
         <path d="M16 10a4 4 0 0 1-8 0" />
       </svg>
       {quantity ? (
-        <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center tabular-nums leading-none">
+        <span className="absolute -top-1.5 -right-1.5 size-4 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center tabular-nums leading-none">
           {quantity > 9 ? "9+" : quantity}
         </span>
       ) : null}

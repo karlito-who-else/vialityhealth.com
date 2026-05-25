@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 import { Message } from "../Message";
 
@@ -12,13 +12,13 @@ export type Props = {
   params?: string[];
 };
 
-export const RenderParamsComponent: React.FC<Props> = ({
+const RenderParamsComponentInner: React.FC<Props> = ({
   className,
   onParams,
   params = ["error", "warning", "success", "message"],
 }) => {
-  const searchParams = useSearchParams();
-  const paramValues = params.map((param) => searchParams?.get(param));
+  const { get } = useSearchParams();
+  const paramValues = params.map((param) => get(param));
 
   useEffect(() => {
     if (paramValues.length && onParams) {
@@ -47,4 +47,12 @@ export const RenderParamsComponent: React.FC<Props> = ({
   }
 
   return null;
+};
+
+export const RenderParamsComponent: React.FC<Props> = (props) => {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <RenderParamsComponentInner {...props} />
+    </Suspense>
+  );
 };

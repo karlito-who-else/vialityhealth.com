@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 
 import { OrderStatus } from "@/components/OrderStatus";
 import { Price } from "@/components/Price";

@@ -221,7 +221,7 @@ export const AddressForm: React.FC<Props> = ({
         </FormItem>
       </div>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit">Save Address</Button>
     </form>
   );
 };

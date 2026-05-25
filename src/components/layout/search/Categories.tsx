@@ -4,7 +4,6 @@ import { getPayload } from "payload";
 import React, { Suspense } from "react";
 
 import { CategoryItem } from "./Categories.client";
-import { FilterList } from "./filter";
 
 async function CategoryList() {
   const payload = await getPayload({ config: configPromise });

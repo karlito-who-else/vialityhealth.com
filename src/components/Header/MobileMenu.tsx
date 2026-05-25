@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence, type Variants, type Easing } from "framer-motion";
+import { LazyMotion, domAnimation, m, AnimatePresence, type Variants, type Easing } from "framer-motion";
 import { X } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
@@ -73,8 +73,10 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
   }, []);
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
+      <>
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
         aria-label="Open menu"
         className="md:hidden flex flex-col gap-[5px] p-1 transition-opacity hover:opacity-60 text-primary"
@@ -85,7 +87,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             variants={overlayVariants}
             initial="hidden"
             animate="show"
@@ -105,7 +107,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
             />
 
             <div className="relative z-10 flex items-center justify-between px-6 md:px-12 h-[72px] shrink-0">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -115,27 +117,27 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                   href="/"
                   onClick={() => setIsOpen(false)}
                   className="font-serif italic font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
-                  style={{ fontSize: "1.05rem", letterSpacing: "0.2em" }}
+                  style={{ fontSize: "1.05rem", letterSpacing: "0.05em" }}
                 >
                   {siteTitle}
                 </Link>
-              </motion.div>
+              </m.div>
 
-              <motion.button
+              <m.button
                 initial={{ opacity: 0, rotate: -45 }}
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4, delay: 0.12 }}
                 onClick={() => setIsOpen(false)}
                 aria-label="Close menu"
-                className="w-10 h-10 flex items-center justify-center text-primary-foreground/40 hover:text-primary-foreground/80 transition-colors duration-200 -mr-2"
+                className="size-10 flex items-center justify-center text-primary-foreground/40 hover:text-primary-foreground/80 transition-colors duration-200 -mr-2"
               >
                 <X size={20} strokeWidth={1.2} />
-              </motion.button>
+              </m.button>
             </div>
 
             <nav className="relative z-10 flex-1 flex flex-col justify-center px-8 md:px-16 xl:px-24 overflow-hidden">
-              <motion.div
+              <m.div
                 initial={{ scaleY: 0, originY: 0 }}
                 animate={{ scaleY: 1 }}
                 exit={{ scaleY: 0, originY: 0 }}
@@ -154,7 +156,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                         : `/${link.reference.value}`
                       : link.url || "/";
                   return (
-                    <motion.li
+                    <m.li
                       key={link.label}
                       custom={i}
                       variants={linkVariants}
@@ -181,14 +183,15 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                           →
                         </span>
                       </Link>
-                    </motion.li>
+                    </m.li>
                   );
                 })}
               </ul>
             </nav>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </>
+      </>
+    </LazyMotion>
   );
 }

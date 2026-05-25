@@ -8,8 +8,7 @@ import { FindOrderForm } from "@/components/forms/FindOrderForm";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function FindOrderPage() {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
   const { user } = await payload.auth({ headers });
 
   return (

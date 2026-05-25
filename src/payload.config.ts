@@ -64,6 +64,7 @@ export default buildConfig({
   ],
   db: postgresAdapter({
     pool: {
+      // eslint-disable-next-line node/no-process-env
       connectionString: process.env.DATABASE_URL || "",
     },
     // pool: new Pool({
@@ -109,6 +110,7 @@ export default buildConfig({
   endpoints: [],
   globals: [About, Header, Footer, Settings],
   plugins,
+  // eslint-disable-next-line node/no-process-env
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

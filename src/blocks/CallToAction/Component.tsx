@@ -18,8 +18,8 @@ export const CallToActionBlock: React.FC<
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
         </div>
         <div className="flex flex-col gap-8">
-          {(links || []).map(({ link }, i) => {
-            return <CMSLink key={i} size="lg" {...link} />;
+          {(links || []).map(({ link, id }, i) => {
+            return <CMSLink key={id || i} size="lg" {...link} />;
           })}
         </div>
       </div>

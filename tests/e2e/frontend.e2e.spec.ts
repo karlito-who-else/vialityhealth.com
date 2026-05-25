@@ -1,6 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
+// eslint-disable-next-line typescript/no-restricted-imports
 import { test, expect, Page } from "@playwright/test";
 
 const filename = fileURLToPath(import.meta.url);

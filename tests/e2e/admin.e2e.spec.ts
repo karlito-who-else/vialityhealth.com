@@ -1,3 +1,4 @@
+// eslint-disable-next-line typescript/no-restricted-imports
 import { test, expect, Page } from "@playwright/test";
 
 import { login } from "../helpers/login";

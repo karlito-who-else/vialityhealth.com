@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import React, { Fragment } from "react";
 
 import { CheckoutPage } from "@/components/checkout/CheckoutPage";
+import { env } from "@/utilities/env";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default function Checkout() {
   return (
     <div className="container min-h-[90vh] flex">
-      {!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && (
+      {!env('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY', '') && (
         <div>
           <Fragment>
             {"To enable checkout, you must "}

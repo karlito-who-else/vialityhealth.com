@@ -7,11 +7,11 @@ import { toast } from "sonner";
 
 import { FormError } from "@/components/forms/FormError";
 import { FormItem } from "@/components/forms/FormItem";
-import { Message } from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User } from "@/payload-types";
+import { env } from "@/utilities/env";
 import { useAuth } from "@/providers/Auth";
 
 type FormData = {
@@ -36,12 +36,12 @@ export const AccountForm: React.FC = () => {
   const password = useRef({});
   password.current = watch("password", "");
 
-  const router = useRouter();
+  const { push } = useRouter();
 
   const onSubmit = useCallback(
     async (data: FormData) => {
       if (user) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user.id}`, {
+        const response = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/${user.id}`, {
           // Make sure to include cookies with fetch
           body: JSON.stringify(data),
           credentials: "include",
@@ -72,7 +72,7 @@ export const AccountForm: React.FC = () => {
 
   useEffect(() => {
     if (user === null) {
-      router.push(
+      push(
         `/login?error=${encodeURIComponent(
           "You must be logged in to view this page.",
         )}&redirect=${encodeURIComponent("/account")}`,
@@ -88,7 +88,7 @@ export const AccountForm: React.FC = () => {
         passwordConfirm: "",
       });
     }
-  }, [user, router, reset, changePassword]);
+  }, [user, push, reset, changePassword]);
 
   return (
     <form className="max-w-xl" onSubmit={handleSubmit(onSubmit)}>
@@ -187,7 +187,7 @@ export const AccountForm: React.FC = () => {
           ? "Processing"
           : changePassword
             ? "Change Password"
-            : "Update Account"}
+            : "Save Changes"}
       </Button>
     </form>
   );

@@ -31,12 +31,12 @@ export async function generateStaticParams() {
   });
 
   const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== "about";
-    })
-    .map(({ slug }) => {
-      return { slug };
-    });
+    ?.reduce<{ slug: string }[]>((acc, doc) => {
+      if (doc.slug !== "about") {
+        acc.push({ slug: doc.slug });
+      }
+      return acc;
+    }, []);
 
   return params;
 }
@@ -50,9 +50,10 @@ type Args = {
 export default async function Page({ params }: Args) {
   const { slug = "home" } = await params;
 
-  let page = await queryPageBySlug({
-    slug,
-  });
+  const pagePromise = queryPageBySlug({ slug });
+  const payloadPromise = getPayload({ config: configPromise });
+
+  let page = await pagePromise;
 
   if (slug === "home" && (!page || !hasVialityBlocks(page))) {
     page = homeStaticData() as Page;
@@ -63,7 +64,7 @@ export default async function Page({ params }: Args) {
   }
 
   if (slug === "about") {
-    const payload = await getPayload({ config: configPromise });
+    const payload = await payloadPromise;
     const [{ docs: principles }, { docs: trustItems }, about] = await Promise.all([
       payload.find({ collection: "principles", sort: "order", limit: 10 }),
       payload.find({
@@ -98,9 +99,7 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 }
 
 const queryPageBySlug = async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode();
-
-  const payload = await getPayload({ config: configPromise });
+  const [{ isEnabled: draft }, payload] = await Promise.all([draftMode(), getPayload({ config: configPromise })]);
 
   const result = await payload.find({
     collection: "pages",

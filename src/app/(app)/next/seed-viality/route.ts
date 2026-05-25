@@ -8,8 +8,7 @@ import { seedVialityMarketing } from "@/endpoints/seed/viality-marketing";
 export const maxDuration = 300;
 
 export async function POST(): Promise<Response> {
-  const payload = await getPayload({ config });
-  const requestHeaders = await headers();
+  const [payload, requestHeaders] = await Promise.all([getPayload({ config }), headers()]);
 
   const { user } = await payload.auth({ headers: requestHeaders });
 

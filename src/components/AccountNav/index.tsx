@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";

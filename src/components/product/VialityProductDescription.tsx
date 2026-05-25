@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { Minus, Plus, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -46,12 +46,13 @@ export function VialityProductDescription({
   const faqHeading = productContent?.faqHeading || "Everything you need to know.";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-      className="p-8 xl:p-12 flex flex-col gap-8"
-    >
+    <LazyMotion features={domAnimation}>
+      <m.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+        className="p-8 xl:p-12 flex flex-col gap-8"
+      >
       {/* Header */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">{collectionLabel}</p>
@@ -74,6 +75,7 @@ export function VialityProductDescription({
           {purchaseOptionLabel}
         </p>
         <button
+          type="button"
           onClick={() => setIsSubscription(true)}
           className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
             isSubscription
@@ -83,11 +85,11 @@ export function VialityProductDescription({
         >
           <div className="flex items-center gap-3.5">
             <div
-              className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors ${
+              className={`size-3.5 rounded-full border flex items-center justify-center transition-colors ${
                 isSubscription ? "border-primary" : "border-border"
               }`}
             >
-              {isSubscription && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+              {isSubscription && <div className="size-1.5 rounded-full bg-primary" />}
             </div>
             <div className="text-left">
               <div className="text-xs uppercase tracking-widest font-medium">{subscribeLabel}</div>
@@ -101,6 +103,7 @@ export function VialityProductDescription({
         </button>
 
         <button
+          type="button"
           onClick={() => setIsSubscription(false)}
           className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
             !isSubscription
@@ -110,11 +113,11 @@ export function VialityProductDescription({
         >
           <div className="flex items-center gap-3.5">
             <div
-              className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors ${
+              className={`size-3.5 rounded-full border flex items-center justify-center transition-colors ${
                 !isSubscription ? "border-primary" : "border-border"
               }`}
             >
-              {!isSubscription && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+              {!isSubscription && <div className="size-1.5 rounded-full bg-primary" />}
             </div>
             <div className="text-xs uppercase tracking-widest font-medium">{oneTimeLabel}</div>
           </div>
@@ -128,6 +131,7 @@ export function VialityProductDescription({
         <div className="flex gap-3">
           <div className="flex items-center border border-border/60">
             <button
+              type="button"
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
               className="w-10 h-12 flex items-center justify-center text-primary/40 hover:text-primary transition-colors"
             >
@@ -135,6 +139,7 @@ export function VialityProductDescription({
             </button>
             <span className="w-9 text-center text-sm tabular-nums">{quantity}</span>
             <button
+              type="button"
               onClick={() => setQuantity(quantity + 1)}
               className="w-10 h-12 flex items-center justify-center text-primary/40 hover:text-primary transition-colors"
             >
@@ -150,7 +155,7 @@ export function VialityProductDescription({
           />
         </div>
 
-        <button className="w-full h-11 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary/50 transition-colors">
+        <button type="button" className="w-full h-11 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary/50 transition-colors">
           {buyNowLabel}
         </button>
       </div>
@@ -167,24 +172,25 @@ export function VialityProductDescription({
       {/* INGREDIENTS */}
       <div className="border-t border-border/40 pt-6">
         <button
+          type="button"
           onClick={() => setIngredientsOpen(!ingredientsOpen)}
           className="w-full grid grid-cols-[1fr_auto] items-center gap-6 py-4 text-left group"
         >
           <span className="font-serif italic text-xl md:text-2xl text-primary group-hover:text-primary/70 transition-colors">
             {ingredientsHeading}
           </span>
-          <motion.span
+          <m.span
             animate={{ rotate: ingredientsOpen ? 180 : 0 }}
             transition={{ duration: 0.25 }}
             className="text-primary/30 group-hover:text-primary/50 transition-colors"
           >
             <ChevronDown size={16} />
-          </motion.span>
+          </m.span>
         </button>
 
         <AnimatePresence>
           {ingredientsOpen && (
-            <motion.div
+            <m.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -209,7 +215,7 @@ export function VialityProductDescription({
                   {otherIngredientsText}
                 </p>
               )}
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>
@@ -230,15 +236,16 @@ export function VialityProductDescription({
           ))}
         </div>
       </div>
-    </motion.div>
+      </m.div>
+    </LazyMotion>
   );
 }
 
 function Badge({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-primary/45">
-      <div className="w-3.5 h-3.5 border border-primary/20 flex items-center justify-center shrink-0">
-        <div className="w-1 h-1 bg-accent" />
+      <div className="size-3.5 border border-primary/20 flex items-center justify-center shrink-0">
+        <div className="size-1 bg-accent" />
       </div>
       {label}
     </div>
@@ -259,23 +266,24 @@ function AccordionItem({
   return (
     <div className="border-b border-border/60">
       <button
+        type="button"
         onClick={onToggle}
         className="w-full py-4 flex justify-between items-center text-left gap-6 group"
       >
         <span className="text-xs uppercase tracking-widest font-medium group-hover:text-primary/70 transition-colors">
           {q}
         </span>
-        <motion.span
+        <m.span
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.25 }}
           className="shrink-0 text-primary/35"
         >
           <ChevronDown size={14} />
-        </motion.span>
+        </m.span>
       </button>
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -283,7 +291,7 @@ function AccordionItem({
             className="overflow-hidden"
           >
             <p className="pb-4 text-sm text-primary/55 font-light leading-[1.85]">{a}</p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

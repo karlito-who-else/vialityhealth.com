@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import React from "react";
 
 import { Media } from "@/components/Media";

@@ -7,7 +7,7 @@ import type {
 } from "@/payload-types";
 
 export const VialityShippingBlock: React.FC<VialityShippingBlockProps> = (props) => {
-  const { items: rawItems, blockName, blockType, id, ...rest } = props;
+  const { items: rawItems, blockName: _blockName, blockType: _blockType, id: _id, ...rest } = props;
   const items = (rawItems || []).filter(
     (s): s is ShippingInfo => typeof s === "object" && s !== null,
   );

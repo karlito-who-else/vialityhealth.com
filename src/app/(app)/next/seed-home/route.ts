@@ -54,8 +54,7 @@ async function createProductImage(payload: any, title: string, slug: string): Pr
 }
 
 export async function POST(): Promise<Response> {
-  const payload = await getPayload({ config });
-  const requestHeaders = await headers();
+  const [payload, requestHeaders] = await Promise.all([getPayload({ config }), headers()]);
 
   const { user } = await payload.auth({ headers: requestHeaders });
 

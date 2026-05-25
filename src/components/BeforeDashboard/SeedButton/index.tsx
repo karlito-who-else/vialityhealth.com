@@ -19,7 +19,7 @@ export const SeedButton: React.FC = () => {
   const [seeded, setSeeded] = useState(false);
   const [error, setError] = useState<unknown>(null);
 
-  const handleClick = useCallback(
+  const handleSeed = useCallback(
     async (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
 
@@ -78,7 +78,7 @@ export const SeedButton: React.FC = () => {
 
   return (
     <Fragment>
-      <button className="seedButton" onClick={handleClick}>
+      <button type="button" className="seedButton" onClick={handleSeed}>
         Seed your database
       </button>
       {message}

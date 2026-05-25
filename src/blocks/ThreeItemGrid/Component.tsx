@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import type { DefaultDocumentIDType } from "payload";
 import React from "react";
 
@@ -11,7 +11,7 @@ import type {
 
 type Props = { item: Product; priority?: boolean; size: "full" | "half" };
 
-export const ThreeItemGridItem: React.FC<Props> = ({ item, size }) => {
+const ThreeItemGridItem: React.FC<Props> = ({ item, size }) => {
   let price = item.priceInUSD;
 
   if (item.enableVariants && item.variants?.docs?.length) {

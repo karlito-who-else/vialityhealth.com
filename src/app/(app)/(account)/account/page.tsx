@@ -1,7 +1,7 @@
 import configPromise from "@payload-config";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers.js";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { redirect } from "next/navigation";
 import { getPayload } from "payload";
 
@@ -13,11 +13,11 @@ import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function AccountPage() {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
-  const { user } = await payload.auth({ headers });
-
-  const settings = await getCachedGlobal("settings", 1)();
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
+  const [{ user }, settings] = await Promise.all([
+    payload.auth({ headers }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
   const loginWarning = settings?.loginWarning || "Please login to access your account settings.";
   const accountHeading = settings?.accountHeading || "Account settings";
@@ -47,7 +47,9 @@ export default async function AccountPage() {
     });
 
     orders = ordersResult?.docs || [];
-  } catch (error) {}
+  } catch (_error) {
+    console.error("Error fetching orders:", _error);
+  }
 
   return (
     <>
@@ -71,7 +73,7 @@ export default async function AccountPage() {
 
         {orders && orders.length > 0 && (
           <ul className="flex flex-col gap-6 mb-8">
-            {orders?.map((order, index) => (
+            {orders?.map((order, _index) => (
               <li key={order.id}>
                 <OrderItem order={order} />
               </li>

@@ -11,11 +11,11 @@ import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function CreateAccount() {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
-  const { user } = await payload.auth({ headers });
-
-  const settings = await getCachedGlobal("settings", 1)();
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
+  const [{ user }, settings] = await Promise.all([
+    payload.auth({ headers }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
   const alreadyLoggedInWarning = settings?.alreadyLoggedInWarning || "You are already logged in.";
   const createAccountHeading = settings?.createAccountHeading || "Create Account";

@@ -10,8 +10,8 @@ export type PathFilterItem = { path: string; title: string };
 function FilterItemList({ list }: { list: ListItem[] }) {
   return (
     <React.Fragment>
-      {list.map((item: ListItem, i) => (
-        <FilterItem item={item} key={i} />
+      {list.map((item: ListItem) => (
+        <FilterItem item={item} key={`${item.title}-${"path" in item ? item.path : item.slug}`} />
       ))}
     </React.Fragment>
   );

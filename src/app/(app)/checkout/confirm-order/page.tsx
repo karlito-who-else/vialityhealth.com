@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import React, { Fragment } from "react";
+import React from "react";
 
 import { ConfirmOrder } from "@/components/checkout/ConfirmOrder";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
@@ -13,7 +13,7 @@ export default async function ConfirmOrderPage({
 }) {
   const searchParams = await searchParamsPromise;
 
-  const paymentIntent = searchParams.paymentId;
+  const _paymentIntent = searchParams.paymentId;
 
   return (
     <div className="container min-h-[90vh] flex py-12">

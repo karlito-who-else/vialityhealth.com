@@ -2,16 +2,16 @@
 
 import { useCart, usePayments } from "@payloadcms/plugin-ecommerce/client/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
-export const ConfirmOrder: React.FC = () => {
+const ConfirmOrderInner: React.FC = () => {
   const { confirmOrder } = usePayments();
   const { cart } = useCart();
 
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const { get } = useSearchParams();
+  const { push } = useRouter();
   // Ensure we only confirm the order once, even if the component re-renders
   const isConfirming = useRef(false);
 
@@ -20,8 +20,8 @@ export const ConfirmOrder: React.FC = () => {
       return;
     }
 
-    const paymentIntentID = searchParams.get("payment_intent");
-    const email = searchParams.get("email");
+    const paymentIntentID = get("payment_intent");
+    const email = get("email");
 
     if (paymentIntentID) {
       if (!isConfirming.current) {
@@ -44,15 +44,15 @@ export const ConfirmOrder: React.FC = () => {
             }
 
             const queryString = queryParams.toString();
-            router.push(`/orders/${result.orderID}${queryString ? `?${queryString}` : ""}`);
+            push(`/orders/${result.orderID}${queryString ? `?${queryString}` : ""}`);
           }
         });
       }
     } else {
       // If no payment intent ID is found, redirect to the home
-      router.push("/");
-    }
-  }, [cart, confirmOrder, router, searchParams]);
+      push("/");
+     }
+   }, [cart, confirmOrder, push, get]);
 
   return (
     <div className="text-center w-full flex flex-col items-center justify-start gap-4">
@@ -60,5 +60,13 @@ export const ConfirmOrder: React.FC = () => {
 
       <LoadingSpinner className="w-12 h-6" />
     </div>
+  );
+};
+
+export const ConfirmOrder: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <ConfirmOrderInner />
+    </Suspense>
   );
 };

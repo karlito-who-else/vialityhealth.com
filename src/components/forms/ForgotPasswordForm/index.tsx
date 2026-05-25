@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import React, { Fragment, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -9,6 +9,7 @@ import { FormItem } from "@/components/forms/FormItem";
 import { Message } from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { env } from "@/utilities/env";
 import { Label } from "@/components/ui/label";
 
 type FormData = {
@@ -27,7 +28,7 @@ export const ForgotPasswordForm: React.FC = () => {
 
   const onSubmit = useCallback(async (data: FormData) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/forgot-password`,
+      `${env('NEXT_PUBLIC_SERVER_URL')}/api/users/forgot-password`,
       {
         body: JSON.stringify(data),
         headers: {

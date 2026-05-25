@@ -2,18 +2,19 @@
 
 import { useSearchParams } from "next/navigation";
 import { DefaultDocumentIDType } from "payload";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 import { GridTileImage } from "@/components/Grid/tile";
 import { Media } from "@/components/Media";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import type { Media as MediaType, Product } from "@/payload-types";
+import type { Product } from "@/payload-types";
 
 type Props = {
   gallery: NonNullable<Product["gallery"]>;
 };
 
-export const Gallery: React.FC<Props> = ({ gallery }) => {
+const GalleryInner: React.FC<Props> = (props) => {
+  const { gallery } = props;
   const searchParams = useSearchParams();
   const [current, setCurrent] = React.useState(0);
   const [api, setApi] = React.useState<CarouselApi>();
@@ -64,7 +65,7 @@ export const Gallery: React.FC<Props> = ({ gallery }) => {
             return (
               <CarouselItem
                 className="basis-1/5"
-                key={`${item.image.id}-${i}`}
+                key={item.image.id}
                 onClick={() => setCurrent(i)}
               >
                 <GridTileImage active={i === current} media={item.image} />
@@ -74,5 +75,13 @@ export const Gallery: React.FC<Props> = ({ gallery }) => {
         </CarouselContent>
       </Carousel>
     </div>
+  );
+};
+
+export const Gallery: React.FC<Props> = (props) => {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <GalleryInner {...props} />
+    </Suspense>
   );
 };

@@ -13,8 +13,7 @@ function hasVialityBlocks(page: Page) {
 }
 
 export default async function HomePage() {
-  const { isEnabled: draft } = await draftMode();
-  const payload = await getPayload({ config: configPromise });
+  const [{ isEnabled: draft }, payload] = await Promise.all([draftMode(), getPayload({ config: configPromise })]);
 
   const result = await payload.find({
     collection: "pages",

@@ -13,9 +13,9 @@ export const VialityHeroBlock: React.FC<VialityHeroBlockProps> = (props) => {
     secondaryLabel,
     secondaryLink,
     scrollLabel,
-    blockName,
-    blockType,
-    id,
+    blockName: _blockName,
+    blockType: _blockType,
+    id: _id,
     ...rest
   } = props;
   return (

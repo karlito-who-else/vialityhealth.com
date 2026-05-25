@@ -60,9 +60,9 @@ export function EditItemQuantityButton({ type, item }: { item: CartItem; type: "
         type="button"
       >
         {type === "plus" ? (
-          <PlusIcon className="h-4 w-4 dark:text-muted-foreground hover:text-ring" />
+          <PlusIcon className="size-4 dark:text-muted-foreground hover:text-ring" />
         ) : (
-          <MinusIcon className="h-4 w-4 dark:text-muted-foreground hover:text-ring" />
+          <MinusIcon className="size-4 dark:text-muted-foreground hover:text-ring" />
         )}
       </button>
     </form>

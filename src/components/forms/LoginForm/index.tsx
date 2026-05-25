@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useCallback, useRef } from "react";
+import React, { Suspense, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import { FormError } from "@/components/forms/FormError";
@@ -18,12 +18,13 @@ type FormData = {
   password: string;
 };
 
-export const LoginForm: React.FC = () => {
+const LoginFormInner: React.FC = () => {
   const searchParams = useSearchParams();
-  const allParams = searchParams.toString() ? `?${searchParams.toString()}` : "";
-  const redirect = useRef(searchParams.get("redirect"));
+  const { get, toString } = searchParams;
+  const allParams = toString() ? `?${toString()}` : "";
+  const redirect = useRef(get("redirect"));
   const { login } = useAuth();
-  const router = useRouter();
+  const { push } = useRouter();
   const [error, setError] = React.useState<null | string>(null);
 
   const {
@@ -36,13 +37,14 @@ export const LoginForm: React.FC = () => {
     async (data: FormData) => {
       try {
         await login(data);
-        if (redirect?.current) router.push(redirect.current);
-        else router.push("/account");
-      } catch (_) {
+        if (redirect?.current) push(redirect.current);
+        else push("/account");
+      } catch (_error) {
+        console.error("Login error:", _error);
         setError("There was an error with the credentials provided. Please try again.");
       }
     },
-    [login, router],
+    [login, push],
   );
 
   return (
@@ -90,3 +92,12 @@ export const LoginForm: React.FC = () => {
     </form>
   );
 };
+
+export const LoginForm: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <LoginFormInner />
+    </Suspense>
+  );
+};
+

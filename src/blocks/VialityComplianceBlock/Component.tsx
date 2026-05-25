@@ -4,7 +4,7 @@ import { ComplianceSection } from "@/components/viality";
 import type { VialityComplianceBlock as VialityComplianceBlockProps } from "@/payload-types";
 
 export const VialityComplianceBlock: React.FC<VialityComplianceBlockProps> = (props) => {
-  const { text, blockName, blockType, id, ...rest } = props;
+  const { text, blockName: _blockName, blockType: _blockType, id: _id, ...rest } = props;
   return (
     <section {...rest}>
       <ComplianceSection text={text} />

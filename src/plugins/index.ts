@@ -200,8 +200,11 @@ export const plugins: Plugin[] = [
     payments: {
       paymentMethods: [
         stripeAdapter({
+          // eslint-disable-next-line node/no-process-env
           secretKey: process.env.STRIPE_SECRET_KEY!,
+          // eslint-disable-next-line node/no-process-env
           publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
+          // eslint-disable-next-line node/no-process-env
           webhookSecret: process.env.STRIPE_WEBHOOKS_SIGNING_SECRET!,
         }),
       ],

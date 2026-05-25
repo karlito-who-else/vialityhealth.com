@@ -17,8 +17,10 @@ type Props = {
 };
 
 export default async function ShopPage({ searchParams }: Props) {
-  const { q: searchValue, sort, category } = await searchParams;
-  const payload = await getPayload({ config: configPromise });
+  const [{ q: searchValue, sort, category }, payload] = await Promise.all([
+    searchParams,
+    getPayload({ config: configPromise }),
+  ]);
 
   const products = await payload.find({
     collection: "products",

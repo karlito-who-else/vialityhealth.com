@@ -16,7 +16,7 @@ export function DeleteItemButton({ item }: { item: CartItem }) {
       <button
         aria-label="Remove cart item"
         className={clsx(
-          "ease hover:cursor-pointer flex h-4 w-4 items-center justify-center rounded-full bg-muted-foreground transition-all duration-200",
+          "ease hover:cursor-pointer flex size-4 items-center justify-center rounded-full bg-muted-foreground transition-all duration-200",
           {
             "cursor-not-allowed px-0": !itemId || isLoading,
           },
@@ -28,7 +28,7 @@ export function DeleteItemButton({ item }: { item: CartItem }) {
         }}
         type="button"
       >
-        <XIcon className="hover:text-accent-3 mx-px h-4 w-4 text-primary-foreground dark:text-foreground" />
+        <XIcon className="hover:text-accent-3 mx-px size-4 text-primary-foreground dark:text-foreground" />
       </button>
     </form>
   );

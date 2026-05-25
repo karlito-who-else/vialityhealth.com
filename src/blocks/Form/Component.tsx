@@ -37,12 +37,12 @@ export const FormBlock: React.FC<
   }
 > = (props) => {
   const {
-    blockName,
-    blockType,
+    blockName: _blockName,
+    blockType: _blockType,
     enableIntro,
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
-    id,
+    id: _id,
     introContent,
     ...rest
   } = props;
@@ -60,7 +60,7 @@ export const FormBlock: React.FC<
   const [isLoading, setIsLoading] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState<boolean>();
   const [error, setError] = useState<{ message: string; status?: string } | undefined>();
-  const router = useRouter();
+  const { push } = useRouter();
 
   const onSubmit = useCallback(
     (data: Data) => {
@@ -113,7 +113,7 @@ export const FormBlock: React.FC<
 
             const redirectUrl = url;
 
-            if (redirectUrl) router.push(redirectUrl);
+            if (redirectUrl) push(redirectUrl);
           }
         } catch (err) {
           console.warn(err);
@@ -126,7 +126,7 @@ export const FormBlock: React.FC<
 
       void submitForm();
     },
-    [router, formID, redirect, confirmationType],
+    [push, formID, redirect, confirmationType],
   );
 
   return (
@@ -139,7 +139,7 @@ export const FormBlock: React.FC<
           {!isLoading && hasSubmitted && confirmationType === "message" && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+          {isLoading && !hasSubmitted && <p>Loading, please wait…</p>}
           {error && <div>{`${error.status || "500"}: ${error.message || ""}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
@@ -152,7 +152,7 @@ export const FormBlock: React.FC<
 
                     if (Field) {
                       return (
-                        <div className="mb-6 last:mb-0" key={index}>
+                        <div className="mb-6 last:mb-0" key={`${field.blockType}-${index}`}>
                           <Field
                             form={formFromProps}
                             {...field}

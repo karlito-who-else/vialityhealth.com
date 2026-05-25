@@ -1,7 +1,6 @@
 import configPromise from "@payload-config";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getPayload } from "payload";
 import React from "react";
@@ -11,11 +10,11 @@ import { RenderParams } from "@/components/RenderParams";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 
 export default async function Login() {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
-  const { user } = await payload.auth({ headers });
-
-  const settings = await getCachedGlobal("settings", 1)();
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
+  const [{ user }, settings] = await Promise.all([
+    payload.auth({ headers }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
   const alreadyLoggedInWarning = settings?.alreadyLoggedInWarning || "You are already logged in.";
   const loginHeading = settings?.loginHeading || "Log in";

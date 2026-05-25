@@ -8,7 +8,7 @@ import { Checkbox as CheckboxUi } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { capitaliseFirstLetter } from "@/utilities/capitaliseFirstLetter";
 
-import { Error } from "../Error";
+import { Error as _Error } from "../Error";
 import { Width } from "../Width";
 
 export const Checkbox: React.FC<

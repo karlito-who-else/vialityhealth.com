@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useCallback, useRef, useState } from "react";
+import React, { Suspense, useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { FormError } from "@/components/forms/FormError";
@@ -11,6 +11,7 @@ import { Message } from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { env } from "@/utilities/env";
 import { useAuth } from "@/providers/Auth";
 
 type FormData = {
@@ -19,11 +20,12 @@ type FormData = {
   passwordConfirm: string;
 };
 
-export const CreateAccountForm: React.FC = () => {
+const CreateAccountFormInner: React.FC = () => {
   const searchParams = useSearchParams();
-  const allParams = searchParams.toString() ? `?${searchParams.toString()}` : "";
+  const { get, toString } = searchParams;
+  const allParams = toString() ? `?${toString()}` : "";
   const { login } = useAuth();
-  const router = useRouter();
+  const { push } = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
@@ -39,7 +41,7 @@ export const CreateAccountForm: React.FC = () => {
 
   const onSubmit = useCallback(
     async (data: FormData) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
+      const response = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users`, {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +55,7 @@ export const CreateAccountForm: React.FC = () => {
         return;
       }
 
-      const redirect = searchParams.get("redirect");
+      const redirect = get("redirect");
 
       const timer = setTimeout(() => {
         setLoading(true);
@@ -62,14 +64,15 @@ export const CreateAccountForm: React.FC = () => {
       try {
         await login(data);
         clearTimeout(timer);
-        if (redirect) router.push(redirect);
-        else router.push(`/account?success=${encodeURIComponent("Account created successfully")}`);
-      } catch (_) {
+        if (redirect) push(redirect);
+        else push(`/account?success=${encodeURIComponent("Account created successfully")}`);
+      } catch (_error) {
+        console.error("Login error after account creation:", _error);
         clearTimeout(timer);
         setError("There was an error with the credentials provided. Please try again.");
       }
     },
-    [login, router, searchParams],
+    [login, push, get],
   );
 
   return (
@@ -134,5 +137,13 @@ export const CreateAccountForm: React.FC = () => {
         </p>
       </div>
     </form>
+  );
+};
+
+export const CreateAccountForm: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <CreateAccountFormInner />
+    </Suspense>
   );
 };

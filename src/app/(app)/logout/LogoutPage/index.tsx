@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import React, { Fragment, useEffect, useState } from "react";
 
 import { useAuth } from "@/providers/Auth";
 
-export const LogoutPage: React.FC = (props) => {
+export const LogoutPage: React.FC = (_props) => {
   const { logout } = useAuth();
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -15,7 +15,8 @@ export const LogoutPage: React.FC = (props) => {
       try {
         await logout();
         setSuccess("Logged out successfully.");
-      } catch (_) {
+      } catch (_error) {
+        console.error("Logout error:", _error);
         setError("You are already logged out.");
       }
     };

@@ -9,7 +9,7 @@ import type {
 export const VialityFeaturedProductsBlock: React.FC<VialityFeaturedProductsBlockProps> = (
   props,
 ) => {
-  const { heading, shopAllLabel, products: rawProducts, blockName, blockType, id, ...rest } = props;
+  const { heading, shopAllLabel, products: rawProducts, blockName: _blockName, blockType: _blockType, id: _id, ...rest } = props;
   const products = (rawProducts || []).filter(
     (p): p is Product => typeof p === "object" && p !== null,
   );

@@ -8,6 +8,7 @@ import { Header } from "@/components/Header";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
 import { Providers } from "@/providers";
 import { InitTheme } from "@/providers/Theme/InitTheme";
+import { env } from "@/utilities/env";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 
 import "./globals.css";
@@ -27,9 +28,8 @@ const ebGaramond = EB_Garamond({
   display: "swap",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : "http://localhost:3000";
+const vercelUrl = env('NEXT_PUBLIC_VERCEL_URL', '');
+const baseUrl = vercelUrl ? `https://${vercelUrl}` : "http://localhost:3000";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getCachedGlobal("settings", 1)();

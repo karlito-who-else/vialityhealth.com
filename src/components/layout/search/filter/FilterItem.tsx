@@ -1,9 +1,9 @@
 "use client";
 
 import clsx from "clsx";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { usePathname, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 
 import type { SortFilterItem as SortFilterItemType } from "@/lib/constants";
 import { createUrl } from "@/utilities/createUrl";
@@ -11,7 +11,7 @@ import { createUrl } from "@/utilities/createUrl";
 import type { ListItem } from ".";
 import type { PathFilterItem as PathFilterItemType } from ".";
 
-function PathFilterItem({ item }: { item: PathFilterItemType }) {
+function PathFilterItemInner({ item }: { item: PathFilterItemType }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const active = pathname === item.path;
@@ -34,11 +34,11 @@ function PathFilterItem({ item }: { item: PathFilterItemType }) {
   );
 }
 
-function SortFilterItem({ item }: { item: SortFilterItemType }) {
+function SortFilterItemInner({ item }: { item: SortFilterItemType }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const active = searchParams.get("sort") === item.slug;
-  const q = searchParams.get("q");
+  const { get } = useSearchParams();
+  const active = get("sort") === item.slug;
+  const q = get("q");
   const href = createUrl(
     pathname,
     new URLSearchParams({
@@ -60,6 +60,22 @@ function SortFilterItem({ item }: { item: SortFilterItemType }) {
         {item.title}
       </DynamicTag>
     </li>
+  );
+}
+
+function PathFilterItem(props: { item: PathFilterItemType }) {
+  return (
+    <Suspense fallback={null}>
+      <PathFilterItemInner {...props} />
+    </Suspense>
+  );
+}
+
+function SortFilterItem(props: { item: SortFilterItemType }) {
+  return (
+    <Suspense fallback={null}>
+      <SortFilterItemInner {...props} />
+    </Suspense>
   );
 }
 

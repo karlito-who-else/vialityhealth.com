@@ -2,6 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
+import { env } from "@/utilities/env";
 import type { User } from "@/payload-types";
 
 // eslint-disable-next-line no-unused-vars
@@ -40,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [status, setStatus] = useState<"loggedIn" | "loggedOut" | undefined>();
   const create = useCallback<Create>(async (args) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/create`, {
+      const res = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/create`, {
         body: JSON.stringify({
           email: args.email,
           password: args.password,
@@ -61,14 +62,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         throw new Error("Invalid login");
       }
-    } catch (e) {
+    } catch (_error) {
+      console.error("Create account error:", _error);
       throw new Error("An error occurred while attempting to login.");
     }
   }, []);
 
   const login = useCallback<Login>(async (args) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
+      const res = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/login`, {
         body: JSON.stringify({
           email: args.email,
           password: args.password,
@@ -89,14 +91,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       throw new Error("Invalid login");
-    } catch (e) {
+    } catch (_error) {
+      console.error("Login error:", _error);
       throw new Error("An error occurred while attempting to login.");
     }
   }, []);
 
   const logout = useCallback<Logout>(async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+      const res = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/logout`, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +113,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         throw new Error("An error occurred while attempting to logout.");
       }
-    } catch (e) {
+    } catch (_error) {
+      console.error("Logout error:", _error);
       throw new Error("An error occurred while attempting to logout.");
     }
   }, []);
@@ -118,7 +122,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const fetchMe = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`, {
+        const res = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/me`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -130,12 +134,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const { user: meUser } = await res.json();
           setUser(meUser || null);
           setStatus(meUser ? "loggedIn" : undefined);
-        } else {
-          throw new Error("An error occurred while fetching your account.");
-        }
-      } catch (e) {
-        setUser(null);
-        throw new Error("An error occurred while fetching your account.");
+         } else {
+           throw new Error("An error occurred while fetching your account.");
+         }
+       } catch (_error) {
+         console.error("Fetch user error:", _error);
+         setUser(null);
+         throw new Error("An error occurred while fetching your account.");
       }
     };
 
@@ -144,7 +149,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const forgotPassword = useCallback<ForgotPassword>(async (args) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/forgot-password`, {
+      const res = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/forgot-password`, {
         body: JSON.stringify({
           email: args.email,
         }),
@@ -162,14 +167,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         throw new Error("Invalid login");
       }
-    } catch (e) {
+    } catch (_error) {
+      console.error("Forgot password error:", _error);
       throw new Error("An error occurred while attempting to login.");
     }
   }, []);
 
   const resetPassword = useCallback<ResetPassword>(async (args) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/reset-password`, {
+      const res = await fetch(`${env('NEXT_PUBLIC_SERVER_URL')}/api/users/reset-password`, {
         body: JSON.stringify({
           password: args.password,
           passwordConfirm: args.passwordConfirm,
@@ -190,7 +196,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         throw new Error("Invalid login");
       }
-    } catch (e) {
+    } catch (_error) {
+      console.error("Reset password error:", _error);
       throw new Error("An error occurred while attempting to login.");
     }
   }, []);

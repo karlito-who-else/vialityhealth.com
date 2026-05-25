@@ -7,6 +7,7 @@ import React, { useCallback, FormEvent } from "react";
 
 import { Message } from "@/components/Message";
 import { Button } from "@/components/ui/button";
+import { env } from "@/utilities/env";
 import { Address } from "@/payload-types";
 
 type Props = {
@@ -25,7 +26,7 @@ export const CheckoutForm: React.FC<Props> = ({
   const elements = useElements();
   const [error, setError] = React.useState<null | string>(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const router = useRouter();
+  const { push } = useRouter();
   const { clearCart } = useCart();
   const { confirmOrder } = usePayments();
 
@@ -37,7 +38,7 @@ export const CheckoutForm: React.FC<Props> = ({
 
       if (stripe && elements) {
         try {
-          const returnUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout/confirm-order${customerEmail ? `?email=${customerEmail}` : ""}`;
+          const returnUrl = `${env('NEXT_PUBLIC_SERVER_URL')}/checkout/confirm-order${customerEmail ? `?email=${customerEmail}` : ""}`;
 
           const { error: stripeError, paymentIntent } = await stripe.confirmPayment({
             confirmParams: {
@@ -94,7 +95,7 @@ export const CheckoutForm: React.FC<Props> = ({
                 clearCart();
 
                 // Redirect to order confirmation page
-                router.push(redirectUrl);
+                push(redirectUrl);
               }
             } catch (err) {
               console.log({ err });
@@ -129,7 +130,7 @@ export const CheckoutForm: React.FC<Props> = ({
       billingAddress?.country,
       confirmOrder,
       clearCart,
-      router,
+      push,
     ],
   );
 

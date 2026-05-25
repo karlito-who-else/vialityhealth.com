@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 
 export type WaitlistSectionProps = {
   heading: string;
@@ -11,9 +11,10 @@ export type WaitlistSectionProps = {
 
 export function WaitlistSection({ heading, body, placeholder, buttonLabel }: WaitlistSectionProps) {
   return (
-    <section className="py-32 px-6 bg-primary text-primary-foreground text-center">
+    <LazyMotion features={domAnimation}>
+      <section className="py-32 px-6 bg-primary text-primary-foreground text-center">
       <div className="max-w-2xl mx-auto flex flex-col items-center">
-        <motion.h2
+        <m.h2
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -21,7 +22,7 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
           className="font-serif italic text-4xl mb-4"
         >
           {heading}
-        </motion.h2>
+        </m.h2>
         {body && (
           <p className="text-primary-foreground/65 mb-10 text-sm max-w-md leading-relaxed">
             {body}
@@ -42,6 +43,7 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
           </button>
         </form>
       </div>
-    </section>
+      </section>
+    </LazyMotion>
   );
 }

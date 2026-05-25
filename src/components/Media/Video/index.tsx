@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 
+import { env } from "@/utilities/env";
 import { cn } from "@/utilities/cn";
 
 import type { Props as MediaProps } from "../types";
@@ -14,12 +15,10 @@ export const Video: React.FC<MediaProps> = (props) => {
 
   useEffect(() => {
     const { current: video } = videoRef;
-    if (video) {
-      video.addEventListener("suspend", () => {
-        // setShowFallback(true);
-        // console.warn('Video was suspended, rendering fallback image.')
-      });
-    }
+    if (!video) return;
+    const handler = () => {};
+    video.addEventListener("suspend", handler);
+    return () => video.removeEventListener("suspend", handler);
   }, []);
 
   if (resource && typeof resource === "object") {
@@ -36,7 +35,7 @@ export const Video: React.FC<MediaProps> = (props) => {
         playsInline
         ref={videoRef}
       >
-        <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}/media/${filename}`} />
+        <source src={`${env('NEXT_PUBLIC_SERVER_URL')}/media/${filename}`} />
       </video>
     );
   }

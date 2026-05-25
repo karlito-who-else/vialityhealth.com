@@ -11,10 +11,13 @@ import "dotenv/config";
 export default defineConfig({
   testDir: "./tests/e2e",
   /* Fail the build on CI if you accidentally left test.only in the source code. */
+  // eslint-disable-next-line node/no-process-env
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
+  // eslint-disable-next-line node/no-process-env
   retries: process.env.CI ? 3 : 1,
   /* Opt out of parallel tests on CI. */
+  // eslint-disable-next-line node/no-process-env
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",

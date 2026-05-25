@@ -2,7 +2,7 @@
 
 import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
 import { useSearchParams } from "next/navigation";
-import React, { useCallback, useMemo } from "react";
+import React, { Suspense, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 
 import type { Product, Variant } from "@/payload-types";
@@ -14,15 +14,16 @@ type Props = {
   label?: string;
 };
 
-export function AddToCart({ product, quantity = 1, className, label }: Props) {
+function AddToCartInner(props: Props) {
+  const { product, quantity = 1, className, label } = props;
   const { addItem, cart, isLoading } = useCart();
-  const searchParams = useSearchParams();
+  const { get } = useSearchParams();
 
   const variants = product.variants?.docs || [];
 
   const selectedVariant = useMemo<Variant | undefined>(() => {
     if (product.enableVariants && variants.length) {
-      const variantId = searchParams.get("variant");
+      const variantId = get("variant");
 
       const validVariant = variants.find((variant) => {
         if (typeof variant === "object") {
@@ -37,7 +38,7 @@ export function AddToCart({ product, quantity = 1, className, label }: Props) {
     }
 
     return undefined;
-  }, [product.enableVariants, searchParams, variants]);
+  }, [product.enableVariants, get, variants]);
 
   const addToCart = useCallback(
     (e: React.FormEvent<HTMLButtonElement>) => {
@@ -111,5 +112,13 @@ export function AddToCart({ product, quantity = 1, className, label }: Props) {
     >
       {label || "Add to Cart"}
     </button>
+  );
+}
+
+export function AddToCart(props: Props) {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <AddToCartInner {...props} />
+    </Suspense>
   );
 }

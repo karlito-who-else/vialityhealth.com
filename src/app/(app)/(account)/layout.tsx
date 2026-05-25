@@ -7,8 +7,7 @@ import { AccountNav } from "@/components/AccountNav";
 import { RenderParams } from "@/components/RenderParams";
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
   const { user } = await payload.auth({ headers });
 
   return (

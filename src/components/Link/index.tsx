@@ -1,3 +1,4 @@
+// eslint-disable-next-line typescript/no-restricted-imports
 import Link from "next/link";
 import React from "react";
 

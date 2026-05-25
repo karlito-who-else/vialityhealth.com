@@ -5,6 +5,7 @@ import React from "react";
 import { AuthProvider } from "@/providers/Auth";
 import { SonnerProvider } from "@/providers/Sonner";
 
+import { env } from "@/utilities/env";
 import { HeaderThemeProvider } from "./HeaderTheme";
 import { ThemeProvider } from "./Theme";
 
@@ -37,7 +38,7 @@ export const Providers: React.FC<{
             }}
             paymentMethods={[
               stripeAdapterClient({
-                publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "",
+                publishableKey: env('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY', ''),
               }),
             ]}
           >

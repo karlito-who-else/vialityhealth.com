@@ -10,9 +10,9 @@ export const VialityTrustBlock: React.FC<VialityTrustBlockProps> = (props) => {
     ctaLabel,
     ctaLink,
     items: rawItems,
-    blockName,
-    blockType,
-    id,
+    blockName: _blockName,
+    blockType: _blockType,
+    id: _id,
     ...rest
   } = props;
   const items = (rawItems || []).filter((t): t is TrustItem => typeof t === "object" && t !== null);

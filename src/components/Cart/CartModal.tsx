@@ -2,8 +2,9 @@
 
 import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
 import { ShoppingCart } from "lucide-react";
+// eslint-disable-next-line typescript/no-restricted-imports
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
@@ -66,7 +67,7 @@ export function CartModal() {
                   const variant = item.variant;
 
                   if (typeof product !== "object" || !item || !product || !product.slug)
-                    return <React.Fragment key={i} />;
+                    return <React.Fragment key={item.id || i} />;
 
                   const metaImage =
                     product.meta?.image && typeof product.meta?.image === "object"
@@ -107,7 +108,7 @@ export function CartModal() {
                   }
 
                   return (
-                    <li className="flex w-full flex-col" key={i}>
+                    <li className="flex w-full flex-col" key={item.id || i}>
                       <div className="relative flex w-full flex-row justify-between px-1 py-4">
                         <div className="absolute z-40 -mt-2 ml-[55px]">
                           <DeleteItemButton item={item} />
@@ -116,7 +117,7 @@ export function CartModal() {
                           className="z-30 flex flex-row space-x-4"
                           href={`/products/${(item.product as Product)?.slug}`}
                         >
-                          <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
+                          <div className="relative size-16 cursor-pointer overflow-hidden rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
                             {image?.url && (
                               <Image
                                 alt={image?.alt || product?.title || ""}

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import React from "react";
 
 import { getCachedGlobal } from "@/utilities/getGlobals";
@@ -105,7 +105,7 @@ export async function Footer() {
       {complianceText && (
         <div className="max-w-7xl mx-auto mt-12 text-xs text-primary-foreground/30 text-center uppercase tracking-widest leading-relaxed">
           {complianceText.split("\n").map((line, i) => (
-            <p key={i}>{line}</p>
+            <p key={`compliance-line-${i}`}>{line}</p>
           ))}
         </div>
       )}

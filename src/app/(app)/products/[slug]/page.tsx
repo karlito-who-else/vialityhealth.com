@@ -1,7 +1,7 @@
 import configPromise from "@payload-config";
 import { Metadata } from "next";
 import { draftMode } from "next/headers";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import { Suspense } from "react";
@@ -64,13 +64,13 @@ export default async function ProductPage({ params }: Args) {
 
   const gallery =
     product.gallery
-      ?.filter((item) => typeof item.image === "object")
-      .map((item) => ({
-        ...item,
-        image: item.image as Media,
-      })) || [];
+      ?.flatMap((item) =>
+        typeof item.image === "object"
+          ? [{ ...item, image: item.image as Media }]
+          : [],
+      ) || [];
 
-  const metaImage = typeof product.meta?.image === "object" ? product.meta?.image : undefined;
+  const _metaImage = typeof product.meta?.image === "object" ? product.meta?.image : undefined;
 
   const relatedProducts =
     product.relatedProducts?.filter((relatedProduct) => typeof relatedProduct === "object") ?? [];
@@ -203,7 +203,7 @@ export default async function ProductPage({ params }: Args) {
             </p>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
               {verificationHeading.split("\n").map((line, i) => (
-                <span key={i}>
+                <span key={`line-${i}`}>
                   {i > 0 && <br />}
                   {line}
                 </span>
@@ -216,7 +216,7 @@ export default async function ProductPage({ params }: Args) {
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-            <button className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-xs uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
+            <button type="button" className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-xs uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
               <svg
                 width="14"
                 height="14"
@@ -234,7 +234,7 @@ export default async function ProductPage({ params }: Args) {
               </svg>
               {labReportLabel}
             </button>
-            <button className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-xs uppercase tracking-widest hover:bg-primary-foreground/12 transition-all">
+            <button type="button" className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-xs uppercase tracking-widest hover:bg-primary-foreground/12 transition-all">
               <svg
                 width="14"
                 height="14"
@@ -312,9 +312,7 @@ function RelatedProducts({
 }
 
 const queryProductBySlug = async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode();
-
-  const payload = await getPayload({ config: configPromise });
+  const [{ isEnabled: draft }, payload] = await Promise.all([draftMode(), getPayload({ config: configPromise })]);
 
   const result = await payload.find({
     collection: "products",

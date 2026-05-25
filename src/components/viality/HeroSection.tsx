@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { LazyMotion, domAnimation, m } from "framer-motion";
+import { Link } from "@/components/atoms/Link";
 
 import { GrainOverlay } from "./GrainOverlay";
 import { VideoPanel } from "./VideoPanel";
@@ -28,7 +28,8 @@ export function HeroSection({
   scrollLabel,
 }: HeroSectionProps) {
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <LazyMotion features={domAnimation}>
+      <section className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0 flex">
         <div className="hidden md:flex w-full h-full">
           <VideoPanel src="/helix2.mp4" />
@@ -64,14 +65,14 @@ export function HeroSection({
       <GrainOverlay />
 
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-6">
-        <motion.p
+        <m.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, ease: "easeOut" }}
           style={{
             fontFamily: '"Helvetica Neue", sans-serif',
             fontWeight: 500,
-            fontSize: "11px",
+            fontSize: "12px",
             letterSpacing: "0.28em",
             textTransform: "uppercase",
             color: "var(--color-muted-foreground)",
@@ -79,9 +80,9 @@ export function HeroSection({
           className="mb-8"
         >
           {tagline}
-        </motion.p>
+        </m.p>
 
-        <motion.h1
+        <m.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
@@ -95,10 +96,10 @@ export function HeroSection({
           }}
         >
           {title}
-        </motion.h1>
+        </m.h1>
 
         {subtext && (
-          <motion.p
+          <m.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 1, ease: "easeOut" }}
@@ -113,10 +114,10 @@ export function HeroSection({
             }}
           >
             {subtext}
-          </motion.p>
+          </m.p>
         )}
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: "easeOut" }}
@@ -136,16 +137,16 @@ export function HeroSection({
               {secondaryLabel}
             </Link>
           )}
-        </motion.div>
+        </m.div>
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
       >
-        <motion.div
+        <m.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="w-px h-10 bg-primary-foreground/30"
@@ -153,7 +154,8 @@ export function HeroSection({
         <span className="text-primary-foreground/30 text-xs uppercase tracking-widest">
           {scrollLabel}
         </span>
-      </motion.div>
-    </section>
+      </m.div>
+      </section>
+    </LazyMotion>
   );
 }

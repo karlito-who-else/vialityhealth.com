@@ -2,14 +2,15 @@
 
 import { ChevronDownIcon } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import type { ListItem } from ".";
 import { FilterItem } from "./FilterItem";
 
-export function FilterItemDropdown({ list }: { list: ListItem[] }) {
+function FilterItemDropdownInner(props: { list: ListItem[] }) {
+  const { list } = props;
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { get } = useSearchParams();
   const [active, setActive] = useState("");
   const [openSelect, setOpenSelect] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -29,12 +30,12 @@ export function FilterItemDropdown({ list }: { list: ListItem[] }) {
     list.forEach((listItem: ListItem) => {
       if (
         ("path" in listItem && pathname === listItem.path) ||
-        ("slug" in listItem && searchParams.get("sort") === listItem.slug)
+        ("slug" in listItem && get("sort") === listItem.slug)
       ) {
         setActive(listItem.title);
       }
     });
-  }, [pathname, list, searchParams]);
+  }, [pathname, list, get]);
 
   return (
     <div className="relative" ref={ref}>
@@ -54,11 +55,19 @@ export function FilterItemDropdown({ list }: { list: ListItem[] }) {
             setOpenSelect(false);
           }}
         >
-          {list.map((item: ListItem, i) => (
-            <FilterItem item={item} key={i} />
+          {list.map((item: ListItem) => (
+            <FilterItem item={item} key={`${item.title}-${"path" in item ? item.path : item.slug}`} />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+export function FilterItemDropdown(props: { list: ListItem[] }) {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <FilterItemDropdownInner {...props} />
+    </Suspense>
   );
 }

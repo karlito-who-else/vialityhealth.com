@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { LazyMotion, domAnimation, m } from "framer-motion";
+import { Link } from "@/components/atoms/Link";
 
 export type PhilosophySectionProps = {
   body?: string | null;
@@ -11,10 +11,11 @@ export type PhilosophySectionProps = {
 
 export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionProps) {
   return (
-    <section className="py-36 px-6 bg-background">
+    <LazyMotion features={domAnimation}>
+      <section className="py-36 px-6 bg-background">
       <div className="max-w-4xl mx-auto text-center">
         {body && (
-          <motion.p
+          <m.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -22,10 +23,10 @@ export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionPr
             className="font-serif text-2xl md:text-4xl leading-relaxed text-primary/90"
           >
             {body}
-          </motion.p>
+          </m.p>
         )}
         {linkLabel && link && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -38,9 +39,10 @@ export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionPr
             >
               {linkLabel}
             </Link>
-          </motion.div>
+          </m.div>
         )}
       </div>
-    </section>
+      </section>
+    </LazyMotion>
   );
 }

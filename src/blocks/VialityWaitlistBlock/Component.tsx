@@ -4,7 +4,7 @@ import { WaitlistSection } from "@/components/viality";
 import type { VialityWaitlistBlock as VialityWaitlistBlockProps } from "@/payload-types";
 
 export const VialityWaitlistBlock: React.FC<VialityWaitlistBlockProps> = (props) => {
-  const { heading, body, placeholder, buttonLabel, blockName, blockType, id, ...rest } = props;
+  const { heading, body, placeholder, buttonLabel, blockName: _blockName, blockType: _blockType, id: _id, ...rest } = props;
   return (
     <WaitlistSection
       {...rest}

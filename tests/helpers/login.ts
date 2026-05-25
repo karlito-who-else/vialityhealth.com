@@ -1,4 +1,6 @@
+// eslint-disable-next-line typescript/no-restricted-imports
 import type { Page } from "@playwright/test";
+// eslint-disable-next-line typescript/no-restricted-imports
 import { expect } from "@playwright/test";
 
 export interface LoginOptions {

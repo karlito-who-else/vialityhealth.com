@@ -10,11 +10,11 @@ import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function Orders() {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
-  const { user } = await payload.auth({ headers });
-
-  const settings = await getCachedGlobal("settings", 1)();
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
+  const [{ user }, settings] = await Promise.all([
+    payload.auth({ headers }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
   const ordersLoginWarning = settings?.ordersLoginWarning || "Please login to access your orders.";
   const ordersHeading = settings?.ordersHeading || "Orders";
@@ -41,7 +41,9 @@ export default async function Orders() {
     });
 
     orders = ordersResult?.docs || [];
-  } catch (error) {}
+  } catch (_error) {
+    console.error("Error fetching orders:", _error);
+  }
 
   return (
     <>
@@ -53,7 +55,7 @@ export default async function Orders() {
 
         {orders && orders.length > 0 && (
           <ul className="flex flex-col gap-6">
-            {orders?.map((order, index) => (
+            {orders?.map((order, _index) => (
               <li key={order.id}>
                 <OrderItem order={order} />
               </li>

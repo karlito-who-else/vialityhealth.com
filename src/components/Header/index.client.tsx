@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import type { Header } from "src/payload-types";
@@ -55,7 +55,7 @@ export function HeaderClient({ className, header }: Props) {
             "font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light",
             transparent ? "text-foreground" : "text-foreground  ",
           )}
-          style={{ fontSize: "1.15rem", letterSpacing: "0.18em" }}
+          style={{ fontSize: "1.15rem", letterSpacing: "0.05em" }}
         >
           {siteTitle || "viality"}
         </Link>

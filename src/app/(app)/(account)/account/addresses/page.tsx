@@ -11,16 +11,16 @@ import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function AddressesPage() {
-  const headers = await getHeaders();
-  const payload = await getPayload({ config: configPromise });
-  const { user } = await payload.auth({ headers });
-
-  const settings = await getCachedGlobal("settings", 1)();
+  const [headers, payload] = await Promise.all([getHeaders(), getPayload({ config: configPromise })]);
+  const [{ user }, settings] = await Promise.all([
+    payload.auth({ headers }),
+    getCachedGlobal("settings", 1)(),
+  ]);
 
   const loginWarning = settings?.loginWarning || "Please login to access your account settings.";
   const addressesHeading = settings?.addressesHeading || "Addresses";
 
-  let orders: Order[] | null = null;
+  let _orders: Order[] | null = null;
 
   if (!user) {
     redirect(`/login?warning=${encodeURIComponent(loginWarning)}`);
@@ -40,8 +40,10 @@ export default async function AddressesPage() {
       },
     });
 
-    orders = ordersResult?.docs || [];
-  } catch (error) {}
+    _orders = ordersResult?.docs || [];
+  } catch (_error) {
+    console.error("Error fetching orders:", _error);
+  }
 
   return (
     <>

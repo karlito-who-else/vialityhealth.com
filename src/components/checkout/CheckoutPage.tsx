@@ -3,7 +3,7 @@
 import { useAddresses, useCart, usePayments } from "@payloadcms/plugin-ecommerce/client/react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 import { useRouter } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -24,14 +24,15 @@ import { Label } from "@/components/ui/label";
 import { cssVariables } from "@/cssVariables";
 import { Address } from "@/payload-types";
 import { useAuth } from "@/providers/Auth";
+import { env } from "@/utilities/env";
 import { useTheme } from "@/providers/Theme";
 
-const apiKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`;
+const apiKey = env('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY');
 const stripe = loadStripe(apiKey);
 
 export const CheckoutPage: React.FC = () => {
   const { user } = useAuth();
-  const router = useRouter();
+  const { refresh } = useRouter();
   const { cart } = useCart();
   const [error, setError] = useState<null | string>(null);
   const { theme } = useTheme();
@@ -111,7 +112,7 @@ export const CheckoutPage: React.FC = () => {
     return (
       <div className="py-12 w-full items-center justify-center">
         <div className="prose dark:prose-invert text-center max-w-none self-center mb-8">
-          <p>Processing your payment...</p>
+          <p>Processing your payment…</p>
         </div>
         <LoadingSpinner />
       </div>
@@ -289,7 +290,7 @@ export const CheckoutPage: React.FC = () => {
             <Button
               onClick={(e) => {
                 e.preventDefault();
-                router.refresh();
+                refresh();
               }}
               variant="default"
             >
@@ -358,7 +359,7 @@ export const CheckoutPage: React.FC = () => {
             if (typeof item.product === "object" && item.product) {
               const {
                 product,
-                product: { id, meta, title, gallery },
+                product: { id: _id, meta, title, gallery },
                 quantity,
                 variant,
               } = item;
@@ -394,8 +395,8 @@ export const CheckoutPage: React.FC = () => {
               }
 
               return (
-                <div className="flex items-start gap-4" key={index}>
-                  <div className="flex items-stretch justify-stretch h-20 w-20 p-2 rounded-lg border">
+                <div className="flex items-start gap-4" key={item.id || index}>
+                  <div className="flex items-stretch justify-stretch size-20 p-2 rounded-lg border">
                     <div className="relative w-full h-full">
                       {image && typeof image !== "string" && (
                         <Media className="" fill imgClassName="rounded-lg" resource={image} />

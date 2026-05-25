@@ -1,11 +1,8 @@
-import Link from "next/link";
+import { Link } from "@/components/atoms/Link";
 
 import { Media } from "@/components/Media";
-import { OrderStatus } from "@/components/OrderStatus";
 import { Price } from "@/components/Price";
-import { Button } from "@/components/ui/button";
-import { Media as MediaType, Order, Product, Variant } from "@/payload-types";
-import { formatDateTime } from "@/utilities/formatDateTime";
+import type { Product, Variant } from "@/payload-types";
 
 type Props = {
   product: Product;
@@ -20,7 +17,7 @@ type Props = {
 
 export const ProductItem: React.FC<Props> = ({
   product,
-  style = "default",
+  style: _style = "default",
   quantity,
   variant,
   currencyCode,
@@ -61,7 +58,7 @@ export const ProductItem: React.FC<Props> = ({
 
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-stretch justify-stretch h-20 w-20 p-2 rounded-lg border">
+      <div className="flex items-stretch justify-stretch size-20 p-2 rounded-lg border">
         <div className="relative w-full h-full">
           {image && typeof image !== "string" && (
             <Media className="" fill imgClassName="rounded-lg object-cover" resource={image} />

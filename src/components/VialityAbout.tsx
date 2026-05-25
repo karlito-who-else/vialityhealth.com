@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
-import Link from "next/link";
+import { LazyMotion, domAnimation, m, useScroll, useTransform, type Variants } from "framer-motion";
+import { Link } from "@/components/atoms/Link";
 import { useRef } from "react";
 
 import type { About, Principle, TrustItem } from "@/payload-types";
@@ -75,13 +75,14 @@ export function VialityAbout({
   const complianceText = about?.complianceText || "";
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <LazyMotion features={domAnimation}>
+      <div className="min-h-screen bg-background overflow-hidden">
       {/* 1. EDITORIAL HERO */}
       <section
         ref={heroRef}
         className="relative min-h-screen flex flex-col justify-end pb-20 md:pb-28 px-6 md:px-16 overflow-hidden"
       >
-        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+        <m.div className="absolute inset-0" style={{ y: heroY }}>
           <div
             className="absolute inset-0"
             style={{
@@ -89,7 +90,7 @@ export function VialityAbout({
                 "linear-gradient(160deg, #e6e0d6 0%, #d8d0c4 35%, #cac3b8 65%, #d2cdc5 100%)",
             }}
           />
-          <motion.div
+          <m.div
             className="absolute inset-0"
             style={{
               background:
@@ -98,7 +99,7 @@ export function VialityAbout({
             animate={{ x: [0, 20, -14, 0], y: [0, -16, 20, 0] }}
             transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div
+          <m.div
             className="absolute inset-0"
             style={{
               background:
@@ -115,10 +116,10 @@ export function VialityAbout({
             }}
           />
           <GrainOverlay opacity={0.04} />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 mx-auto w-full">
-          <motion.p
+          <m.p
             variants={fadeIn}
             initial="hidden"
             animate="show"
@@ -126,9 +127,9 @@ export function VialityAbout({
             className="text-xs uppercase tracking-widest text-primary-foreground/50 mb-8"
           >
             {heroLabel}
-          </motion.p>
+          </m.p>
 
-          <motion.h1
+          <m.h1
             variants={fadeUp}
             initial="hidden"
             animate="show"
@@ -137,15 +138,15 @@ export function VialityAbout({
             style={{ fontSize: "clamp(2.6rem, 7vw, 6.5rem)" }}
           >
             {heroHeading.split("\n").map((line, i) => (
-              <span key={i}>
+              <span key={`hero-line-${i}`}>
                 {i > 0 && <br className="hidden md:block" />}
                 {line}
               </span>
             ))}
-          </motion.h1>
+          </m.h1>
 
           {heroBody && (
-            <motion.p
+            <m.p
               variants={fadeUp}
               initial="hidden"
               animate="show"
@@ -153,7 +154,7 @@ export function VialityAbout({
               className="text-primary-foreground/65 text-sm md:text-base font-light leading-relaxed max-w-xl"
             >
               {heroBody}
-            </motion.p>
+            </m.p>
           )}
         </div>
       </section>
@@ -161,27 +162,27 @@ export function VialityAbout({
       {/* 2. SPLIT TEXT / IMAGE */}
       <section className="bg-background py-28 md:py-36 px-6 md:px-16">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
           >
-            <motion.p
+            <m.p
               variants={fadeIn}
               custom={0}
               className="text-xs uppercase tracking-widest text-primary/40 mb-8"
             >
               {philosophyLabel}
-            </motion.p>
-            <motion.h2
+            </m.p>
+            <m.h2
               variants={fadeUp}
               custom={0}
               className="font-serif italic text-3xl md:text-4xl text-primary mb-8 leading-snug"
             >
               {philosophyHeading}
-            </motion.h2>
-            <motion.div
+            </m.h2>
+            <m.div
               variants={fadeUp}
               custom={0.1}
               className="space-y-5 text-primary/60 text-sm leading-[1.85] font-light"
@@ -189,10 +190,10 @@ export function VialityAbout({
               {philosophyBody.map((item) => (
                 <p key={item.id}>{item.paragraph}</p>
               ))}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -206,44 +207,44 @@ export function VialityAbout({
                 </p>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* 3. THREE PILLARS */}
       <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
         <div className="max-w-300 mx-auto">
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-60px" }}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
             className="mb-20"
           >
-            <motion.p
+            <m.p
               variants={fadeIn}
               custom={0}
               className="text-xs uppercase tracking-widest text-primary/40 mb-5"
             >
               {principlesLabel}
-            </motion.p>
-            <motion.h2
+            </m.p>
+            <m.h2
               variants={fadeUp}
               custom={0}
               className="font-serif italic text-4xl md:text-5xl text-primary"
             >
               {principlesHeading.split("\n").map((line, i) => (
-                <span key={i}>
+                <span key={`principles-line-${i}`}>
                   {i > 0 && <br />}
                   {line}
                 </span>
               ))}
-            </motion.h2>
-          </motion.div>
+            </m.h2>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             {principles.map((principle, i) => (
-              <motion.div
+              <m.div
                 key={principle.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -260,7 +261,7 @@ export function VialityAbout({
                   </h3>
                 </div>
                 <p className="text-primary/55 text-sm leading-[1.9] font-light">{principle.body}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -270,7 +271,7 @@ export function VialityAbout({
       <section className="bg-background py-28 md:py-36 px-6 md:px-16">
         <div className="mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-28 items-start">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
@@ -285,47 +286,47 @@ export function VialityAbout({
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             <div className="flex flex-col gap-14">
-              <motion.div
+              <m.div
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
               >
-                <motion.p
+                <m.p
                   variants={fadeIn}
                   custom={0}
                   className="text-xs uppercase tracking-widest text-primary/40 mb-6"
                 >
                   {trustLabel}
-                </motion.p>
-                <motion.h2
+                </m.p>
+                <m.h2
                   variants={fadeUp}
                   custom={0}
                   className="font-serif italic text-4xl text-primary leading-snug mb-4"
                 >
                   {trustHeading.split("\n").map((line, i) => (
-                    <span key={i}>
+                    <span key={`trust-line-${i}`}>
                       {i > 0 && <br />}
                       {line}
                     </span>
                   ))}
-                </motion.h2>
+                </m.h2>
                 {trustBody && (
-                  <motion.p
+                  <m.p
                     variants={fadeUp}
                     custom={0.1}
                     className="text-primary/55 text-sm leading-relaxed font-light"
                   >
                     {trustBody}
-                  </motion.p>
+                  </m.p>
                 )}
-              </motion.div>
+              </m.div>
 
               {trustItems.map((item, i) => (
-                <motion.div
+                <m.div
                   key={item.slug}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -339,19 +340,19 @@ export function VialityAbout({
                   <p className="text-primary/55 text-sm leading-[1.85] font-light">
                     {item.description}
                   </p>
-                </motion.div>
+                </m.div>
               ))}
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <button className="mt-2 text-xs uppercase tracking-widest border-b border-primary/30 pb-0.5 hover:border-primary transition-colors">
+                <button type="button" className="mt-2 text-xs uppercase tracking-widest border-b border-primary/30 pb-0.5 hover:border-primary transition-colors">
                   {trustButtonLabel}
                 </button>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -368,7 +369,7 @@ export function VialityAbout({
           }}
         />
         <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <motion.p
+          <m.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -376,8 +377,8 @@ export function VialityAbout({
             className="text-xs uppercase tracking-widest text-primary-foreground/30 mb-10"
           >
             {founderLabel}
-          </motion.p>
-          <motion.blockquote
+          </m.p>
+          <m.blockquote
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -386,8 +387,8 @@ export function VialityAbout({
             style={{ fontSize: "clamp(1.3rem, 3vw, 2.1rem)" }}
           >
             {founderQuote}
-          </motion.blockquote>
-          <motion.div
+          </m.blockquote>
+          <m.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -398,14 +399,14 @@ export function VialityAbout({
             <p className="text-primary-foreground/50 text-xs uppercase tracking-widest">
               {founderSignature}
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* 6. CLOSING CTA */}
       <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -416,15 +417,15 @@ export function VialityAbout({
               style={{ fontSize: "clamp(2.2rem, 5vw, 4.5rem)" }}
             >
               {ctaHeading.split("\n").map((line, i) => (
-                <span key={i}>
+                <span key={`cta-line-${i}`}>
                   {i > 0 && <br />}
                   {line}
                 </span>
               ))}
             </h2>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -443,7 +444,7 @@ export function VialityAbout({
               >
                 {ctaShopLabel}
               </Link>
-              <button className="inline-block px-9 py-4 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary transition-colors">
+              <button type="button" className="inline-block px-9 py-4 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary transition-colors">
                 {ctaLabLabel}
               </button>
             </div>
@@ -452,9 +453,10 @@ export function VialityAbout({
                 {complianceText}
               </p>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </section>
-    </div>
+      </div>
+    </LazyMotion>
   );
 }

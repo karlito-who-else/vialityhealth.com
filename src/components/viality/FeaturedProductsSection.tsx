@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { LazyMotion, domAnimation, m } from "framer-motion";
+import { Link } from "@/components/atoms/Link";
 
 import type { Product } from "@/payload-types";
 
@@ -17,7 +17,8 @@ export function FeaturedProductsSection({
   products,
 }: FeaturedProductsSectionProps) {
   return (
-    <section className="py-24 px-6 bg-surface-warm">
+    <LazyMotion features={domAnimation}>
+      <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
         <header className="flex justify-between items-end mb-16">
           <h2 className="font-serif italic text-4xl text-primary">{heading}</h2>
@@ -33,7 +34,7 @@ export function FeaturedProductsSection({
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((product, i) => (
-            <motion.article
+            <m.article
               key={product.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -67,7 +68,7 @@ export function FeaturedProductsSection({
                   <p className="text-primary/55 text-sm">{product.meta?.description || ""}</p>
                 </div>
               </Link>
-            </motion.article>
+            </m.article>
           ))}
         </div>
 
@@ -82,6 +83,7 @@ export function FeaturedProductsSection({
           </div>
         )}
       </div>
-    </section>
+      </section>
+    </LazyMotion>
   );
 }
