@@ -53,7 +53,7 @@ export function HeaderClient({ header }: Props) {
           href="/"
           className={cn(
             'font-serif italic tracking-[0.18em] transition-opacity hover:opacity-60 shrink-0 font-light',
-            transparent ? 'text-[#f5f2ec]' : 'text-primary'
+            transparent ? 'text-primary-foreground' : 'text-primary'
           )}
           style={{ fontSize: '1.15rem', letterSpacing: '0.18em' }}
         >
@@ -74,7 +74,7 @@ export function HeaderClient({ header }: Props) {
                 href={href}
                 className={cn(
                   'text-[11px] uppercase tracking-[0.2em] transition-opacity hover:opacity-60',
-                  transparent ? 'text-[#f5f2ec]' : 'text-primary'
+                  transparent ? 'text-primary-foreground' : 'text-primary'
                 )}
               >
                 {link.label}
@@ -85,7 +85,7 @@ export function HeaderClient({ header }: Props) {
 
         {/* Right — cart */}
         <div className="flex items-center gap-4 shrink-0">
-          <div className={cn(transparent ? 'text-[#f5f2ec]' : 'text-primary')}>
+          <div className={cn(                  transparent ? 'text-primary-foreground' : 'text-primary')}>
             <Suspense fallback={null}>
               <Cart />
             </Suspense>

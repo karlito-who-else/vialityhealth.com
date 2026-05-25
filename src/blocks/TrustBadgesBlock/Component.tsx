@@ -18,7 +18,7 @@ export const TrustBadgesBlockComponent: React.FC<TrustBadgesBlockType> = (props)
           {items.map((item) => (
             <div
               key={item.slug}
-              className="px-8 py-4 border border-border/40 rounded flex items-center gap-3 bg-[#f2efea]"
+              className="px-8 py-4 border border-border/40 rounded flex items-center gap-3 bg-surface-section"
             >
               <div className="w-2 h-2 bg-accent" />
               <span className="text-[11px] uppercase tracking-[0.15em] font-medium">{item.label}</span>

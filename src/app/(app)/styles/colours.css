@@ -1,0 +1,76 @@
+@theme inline {
+  --color-background: light-dark(hsl(40 30% 96%), hsl(220 15% 12%));
+  --color-foreground: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+  --color-border: light-dark(hsl(40 20% 88%), hsl(220 15% 20%));
+
+  --color-card: light-dark(hsl(40 25% 98%), hsl(220 15% 14%));
+  --color-card-foreground: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+
+  --color-popover: light-dark(hsl(40 25% 98%), hsl(220 15% 14%));
+  --color-popover-foreground: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+
+  --color-primary: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+  --color-primary-foreground: light-dark(hsl(40 30% 96%), hsl(220 15% 18%));
+
+  --color-secondary: light-dark(hsl(40 20% 90%), hsl(220 15% 20%));
+  --color-secondary-foreground: light-dark(hsl(220 15% 25%), hsl(40 30% 90%));
+
+  --color-muted: light-dark(hsl(40 15% 92%), hsl(220 15% 18%));
+  --color-muted-foreground: light-dark(hsl(220 10% 50%), hsl(40 10% 60%));
+
+  --color-accent: light-dark(hsl(43 40% 78%), hsl(43 40% 30%));
+  --color-accent-foreground: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+
+  --color-destructive: light-dark(hsl(0 65% 45%), hsl(0 65% 45%));
+  --color-destructive-foreground: light-dark(hsl(0 0% 98%), hsl(0 0% 98%));
+
+  --color-input: light-dark(hsl(40 20% 85%), hsl(220 15% 25%));
+  --color-ring: light-dark(hsl(43 40% 65%), hsl(43 40% 45%));
+
+  --color-sidebar: light-dark(hsl(40 25% 94%), hsl(220 15% 12%));
+  --color-sidebar-foreground: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+  --color-sidebar-border: light-dark(hsl(40 20% 88%), hsl(220 15% 20%));
+  --color-sidebar-primary: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+  --color-sidebar-primary-foreground: light-dark(hsl(40 30% 96%), hsl(220 15% 12%));
+  --color-sidebar-accent: light-dark(hsl(43 40% 78%), hsl(43 40% 25%));
+  --color-sidebar-accent-foreground: light-dark(hsl(220 15% 18%), hsl(40 30% 96%));
+  --color-sidebar-ring: light-dark(hsl(43 40% 65%), hsl(43 40% 35%));
+
+  --color-success: light-dark(oklch(78% 0.08 200deg), oklch(28% 0.1 200deg));
+  --color-warning: light-dark(oklch(89% 0.1 75deg), oklch(35% 0.08 70deg));
+  --color-error: light-dark(oklch(75% 0.15 25deg), oklch(45% 0.1 25deg));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-surface-section: light-dark(hsl(40 22% 89%), hsl(40 8% 16%));
+  --color-surface-placeholder: light-dark(hsl(40 22% 89%), hsl(40 8% 12%));
+  --color-surface-warm: light-dark(hsl(40 33% 95%), hsl(40 8% 18%));
+  --color-surface-gallery: light-dark(hsl(40 29% 92%), hsl(40 8% 10%));
+  --color-ink: light-dark(hsl(30 12% 10%), hsl(30 12% 90%));
+  --color-ink-well: light-dark(hsl(0 0% 7%), hsl(0 0% 93%));
+
+  --color-video-overlay: light-dark(rgba(10, 8, 6, 0.35), rgba(10, 8, 6, 0.35));
+  --color-video-overlay-strong: light-dark(rgba(10, 8, 6, 0.55), rgba(10, 8, 6, 0.55));
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+
+    &[data-theme='light'] {
+      color-scheme: light;
+    }
+
+    &[data-theme='dark'] {
+      color-scheme: dark;
+    }
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}

@@ -34,7 +34,7 @@ export function HeroSection({
           <div className="absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-white/20 z-10" />
           <VideoPanel src="/helix.mp4" />
         </div>
-        <div className="md:hidden absolute inset-0 bg-[#111]">
+          <div className="md:hidden absolute inset-0 bg-ink-well">
           <video
             src="/helix2.mp4"
             autoPlay
@@ -47,13 +47,13 @@ export function HeroSection({
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(10,8,6,0.35) 100%)",
+                "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, var(--color-video-overlay) 100%)",
             }}
           />
           <div
             className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none"
             style={{
-              background: "linear-gradient(to top, rgba(10,8,6,0.55) 0%, transparent 100%)",
+              background: "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)",
             }}
           />
         </div>
@@ -72,7 +72,7 @@ export function HeroSection({
             fontSize: "11px",
             letterSpacing: "0.28em",
             textTransform: "uppercase",
-            color: "#8A8A8A",
+            color: "var(--color-muted-foreground)",
           }}
           className="mb-8"
         >
@@ -89,7 +89,7 @@ export function HeroSection({
             fontSize: "clamp(34px, 4vw, 64px)",
             lineHeight: 0.96,
             letterSpacing: "-0.04em",
-            color: "#1E1E1E",
+            color: "var(--color-foreground)",
           }}
         >
           {title}
@@ -107,7 +107,7 @@ export function HeroSection({
               fontSize: "16px",
               lineHeight: 1.8,
               letterSpacing: "-0.01em",
-              color: "#6F6F6F",
+              color: "var(--color-muted-foreground)",
               textTransform: "lowercase",
             }}
           >
@@ -123,14 +123,14 @@ export function HeroSection({
         >
           <Link
             href={ctaLink}
-            className="px-9 py-3.5 bg-white text-[#1c1916] text-[11px] uppercase tracking-[0.22em] hover:bg-white/90 active:bg-white/80 transition-colors duration-200"
+            className="px-9 py-3.5 bg-primary-foreground text-ink text-[11px] uppercase tracking-[0.22em] hover:bg-primary-foreground/90 active:bg-primary-foreground/80 transition-colors duration-200"
           >
             {ctaLabel}
           </Link>
           {secondaryLabel && secondaryLink && (
             <Link
               href={secondaryLink}
-              className="px-9 py-3.5 border border-white/50 text-white text-[11px] uppercase tracking-[0.22em] hover:border-white hover:bg-white/8 transition-all duration-200"
+              className="px-9 py-3.5 border border-primary-foreground/50 text-primary-foreground text-[11px] uppercase tracking-[0.22em] hover:border-primary-foreground hover:bg-primary-foreground/8 transition-all duration-200"
             >
               {secondaryLabel}
             </Link>
@@ -147,9 +147,9 @@ export function HeroSection({
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-10 bg-white/30"
+          className="w-px h-10 bg-primary-foreground/30"
         />
-        <span className="text-white/30 text-[9px] uppercase tracking-[0.25em]">{scrollLabel}</span>
+        <span className="text-primary-foreground/30 text-[9px] uppercase tracking-[0.25em]">{scrollLabel}</span>
       </motion.div>
     </section>
   )

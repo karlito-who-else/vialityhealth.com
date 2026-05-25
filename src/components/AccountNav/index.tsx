@@ -54,7 +54,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
         </li>
       </ul>
 
-      <hr className="w-full border-white/5" />
+      <hr className="w-full border-primary-foreground/5" />
 
       <Button
         asChild

@@ -3,26 +3,14 @@
 
 @config '../../../tailwind.config.mjs';
 
-@custom-variant dark (&:is([data-theme='dark'] *));
-@custom-variant sm (@media (width >=theme(--breakpoint-sm)));
-@custom-variant md (@media (width >=theme(--breakpoint-md)));
-@custom-variant lg (@media (width >=theme(--breakpoint-lg)));
-@custom-variant xl (@media (width >=theme(--breakpoint-xl)));
-@custom-variant 2xl (@media (width >=theme(--breakpoint-2xl)));
-
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: unset;
-    font-size: unset;
-  }
-}
+@import './styles/colours.css';
+@import './styles/typography.css';
+@import './styles/layout.css';
+@import './styles/utilities.css';
 
 @plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is([data-theme='dark'] *));
 
 @source inline("lg:col-span-4");
 @source inline("lg:col-span-6");
@@ -37,216 +25,52 @@
 @source inline("border-warning");
 @source inline("bg-warning/30");
 
-@theme {
-  --breakpoint-sm: 40rem;
-  --breakpoint-md: 48rem;
-  --breakpoint-lg: 64rem;
-  --breakpoint-xl: 80rem;
-  --breakpoint-2xl: 86rem;
-  --font-mono: Menlo,
-  monospace;
-  --font-sans: 'Inter',
-  sans-serif;
-  --font-serif: 'EB Garamond',
-  Georgia,
-  serif;
-}
-
-@layer utilities {
-  .container {
-    width: 100%;
-    margin-inline: auto;
-    padding-inline: 1rem;
-  }
-
-  @variant sm {
-    .container {
-      max-width: var(--breakpoint-sm);
-    }
-  }
-
-  @variant md {
-    .container {
-      max-width: var(--breakpoint-md);
-      padding-inline: 2rem;
-    }
-  }
-
-  @variant lg {
-    .container {
-      max-width: var(--breakpoint-lg);
-    }
-  }
-
-  @variant xl {
-    .container {
-      max-width: var(--breakpoint-xl);
-    }
-  }
-
-  @variant 2xl {
-    .container {
-      max-width: var(--breakpoint-2xl);
-    }
-  }
-}
+/* ── Payload Admin theme variables ─────────────────────────── */
 
 :root {
-  --background: 40 30% 96%;
-  --foreground: 220 15% 18%;
-  --border: 40 20% 88%;
-
-  --card: 40 25% 98%;
-  --card-foreground: 220 15% 18%;
-  --card-border: 40 20% 88%;
-
-  --sidebar: 40 25% 94%;
-  --sidebar-foreground: 220 15% 18%;
-  --sidebar-border: 40 20% 88%;
-  --sidebar-primary: 220 15% 18%;
-  --sidebar-primary-foreground: 40 30% 96%;
-  --sidebar-accent: 43 40% 78%;
-  --sidebar-accent-foreground: 220 15% 18%;
-  --sidebar-ring: 43 40% 65%;
-
-  --popover: 40 25% 98%;
-  --popover-foreground: 220 15% 18%;
-  --popover-border: 40 20% 88%;
-
-  --primary: 220 15% 18%;
-  --primary-foreground: 40 30% 96%;
-
-  --secondary: 40 20% 90%;
-  --secondary-foreground: 220 15% 25%;
-
-  --muted: 40 15% 92%;
-  --muted-foreground: 220 10% 50%;
-
-  --accent: 43 40% 78%;
-  --accent-foreground: 220 15% 18%;
-
-  --destructive: 0 65% 45%;
-  --destructive-foreground: 0 0% 98%;
-
-  --input: 40 20% 85%;
-  --ring: 43 40% 65%;
-
   --radius: 0.125rem;
 
-  --success: oklch(78% 0.08 200deg);
-  --warning: oklch(89% 0.1 75deg);
-  --error: oklch(75% 0.15 25deg);
-}
+  --background: light-dark(40 30% 96%, 220 15% 12%);
+  --foreground: light-dark(220 15% 18%, 40 30% 96%);
+  --border: light-dark(40 20% 88%, 220 15% 20%);
+  --card: light-dark(40 25% 98%, 220 15% 14%);
+  --card-foreground: light-dark(220 15% 18%, 40 30% 96%);
+  --card-border: light-dark(40 20% 88%, 220 15% 20%);
+  --popover: light-dark(40 25% 98%, 220 15% 14%);
+  --popover-foreground: light-dark(220 15% 18%, 40 30% 96%);
+  --popover-border: light-dark(40 20% 88%, 220 15% 20%);
+  --primary: light-dark(220 15% 18%, 40 30% 96%);
+  --primary-foreground: light-dark(40 30% 96%, 220 15% 18%);
+  --secondary: light-dark(40 20% 90%, 220 15% 20%);
+  --secondary-foreground: light-dark(220 15% 25%, 40 30% 90%);
+  --muted: light-dark(40 15% 92%, 220 15% 18%);
+  --muted-foreground: light-dark(220 10% 50%, 40 10% 60%);
+  --accent: light-dark(43 40% 78%, 43 40% 30%);
+  --accent-foreground: light-dark(220 15% 18%, 40 30% 96%);
+  --destructive: light-dark(0 65% 45%, 0 65% 45%);
+  --destructive-foreground: light-dark(0 0% 98%, 0 0% 98%);
+  --input: light-dark(40 20% 85%, 220 15% 25%);
+  --ring: light-dark(43 40% 65%, 43 40% 45%);
 
-[data-theme='dark'] {
-  --background: 220 15% 12%;
-  --foreground: 40 30% 96%;
-  --border: 220 15% 20%;
-
-  --card: 220 15% 14%;
-  --card-foreground: 40 30% 96%;
-  --card-border: 220 15% 20%;
-
-  --sidebar: 220 15% 12%;
-  --sidebar-foreground: 40 30% 96%;
-  --sidebar-border: 220 15% 20%;
-  --sidebar-primary: 40 30% 96%;
-  --sidebar-primary-foreground: 220 15% 12%;
-  --sidebar-accent: 43 40% 25%;
-  --sidebar-accent-foreground: 40 30% 96%;
-  --sidebar-ring: 43 40% 35%;
-
-  --popover: 220 15% 14%;
-  --popover-foreground: 40 30% 96%;
-  --popover-border: 220 15% 20%;
-
-  --primary: 40 30% 96%;
-  --primary-foreground: 220 15% 18%;
-
-  --secondary: 220 15% 20%;
-  --secondary-foreground: 40 30% 90%;
-
-  --muted: 220 15% 18%;
-  --muted-foreground: 40 10% 60%;
-
-  --accent: 43 40% 30%;
-  --accent-foreground: 40 30% 96%;
-
-  --destructive: 0 65% 45%;
-  --destructive-foreground: 0 0% 98%;
-
-  --input: 220 15% 25%;
-  --ring: 43 40% 45%;
-
-  --success: oklch(28% 0.1 200deg);
-  --warning: oklch(35% 0.08 70deg);
-  --error: oklch(45% 0.1 25deg);
-}
-
-@theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: hsl(var(--sidebar));
-  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
-  --color-sidebar-primary: hsl(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
-  --color-sidebar-accent: hsl(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
-  --color-sidebar-border: hsl(var(--sidebar-border));
-  --color-sidebar-ring: hsl(var(--sidebar-ring));
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-error: var(--error);
+  --sidebar: light-dark(40 25% 94%, 220 15% 12%);
+  --sidebar-foreground: light-dark(220 15% 18%, 40 30% 96%);
+  --sidebar-border: light-dark(40 20% 88%, 220 15% 20%);
+  --sidebar-primary: light-dark(220 15% 18%, 40 30% 96%);
+  --sidebar-primary-foreground: light-dark(40 30% 96%, 220 15% 12%);
+  --sidebar-accent: light-dark(43 40% 78%, 43 40% 25%);
+  --sidebar-accent-foreground: light-dark(220 15% 18%, 40 30% 96%);
+  --sidebar-ring: light-dark(43 40% 65%, 43 40% 35%);
+  --success: light-dark(oklch(78% 0.08 200deg), oklch(28% 0.1 200deg));
+  --warning: light-dark(oklch(89% 0.1 75deg), oklch(35% 0.08 70deg));
+  --error: light-dark(oklch(75% 0.15 25deg), oklch(45% 0.1 25deg));
 
   --adminbar-height: 2rem;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground min-h-screen flex flex-col font-sans antialiased;
-  }
-
-  p {
-    text-transform: lowercase;
-  }
-}
-
-html {
-  opacity: 0;
-}
-
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
-}
+/* ── Focus styles ──────────────────────────────────────────── */
 
 a,
 input,
 button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50 dark:focus-visible:ring-neutral-600 dark:focus-visible:ring-offset-neutral-900;
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }

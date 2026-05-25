@@ -16,7 +16,7 @@ export function FeaturedProductsSection({
   products,
 }: FeaturedProductsSectionProps) {
   return (
-    <section className="py-24 px-6 bg-[#f7f5f0]">
+    <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-16">
           <h2 className="font-serif italic text-4xl text-primary">{heading}</h2>
@@ -41,7 +41,7 @@ export function FeaturedProductsSection({
               className="group cursor-pointer"
             >
               <Link href="/shop">
-                <div className="aspect-[3/4] mb-6 bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
+                <div className="aspect-[3/4] mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                   {p.featuredImage && typeof p.featuredImage === 'object' ? (
                     <img
                       src={p.featuredImage.url || ''}

@@ -43,7 +43,7 @@ export const AdminBar: React.FC<{
 
   return (
     <section
-      className={cn('admin-bar py-2 bg-black text-white min-h-(--adminbar-height)', {
+      className={cn('admin-bar py-2 bg-ink text-primary-foreground min-h-(--adminbar-height)', {
         block: show,
         hidden: !show,
       })}
@@ -51,11 +51,11 @@ export const AdminBar: React.FC<{
       <div className="container">
         <PayloadAdminBar
           {...adminBarProps}
-          className="py-2 text-white"
+          className="py-2 text-primary-foreground"
           classNames={{
-            controls: 'font-medium text-white',
-            logo: 'text-white',
-            user: 'text-white',
+            controls: 'font-medium text-primary-foreground',
+            logo: 'text-primary-foreground',
+            user: 'text-primary-foreground',
           }}
           cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
           collectionLabels={{

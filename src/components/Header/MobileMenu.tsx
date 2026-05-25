@@ -87,7 +87,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
             animate="show"
             exit="exit"
             className="fixed inset-0 z-50 flex flex-col overflow-hidden"
-            style={{ background: '#131110' }}
+            style={{ background: 'var(--color-ink-well)' }}
           >
             <div
               className="pointer-events-none absolute inset-0 z-0"
@@ -110,7 +110,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                 <Link
                   href="/"
                   onClick={() => setIsOpen(false)}
-                  className="font-serif italic font-light text-white/30 hover:text-white/55 transition-colors duration-300"
+                  className="font-serif italic font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
                   style={{ fontSize: '1.05rem', letterSpacing: '0.2em' }}
                 >
                   {siteTitle}
@@ -124,7 +124,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                 transition={{ duration: 0.4, delay: 0.12 }}
                 onClick={() => setIsOpen(false)}
                 aria-label="Close menu"
-                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-white/80 transition-colors duration-200 -mr-2"
+                className="w-10 h-10 flex items-center justify-center text-primary-foreground/40 hover:text-primary-foreground/80 transition-colors duration-200 -mr-2"
               >
                 <X size={20} strokeWidth={1.2} />
               </motion.button>
@@ -136,7 +136,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                 animate={{ scaleY: 1 }}
                 exit={{ scaleY: 0, originY: 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
-                className="absolute left-8 md:left-16 xl:left-24 top-8 bottom-8 w-px bg-white/8 origin-top"
+                className="absolute left-8 md:left-16 xl:left-24 top-8 bottom-8 w-px bg-primary-foreground/8 origin-top"
               />
 
               <ul className="flex flex-col pl-5 md:pl-8">
@@ -161,16 +161,16 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                         onClick={() => setIsOpen(false)}
                         className="group flex items-baseline gap-4 md:gap-6 w-fit"
                       >
-                        <span className="text-[9px] text-white/18 uppercase tracking-[0.2em] tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-white/35 hidden sm:block">
+                        <span className="text-[9px] text-primary-foreground/18 uppercase tracking-[0.2em] tabular-nums translate-y-[-0.15em] transition-colors duration-300 group-hover:text-primary-foreground/35 hidden sm:block">
                           {String(i + 1).padStart(2, '0')}
                         </span>
                         <span
-                          className="font-serif italic text-white/85 leading-[1.1] transition-all duration-400 group-hover:text-white group-hover:translate-x-1.5 inline-block"
+                          className="font-serif italic text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
                           style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5.5rem)' }}
                         >
                           {link.label}
                         </span>
-                        <span className="text-white/0 group-hover:text-white/30 transition-all duration-300 translate-x-0 group-hover:translate-x-1 text-sm self-center font-light">
+                        <span className="text-primary-foreground/0 group-hover:text-primary-foreground/30 transition-all duration-300 translate-x-0 group-hover:translate-x-1 text-sm self-center font-light">
                           →
                         </span>
                       </Link>

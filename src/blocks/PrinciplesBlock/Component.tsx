@@ -7,7 +7,7 @@ export const PrinciplesBlockComponent: React.FC<PrinciplesBlockType> = (props) =
   )
 
   return (
-    <section className="py-24 px-6 bg-[#f2efea]">
+    <section className="py-24 px-6 bg-surface-section">
       <div className="max-w-7xl mx-auto">
         {(props.heading || props.subheadline) && (
           <div className="mb-20 text-center">

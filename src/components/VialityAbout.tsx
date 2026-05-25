@@ -114,7 +114,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             initial="hidden"
             animate="show"
             custom={0.3}
-            className="text-[10px] uppercase tracking-[0.3em] text-white/50 mb-8"
+            className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/50 mb-8"
           >
             {heroLabel}
           </motion.p>
@@ -124,7 +124,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             initial="hidden"
             animate="show"
             custom={0.1}
-            className="font-serif italic text-white leading-[1.05] mb-8"
+            className="font-serif italic text-primary-foreground leading-[1.05] mb-8"
             style={{ fontSize: 'clamp(2.6rem, 7vw, 6.5rem)' }}
           >
             {heroHeading.split('\n').map((line, i) => (
@@ -141,7 +141,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
               initial="hidden"
               animate="show"
               custom={0.35}
-              className="text-white/65 text-sm md:text-base font-light leading-relaxed max-w-xl"
+              className="text-primary-foreground/65 text-sm md:text-base font-light leading-relaxed max-w-xl"
             >
               {heroBody}
             </motion.p>
@@ -185,7 +185,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <div className="aspect-[3/4] bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
+            <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
               <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
               <div
                 className="absolute bottom-5 left-5 z-10"
@@ -198,7 +198,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
       </section>
 
       {/* 3. THREE PILLARS */}
-      <section className="bg-[#f2efea] py-28 md:py-36 px-6 md:px-16">
+      <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
         <div className="max-w-[1200px] mx-auto">
           <motion.div
             initial="hidden"
@@ -253,7 +253,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
               transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
               className="md:sticky md:top-28"
             >
-              <div className="aspect-[3/4] bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
+              <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                 <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
                 <div className="absolute bottom-5 left-5 z-10">
                   <p className="text-[9px] uppercase tracking-[0.25em] text-primary/35">{trustImageLabel}</p>
@@ -315,7 +315,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
       </section>
 
       {/* 5. FOUNDER / BRAND NOTE */}
-      <section className="bg-[#1c1916] py-28 md:py-36 px-6 md:px-16 relative overflow-hidden">
+      <section className="bg-ink py-28 md:py-36 px-6 md:px-16 relative overflow-hidden">
         <GrainOverlay opacity={0.055} />
         <div
           className="absolute inset-0 pointer-events-none"
@@ -330,7 +330,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-10"
+            className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/30 mb-10"
           >
             {founderLabel}
           </motion.p>
@@ -339,7 +339,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="font-serif italic text-white/90 leading-[1.65] mb-14"
+            className="font-serif italic text-primary-foreground/90 leading-[1.65] mb-14"
             style={{ fontSize: 'clamp(1.3rem, 3vw, 2.1rem)' }}
           >
             {founderQuote}
@@ -351,14 +351,14 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex flex-col items-center gap-1"
           >
-            <div className="w-10 h-px bg-white/20 mb-5" />
-            <p className="text-white/50 text-[11px] uppercase tracking-[0.22em]">{founderSignature}</p>
+            <div className="w-10 h-px bg-primary-foreground/20 mb-5" />
+            <p className="text-primary-foreground/50 text-[11px] uppercase tracking-[0.22em]">{founderSignature}</p>
           </motion.div>
         </div>
       </section>
 
       {/* 6. CLOSING CTA */}
-      <section className="bg-[#f2efea] py-28 md:py-36 px-6 md:px-16">
+      <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}

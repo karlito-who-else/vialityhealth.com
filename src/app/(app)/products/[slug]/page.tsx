@@ -105,16 +105,16 @@ export default async function ProductPage({ params }: Args) {
       {/* TOP SPLIT — GALLERY + PURCHASE */}
       <section className="grid grid-cols-1 lg:grid-cols-[1fr_480px] xl:grid-cols-[1fr_520px] min-h-[calc(100vh-72px)]">
         {/* LEFT — Image gallery */}
-        <div className="relative bg-[#f0ece4] flex flex-col order-2 lg:order-1">
+        <div className="relative bg-surface-gallery flex flex-col order-2 lg:order-1">
           <div className="relative flex-1 min-h-[60vw] md:min-h-[520px] lg:min-h-0 overflow-hidden">
             {gallery.length > 0 ? (
               <div className="absolute inset-0">
-                <Suspense fallback={<div className="absolute inset-0 bg-[#eae6de]" />}>
+                <Suspense fallback={<div className="absolute inset-0 bg-surface-placeholder" />}>
                   <Gallery gallery={gallery} />
                 </Suspense>
               </div>
             ) : (
-              <div className="absolute inset-0 bg-[#eae6de] flex items-center justify-center">
+              <div className="absolute inset-0 bg-surface-placeholder flex items-center justify-center">
                 <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
               </div>
             )}
@@ -128,7 +128,7 @@ export default async function ProductPage({ params }: Args) {
       </section>
 
       {/* BENEFITS */}
-      <section className="bg-[#f5f2ec] py-24 md:py-32 px-6 md:px-16">
+      <section className="bg-surface-warm py-24 md:py-32 px-6 md:px-16">
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-primary/35 mb-6">{benefitsLabelTemplate.replace('{title}', product.title)}</p>
@@ -173,7 +173,7 @@ export default async function ProductPage({ params }: Args) {
       </section>
 
       {/* LAB REPORTS */}
-      <section className="bg-[#1c1916] py-20 md:py-24 px-6 md:px-16 relative overflow-hidden">
+      <section className="bg-ink py-20 md:py-24 px-6 md:px-16 relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.04]"
           style={{
@@ -185,20 +185,20 @@ export default async function ProductPage({ params }: Args) {
         />
         <div className="relative z-10 max-w-[1100px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-10">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-white/25 mb-4">{verificationLabel}</p>
-            <h2 className="font-serif italic text-3xl md:text-4xl text-white/90 leading-tight max-w-md">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/25 mb-4">{verificationLabel}</p>
+            <h2 className="font-serif italic text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
               {verificationHeading.split('\n').map((line, i) => (
                 <span key={i}>{i > 0 && <br />}{line}</span>
               ))}
             </h2>
             {verificationBody && (
-              <p className="text-white/40 text-sm font-light leading-relaxed mt-4 max-w-sm">
+              <p className="text-primary-foreground/40 text-sm font-light leading-relaxed mt-4 max-w-sm">
                 {verificationBody}
               </p>
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-            <button className="flex items-center gap-3 px-7 py-4 border border-white/20 text-white/70 text-[11px] uppercase tracking-[0.2em] hover:border-white/40 hover:text-white/90 transition-all">
+            <button className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-[11px] uppercase tracking-[0.2em] hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
@@ -207,7 +207,7 @@ export default async function ProductPage({ params }: Args) {
               </svg>
               {labReportLabel}
             </button>
-            <button className="flex items-center gap-3 px-7 py-4 bg-white/8 border border-white/10 text-white/60 text-[11px] uppercase tracking-[0.2em] hover:bg-white/12 transition-all">
+            <button className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-[11px] uppercase tracking-[0.2em] hover:bg-primary-foreground/12 transition-all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
@@ -239,14 +239,14 @@ function RelatedProducts({ products, completeRitualHeading }: { products: Produc
   if (!products.length) return null
 
   return (
-    <section className="py-24 px-6 bg-[#f7f5f0]">
+    <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
         <h2 className="font-serif italic text-4xl text-primary mb-16">{completeRitualHeading}</h2>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((product) => (
             <li key={product.id}>
               <Link href={`/products/${product.slug}`} className="group">
-                <div className="aspect-[3/4] mb-6 bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
+                <div className="aspect-[3/4] mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                   <span className="text-primary/20 font-serif italic text-6xl tracking-wider">v</span>
                 </div>
                 <div className="flex justify-between items-center">

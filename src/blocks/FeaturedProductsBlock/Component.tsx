@@ -17,7 +17,7 @@ export const FeaturedProductsBlockComponent: React.FC<FeaturedProductsBlockType>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((p) => (
             <div key={p.slug} className="group cursor-pointer">
-              <div className="aspect-[3/4] mb-6 bg-[#eae6de] relative overflow-hidden flex items-center justify-center">
+              <div className="aspect-[3/4] mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                 {p.featuredImage && typeof p.featuredImage === 'object' ? (
                   <img
                     src={p.featuredImage.url || ''}

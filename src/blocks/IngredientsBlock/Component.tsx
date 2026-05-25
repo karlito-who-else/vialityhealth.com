@@ -17,7 +17,7 @@ export const IngredientsBlockComponent: React.FC<IngredientsBlockType> = (props)
         <div className="border border-border rounded overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="bg-[#f2efea]">
+              <tr className="bg-surface-section">
                 <th className="text-left py-4 px-6 text-[11px] uppercase tracking-[0.18em] font-semibold">
                   Ingredient
                 </th>
