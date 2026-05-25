@@ -1,16 +1,17 @@
+import { RichText } from '@/components/RichText'
 import type { BannerBlock as BannerBlockProps } from '@/payload-types'
 import { cn } from '@/utilities/cn'
 import React from 'react'
-import { RichText } from '@/components/RichText'
 
 export const BannerBlock: React.FC<
   BannerBlockProps & {
     id?: string | number
     className?: string
   }
-> = ({ className, content, style }) => {
+> = (props) => {
+  const { className, content, style, ...rest } = props
   return (
-    <div className={cn('mx-auto my-8 w-full', className)}>
+    <section className={cn('mx-auto my-8 w-full', className)} {...rest}>
       <div
         className={cn('border py-3 px-6 flex items-center rounded', {
           'border-border bg-card': style === 'info',
@@ -21,6 +22,6 @@ export const BannerBlock: React.FC<
       >
         <RichText data={content} enableGutter={false} enableProse={false} />
       </div>
-    </div>
+    </section>
   )
 }

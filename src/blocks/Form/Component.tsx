@@ -1,17 +1,17 @@
 'use client'
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
-import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
 import { RichText } from '@/components/RichText'
 import { Button } from '@/components/ui/button'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import { useRouter } from 'next/navigation'
+import React, { useCallback, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
-import { buildInitialFormState } from './buildInitialFormState'
-import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import { DefaultDocumentIDType } from 'payload'
+import { buildInitialFormState } from './buildInitialFormState'
+import { fields } from './fields'
 
 export type Value = unknown
 
@@ -37,10 +37,14 @@ export const FormBlock: React.FC<
   }
 > = (props) => {
   const {
+    blockName,
+    blockType,
     enableIntro,
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
+    id,
     introContent,
+    ...rest
   } = props
 
   const formMethods = useForm({
@@ -126,7 +130,7 @@ export const FormBlock: React.FC<
   )
 
   return (
-    <div className="container lg:max-w-3xl">
+    <section className="container lg:max-w-3xl" {...rest}>
       {enableIntro && introContent && !hasSubmitted && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
@@ -171,6 +175,6 @@ export const FormBlock: React.FC<
           )}
         </FormProvider>
       </div>
-    </div>
+    </section>
   )
 }

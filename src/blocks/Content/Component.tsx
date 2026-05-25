@@ -1,8 +1,8 @@
-import { cn } from '@/utilities/cn'
-import React from 'react'
 import { RichText } from '@/components/RichText'
-import type { DefaultDocumentIDType } from 'payload'
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
+import { cn } from '@/utilities/cn'
+import type { DefaultDocumentIDType } from 'payload'
+import React from 'react'
 
 import { CMSLink } from '../../components/Link'
 
@@ -22,7 +22,7 @@ export const ContentBlock: React.FC<
   }
 
   return (
-    <div className="container my-16">
+    <section className="container my-16" {...props}>
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-16">
         {columns &&
           columns.length > 0 &&
@@ -43,6 +43,6 @@ export const ContentBlock: React.FC<
             )
           })}
       </div>
-    </div>
+    </section>
   )
 }

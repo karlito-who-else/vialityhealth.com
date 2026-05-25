@@ -1,17 +1,18 @@
 import React from 'react'
 
-import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
-import { RichText } from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
+import { RichText } from '@/components/RichText'
+import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 
 export const CallToActionBlock: React.FC<
   CTABlockProps & {
     id?: string | number
     className?: string
   }
-> = ({ links, richText }) => {
+> = (props) => {
+  const { links, richText } = props
   return (
-    <div className="container">
+    <section className="container" {...props}>
       <div className="bg-card rounded border-border border p-4 flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
         <div className="max-w-3xl flex items-center">
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
@@ -22,6 +23,6 @@ export const CallToActionBlock: React.FC<
           })}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

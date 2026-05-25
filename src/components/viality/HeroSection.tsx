@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { GrainOverlay } from './GrainOverlay'
 import { VideoPanel } from './VideoPanel'
 
@@ -34,7 +34,7 @@ export function HeroSection({
           <div className="absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-white/20 z-10" />
           <VideoPanel src="/helix.mp4" />
         </div>
-          <div className="md:hidden absolute inset-0 bg-ink-well">
+        <div className="md:hidden absolute inset-0 bg-ink-well">
           <video
             src="/helix2.mp4"
             autoPlay
@@ -108,7 +108,6 @@ export function HeroSection({
               lineHeight: 1.8,
               letterSpacing: "-0.01em",
               color: "var(--color-muted-foreground)",
-              textTransform: "lowercase",
             }}
           >
             {subtext}
@@ -119,7 +118,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: "easeOut" }}
-          className="mt-10 flex flex-col sm:flex-row gap-4 items-center"
+          className="mt-10 grid sm:grid-cols-2 gap-4"
         >
           <Link
             href={ctaLink}

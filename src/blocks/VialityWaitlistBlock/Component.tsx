@@ -1,14 +1,16 @@
-import React from 'react'
-import type { VialityWaitlistBlock as VialityWaitlistBlockProps } from '@/payload-types'
 import { WaitlistSection } from '@/components/viality'
+import type { VialityWaitlistBlock as VialityWaitlistBlockProps } from '@/payload-types'
+import React from 'react'
 
 export const VialityWaitlistBlock: React.FC<VialityWaitlistBlockProps> = (props) => {
+  const { heading, body, placeholder, buttonLabel, blockName, blockType, id, ...rest } = props
   return (
     <WaitlistSection
-      heading={props.heading || 'Begin your daily reset.'}
-      body={props.body}
-      placeholder={props.placeholder || 'YOUR EMAIL ADDRESS'}
-      buttonLabel={props.buttonLabel || 'Join Waitlist'}
+      {...rest}
+      heading={heading || 'Begin your daily reset.'}
+      body={body}
+      placeholder={placeholder || 'YOUR EMAIL ADDRESS'}
+      buttonLabel={buttonLabel || 'Join Waitlist'}
     />
   )
 }

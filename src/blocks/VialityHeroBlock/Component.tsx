@@ -1,18 +1,20 @@
-import React from 'react'
-import type { VialityHeroBlock as VialityHeroBlockProps } from '@/payload-types'
 import { HeroSection } from '@/components/viality'
+import type { VialityHeroBlock as VialityHeroBlockProps } from '@/payload-types'
+import React from 'react'
 
 export const VialityHeroBlock: React.FC<VialityHeroBlockProps> = (props) => {
+  const { tagline, title, subtext, ctaLabel, ctaLink, secondaryLabel, secondaryLink, scrollLabel, blockName, blockType, id, ...rest } = props
   return (
     <HeroSection
-      tagline={props.tagline || 'Wellness, refined.'}
-      title={props.title || 'viality'}
-      subtext={props.subtext}
-      ctaLabel={props.ctaLabel || 'Begin the Ritual'}
-      ctaLink={props.ctaLink || '/shop'}
-      secondaryLabel={props.secondaryLabel}
-      secondaryLink={props.secondaryLink}
-      scrollLabel={props.scrollLabel || 'Scroll'}
+      {...rest}
+      tagline={tagline || 'Wellness, refined.'}
+      title={title || 'viality'}
+      subtext={subtext}
+      ctaLabel={ctaLabel || 'Begin the Ritual'}
+      ctaLink={ctaLink || '/shop'}
+      secondaryLabel={secondaryLabel}
+      secondaryLink={secondaryLink}
+      scrollLabel={scrollLabel || 'Scroll'}
     />
   )
 }

@@ -54,10 +54,8 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="my-16" key={index} data-block-type={blockType}>
-                  {/* @ts-ignore */}
-                  <Block id={toKebabCase(blockName!)} {...block} />
-                </div>
+                // @ts-ignore
+                <Block id={toKebabCase(blockName!)} key={index} data-block-type={blockType} {...block} />
               )
             }
           }

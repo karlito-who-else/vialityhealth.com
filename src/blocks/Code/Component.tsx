@@ -15,8 +15,8 @@ export const CodeBlock: React.FC<
   }
 > = ({ className, code, language }) => {
   return (
-    <div className={[className, 'not-prose'].filter(Boolean).join(' ')}>
+    <section className={[className, 'not-prose'].filter(Boolean).join(' ')}>
       <Code code={code} language={language} />
-    </div>
+    </section>
   )
 }

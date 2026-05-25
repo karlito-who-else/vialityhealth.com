@@ -18,7 +18,7 @@ export function FeaturedProductsSection({
   return (
     <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-16">
+        <header className="flex justify-between items-end mb-16">
           <h2 className="font-serif italic text-4xl text-primary">{heading}</h2>
           {shopAllLabel && (
             <Link
@@ -28,11 +28,11 @@ export function FeaturedProductsSection({
               {shopAllLabel}
             </Link>
           )}
-        </div>
+        </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((product, i) => (
-            <motion.div
+            <motion.article
               key={product.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +62,7 @@ export function FeaturedProductsSection({
                   <p className="text-primary/55 text-sm">{product.meta?.description || ''}</p>
                 </div>
               </Link>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
 

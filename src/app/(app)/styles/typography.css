@@ -5,6 +5,7 @@
 }
 
 @layer base {
+
   h1,
   h2,
   h3,
@@ -13,10 +14,6 @@
   h6 {
     font-weight: unset;
     font-size: unset;
-  }
-
-  p {
-    text-transform: lowercase;
   }
 }
 
