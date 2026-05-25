@@ -1,9 +1,9 @@
 'use client'
 
-import Link from 'next/link'
+import type { About, Principle, TrustItem } from '@/payload-types'
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion'
+import Link from 'next/link'
 import { useRef } from 'react'
-import type { Principle, TrustItem, About } from '@/payload-types'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -108,7 +108,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
           <GrainOverlay opacity={0.04} />
         </motion.div>
 
-        <div className="relative z-10 max-w-[1200px] mx-auto w-full">
+        <div className="relative z-10 mx-auto w-full">
           <motion.p
             variants={fadeIn}
             initial="hidden"
@@ -151,7 +151,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
 
       {/* 2. SPLIT TEXT / IMAGE */}
       <section className="bg-background py-28 md:py-36 px-6 md:px-16">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -185,7 +185,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
+            <div className="aspect-3/4 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
               <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
               <div
                 className="absolute bottom-5 left-5 z-10"
@@ -199,7 +199,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
 
       {/* 3. THREE PILLARS */}
       <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-300 mx-auto">
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -244,7 +244,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
 
       {/* 4. SCIENCE / TRUST */}
       <section className="bg-background py-28 md:py-36 px-6 md:px-16">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-28 items-start">
             <motion.div
               initial={{ opacity: 0, x: -24 }}
@@ -359,7 +359,7 @@ export function VialityAbout({ principles, trustItems, about }: { principles: Pr
 
       {/* 6. CLOSING CTA */}
       <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}

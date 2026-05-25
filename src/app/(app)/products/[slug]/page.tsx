@@ -1,16 +1,15 @@
 import type { Media, Product } from '@/payload-types'
 
-import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { Gallery } from '@/components/product/Gallery'
 import { VialityProductDescription } from '@/components/product/VialityProductDescription'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import React, { Suspense } from 'react'
-import { Metadata } from 'next'
+import { getPayload } from 'payload'
+import { Suspense } from 'react'
 
 type Args = {
   params: Promise<{
@@ -35,15 +34,15 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
     description: product.meta?.description || '',
     openGraph: seoImage?.url
       ? {
-          images: [
-            {
-              alt: seoImage?.alt,
-              height: seoImage.height!,
-              url: seoImage?.url,
-              width: seoImage.width!,
-            },
-          ],
-        }
+        images: [
+          {
+            alt: seoImage?.alt,
+            height: seoImage.height!,
+            url: seoImage?.url,
+            width: seoImage.width!,
+          },
+        ],
+      }
       : null,
     robots: {
       follow: canIndex,
@@ -129,7 +128,7 @@ export default async function ProductPage({ params }: Args) {
 
       {/* BENEFITS */}
       <section className="bg-surface-warm py-24 md:py-32 px-6 md:px-16">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-primary/35 mb-6">{benefitsLabelTemplate.replace('{title}', product.title)}</p>
             <h2 className="font-serif italic text-4xl md:text-5xl text-primary leading-tight">
@@ -152,7 +151,7 @@ export default async function ProductPage({ params }: Args) {
 
       {/* USAGE RITUAL */}
       <section className="bg-background py-20 md:py-28 px-6 md:px-16 border-t border-border/30">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-[200px_1fr] gap-10 md:gap-20 items-start">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-[200px_1fr] gap-10 md:gap-20 items-start">
           <p className="text-[10px] uppercase tracking-[0.3em] text-primary/35 md:pt-1">{usageRitualLabel}</p>
           <div>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary mb-6">
@@ -183,7 +182,7 @@ export default async function ProductPage({ params }: Args) {
             mixBlendMode: 'screen',
           }}
         />
-        <div className="relative z-10 max-w-[1100px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-10">
+        <div className="relative z-10 mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-10">
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-primary-foreground/25 mb-4">{verificationLabel}</p>
             <h2 className="font-serif italic text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
@@ -226,7 +225,7 @@ export default async function ProductPage({ params }: Args) {
       {/* DISCLAIMER */}
       {productDisclaimer && (
         <section className="bg-background border-t border-border/25 py-10 px-6 md:px-16">
-          <p className="max-w-[1100px] mx-auto text-[10px] text-primary/28 leading-relaxed tracking-wide">
+          <p className="mx-auto text-[10px] text-primary/28 leading-relaxed tracking-wide">
             {productDisclaimer}
           </p>
         </section>
@@ -246,7 +245,7 @@ function RelatedProducts({ products, completeRitualHeading }: { products: Produc
           {products.map((product) => (
             <li key={product.id}>
               <Link href={`/products/${product.slug}`} className="group">
-                <div className="aspect-[3/4] mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
+                <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                   <span className="text-primary/20 font-serif italic text-6xl tracking-wider">v</span>
                 </div>
                 <div className="flex justify-between items-center">
