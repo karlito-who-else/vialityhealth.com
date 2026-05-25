@@ -2,6 +2,7 @@ import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from "
 
 import { Address, Transaction, VariantOption } from "@/payload-types";
 
+import { aboutPageData } from "./about-page";
 import { contactFormData } from "./contact-form";
 import { contactPageData } from "./contact-page";
 import { homePageData } from "./home";
@@ -313,7 +314,7 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding pages...`);
 
-  const [_, contactPage] = await Promise.all([
+  const [_homePage, contactPage, aboutPage] = await Promise.all([
     payload.create({
       collection: "pages",
       depth: 0,
@@ -328,6 +329,11 @@ export const seed = async ({
       data: contactPageData({
         contactForm: contactForm,
       }),
+    }),
+    payload.create({
+      collection: "pages",
+      depth: 0,
+      data: aboutPageData(),
     }),
   ]);
 

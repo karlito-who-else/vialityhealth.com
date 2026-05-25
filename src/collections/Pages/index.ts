@@ -10,6 +10,12 @@ import { slugField } from "payload";
 
 import { adminOnly } from "@/access/adminOnly";
 import { adminOrPublishedStatus } from "@/access/adminOrPublishedStatus";
+import { AboutCta } from "@/blocks/AboutCtaBlock/config";
+import { AboutFounder } from "@/blocks/AboutFounderBlock/config";
+import { AboutHero } from "@/blocks/AboutHeroBlock/config";
+import { AboutPhilosophy } from "@/blocks/AboutPhilosophyBlock/config";
+import { AboutPrinciples } from "@/blocks/AboutPrinciplesBlock/config";
+import { AboutTrust } from "@/blocks/AboutTrustBlock/config";
 import { Archive } from "@/blocks/ArchiveBlock/config";
 import { Banner } from "@/blocks/Banner/config";
 import { CallToAction } from "@/blocks/CallToAction/config";
@@ -96,6 +102,12 @@ export const Pages: CollectionConfig = {
               name: "content",
               type: "blocks",
               blocks: [
+                AboutCta,
+                AboutFounder,
+                AboutHero,
+                AboutPhilosophy,
+                AboutPrinciples,
+                AboutTrust,
                 CallToAction,
                 Content,
                 MediaBlock,

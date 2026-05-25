@@ -517,6 +517,12 @@ export interface Page {
     media?: (number | null) | Media;
   };
   content: (
+    | AboutCtaBlock
+    | AboutFounderBlock
+    | AboutHeroBlock
+    | AboutPhilosophyBlock
+    | AboutPrinciplesBlock
+    | AboutTrustBlock
     | CallToActionBlock
     | ContentBlock
     | MediaBlock
@@ -549,6 +555,118 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutCtaBlock".
+ */
+export interface AboutCtaBlock {
+  heading?: string | null;
+  body?: string | null;
+  shopLabel?: string | null;
+  shopLink?: string | null;
+  labLabel?: string | null;
+  complianceText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutFounderBlock".
+ */
+export interface AboutFounderBlock {
+  label?: string | null;
+  quote?: string | null;
+  signature?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutFounder';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutHeroBlock".
+ */
+export interface AboutHeroBlock {
+  label?: string | null;
+  heading?: string | null;
+  body?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutPhilosophyBlock".
+ */
+export interface AboutPhilosophyBlock {
+  label?: string | null;
+  heading?: string | null;
+  body?:
+    | {
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  imageLabel?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutPhilosophy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutPrinciplesBlock".
+ */
+export interface AboutPrinciplesBlock {
+  label?: string | null;
+  heading?: string | null;
+  items?: (number | Principle)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutPrinciples';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "principles".
+ */
+export interface Principle {
+  id: number;
+  title: string;
+  slug: string;
+  displayNumber: string;
+  body: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutTrustBlock".
+ */
+export interface AboutTrustBlock {
+  label?: string | null;
+  heading?: string | null;
+  body?: string | null;
+  imageLabel?: string | null;
+  buttonLabel?: string | null;
+  items?: (number | TrustItem)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutTrust';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trustItems".
+ */
+export interface TrustItem {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  type: 'home' | 'about';
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -978,20 +1096,6 @@ export interface VialityTrustBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "trustItems".
- */
-export interface TrustItem {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  type: 'home' | 'about';
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "VialityWaitlistBlock".
  */
 export interface VialityWaitlistBlock {
@@ -1179,20 +1283,6 @@ export interface Address {
     | 'SE'
     | 'CH';
   phone?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "principles".
- */
-export interface Principle {
-  id: number;
-  title: string;
-  slug: string;
-  displayNumber: string;
-  body: string;
-  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1964,6 +2054,12 @@ export interface PagesSelect<T extends boolean = true> {
   content?:
     | T
     | {
+        aboutCta?: T | AboutCtaBlockSelect<T>;
+        aboutFounder?: T | AboutFounderBlockSelect<T>;
+        aboutHero?: T | AboutHeroBlockSelect<T>;
+        aboutPhilosophy?: T | AboutPhilosophyBlockSelect<T>;
+        aboutPrinciples?: T | AboutPrinciplesBlockSelect<T>;
+        aboutTrust?: T | AboutTrustBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -1992,6 +2088,84 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutCtaBlock_select".
+ */
+export interface AboutCtaBlockSelect<T extends boolean = true> {
+  heading?: T;
+  body?: T;
+  shopLabel?: T;
+  shopLink?: T;
+  labLabel?: T;
+  complianceText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutFounderBlock_select".
+ */
+export interface AboutFounderBlockSelect<T extends boolean = true> {
+  label?: T;
+  quote?: T;
+  signature?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutHeroBlock_select".
+ */
+export interface AboutHeroBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  body?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutPhilosophyBlock_select".
+ */
+export interface AboutPhilosophyBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  body?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  imageLabel?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutPrinciplesBlock_select".
+ */
+export interface AboutPrinciplesBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  items?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutTrustBlock_select".
+ */
+export interface AboutTrustBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  body?: T;
+  imageLabel?: T;
+  buttonLabel?: T;
+  items?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
