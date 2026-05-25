@@ -54,6 +54,25 @@
 
   --color-video-overlay: light-dark(rgba(10, 8, 6, 0.35), rgba(10, 8, 6, 0.35));
   --color-video-overlay-strong: light-dark(rgba(10, 8, 6, 0.55), rgba(10, 8, 6, 0.55));
+
+  /* About page hero gradient colours */
+  --color-hero-warm-1: light-dark(oklch(86% 0.02 83deg), oklch(58% 0.015 83deg));
+  --color-hero-warm-2: light-dark(oklch(82% 0.02 83deg), oklch(56% 0.015 83deg));
+  --color-hero-warm-3: light-dark(oklch(84% 0.017 83deg), oklch(57% 0.012 83deg));
+  --color-hero-tan: light-dark(oklch(76% 0.042 78deg), oklch(25% 0.03 78deg));
+  --color-hero-tan-light: light-dark(oklch(82% 0.02 81deg), oklch(20% 0.015 81deg));
+  --color-hero-dark: light-dark(oklch(15% 0.018 83deg), oklch(8% 0.012 83deg));
+  --color-hero-glow: light-dark(oklch(70% 0.062 82deg), oklch(35% 0.04 82deg));
+
+  /* About page gradient alpha variants */
+  --color-hero-fade-top: light-dark(oklch(15% 0.018 83deg / 0.5), oklch(68% 0.012 83deg / 0.5));
+  --color-hero-fade-mid: light-dark(oklch(15% 0.018 83deg / 0.1), oklch(8% 0.012 83deg / 0.1));
+  --color-hero-glow-subtle: light-dark(oklch(70% 0.062 82deg / 0.07), oklch(35% 0.04 82deg / 0.07));
+
+  /* About page gradients */
+  --background-image-hero-gradient: linear-gradient(160deg, var(--color-hero-warm-3) 0%, var(--color-hero-warm-1) 35%, var(--color-hero-warm-2) 65%, var(--color-hero-warm-3) 100%);
+  --background-image-hero-fade: linear-gradient(to top, var(--color-hero-fade-top) 0%, var(--color-hero-fade-mid) 40%, transparent 100%);
+  --background-image-founder-glow: radial-gradient(ellipse 60% 50% at 50% 60%, var(--color-hero-glow-subtle) 0%, transparent 70%);
 }
 
 @layer base {
