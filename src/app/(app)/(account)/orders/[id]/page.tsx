@@ -50,7 +50,7 @@ export default async function Order({ params, searchParams }: PageProps) {
     } = await payload.find({
       collection: 'orders',
       user,
-      overrideAccess: !Boolean(user),
+      overrideAccess: !user,
       depth: 2,
       where: {
         and: [

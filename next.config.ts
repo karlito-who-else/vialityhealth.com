@@ -22,8 +22,7 @@ const nextConfig: NextConfig = {
       },
     ],
     qualities: [90, 100],
-    remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
+    remotePatterns: [NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
 
         return {
@@ -31,7 +30,6 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
-    ],
   },
   reactStrictMode: true,
   redirects,
