@@ -3,9 +3,24 @@ import { Fragment } from "react";
 
 import { CheckoutPage } from "@/components/checkout/CheckoutPage";
 import { env } from "@/utilities/env";
+import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
-export default function Checkout() {
+export default async function Checkout() {
+  const settings = await getCachedGlobal("settings", 1)();
+
+  const bankTransfer = settings?.bankTransferEnabled
+    ? {
+        heading: settings.bankTransferHeading,
+        note: settings.bankTransferNote,
+        bankName: settings.bankName,
+        accountName: settings.accountName,
+        accountNumber: settings.accountNumber,
+        routingNumber: settings.routingNumber,
+        swiftCode: settings.swiftCode,
+      }
+    : undefined;
+
   return (
     <div className="container mx-auto min-h-[90vh] flex">
       {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '') && (
@@ -34,7 +49,7 @@ export default function Checkout() {
 
       <h1 className="sr-only">Checkout</h1>
 
-      <CheckoutPage />
+      <CheckoutPage bankTransfer={bankTransfer} />
     </div>
   );
 }

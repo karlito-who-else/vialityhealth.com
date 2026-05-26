@@ -30,7 +30,17 @@ import { env } from "@/utilities/env";
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripe = loadStripe(apiKey);
 
-export const CheckoutPage: React.FC = () => {
+interface BankTransferInfo {
+  heading?: string | null;
+  note?: string | null;
+  bankName?: string | null;
+  accountName?: string | null;
+  accountNumber?: string | null;
+  routingNumber?: string | null;
+  swiftCode?: string | null;
+}
+
+export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ bankTransfer }) => {
   const { user } = useAuth();
   const { refresh } = useRouter();
   const { cart } = useCart();
@@ -434,6 +444,47 @@ export const CheckoutPage: React.FC = () => {
             <span className="uppercase">Total</span>{" "}
             <Price className="text-3xl font-medium" amount={cart.subtotal || 0} />
           </div>
+          {bankTransfer && (
+            <div className="bg-card border rounded-lg p-4 text-sm space-y-1.5">
+              <h4 className="font-semibold text-base">{bankTransfer.heading || "Bank Transfer"}</h4>
+              <p className="text-primary/70">
+                {bankTransfer.note ||
+                  "Your order will be shipped once your bank transfer is confirmed. Please transfer the total amount to the account below:"}
+              </p>
+              <div className="mt-2 space-y-1">
+                {bankTransfer.bankName && (
+                  <p>
+                    <span className="font-medium">Bank: </span>
+                    {bankTransfer.bankName}
+                  </p>
+                )}
+                {bankTransfer.accountName && (
+                  <p>
+                    <span className="font-medium">Account Name: </span>
+                    {bankTransfer.accountName}
+                  </p>
+                )}
+                {bankTransfer.accountNumber && (
+                  <p>
+                    <span className="font-medium">Account Number: </span>
+                    {bankTransfer.accountNumber}
+                  </p>
+                )}
+                {bankTransfer.routingNumber && (
+                  <p>
+                    <span className="font-medium">Routing / Sort Code: </span>
+                    {bankTransfer.routingNumber}
+                  </p>
+                )}
+                {bankTransfer.swiftCode && (
+                  <p>
+                    <span className="font-medium">SWIFT / BIC: </span>
+                    {bankTransfer.swiftCode}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

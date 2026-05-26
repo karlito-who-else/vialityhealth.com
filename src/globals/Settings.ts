@@ -192,6 +192,53 @@ export const Settings: GlobalConfig = {
           ],
         },
         {
+          label: "Bank Transfer",
+          fields: [
+            {
+              name: "bankTransferEnabled",
+              type: "checkbox",
+              label: "Enable bank transfer notification",
+              defaultValue: true,
+            },
+            {
+              name: "bankTransferHeading",
+              type: "text",
+              defaultValue: "Bank Transfer",
+            },
+            {
+              name: "bankTransferNote",
+              type: "textarea",
+              defaultValue:
+                "Your order will be shipped once your bank transfer is confirmed. Please transfer the total amount to the account below:",
+            },
+            {
+              name: "bankName",
+              type: "text",
+              label: "Bank Name",
+            },
+            {
+              name: "accountName",
+              type: "text",
+              label: "Account Name",
+            },
+            {
+              name: "accountNumber",
+              type: "text",
+              label: "Account Number",
+            },
+            {
+              name: "routingNumber",
+              type: "text",
+              label: "Routing / Sort Code",
+            },
+            {
+              name: "swiftCode",
+              type: "text",
+              label: "SWIFT / BIC Code",
+            },
+          ],
+        },
+        {
           label: "Account & Orders",
           fields: [
             {
