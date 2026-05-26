@@ -24,6 +24,7 @@ export default async function ShopPage({ searchParams }: Props) {
 
   const products = await payload.find({
     collection: "products",
+    depth: 1,
     draft: false,
     overrideAccess: false,
     select: {
@@ -32,6 +33,7 @@ export default async function ShopPage({ searchParams }: Props) {
       gallery: true,
       categories: true,
       priceInUSD: true,
+      featuredImage: true,
     },
     ...(sort ? { sort } : { sort: "title" }),
     ...(searchValue || category

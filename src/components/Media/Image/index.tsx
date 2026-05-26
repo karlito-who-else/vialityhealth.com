@@ -6,7 +6,7 @@ import NextImage from "next/image";
 import React from "react";
 
 import { cssVariables } from "@/cssVariables";
-import { env } from "@/utilities/env";
+
 import { cn } from "@/utilities/cn";
 
 import type { Props as MediaProps } from "../types";
@@ -48,7 +48,7 @@ export const Image: React.FC<MediaProps> = (props) => {
     height = heightFromProps ?? fullHeight;
     alt = altFromResource;
 
-    src = `${env.NEXT_PUBLIC_SERVER_URL}${url}`;
+    src = url || srcFromProps || "";
   }
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes

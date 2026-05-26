@@ -1,7 +1,7 @@
+import { Link } from "@/components/atoms/Link";
 import configPromise from "@payload-config";
 import { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { Link } from "@/components/atoms/Link";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import { Suspense } from "react";
@@ -25,24 +25,27 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 
   const gallery = product.gallery?.filter((item) => typeof item.image === "object") || [];
 
+  const featuredImage =
+    typeof product.featuredImage === "object" ? product.featuredImage : undefined;
+
   const metaImage = typeof product.meta?.image === "object" ? product.meta?.image : undefined;
   const canIndex = product._status === "published";
 
-  const seoImage = metaImage || (gallery.length ? (gallery[0]?.image as Media) : undefined);
+  const seoImage = metaImage || (gallery.length ? (gallery[0]?.image as Media) : featuredImage);
 
   return {
     description: product.meta?.description || "",
     openGraph: seoImage?.url
       ? {
-          images: [
-            {
-              alt: seoImage?.alt,
-              height: seoImage.height!,
-              url: seoImage?.url,
-              width: seoImage.width!,
-            },
-          ],
-        }
+        images: [
+          {
+            alt: seoImage?.alt,
+            height: seoImage.height!,
+            url: seoImage?.url,
+            width: seoImage.width!,
+          },
+        ],
+      }
       : null,
     robots: {
       follow: canIndex,
@@ -69,6 +72,13 @@ export default async function ProductPage({ params }: Args) {
           ? [{ ...item, image: item.image as Media }]
           : [],
       ) || [];
+
+  const galleryWithFallback =
+    gallery.length > 0
+      ? gallery
+      : product.featuredImage && typeof product.featuredImage === "object"
+        ? [{ image: product.featuredImage as Media }]
+        : [];
 
   const _metaImage = typeof product.meta?.image === "object" ? product.meta?.image : undefined;
 
@@ -107,16 +117,16 @@ export default async function ProductPage({ params }: Args) {
   const productDisclaimer = productContent?.productDisclaimer || "";
 
   return (
-    <div className="min-h-screen bg-background pt-[72px]">
+    <div className="min-h-screen bg-background pt-18">
       {/* TOP SPLIT — GALLERY + PURCHASE */}
       <section className="grid grid-cols-1 lg:grid-cols-[1fr_480px] xl:grid-cols-[1fr_520px] min-h-[calc(100vh-72px)]">
         {/* LEFT — Image gallery */}
         <div className="relative bg-surface-gallery flex flex-col order-2 lg:order-1">
-          <div className="relative flex-1 min-h-[60vw] md:min-h-[520px] lg:min-h-0 overflow-hidden">
-            {gallery.length > 0 ? (
+          <div className="relative flex-1 min-h-[60vw] md:min-h-130 lg:min-h-0 overflow-hidden">
+            {galleryWithFallback.length > 0 ? (
               <div className="absolute inset-0">
                 <Suspense fallback={<div className="absolute inset-0 bg-surface-placeholder" />}>
-                  <Gallery gallery={gallery} />
+                  <Gallery gallery={galleryWithFallback} />
                 </Suspense>
               </div>
             ) : (

@@ -10,6 +10,7 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/componen
 import type { Product } from "@/payload-types";
 
 type Props = {
+  className?: string;
   gallery: NonNullable<Product["gallery"]>;
 };
 

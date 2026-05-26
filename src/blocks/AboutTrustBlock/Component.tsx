@@ -41,7 +41,7 @@ export const AboutTrustBlockComponent: React.FC<
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] as const }}
             className="md:sticky md:top-28"
           >
-            <div className="aspect-[3/4] bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
+            <div className="aspect-3/4 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
               {media?.url ? (
                 <Image
                   src={media.url}

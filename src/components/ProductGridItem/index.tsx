@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { Link } from "@/components/atoms/Link";
+import clsx from "clsx";
 import React from "react";
 
 import { Media } from "@/components/Media";
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const ProductGridItem: React.FC<Props> = ({ product }) => {
-  const { gallery, priceInUSD, title } = product;
+  const { featuredImage, gallery, priceInUSD, title } = product;
 
   let price = priceInUSD;
 
@@ -30,14 +30,18 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
   }
 
   const image =
-    gallery?.[0]?.image && typeof gallery[0]?.image !== "string" ? gallery[0]?.image : false;
+    gallery?.[0]?.image && typeof gallery[0]?.image !== "string"
+      ? gallery[0]?.image
+      : featuredImage && typeof featuredImage !== "number"
+        ? featuredImage
+        : false;
 
   return (
     <Link className="relative inline-block h-full w-full group" href={`/products/${product.slug}`}>
       {image ? (
         <Media
           className={clsx(
-            "relative aspect-square object-cover border rounded-2xl p-8 bg-primary-foreground",
+            "relative aspect-3/4 object-cover border rounded-2xl p-8 bg-primary-foreground",
           )}
           height={80}
           imgClassName={clsx("h-full w-full object-cover rounded-2xl", {
