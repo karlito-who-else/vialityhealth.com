@@ -4,6 +4,12 @@ import { z } from "zod";
 
 const variables = {
   DATABASE_URL: process.env.DATABASE_URL,
+  KLAVIYO_PRIVATE_KEY: process.env.KLAVIYO_PRIVATE_KEY,
+  KLAVIYO_LIST_ID_NEWSLETTER: process.env.KLAVIYO_LIST_ID_NEWSLETTER,
+  KLAVIYO_LIST_ID_OUT_OF_STOCK_NOTIFICATIONS: process.env.KLAVIYO_LIST_ID_OUT_OF_STOCK_NOTIFICATIONS,
+  KLAVIYO_URL: process.env.KLAVIYO_URL,
+  NEXT_PUBLIC_KLAVIYO_API_REVISION: process.env.NEXT_PUBLIC_KLAVIYO_API_REVISION,
+  NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY: process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY,
   NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
@@ -23,6 +29,8 @@ const sharedVariablesSchema = z.object({
 
 const clientVariablesSchema = z.object({
   DATABASE_URL: z.string().optional(),
+  NEXT_PUBLIC_KLAVIYO_API_REVISION: z.string(),
+  NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY: z.string(),
   PAYLOAD_PUBLIC_SERVER_URL: z.string().optional(),
   PAYLOAD_SECRET: z.string().optional(),
   PREVIEW_SECRET: z.string().optional(),
@@ -33,6 +41,10 @@ const clientVariablesSchema = z.object({
 
 const serverVariablesSchema = z.object({
   DATABASE_URL: z.string(),
+  KLAVIYO_PRIVATE_KEY: z.string(),
+  KLAVIYO_LIST_ID_NEWSLETTER: z.string(),
+  KLAVIYO_LIST_ID_OUT_OF_STOCK_NOTIFICATIONS: z.string(),
+  KLAVIYO_URL: z.string(),
   PAYLOAD_PUBLIC_SERVER_URL: z.string().optional(),
   PAYLOAD_SECRET: z.string(),
   PREVIEW_SECRET: z.string().optional(),
