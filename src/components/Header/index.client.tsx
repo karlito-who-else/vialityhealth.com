@@ -41,7 +41,7 @@ export function HeaderClient({ className, header }: Props) {
         className,
       )}
     >
-      <div className="h-18 container mx-auto flex items-center justify-between gap-6">
+      <div className="h-18 container mx-auto px-8 sm:px-0 flex items-center justify-between gap-6">
         {/* Mobile menu trigger */}
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>

@@ -49,12 +49,12 @@ const GalleryInner: React.FC<Props> = (props) => {
   }, [searchParams, api, gallery]);
 
   return (
-    <div>
-      <div className="relative w-full overflow-hidden mb-8">
+    <>
+      <div className="relative size-full overflow-hidden mb-8">
         <Media
           resource={gallery[current].image}
           className="w-full"
-          imgClassName="w-full rounded-lg"
+          imgClassName="w-full rounded-lg object-contain"
         />
       </div>
 
@@ -75,7 +75,7 @@ const GalleryInner: React.FC<Props> = (props) => {
           })}
         </CarouselContent>
       </Carousel>
-    </div>
+    </>
   );
 };
 

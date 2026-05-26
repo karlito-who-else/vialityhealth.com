@@ -121,20 +121,17 @@ export default async function ProductPage({ params }: Args) {
       {/* TOP SPLIT — GALLERY + PURCHASE */}
       <section className="grid grid-cols-1 lg:grid-cols-[1fr_480px] xl:grid-cols-[1fr_520px] min-h-[calc(100vh-72px)]">
         {/* LEFT — Image gallery */}
-        <div className="relative bg-surface-gallery flex flex-col order-2 lg:order-1">
-          <div className="relative flex-1 min-h-[60vw] md:min-h-130 lg:min-h-0 overflow-hidden">
-            {galleryWithFallback.length > 0 ? (
-              <div className="absolute inset-0">
-                <Suspense fallback={<div className="absolute inset-0 bg-surface-placeholder" />}>
-                  <Gallery gallery={galleryWithFallback} />
-                </Suspense>
-              </div>
-            ) : (
-              <div className="absolute inset-0 bg-surface-placeholder flex items-center justify-center">
-                <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
-              </div>
-            )}
-          </div>
+        <div className="relative bg-surface-gallery min-h-[50vh] lg:min-h-0 h-full order-1 lg:order-1">
+          {galleryWithFallback.length > 0 ? (
+            <Suspense fallback={<div className="absolute inset-0 bg-surface-placeholder" />}>
+              <Gallery gallery={galleryWithFallback} />
+            </Suspense>
+          ) : (
+            <div className="absolute inset-0 bg-surface-placeholder flex items-center justify-center">
+              <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+            </div>
+          )}
+
         </div>
 
         {/* RIGHT — Sticky purchase module */}
@@ -196,7 +193,7 @@ export default async function ProductPage({ params }: Args) {
       </section>
 
       {/* LAB REPORTS */}
-      <section className="bg-ink py-20 md:py-24 px-6 md:px-16 relative overflow-hidden">
+      <section className="scheme-only-light bg-ink py-20 md:py-24 px-6 md:px-16 relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.04]"
           style={{
