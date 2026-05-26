@@ -51,6 +51,9 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
     enableVariants: true,
     featuredImage: true,
     faqs: true,
+    ingredients: true,
+    ingredientsHeading: true,
+    otherIngredientsText: true,
     gallery: true,
     priceInUSD: true,
     inventory: true,
@@ -159,6 +162,51 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
             },
           ],
           label: "Content",
+        },
+        {
+          fields: [
+            {
+              name: "ingredientsHeading",
+              type: "text",
+              defaultValue: "Full formulation breakdown",
+              admin: {
+                description:
+                  'Heading text for the "Full formulation breakdown" accordion section.',
+              },
+            },
+            {
+              name: "ingredients",
+              type: "array",
+              fields: [
+                {
+                  name: "ingredient",
+                  type: "relationship",
+                  relationTo: "ingredients",
+                  required: true,
+                },
+                {
+                  name: "quantity",
+                  type: "text",
+                  required: true,
+                  admin: {
+                    description: "e.g., '250mg', '100mcg', '2 capsules'",
+                  },
+                },
+              ],
+              admin: {
+                description: "Select ingredients to display in the formulation breakdown.",
+              },
+            },
+            {
+              name: "otherIngredientsText",
+              type: "textarea",
+              admin: {
+                description:
+                  "Optional text displayed below the ingredient list (e.g. 'Other Ingredients: ...').",
+              },
+            },
+          ],
+          label: "Formulation",
         },
         {
           fields: [

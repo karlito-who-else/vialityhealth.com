@@ -8,6 +8,12 @@ import { AddToCart } from "@/components/Cart/AddToCart";
 import { RichText } from "@/components/RichText";
 import type { Product, Faq, Ingredient, TrustBadge, Setting } from "@/payload-types";
 
+type IngredientItem = {
+  ingredient: Ingredient;
+  quantity: string;
+  id?: string | null;
+};
+
 export function VialityProductDescription({
   product,
   faqs,
@@ -17,7 +23,7 @@ export function VialityProductDescription({
 }: {
   product: Product;
   faqs: Faq[];
-  ingredients: Ingredient[];
+  ingredients: IngredientItem[];
   trustBadges: TrustBadge[];
   productContent: Setting;
 }) {
@@ -40,8 +46,8 @@ export function VialityProductDescription({
   const quantityLabel = productContent?.quantityLabel || "Quantity";
   const buyNowLabel = productContent?.buyNowLabel || "Buy Now";
   const shippingText = productContent?.shippingText || "";
-  const ingredientsHeading = productContent?.ingredientsHeading || "Full formulation breakdown";
-  const otherIngredientsText = productContent?.otherIngredientsText || "";
+  const ingredientsHeading = product.ingredientsHeading || "Full formulation breakdown";
+  const otherIngredientsText = product.otherIngredientsText || "";
   const faqLabel = productContent?.faqLabel || "Questions";
   const faqHeading = productContent?.faqHeading || "Everything you need to know.";
 
@@ -198,14 +204,14 @@ export function VialityProductDescription({
               className="overflow-hidden"
             >
               <div className="pb-6 border-t border-border/40 pt-4">
-                {ingredients.map((ing) => (
+                {ingredients.map((item) => (
                   <div
-                    key={ing.slug}
+                    key={item.ingredient.slug}
                     className="flex justify-between items-center py-3 border-b border-border/30"
                   >
-                    <span className="text-sm text-primary/70 font-light">{ing.name}</span>
+                    <span className="text-sm text-primary/70 font-light">{item.ingredient.name}</span>
                     <span className="text-xs text-primary/40 uppercase tracking-widest tabular-nums shrink-0 ml-4">
-                      {ing.dose}
+                      {item.quantity}
                     </span>
                   </div>
                 ))}

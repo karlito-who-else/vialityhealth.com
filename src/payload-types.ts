@@ -333,6 +333,27 @@ export interface Product {
    * Select FAQs to display on this product page.
    */
   faqs?: (number | Faq)[] | null;
+  /**
+   * Heading text for the "Full formulation breakdown" accordion section.
+   */
+  ingredientsHeading?: string | null;
+  /**
+   * Select ingredients to display in the formulation breakdown.
+   */
+  ingredients?:
+    | {
+        ingredient: number | Ingredient;
+        /**
+         * e.g., '250mg', '100mcg', '2 capsules'
+         */
+        quantity: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional text displayed below the ingredient list (e.g. 'Other Ingredients: ...').
+   */
+  otherIngredientsText?: string | null;
   inventory?: number | null;
   enableVariants?: boolean | null;
   variantTypes?: (number | VariantType)[] | null;
@@ -1200,6 +1221,19 @@ export interface Faq {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ingredients".
+ */
+export interface Ingredient {
+  id: number;
+  name: string;
+  slug: string;
+  dose: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "variants".
  */
 export interface Variant {
@@ -1341,19 +1375,6 @@ export interface Address {
     | 'SE'
     | 'CH';
   phone?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ingredients".
- */
-export interface Ingredient {
-  id: number;
-  name: string;
-  slug: string;
-  dose: string;
-  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2796,6 +2817,15 @@ export interface ProductsSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
       };
   faqs?: T;
+  ingredientsHeading?: T;
+  ingredients?:
+    | T
+    | {
+        ingredient?: T;
+        quantity?: T;
+        id?: T;
+      };
+  otherIngredientsText?: T;
   inventory?: T;
   enableVariants?: T;
   variantTypes?: T;
