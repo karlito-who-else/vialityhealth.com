@@ -1,5 +1,7 @@
 import type { Block } from "payload";
 
+import { link } from "@/fields/link";
+
 export const VialityTrust: Block = {
   slug: "vialityTrust",
   interfaceName: "VialityTrustBlock",
@@ -15,16 +17,9 @@ export const VialityTrust: Block = {
       defaultValue:
         "Every formulation is open. Every claim is earned. We believe in complete transparency — not as a selling point, but as the only responsible way to operate.",
     },
-    {
-      name: "ctaLabel",
-      type: "text",
-      defaultValue: "View Lab Reports",
-    },
-    {
-      name: "ctaLink",
-      type: "text",
-      defaultValue: "/about",
-    },
+    link({
+      appearances: false,
+    }),
     {
       name: "items",
       type: "relationship",

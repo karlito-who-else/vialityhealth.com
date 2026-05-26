@@ -373,17 +373,32 @@ export const seedVialityMarketing = async ({
           tagline: "Wellness, refined.",
           title: "viality",
           subtext: "Where science meets ritual.",
-          ctaLabel: "Begin the Ritual",
-          ctaLink: "/shop",
-          secondaryLabel: "Our Philosophy",
-          secondaryLink: "/about",
+          links: [
+            {
+              link: {
+                type: "custom",
+                label: "Begin the Ritual",
+                url: "/shop",
+              },
+            },
+            {
+              link: {
+                type: "custom",
+                label: "Our Philosophy",
+                url: "/about",
+              },
+            },
+          ],
           scrollLabel: "Scroll",
         },
         {
           blockType: "vialityPhilosophy",
           body: "Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.",
-          linkLabel: "Our Story",
-          link: "/about",
+          link: {
+            type: "custom",
+            label: "Our Story",
+            url: "/about",
+          },
         },
         {
           blockType: "vialityFeaturedProducts",
@@ -395,8 +410,11 @@ export const seedVialityMarketing = async ({
           blockType: "vialityTrust",
           heading: "A quieter standard of vitality.",
           body: "Every formulation is open. Every claim is earned. We believe in complete transparency — not as a selling point, but as the only responsible way to operate.",
-          ctaLabel: "View Lab Reports",
-          ctaLink: "/about",
+          link: {
+            type: "custom",
+            label: "View Lab Reports",
+            url: "/about",
+          },
           items: homeTrustItemDocs.map((t) => t.id),
         },
         {

@@ -7,8 +7,7 @@ export const VialityTrustBlock: React.FC<VialityTrustBlockProps> = (props) => {
   const {
     heading,
     body,
-    ctaLabel,
-    ctaLink,
+    link,
     items: rawItems,
     blockName: _blockName,
     blockType: _blockType,
@@ -22,8 +21,7 @@ export const VialityTrustBlock: React.FC<VialityTrustBlockProps> = (props) => {
       {...rest}
       heading={heading || "A quieter standard of vitality."}
       body={body}
-      ctaLabel={ctaLabel}
-      ctaLink={ctaLink}
+      link={link}
       items={items}
     />
   );

@@ -3,6 +3,8 @@
 import { Link } from "@/components/atoms/Link";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
+
 import { GrainOverlay } from "./GrainOverlay";
 import { VideoPanel } from "./VideoPanel";
 
@@ -10,10 +12,20 @@ export type HeroSectionProps = {
   tagline: string;
   title: string;
   subtext?: string | null;
-  ctaLabel: string;
-  ctaLink: string;
-  secondaryLabel?: string | null;
-  secondaryLink?: string | null;
+  links?:
+    | {
+        link: {
+          type?: ("reference" | "custom") | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: "pages";
+            value: unknown;
+          } | null;
+          url?: string | null;
+          label: string;
+        };
+      }[]
+    | null;
   scrollLabel: string;
 };
 
@@ -21,12 +33,13 @@ export function HeroSection({
   tagline,
   title,
   subtext,
-  ctaLabel,
-  ctaLink,
-  secondaryLabel,
-  secondaryLink,
+  links,
   scrollLabel,
 }: HeroSectionProps) {
+  const items = links || [];
+  const primary = items[0];
+  const secondary = items[1];
+
   return (
     <LazyMotion features={domAnimation}>
       <section className="relative h-screen w-full overflow-hidden" data-component="HeroSection">
@@ -123,18 +136,20 @@ export function HeroSection({
             transition={{ delay: 0.9, duration: 0.9, ease: "easeOut" }}
             className="mt-10 grid sm:grid-cols-2 gap-4"
           >
-            <Link
-              href={ctaLink}
-              className="px-9 py-3.5 bg-primary-foreground text-ink text-xs uppercase tracking-widest hover:bg-primary-foreground/90 active:bg-primary-foreground/80 transition-colors duration-200"
-            >
-              {ctaLabel}
-            </Link>
-            {secondaryLabel && secondaryLink && (
+            {primary?.link && (
               <Link
-                href={secondaryLink}
+                href={resolveLinkHref(primary.link)}
+                className="px-9 py-3.5 bg-primary-foreground text-ink text-xs uppercase tracking-widest hover:bg-primary-foreground/90 active:bg-primary-foreground/80 transition-colors duration-200"
+              >
+                {primary.link.label}
+              </Link>
+            )}
+            {secondary?.link && (
+              <Link
+                href={resolveLinkHref(secondary.link)}
                 className="px-9 py-3.5 border border-primary-foreground/50 text-primary-foreground text-xs uppercase tracking-widest hover:border-primary-foreground hover:bg-primary-foreground/8 transition-all duration-200"
               >
-                {secondaryLabel}
+                {secondary.link.label}
               </Link>
             )}
           </m.div>

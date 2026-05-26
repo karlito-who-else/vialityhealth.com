@@ -3,13 +3,25 @@
 import { Link } from "@/components/atoms/Link";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
+
 export type PhilosophySectionProps = {
   body?: string | null;
-  linkLabel?: string | null;
-  link?: string | null;
+  link?: {
+    type?: ("reference" | "custom") | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: "pages";
+      value: unknown;
+    } | null;
+    url?: string | null;
+    label: string;
+  } | null;
 };
 
-export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionProps) {
+export function PhilosophySection({ body, link }: PhilosophySectionProps) {
+  const href = link ? resolveLinkHref(link) : null;
+
   return (
     <LazyMotion features={domAnimation}>
       <section className="py-36 px-6 bg-background" data-component="PhilosophySection">
@@ -25,7 +37,7 @@ export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionPr
               {body}
             </m.p>
           )}
-          {linkLabel && link && (
+          {href && (
             <m.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -34,10 +46,10 @@ export function PhilosophySection({ body, linkLabel, link }: PhilosophySectionPr
               className="mt-12"
             >
               <Link
-                href={link}
+                href={href}
                 className="inline-block border-b border-primary/30 pb-1 text-xs uppercase tracking-widest hover:border-primary transition-colors"
               >
-                {linkLabel}
+                {link?.label}
               </Link>
             </m.div>
           )}

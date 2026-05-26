@@ -1,5 +1,7 @@
 import type { Block } from "payload";
 
+import { link } from "@/fields/link";
+
 export const VialityPhilosophy: Block = {
   slug: "vialityPhilosophy",
   interfaceName: "VialityPhilosophyBlock",
@@ -10,16 +12,9 @@ export const VialityPhilosophy: Block = {
       defaultValue:
         "Modern rituals for internal balance — formulated with precision, designed for consistency, and held to a quieter standard of vitality.",
     },
-    {
-      name: "linkLabel",
-      type: "text",
-      defaultValue: "Our Story",
-    },
-    {
-      name: "link",
-      type: "text",
-      defaultValue: "/about",
-    },
+    link({
+      appearances: false,
+    }),
   ],
   labels: {
     plural: "Viality Philosophies",

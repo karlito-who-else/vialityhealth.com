@@ -2,7 +2,7 @@ type LinkData = {
   type?: "reference" | "custom" | null;
   reference?: {
     relationTo?: string;
-    value?: object | string | number | null;
+    value?: unknown;
   } | null;
   url?: string | null;
 };

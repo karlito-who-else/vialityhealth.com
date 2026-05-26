@@ -62,9 +62,22 @@ export const aboutPageData: () => RequiredDataFromCollectionSlug<"pages"> = () =
         blockType: "aboutCta",
         heading: "Designed for\nconsistency.",
         body: "Where science meets ritual. Formulations built to be used daily, for the long term — with complete transparency about everything inside them.",
-        shopLabel: "Shop Formulas",
-        shopLink: "/shop",
-        labLabel: "View Lab Reports",
+        links: [
+          {
+            link: {
+              type: "custom",
+              label: "Shop Formulas",
+              url: "/shop",
+            },
+          },
+          {
+            link: {
+              type: "custom",
+              label: "View Lab Reports",
+              url: "/about",
+            },
+          },
+        ],
         complianceText:
           "These statements have not been evaluated by the Food and Drug Administration. Products are not intended to diagnose, treat, cure, or prevent any disease.",
       },

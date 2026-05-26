@@ -8,10 +8,7 @@ export const VialityHeroBlock: React.FC<VialityHeroBlockProps> = (props) => {
     tagline,
     title,
     subtext,
-    ctaLabel,
-    ctaLink,
-    secondaryLabel,
-    secondaryLink,
+    links,
     scrollLabel,
     blockName: _blockName,
     blockType: _blockType,
@@ -24,10 +21,7 @@ export const VialityHeroBlock: React.FC<VialityHeroBlockProps> = (props) => {
       tagline={tagline || "Wellness, refined."}
       title={title || "viality"}
       subtext={subtext}
-      ctaLabel={ctaLabel || "Begin the Ritual"}
-      ctaLink={ctaLink || "/shop"}
-      secondaryLabel={secondaryLabel}
-      secondaryLink={secondaryLink}
+      links={links}
       scrollLabel={scrollLabel || "Scroll"}
     />
   );

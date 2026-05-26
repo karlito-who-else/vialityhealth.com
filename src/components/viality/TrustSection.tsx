@@ -3,17 +3,29 @@
 import { Link } from "@/components/atoms/Link";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
+
 import type { TrustItem } from "@/payload-types";
 
 export type TrustSectionProps = {
   heading: string;
   body?: string | null;
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
+  link?: {
+    type?: ("reference" | "custom") | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: "pages";
+      value: unknown;
+    } | null;
+    url?: string | null;
+    label: string;
+  } | null;
   items: TrustItem[];
 };
 
-export function TrustSection({ heading, body, ctaLabel, ctaLink, items }: TrustSectionProps) {
+export function TrustSection({ heading, body, link, items }: TrustSectionProps) {
+  const href = link ? resolveLinkHref(link) : null;
+
   return (
     <LazyMotion features={domAnimation}>
       <section className="py-24 px-6 bg-background" data-component="TrustSection">
@@ -40,12 +52,12 @@ export function TrustSection({ heading, body, ctaLabel, ctaLink, items }: TrustS
           <div className="order-1 md:order-2">
             <h2 className="font-serif italic text-4xl mb-6">{heading}</h2>
             {body && <p className="text-primary/65 mb-10 leading-relaxed max-w-md">{body}</p>}
-            {ctaLabel && ctaLink && (
+            {href && (
               <Link
-                href={ctaLink}
+                href={href}
                 className="px-8 py-4 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/88 transition-colors inline-block"
               >
-                {ctaLabel}
+                {link?.label}
               </Link>
             )}
           </div>

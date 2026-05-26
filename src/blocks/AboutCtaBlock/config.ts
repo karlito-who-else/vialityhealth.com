@@ -1,5 +1,7 @@
 import type { Block } from "payload";
 
+import { link } from "@/fields/link";
+
 export const AboutCta: Block = {
   slug: "aboutCta",
   interfaceName: "AboutCtaBlock",
@@ -16,19 +18,15 @@ export const AboutCta: Block = {
         "Where science meets ritual. Formulations built to be used daily, for the long term — with complete transparency about everything inside them.",
     },
     {
-      name: "shopLabel",
-      type: "text",
-      defaultValue: "Shop Formulas",
-    },
-    {
-      name: "shopLink",
-      type: "text",
-      defaultValue: "/shop",
-    },
-    {
-      name: "labLabel",
-      type: "text",
-      defaultValue: "View Lab Reports",
+      name: "links",
+      type: "array",
+      label: "Links",
+      maxRows: 2,
+      fields: [
+        link({
+          appearances: false,
+        }),
+      ],
     },
     {
       name: "complianceText",

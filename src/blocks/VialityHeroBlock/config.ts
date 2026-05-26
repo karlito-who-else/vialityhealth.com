@@ -1,5 +1,7 @@
 import type { Block } from "payload";
 
+import { link } from "@/fields/link";
+
 export const VialityHero: Block = {
   slug: "vialityHero",
   interfaceName: "VialityHeroBlock",
@@ -20,24 +22,15 @@ export const VialityHero: Block = {
       defaultValue: "Where science meets ritual.",
     },
     {
-      name: "ctaLabel",
-      type: "text",
-      defaultValue: "Begin the Ritual",
-    },
-    {
-      name: "ctaLink",
-      type: "text",
-      defaultValue: "/shop",
-    },
-    {
-      name: "secondaryLabel",
-      type: "text",
-      defaultValue: "Our Philosophy",
-    },
-    {
-      name: "secondaryLink",
-      type: "text",
-      defaultValue: "/about",
+      name: "links",
+      type: "array",
+      label: "Links",
+      maxRows: 2,
+      fields: [
+        link({
+          appearances: false,
+        }),
+      ],
     },
     {
       name: "scrollLabel",

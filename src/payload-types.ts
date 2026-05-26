@@ -563,9 +563,21 @@ export interface Page {
 export interface AboutCtaBlock {
   heading?: string | null;
   body?: string | null;
-  shopLabel?: string | null;
-  shopLink?: string | null;
-  labLabel?: string | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
   complianceText?: string | null;
   id?: string | null;
   blockName?: string | null;
@@ -1049,10 +1061,21 @@ export interface VialityHeroBlock {
   tagline?: string | null;
   title?: string | null;
   subtext?: string | null;
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
-  secondaryLabel?: string | null;
-  secondaryLink?: string | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
   scrollLabel?: string | null;
   id?: string | null;
   blockName?: string | null;
@@ -1064,8 +1087,16 @@ export interface VialityHeroBlock {
  */
 export interface VialityPhilosophyBlock {
   body?: string | null;
-  linkLabel?: string | null;
-  link?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'vialityPhilosophy';
@@ -1089,8 +1120,16 @@ export interface VialityFeaturedProductsBlock {
 export interface VialityTrustBlock {
   heading?: string | null;
   body?: string | null;
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
   items?: (number | TrustItem)[] | null;
   id?: string | null;
   blockName?: string | null;
@@ -2098,9 +2137,20 @@ export interface PagesSelect<T extends boolean = true> {
 export interface AboutCtaBlockSelect<T extends boolean = true> {
   heading?: T;
   body?: T;
-  shopLabel?: T;
-  shopLink?: T;
-  labLabel?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
   complianceText?: T;
   id?: T;
   blockName?: T;
@@ -2297,10 +2347,20 @@ export interface VialityHeroBlockSelect<T extends boolean = true> {
   tagline?: T;
   title?: T;
   subtext?: T;
-  ctaLabel?: T;
-  ctaLink?: T;
-  secondaryLabel?: T;
-  secondaryLink?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
   scrollLabel?: T;
   id?: T;
   blockName?: T;
@@ -2311,8 +2371,15 @@ export interface VialityHeroBlockSelect<T extends boolean = true> {
  */
 export interface VialityPhilosophyBlockSelect<T extends boolean = true> {
   body?: T;
-  linkLabel?: T;
-  link?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2334,8 +2401,15 @@ export interface VialityFeaturedProductsBlockSelect<T extends boolean = true> {
 export interface VialityTrustBlockSelect<T extends boolean = true> {
   heading?: T;
   body?: T;
-  ctaLabel?: T;
-  ctaLink?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
   items?: T;
   id?: T;
   blockName?: T;
