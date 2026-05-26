@@ -8,7 +8,7 @@ import { Suspense } from "react";
 
 import { Gallery } from "@/components/product/Gallery";
 import { VialityProductDescription } from "@/components/product/VialityProductDescription";
-import type { Media, Product } from "@/payload-types";
+import type { Faq, Media, Product } from "@/payload-types";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 
 type Args = {
@@ -85,16 +85,17 @@ export default async function ProductPage({ params }: Args) {
   const relatedProducts =
     product.relatedProducts?.filter((relatedProduct) => typeof relatedProduct === "object") ?? [];
 
+  const faqs =
+    product.faqs?.filter((faq): faq is Faq => typeof faq === "object") ?? [];
+
   const marketingPayload = await getPayload({ config: configPromise });
 
   const [
-    { docs: faqs },
     { docs: ingredients },
     { docs: benefits },
     { docs: trustBadges },
     productContent,
   ] = await Promise.all([
-    marketingPayload.find({ collection: "faqs", sort: "order", limit: 10 }),
     marketingPayload.find({ collection: "ingredients", sort: "order", limit: 10 }),
     marketingPayload.find({ collection: "benefits", sort: "order", limit: 10 }),
     marketingPayload.find({ collection: "trustBadges", sort: "order", limit: 10 }),

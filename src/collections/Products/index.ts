@@ -50,6 +50,7 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
     variants: true,
     enableVariants: true,
     featuredImage: true,
+    faqs: true,
     gallery: true,
     priceInUSD: true,
     inventory: true,
@@ -146,6 +147,15 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
               name: "layout",
               type: "blocks",
               blocks: [CallToAction, Content, MediaBlock],
+            },
+            {
+              name: "faqs",
+              type: "relationship",
+              relationTo: "faqs",
+              hasMany: true,
+              admin: {
+                description: "Select FAQs to display on this product page.",
+              },
             },
           ],
           label: "Content",
