@@ -169,6 +169,25 @@ export const plugins: Plugin[] = [
     customers: {
       slug: "users",
     },
+    carts: {
+      cartsCollectionOverride: ({ defaultCollection }) => ({
+        ...defaultCollection,
+        hooks: {
+          ...defaultCollection.hooks,
+          beforeChange: [
+            ({ data, originalDoc, operation }) => {
+              if (operation === "update" && !data.currency) {
+                data.currency = originalDoc?.currency || "USD";
+              }
+              if (typeof data.subtotal === "number" && isNaN(data.subtotal)) {
+                data.subtotal = 0;
+              }
+            },
+            ...(defaultCollection.hooks?.beforeChange ?? []),
+          ],
+        },
+      }),
+    },
     orders: {
       ordersCollectionOverride: ({ defaultCollection }) => ({
         ...defaultCollection,

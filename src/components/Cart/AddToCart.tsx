@@ -77,17 +77,16 @@ function AddToCartInner(props: Props) {
       const existingQuantity = existingItem.quantity;
 
       if (product.enableVariants) {
-        return existingQuantity >= (selectedVariant?.inventory || 0);
+        if (selectedVariant) {
+          return existingQuantity >= (selectedVariant.inventory || 0);
+        }
+        return false;
       }
       return existingQuantity >= (product.inventory || 0);
     }
 
     if (product.enableVariants) {
-      if (!selectedVariant) {
-        return true;
-      }
-
-      if (selectedVariant.inventory === 0) {
+      if (selectedVariant && selectedVariant.inventory === 0) {
         return true;
       }
     } else {
@@ -101,7 +100,7 @@ function AddToCartInner(props: Props) {
 
   return (
     <button
-      aria-label="Add to cart"
+      aria-label={disabled ? "Out of stock" : "Add to cart"}
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"
@@ -110,7 +109,7 @@ function AddToCartInner(props: Props) {
         "w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all"
       }
     >
-      {label || "Add to Cart"}
+      {disabled ? "Out of Stock" : (label || "Add to Cart")}
     </button>
   );
 }

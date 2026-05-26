@@ -1,12 +1,14 @@
 "use client";
 
+import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
 import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { Minus, Plus, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useMemo, useState } from "react";
 
 import { AddToCart } from "@/components/Cart/AddToCart";
 import { RichText } from "@/components/RichText";
-import type { Product, Faq, Ingredient, TrustBadge, Setting } from "@/payload-types";
+import type { Product, Faq, Ingredient, TrustBadge, Setting, Variant } from "@/payload-types";
 
 type IngredientItem = {
   ingredient: Ingredient;
@@ -161,9 +163,7 @@ export function VialityProductDescription({
           />
         </div>
 
-        <button type="button" className="w-full h-11 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary/50 transition-colors">
-          {buyNowLabel}
-        </button>
+        <BuyNow product={product} quantity={quantity} label={buyNowLabel} />
       </div>
 
       {/* Trust badges */}
@@ -244,6 +244,57 @@ export function VialityProductDescription({
       </div>
       </m.div>
     </LazyMotion>
+  );
+}
+
+function BuyNowInner({
+  product,
+  quantity,
+  label,
+}: {
+  product: Product;
+  quantity: number;
+  label: string;
+}) {
+  const { addItem } = useCart();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const variants = product.variants?.docs || [];
+
+  const selectedVariant = useMemo<Variant | undefined>(() => {
+    if (product.enableVariants && variants.length) {
+      const variantId = searchParams.get("variant");
+      const validVariant = variants.find((variant) => {
+        if (typeof variant === "object") return String(variant.id) === variantId;
+        return String(variant) === variantId;
+      });
+      if (validVariant && typeof validVariant === "object") return validVariant;
+    }
+    return undefined;
+  }, [product.enableVariants, searchParams, variants]);
+
+  const handleBuyNow = useCallback(() => {
+    addItem({ product: product.id, variant: selectedVariant?.id ?? undefined }, quantity);
+    router.push("/checkout");
+  }, [addItem, product, selectedVariant, quantity, router]);
+
+  return (
+    <button
+      type="button"
+      onClick={handleBuyNow}
+      className="w-full h-11 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary/50 transition-colors"
+    >
+      {label}
+    </button>
+  );
+}
+
+function BuyNow(props: { product: Product; quantity: number; label: string }) {
+  return (
+    <Suspense fallback={<div className="w-full h-11 border border-primary/25" />}>
+      <BuyNowInner {...props} />
+    </Suspense>
   );
 }
 
