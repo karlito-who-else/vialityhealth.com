@@ -155,8 +155,8 @@ export default async function ProductPage({ params }: Args) {
 
       {/* BENEFITS */}
       <section className="bg-surface-warm py-24 md:py-32 px-6 md:px-16">
-        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
-          <div>
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center justify-center">
+          <div className="w-fit">
             <p className="text-xs uppercase tracking-widest text-primary/35 mb-6">
               {benefitsLabelTemplate.replace("{title}", product.title)}
             </p>
