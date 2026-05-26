@@ -13,15 +13,14 @@ const CategoryItemInner: React.FC<Props> = (props) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { get, toString } = searchParams;
 
   const { category } = props;
   const isActive = useMemo(() => {
-    return get("category") === String(category.id);
-  }, [category.id, get]);
+    return searchParams.get("category") === String(category.id);
+  }, [category.id, searchParams]);
 
   const setQuery = useCallback(() => {
-    const params = new URLSearchParams(toString());
+    const params = new URLSearchParams(searchParams.toString());
 
     if (isActive) {
       params.delete("category");
@@ -32,7 +31,7 @@ const CategoryItemInner: React.FC<Props> = (props) => {
     const newParams = params.toString();
 
     push(pathname + "?" + newParams);
-  }, [category.id, isActive, pathname, push, toString]);
+  }, [category.id, isActive, pathname, push, searchParams]);
 
   return (
     <button

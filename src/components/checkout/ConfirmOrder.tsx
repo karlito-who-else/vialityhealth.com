@@ -10,7 +10,7 @@ const ConfirmOrderInner: React.FC = () => {
   const { confirmOrder } = usePayments();
   const { cart } = useCart();
 
-  const { get } = useSearchParams();
+  const searchParams = useSearchParams();
   const { push } = useRouter();
   // Ensure we only confirm the order once, even if the component re-renders
   const isConfirming = useRef(false);
@@ -20,8 +20,8 @@ const ConfirmOrderInner: React.FC = () => {
       return;
     }
 
-    const paymentIntentID = get("payment_intent");
-    const email = get("email");
+    const paymentIntentID = searchParams.get("payment_intent");
+    const email = searchParams.get("email");
 
     if (paymentIntentID) {
       if (!isConfirming.current) {
@@ -52,7 +52,7 @@ const ConfirmOrderInner: React.FC = () => {
       // If no payment intent ID is found, redirect to the home
       push("/");
      }
-   }, [cart, confirmOrder, push, get]);
+   }, [cart, confirmOrder, push, searchParams]);
 
   return (
     <div className="text-center w-full flex flex-col items-center justify-start gap-4">

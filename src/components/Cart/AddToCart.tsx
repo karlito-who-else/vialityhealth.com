@@ -17,13 +17,13 @@ type Props = {
 function AddToCartInner(props: Props) {
   const { product, quantity = 1, className, label } = props;
   const { addItem, cart, isLoading } = useCart();
-  const { get } = useSearchParams();
+  const searchParams = useSearchParams();
 
   const variants = product.variants?.docs || [];
 
   const selectedVariant = useMemo<Variant | undefined>(() => {
     if (product.enableVariants && variants.length) {
-      const variantId = get("variant");
+      const variantId = searchParams.get("variant");
 
       const validVariant = variants.find((variant) => {
         if (typeof variant === "object") {
@@ -38,7 +38,7 @@ function AddToCartInner(props: Props) {
     }
 
     return undefined;
-  }, [product.enableVariants, get, variants]);
+  }, [product.enableVariants, searchParams, variants]);
 
   const addToCart = useCallback(
     (e: React.FormEvent<HTMLButtonElement>) => {

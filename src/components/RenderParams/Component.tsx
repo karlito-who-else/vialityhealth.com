@@ -17,8 +17,8 @@ const RenderParamsComponentInner: React.FC<Props> = ({
   onParams,
   params = ["error", "warning", "success", "message"],
 }) => {
-  const { get } = useSearchParams();
-  const paramValues = params.map((param) => get(param));
+  const searchParams = useSearchParams();
+  const paramValues = params.map((param) => searchParams.get(param));
 
   useEffect(() => {
     if (paramValues.length && onParams) {

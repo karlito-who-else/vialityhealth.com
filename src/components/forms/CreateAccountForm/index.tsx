@@ -22,8 +22,7 @@ type FormData = {
 
 const CreateAccountFormInner: React.FC = () => {
   const searchParams = useSearchParams();
-  const { get, toString } = searchParams;
-  const allParams = toString() ? `?${toString()}` : "";
+  const allParams = searchParams.toString() ? `?${searchParams.toString()}` : "";
   const { login } = useAuth();
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
@@ -55,7 +54,7 @@ const CreateAccountFormInner: React.FC = () => {
         return;
       }
 
-      const redirect = get("redirect");
+      const redirect = searchParams.get("redirect");
 
       const timer = setTimeout(() => {
         setLoading(true);
@@ -72,7 +71,7 @@ const CreateAccountFormInner: React.FC = () => {
         setError("There was an error with the credentials provided. Please try again.");
       }
     },
-    [login, push, get],
+    [login, push, searchParams],
   );
 
   return (

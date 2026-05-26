@@ -10,7 +10,7 @@ import { FilterItem } from "./FilterItem";
 function FilterItemDropdownInner(props: { list: ListItem[] }) {
   const { list } = props;
   const pathname = usePathname();
-  const { get } = useSearchParams();
+  const searchParams = useSearchParams();
   const [active, setActive] = useState("");
   const [openSelect, setOpenSelect] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -30,12 +30,12 @@ function FilterItemDropdownInner(props: { list: ListItem[] }) {
     list.forEach((listItem: ListItem) => {
       if (
         ("path" in listItem && pathname === listItem.path) ||
-        ("slug" in listItem && get("sort") === listItem.slug)
+        ("slug" in listItem && searchParams.get("sort") === listItem.slug)
       ) {
         setActive(listItem.title);
       }
     });
-  }, [pathname, list, get]);
+  }, [pathname, list, searchParams]);
 
   return (
     <div className="relative" ref={ref}>

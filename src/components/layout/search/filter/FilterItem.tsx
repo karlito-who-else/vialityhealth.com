@@ -36,9 +36,9 @@ function PathFilterItemInner({ item }: { item: PathFilterItemType }) {
 
 function SortFilterItemInner({ item }: { item: SortFilterItemType }) {
   const pathname = usePathname();
-  const { get } = useSearchParams();
-  const active = get("sort") === item.slug;
-  const q = get("q");
+  const searchParams = useSearchParams();
+  const active = searchParams.get("sort") === item.slug;
+  const q = searchParams.get("q");
   const href = createUrl(
     pathname,
     new URLSearchParams({
