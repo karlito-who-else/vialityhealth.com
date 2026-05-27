@@ -53,7 +53,7 @@ export function HeaderClient({ className, header }: Props) {
         <Link
           href="/"
           className={cn(
-            "font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light text-2xl",
+            "logo text-3xl transition-opacity hover:opacity-60 shrink-0",
             transparent ? "text-foreground" : "text-foreground  ",
           )}
         >

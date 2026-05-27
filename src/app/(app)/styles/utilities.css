@@ -1,23 +1,22 @@
-@layer base {
-  * {
-    border-color: var(--color-border);
-    outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
-  }
-
-  body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+@utility logo {
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: var(--tracking-widest);
+  font-weight: var(--font-light);
+  color: var(--color-foreground);
+  flex-shrink: 0;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html {
-  opacity: 0;
-}
+@utility scrollbar-none {
+  /* Trident */
+  -ms-overflow-style: none;
 
-html[data-theme="dark"],
-html[data-theme="light"] {
-  opacity: initial;
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
