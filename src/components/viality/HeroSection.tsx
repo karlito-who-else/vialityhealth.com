@@ -13,19 +13,19 @@ export type HeroSectionProps = {
   title: string;
   subtext?: string | null;
   links?:
-    | {
-        link: {
-          type?: ("reference" | "custom") | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: "pages";
-            value: unknown;
-          } | null;
-          url?: string | null;
-          label: string;
-        };
-      }[]
-    | null;
+  | {
+    link: {
+      type?: ("reference" | "custom") | null;
+      newTab?: boolean | null;
+      reference?: {
+        relationTo: "pages";
+        value: unknown;
+      } | null;
+      url?: string | null;
+      label: string;
+    };
+  }[]
+  | null;
   scrollLabel: string;
 };
 
@@ -46,7 +46,7 @@ export function HeroSection({
         <div className="absolute inset-0 flex">
           <div className="hidden md:flex w-full h-full">
             <VideoPanel src="/helix2.mp4" />
-            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-white/20 z-10" />
+            {/* <div className="absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-white/20 z-10" /> */}
             <VideoPanel src="/helix.mp4" />
           </div>
           <div className="md:hidden absolute inset-0 bg-ink-well">
