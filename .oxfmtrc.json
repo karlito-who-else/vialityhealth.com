@@ -4,11 +4,9 @@
     "build-config.json",
     "next-env.d.ts",
     "dist/**",
-    "src/components-catalyst/**",
     "src/graphql-bigcommerce.d.ts",
     "src/graphql-statamic.d.ts",
-    "src/vibes/**",
-    "tests/visual-regression/components-catalyst/**"
+    "src/vibes/**"
   ],
   "sortImports": {
     "groups": [

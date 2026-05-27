@@ -1,16 +1,25 @@
 "use client";
 
-export function VideoPanel({ src }: { src: string }) {
+export function VideoPanel({ src, type }: { src: string; type?: string | null }) {
+  const isVideo = type?.startsWith("video/");
   return (
     <div className="relative flex-1 overflow-hidden" data-component="VideoPanel">
-      <video
-        src={src}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      {isVideo ? (
+        <video
+          src={src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : (
+        <img
+          src={src}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{

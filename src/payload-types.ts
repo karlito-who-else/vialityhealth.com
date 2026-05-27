@@ -1101,6 +1101,12 @@ export interface VialityHeroBlock {
         id?: string | null;
       }[]
     | null;
+  media?:
+    | {
+        mediaItem?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   scrollLabel?: string | null;
   id?: string | null;
   blockName?: string | null;
@@ -2384,6 +2390,12 @@ export interface VialityHeroBlockSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        id?: T;
+      };
+  media?:
+    | T
+    | {
+        mediaItem?: T;
         id?: T;
       };
   scrollLabel?: T;

@@ -33,6 +33,19 @@ export const VialityHero: Block = {
       ],
     },
     {
+      name: "media",
+      type: "array",
+      label: "Media",
+      maxRows: 2,
+      fields: [
+        {
+          name: "mediaItem",
+          type: "upload",
+          relationTo: "media",
+        },
+      ],
+    },
+    {
       name: "scrollLabel",
       type: "text",
       defaultValue: "Scroll",

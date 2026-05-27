@@ -1,9 +1,9 @@
 "use client";
 
 import { Link } from "@/components/atoms/Link";
-import { LazyMotion, domAnimation, m } from "framer-motion";
-
 import { resolveLinkHref } from "@/utilities/resolveLinkHref";
+import { LazyMotion, domAnimation, m } from "framer-motion";
+import Image from "next/image";
 
 import { GrainOverlay } from "./GrainOverlay";
 import { VideoPanel } from "./VideoPanel";
@@ -26,6 +26,10 @@ export type HeroSectionProps = {
     };
   }[]
   | null;
+  media?: {
+    mediaItem?: (number | null) | { url?: string | null; mimeType?: string | null };
+    id?: string | null;
+  }[] | null;
   scrollLabel: string;
 };
 
@@ -34,6 +38,7 @@ export function HeroSection({
   title,
   subtext,
   links,
+  media,
   scrollLabel,
 }: HeroSectionProps) {
   const items = links || [];
@@ -45,33 +50,54 @@ export function HeroSection({
       <section className="relative h-screen w-full overflow-hidden" data-component="HeroSection">
         <div className="absolute inset-0 flex">
           <div className="hidden md:flex w-full h-full">
-            <VideoPanel src="/helix2.mp4" />
-            {/* <div className="absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-white/20 z-10" /> */}
-            <VideoPanel src="/helix.mp4" />
+            {media?.map((item) => {
+              const m = item?.mediaItem;
+              if (!m || typeof m === "number") return null;
+              return (
+                <VideoPanel key={item.id} src={m.url ?? ""} type={m.mimeType} />
+              );
+            })}
           </div>
           <div className="md:hidden absolute inset-0 bg-ink-well">
-            <video
-              src="/helix2.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, var(--color-video-overlay) 100%)",
-              }}
-            />
-            <div
-              className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)",
-              }}
-            />
+            {(() => {
+              const first = media?.[0]?.mediaItem;
+              if (!first || typeof first === "number") return null;
+              const isVideo = first.mimeType?.startsWith("video/");
+              return (
+                <>
+                  {isVideo ? (
+                    <video
+                      src={first.url ?? ""}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={first.url ?? ""}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, var(--color-video-overlay) 100%)",
+                    }}
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(to top, var(--color-video-overlay-strong) 0%, transparent 100%)",
+                    }}
+                  />
+                </>
+              );
+            })()}
           </div>
         </div>
 
