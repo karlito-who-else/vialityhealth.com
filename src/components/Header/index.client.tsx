@@ -53,10 +53,9 @@ export function HeaderClient({ className, header }: Props) {
         <Link
           href="/"
           className={cn(
-            "font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light",
+            "font-serif italic tracking-widest transition-opacity hover:opacity-60 shrink-0 font-light text-2xl",
             transparent ? "text-foreground" : "text-foreground  ",
           )}
-          style={{ fontSize: "1.15rem", letterSpacing: "0.05em" }}
         >
           {siteTitle || "viality"}
         </Link>
