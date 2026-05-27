@@ -8,7 +8,7 @@
     "analyze": "pnpm next experimental-analyze --output",
     "build:analyze": "ANALYZE=true pnpm build",
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" payload generate:importmap && next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap && next dev",
     "dev:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" next dev",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "doctor": "react-doctor",

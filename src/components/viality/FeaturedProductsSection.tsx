@@ -2,6 +2,7 @@
 
 import { Link } from "@/components/atoms/Link";
 import { LazyMotion, domAnimation, m } from "framer-motion";
+import Image from "next/image";
 
 import type { Product } from "@/payload-types";
 
@@ -42,13 +43,14 @@ export function FeaturedProductsSection({
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 className="group cursor-pointer"
               >
-                <Link href="/shop">
+                <Link href={`/products/${product.slug}`}>
                   <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
                     {product.featuredImage && typeof product.featuredImage === "object" ? (
-                      <img
+                      <Image
                         src={product.featuredImage.url || ""}
                         alt={product.featuredImage.alt || product.title}
                         className="absolute inset-0 w-full h-full object-cover"
+                        fill
                       />
                     ) : (
                       <div className="text-primary/20 font-serif italic text-6xl tracking-wider">
