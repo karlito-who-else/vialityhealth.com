@@ -5,6 +5,7 @@ import { mcpPlugin } from "@payloadcms/plugin-mcp";
 import { seoPlugin } from "@payloadcms/plugin-seo";
 import { GenerateTitle, GenerateURL } from "@payloadcms/plugin-seo/types";
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import { Plugin } from "payload";
 
 import { adminOnlyFieldAccess } from "@/access/adminOnlyFieldAccess";
@@ -231,5 +232,13 @@ export const plugins: Plugin[] = [
     products: {
       productsCollectionOverride: ProductsCollection,
     },
+  }),
+  vercelBlobStorage({
+    enabled: true, // Set to false to disable in local dev if preferred
+    collections: {
+      media: true, // 'media' matches the slug of your collection above
+    },
+    // eslint-disable-next-line node/no-process-env
+    token: process.env.BLOB_READ_WRITE_TOKEN,
   }),
 ];

@@ -40,7 +40,8 @@ export const Media: CollectionConfig = {
       }),
     },
   ],
-  upload: {
-    staticDir: path.resolve(dirname, "../../public/media"),
-  },
+  // upload: {
+  //   staticDir: path.resolve(dirname, "../../public/media"),
+  // },
+  upload: true,
 };
