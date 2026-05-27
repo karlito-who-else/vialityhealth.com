@@ -20,6 +20,7 @@ export const AboutCtaBlockComponent: React.FC<AboutCtaBlock & { id?: string }> =
     <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
       <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <m.div
+          className="max-w-lg mx-auto text-balance"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}

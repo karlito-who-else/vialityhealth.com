@@ -31,6 +31,7 @@ export const AboutPhilosophyBlockComponent: React.FC<
     <section className="bg-background py-28 md:py-36 px-6 md:px-16">
       <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
         <m.div
+          className="max-w-lg mx-auto text-balance"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
