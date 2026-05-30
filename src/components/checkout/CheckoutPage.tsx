@@ -524,38 +524,38 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                 {bankTransfer.note ||
                   "Your order will be shipped once your bank transfer is confirmed. Please transfer the total amount to the account below:"}
               </p>
-              <div className="mt-2 space-y-1">
+              <dl className="mt-2 space-y-1 [&_dd]:mb-1.5">
                 {bankTransfer.bankName && (
-                  <p>
-                    <span className="font-medium">Bank: </span>
-                    {bankTransfer.bankName}
-                  </p>
+                  <>
+                    <dt className="font-medium">Bank:</dt>
+                    <dd>{bankTransfer.bankName}</dd>
+                  </>
                 )}
                 {bankTransfer.accountName && (
-                  <p>
-                    <span className="font-medium">Account Name: </span>
-                    {bankTransfer.accountName}
-                  </p>
+                  <>
+                    <dt className="font-medium">Account Name:</dt>
+                    <dd>{bankTransfer.accountName}</dd>
+                  </>
                 )}
                 {bankTransfer.accountNumber && (
-                  <p>
-                    <span className="font-medium">Account Number: </span>
-                    {bankTransfer.accountNumber}
-                  </p>
+                  <>
+                    <dt className="font-medium">Account Number:</dt>
+                    <dd>{bankTransfer.accountNumber}</dd>
+                  </>
                 )}
                 {bankTransfer.routingNumber && (
-                  <p>
-                    <span className="font-medium">Routing / Sort Code / BSB: </span>
-                    {bankTransfer.routingNumber}
-                  </p>
+                  <>
+                    <dt className="font-medium">Routing / Sort Code / BSB:</dt>
+                    <dd>{bankTransfer.routingNumber}</dd>
+                  </>
                 )}
                 {bankTransfer.swiftCode && (
-                  <p>
-                    <span className="font-medium">SWIFT / BIC: </span>
-                    {bankTransfer.swiftCode}
-                  </p>
+                  <>
+                    <dt className="font-medium">SWIFT / BIC:</dt>
+                    <dd>{bankTransfer.swiftCode}</dd>
+                  </>
                 )}
-              </div>
+              </dl>
             </div>
           )}
         </div>
