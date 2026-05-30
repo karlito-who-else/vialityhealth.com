@@ -1,14 +1,14 @@
 "use client";
 
 import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
-import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
-import { Minus, Plus, ChevronDown } from "lucide-react";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
+import { ChevronDown, Minus, Plus } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useMemo, useState } from "react";
 
 import { AddToCart } from "@/components/Cart/AddToCart";
 import { RichText } from "@/components/RichText";
-import type { Product, Faq, Ingredient, TrustBadge, Setting, Variant } from "@/payload-types";
+import type { Faq, Ingredient, Product, Setting, TrustBadge, Variant } from "@/payload-types";
 
 type IngredientItem = {
   ingredient: Ingredient;
@@ -59,7 +59,7 @@ export function VialityProductDescription({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-        className="p-8 xl:p-12 flex flex-col gap-8"
+        className="p-8 xl:p-12 flex flex-col gap-8 mt-8 md:mt-0"
       >
       {/* Header */}
       <div>
