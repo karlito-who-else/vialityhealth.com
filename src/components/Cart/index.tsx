@@ -1,4 +1,3 @@
-import React from "react";
 
 import { Cart as CartType } from "@/payload-types";
 

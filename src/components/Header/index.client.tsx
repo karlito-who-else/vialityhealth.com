@@ -79,13 +79,32 @@ export function HeaderClient({ className, header }: Props) {
           })}
         </div>
 
-        {/* Right — cart */}
-        <div className="flex items-center gap-4 shrink-0">
-          <div className={cn(transparent ? "text-foreground" : "text-foreground")}>
-            <Suspense fallback={null}>
-              <Cart />
-            </Suspense>
-          </div>
+        {/* Right — account + cart */}
+        <div className="flex items-center gap-4 shrink-0 [&_svg]:size-6">
+          <Link
+            href="/account"
+            className={cn(
+              "transition-opacity hover:opacity-60",
+            )}
+            aria-label="Account"
+          >
+            <svg
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </Link>
+          <Suspense fallback={null}>
+            <Cart />
+          </Suspense>
         </div>
       </div>
     </nav>
