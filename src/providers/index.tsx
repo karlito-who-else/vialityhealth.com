@@ -28,6 +28,8 @@ export const Providers: React.FC<{
                     title: true,
                     gallery: true,
                     inventory: true,
+                    meta: true,
+                    featuredImage: true,
                   },
                   variants: {
                     title: true,

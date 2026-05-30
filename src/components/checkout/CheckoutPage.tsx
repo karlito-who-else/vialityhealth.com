@@ -442,14 +442,29 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
             if (typeof item.product === "object" && item.product) {
               const {
                 product,
-                product: { id: _id, meta, title, gallery },
+                product: { id: _id, featuredImage, meta, title, gallery },
                 quantity,
                 variant,
               } = item;
 
               if (!quantity) return null;
 
-              let image = gallery?.[0]?.image || meta?.image;
+              const galleryImage =
+                gallery?.[0]?.image && typeof gallery[0].image === "object"
+                  ? gallery[0].image
+                  : undefined;
+
+              const metaImage =
+                meta?.image && typeof meta.image === "object"
+                  ? meta.image
+                  : undefined;
+
+              const featuredImageObject =
+                featuredImage && typeof featuredImage === "object"
+                  ? featuredImage
+                  : undefined;
+
+              let image = galleryImage || metaImage || featuredImageObject;
               let price = product?.priceInUSD;
 
               const isVariant = Boolean(variant) && typeof variant === "object";
@@ -472,20 +487,18 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                   return hasMatch;
                 });
 
-                if (imageVariant && typeof imageVariant.image !== "string") {
-                  image = imageVariant.image;
-                }
+              if (imageVariant && typeof imageVariant.image === "object") {
+                image = imageVariant.image;
+              }
               }
 
               return (
                 <div className="flex items-start gap-4" key={item.id || index}>
-                  <div className="flex items-stretch justify-stretch size-20 p-2 rounded-lg border">
-                    <div className="relative w-full h-full">
-                      {image && typeof image !== "string" && (
-                        <Media className="" fill imgClassName="rounded-lg" resource={image} />
-                      )}
-                    </div>
-                  </div>
+
+                    {image && typeof image !== "string" && (
+                      <Media className="relative *:object-contain size-32" fill imgClassName="rounded-lg" resource={image} />
+                    )}
+
                   <div className="flex grow justify-between items-center">
                     <div className="flex flex-col gap-1">
                       <p className="font-medium text-lg">{title}</p>

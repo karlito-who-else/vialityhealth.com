@@ -79,7 +79,12 @@ export function CartModal() {
                       ? product.gallery?.[0]?.image
                       : undefined;
 
-                  let image = firstGalleryImage || metaImage;
+                  const featuredImageObject =
+                    product.featuredImage && typeof product.featuredImage === "object"
+                      ? product.featuredImage
+                      : undefined;
+
+                  let image = firstGalleryImage || metaImage || featuredImageObject;
                   let price = product.priceInUSD;
 
                   const isVariant = Boolean(variant) && typeof variant === "object";
