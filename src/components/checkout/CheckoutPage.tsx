@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { createBankTransferOrder } from "@/actions/createBankTransferOrder";
 import { AddressItem } from "@/components/addresses/AddressItem";
 import { CreateAddressModal } from "@/components/addresses/CreateAddressModal";
 import { CheckoutAddresses } from "@/components/checkout/CheckoutAddresses";
@@ -42,8 +43,8 @@ interface BankTransferInfo {
 
 export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ bankTransfer }) => {
   const { user } = useAuth();
-  const { refresh } = useRouter();
-  const { cart } = useCart();
+  const { push, refresh } = useRouter();
+  const { cart, clearCart } = useCart();
   const [error, setError] = useState<null | string>(null);
   const { theme } = useTheme();
   /**
@@ -58,6 +59,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
   const [billingAddress, setBillingAddress] = useState<Partial<Address>>();
   const [billingAddressSameAsShipping, setBillingAddressSameAsShipping] = useState(true);
   const [isProcessingPayment, setProcessingPayment] = useState(false);
+  const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
 
   const cartIsEmpty = !cart || !cart.items || !cart.items.length;
 
@@ -116,7 +118,67 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
     [billingAddress, billingAddressSameAsShipping, shippingAddress],
   );
 
-  if (!stripe) return null;
+  const handleConfirmOrder = useCallback(async () => {
+    if (!cart || !cart.items || !canGoToPayment) return;
+
+    setIsConfirmingOrder(true);
+
+    try {
+      const orderItems = cart.items
+        .filter((item): item is NonNullable<typeof item> => item !== null)
+        .filter((item) => item.product != null)
+        .map((item) => ({
+          product: typeof item.product === "object" ? item.product.id : (item.product as number),
+          variant: item.variant && typeof item.variant === "object" ? item.variant.id : (item.variant as number | undefined),
+          quantity: item.quantity,
+        }));
+
+      const address = billingAddressSameAsShipping ? billingAddress : shippingAddress;
+
+      const result = await createBankTransferOrder({
+        items: orderItems,
+        shippingAddress: {
+          title: address?.title,
+          firstName: address?.firstName,
+          lastName: address?.lastName,
+          company: address?.company,
+          addressLine1: address?.addressLine1,
+          addressLine2: address?.addressLine2,
+          city: address?.city,
+          state: address?.state,
+          postalCode: address?.postalCode,
+          country: address?.country,
+          phone: address?.phone,
+        },
+        customer: user?.id || null,
+        customerEmail: email || null,
+        amount: cart.subtotal || 0,
+      });
+
+      if (result?.orderID) {
+        const queryParams = new URLSearchParams();
+        if (email) {
+          queryParams.set("email", email);
+        }
+        if (result.accessToken) {
+          queryParams.set("accessToken", result.accessToken);
+        }
+
+        const queryString = queryParams.toString();
+        const redirectUrl = `/checkout/order-confirmed/${result.orderID}${queryString ? `?${queryString}` : ""}`;
+
+        clearCart();
+        push(redirectUrl);
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Something went wrong.";
+      setError(msg);
+      toast.error(msg);
+      setIsConfirmingOrder(false);
+    }
+  }, [cart, canGoToPayment, billingAddressSameAsShipping, billingAddress, shippingAddress, user, email, clearCart, push]);
+
+  if (!bankTransfer && !stripe) return null;
 
   if (cartIsEmpty && isProcessingPayment) {
     return (
@@ -280,17 +342,28 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
           </>
         )}
 
-        {!paymentData && (
+        {!paymentData && !isConfirmingOrder && (
           <Button
             className="self-start"
             disabled={!canGoToPayment}
             onClick={(e) => {
               e.preventDefault();
-              void initiatePaymentIntent("stripe");
+              if (bankTransfer) {
+                handleConfirmOrder();
+              } else {
+                void initiatePaymentIntent("stripe");
+              }
             }}
           >
-            Go to payment
+            {bankTransfer ? "Confirm order" : "Go to payment"}
           </Button>
+        )}
+
+        {isConfirmingOrder && (
+          <div className="flex items-center gap-3 text-primary/70">
+            <LoadingSpinner className="w-5 h-5" />
+            <span>Creating your order…</span>
+          </div>
         )}
 
         {!paymentData?.["clientSecret"] && error && (
@@ -472,7 +545,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                 )}
                 {bankTransfer.routingNumber && (
                   <p>
-                    <span className="font-medium">Routing / Sort Code: </span>
+                    <span className="font-medium">Routing / Sort Code / BSB: </span>
                     {bankTransfer.routingNumber}
                   </p>
                 )}
