@@ -1,15 +1,15 @@
+import configPromise from "@payload-config";
 import { ChevronLeftIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers.js";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
-import configPromise from "@payload-config";
 
 import { AddressItem } from "@/components/addresses/AddressItem";
+import { Link } from "@/components/atoms/Link";
 import { OrderStatus } from "@/components/OrderStatus";
 import { Price } from "@/components/Price";
 import { ProductItem } from "@/components/ProductItem";
-import { Link } from "@/components/atoms/Link";
 import { Button } from "@/components/ui/button";
 import type { Order } from "@/payload-types";
 import { formatDateTime } from "@/utilities/formatDateTime";
@@ -129,8 +129,8 @@ export default async function OrderConfirmed({
         )}
 
         {showBankInfo && (
-          <div className="bg-accent dark:bg-card border rounded-lg p-6 text-center">
-            <h1 className="text-2xl font-medium mb-2">Order placed</h1>
+          <div className="scheme-only-light py-32 px-6 bg-primary text-primary-foreground text-center">
+            <h1 className="font-serif italic text-4xl mb-4">Order placed</h1>
             <p className="text-primary/70">
               {settings?.bankTransferNote ||
                 "Your order will be shipped once your bank transfer is confirmed. Please transfer the total amount to the account below:"}
