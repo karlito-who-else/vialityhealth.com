@@ -1,8 +1,9 @@
 "use client";
 import { Link } from "@/components/atoms/Link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import type { Header } from "src/payload-types";
+import type { Header, Setting } from "src/payload-types";
 
 import { Cart } from "@/components/Cart";
 import { cn } from "@/utilities/cn";
@@ -13,10 +14,12 @@ import { MobileMenu } from "./MobileMenu";
 type Props = {
   className?: string;
   header: Header;
+  settings: Setting;
 };
 
-export function HeaderClient({ className, header }: Props) {
+export function HeaderClient({ className, header, settings }: Props) {
   const { siteTitle, navItems } = header;
+  const { logo } = settings;
   const menu = navItems || [];
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,11 +56,22 @@ export function HeaderClient({ className, header }: Props) {
         <Link
           href="/"
           className={cn(
-            "logo text-3xl transition-opacity hover:opacity-60 shrink-0",
-            transparent ? "text-foreground" : "text-foreground  ",
+            "logo shrink-0 transition-opacity hover:opacity-60 size-full max-w-2/6 md:max-w-1/6 relative",
+            transparent ? "text-foreground" : "text-foreground",
+            // logo ? "h-12" : "text-3xl",
           )}
         >
-          {siteTitle || "viality"}
+          {logo && typeof logo !== "number" ? (
+            <Image
+            fill
+              src={logo.url || ""}
+              alt={logo.alt || siteTitle || "viality"}
+              className="size-full dark:invert"
+              unoptimized
+            />
+          ) : (
+            siteTitle || "viality"
+          )}
         </Link>
 
         {/* Center nav links — desktop only */}

@@ -3353,6 +3353,10 @@ export interface Setting {
   defaultTitle?: string | null;
   defaultDescription?: string | null;
   defaultOGImage?: (number | null) | Media;
+  /**
+   * Upload an SVG for the site logo. SVGs render inline at any size without quality loss.
+   */
+  logo?: (number | null) | Media;
   socialLinks?:
     | {
         label: string;
@@ -3528,6 +3532,7 @@ export interface SettingsSelect<T extends boolean = true> {
   defaultTitle?: T;
   defaultDescription?: T;
   defaultOGImage?: T;
+  logo?: T;
   socialLinks?:
     | T
     | {

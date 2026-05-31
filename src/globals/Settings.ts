@@ -31,6 +31,16 @@ export const Settings: GlobalConfig = {
       relationTo: "media",
     },
     {
+      name: "logo",
+      type: "upload",
+      relationTo: "media",
+      label: "Site Logo (SVG)",
+      admin: {
+        description:
+          "Upload an SVG for the site logo. SVGs render inline at any size without quality loss.",
+      },
+    },
+    {
       name: "socialLinks",
       type: "array",
       label: "Social Links",
