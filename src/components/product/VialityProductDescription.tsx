@@ -69,13 +69,13 @@ export function VialityProductDescription({
           {product.title}
         </h1>
         <p className="text-xs uppercase tracking-widest text-primary/40 mb-5">{supplyLabel}</p>
-        <p className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
+        <div className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
           {product.description ? (
             <RichText data={product.description} />
           ) : (
             "Modern rituals for internal balance. A quietly precise daily formula — designed for consistency, and held to a standard most wellness products never meet."
           )}
-        </p>
+        </div>
       </div>
 
       {/* Subscribe & Save toggle */}

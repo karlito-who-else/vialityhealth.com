@@ -6,39 +6,116 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "@/components/atoms/Link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { startTransition, useCallback, useEffect, useMemo, useState, useOptimistic } from "react";
 
 import { Price } from "@/components/Price";
 import { Button } from "@/components/ui/button";
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
+import type { CartItem } from "@/components/Cart";
 import { Product } from "@/payload-types";
 
 import { DeleteItemButton } from "./DeleteItemButton";
 import { EditItemQuantityButton } from "./EditItemQuantityButton";
 import { OpenCartButton } from "./OpenCart";
 
+type OptimisticAction =
+  | { type: "remove_item"; id: string }
+  | { type: "decrement_item"; id: string }
+  | { type: "increment_item"; id: string };
+
 export function CartModal() {
-  const { cart } = useCart();
+  const { cart, removeItem, decrementItem, incrementItem } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+
+  const [optimisticCart, addOptimisticUpdate] = useOptimistic(
+    cart,
+    (state, action: OptimisticAction) => {
+      if (!state?.items) return state;
+      switch (action.type) {
+        case "remove_item": {
+          return {
+            ...state,
+            items: state.items.filter((item) => item.id !== action.id),
+          };
+        }
+        case "decrement_item": {
+          return {
+            ...state,
+            items: state.items.map((item) =>
+              item.id === action.id
+                ? { ...item, quantity: Math.max(1, (item.quantity || 1) - 1) }
+                : item,
+            ),
+          };
+        }
+        case "increment_item": {
+          return {
+            ...state,
+            items: state.items.map((item) =>
+              item.id === action.id
+                ? { ...item, quantity: (item.quantity || 0) + 1 }
+                : item,
+            ),
+          };
+        }
+        default:
+          return state;
+      }
+    },
+  );
+
+  const handleRemoveItem = useCallback(
+    (itemId: string) => {
+      startTransition(async () => {
+        addOptimisticUpdate({ type: "remove_item", id: itemId });
+        await removeItem(itemId);
+      });
+    },
+    [addOptimisticUpdate, removeItem],
+  );
+
+  const handleDecrementItem = useCallback(
+    (itemId: string) => {
+      startTransition(async () => {
+        addOptimisticUpdate({ type: "decrement_item", id: itemId });
+        await decrementItem(itemId);
+      });
+    },
+    [addOptimisticUpdate, decrementItem],
+  );
+
+  const handleIncrementItem = useCallback(
+    (itemId: string) => {
+      startTransition(async () => {
+        addOptimisticUpdate({ type: "increment_item", id: itemId });
+        await incrementItem(itemId);
+      });
+    },
+    [addOptimisticUpdate, incrementItem],
+  );
 
   const pathname = usePathname();
 
   useEffect(() => {
-    // Close the cart modal when the pathname changes.
     setIsOpen(false);
   }, [pathname]);
 
   const totalQuantity = useMemo(() => {
-    if (!cart || !cart.items || !cart.items.length) return undefined;
-    return cart.items.reduce((quantity, item) => (item.quantity || 0) + quantity, 0);
-  }, [cart]);
+    if (!optimisticCart?.items?.length) return undefined;
+    return optimisticCart.items.reduce(
+      (quantity, item) => (item.quantity || 0) + quantity,
+      0,
+    );
+  }, [optimisticCart]);
+
+  const items = optimisticCart?.items || [];
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
@@ -49,11 +126,10 @@ export function CartModal() {
       <SheetContent className="flex flex-col">
         <SheetHeader>
           <SheetTitle>My Cart</SheetTitle>
-
           <SheetDescription>Manage your cart here, add items to view the total.</SheetDescription>
         </SheetHeader>
 
-        {!cart || cart?.items?.length === 0 ? (
+        {items.length === 0 ? (
           <div className="text-center flex flex-col items-center gap-2">
             <ShoppingCart className="h-16" />
             <p className="text-center text-2xl font-bold">Your cart is empty.</p>
@@ -62,7 +138,7 @@ export function CartModal() {
           <div className="grow flex px-4">
             <div className="flex flex-col justify-between w-full">
               <ul className="grow overflow-auto py-4">
-                {cart?.items?.map((item, i) => {
+                {items.map((item, i) => {
                   const product = item.product;
                   const variant = item.variant;
 
@@ -116,7 +192,7 @@ export function CartModal() {
                     <li className="flex w-full flex-col" key={item.id || i}>
                       <div className="flex flex-col gap-2 px-1 py-4">
                         <div className="flex flex-row gap-3">
-                          <div className="relative size-16 shrink-0 rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
+                          <div className="relative size-16 shrink-0 overflow-hidden rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
                             {image?.url && (
                               <Image
                                 alt={image?.alt || product?.title || ""}
@@ -126,8 +202,11 @@ export function CartModal() {
                                 width={94}
                               />
                             )}
-                            <div className="absolute -top-2 -right-2 z-10">
-                              <DeleteItemButton item={item} />
+                            <div className="absolute -top-2 -left-2 z-10">
+                              <DeleteItemButton
+                                item={item}
+                                onRemove={handleRemoveItem}
+                              />
                             </div>
                           </div>
                           <div className="flex min-w-0 flex-1 flex-col text-base">
@@ -153,11 +232,19 @@ export function CartModal() {
                           </div>
                         </div>
                         <div className="flex flex-row items-center">
-                          <EditItemQuantityButton item={item} type="minus" />
+                          <EditItemQuantityButton
+                            item={item}
+                            type="minus"
+                            onDecrement={handleDecrementItem}
+                          />
                           <p className="w-6 text-center">
                             <span className="w-full text-sm">{item.quantity}</span>
                           </p>
-                          <EditItemQuantityButton item={item} type="plus" />
+                          <EditItemQuantityButton
+                            item={item}
+                            type="plus"
+                            onIncrement={handleIncrementItem}
+                          />
                         </div>
                       </div>
                     </li>
@@ -167,11 +254,11 @@ export function CartModal() {
 
               <div className="px-4">
                 <div className="py-4 text-sm text-muted-foreground">
-                  {typeof cart?.subtotal === "number" && (
+                  {typeof optimisticCart?.subtotal === "number" && (
                     <div className="mb-3 flex items-center justify-between border-b border-border pb-1 pt-1">
                       <p>Total</p>
                       <Price
-                        amount={cart?.subtotal}
+                        amount={optimisticCart?.subtotal}
                         className="text-right text-base text-foreground"
                       />
                     </div>

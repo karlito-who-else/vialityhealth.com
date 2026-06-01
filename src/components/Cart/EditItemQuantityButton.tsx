@@ -3,12 +3,22 @@
 import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
 import clsx from "clsx";
 import { MinusIcon, PlusIcon } from "lucide-react";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 
 import { CartItem } from "@/components/Cart";
 
-export function EditItemQuantityButton({ type, item }: { item: CartItem; type: "minus" | "plus" }) {
-  const { decrementItem, incrementItem, isLoading } = useCart();
+export function EditItemQuantityButton({
+  type,
+  item,
+  onDecrement,
+  onIncrement,
+}: {
+  item: CartItem;
+  type: "minus" | "plus";
+  onDecrement?: (itemId: string) => void;
+  onIncrement?: (itemId: string) => void;
+}) {
+  const { decrementItem, incrementItem } = useCart();
 
   const disabled = useMemo(() => {
     if (!item.id) return true;
@@ -34,29 +44,40 @@ export function EditItemQuantityButton({ type, item }: { item: CartItem; type: "
     return false;
   }, [item, type]);
 
+  const handleClick = useCallback(
+    (e: React.FormEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      if (!item.id) return;
+      if (type === "plus") {
+        if (onIncrement) {
+          onIncrement(item.id);
+        } else {
+          incrementItem(item.id);
+        }
+      } else {
+        if (onDecrement) {
+          onDecrement(item.id);
+        } else {
+          decrementItem(item.id);
+        }
+      }
+    },
+    [item.id, type, onDecrement, onIncrement, decrementItem, incrementItem],
+  );
+
   return (
     <form>
       <button
-        disabled={disabled || isLoading}
+        disabled={disabled}
         aria-label={type === "plus" ? "Increase item quantity" : "Reduce item quantity"}
         className={clsx(
           "ease hover:cursor-pointer flex h-full min-w-9 max-w-9 flex-none items-center justify-center rounded-full px-2 transition-all duration-200 hover:border-neutral-800 hover:opacity-80",
           {
-            "cursor-not-allowed": disabled || isLoading,
+            "cursor-not-allowed": disabled,
             "ml-auto": type === "minus",
           },
         )}
-        onClick={(e: React.FormEvent<HTMLButtonElement>) => {
-          e.preventDefault();
-
-          if (item.id) {
-            if (type === "plus") {
-              incrementItem(item.id);
-            } else {
-              decrementItem(item.id);
-            }
-          }
-        }}
+        onClick={handleClick}
         type="button"
       >
         {type === "plus" ? (
