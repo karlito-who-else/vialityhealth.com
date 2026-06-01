@@ -63,8 +63,8 @@ export function FeaturedProductsSection({
                       <h3 className="uppercase tracking-widest text-xs font-medium">
                         {product.title}
                       </h3>
-                      {typeof product.priceInUSD === "number" && (
-                        <span className="text-sm font-light">${product.priceInUSD.toFixed(0)}</span>
+                      {typeof product.priceInAUD === "number" && (
+                        <span className="text-sm font-light">$${(product.priceInAUD / 100).toFixed(2)}</span>
                       )}
                     </div>
                     <p className="text-primary/55 text-sm">{product.meta?.description || ""}</p>

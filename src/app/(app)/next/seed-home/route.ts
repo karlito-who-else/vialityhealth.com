@@ -69,19 +69,19 @@ export async function POST(): Promise<Response> {
       {
         title: "Inner Reset",
         slug: "inner-reset",
-        priceInUSD: 88,
+        priceInAUD: 88,
         description: "Daily balance, by design.",
       },
       {
         title: "Evening Ritual",
         slug: "evening-ritual",
-        priceInUSD: 75,
+        priceInAUD: 75,
         description: "A quieter end to every day.",
       },
       {
         title: "Clear Focus",
         slug: "clear-focus",
-        priceInUSD: 90,
+        priceInAUD: 90,
         description: "Calm clarity. Designed for consistency.",
       },
     ];
@@ -91,7 +91,7 @@ export async function POST(): Promise<Response> {
         title: def.title,
         slug: def.slug,
         _status: "published",
-        priceInUSD: def.priceInUSD,
+        priceInAUD: def.priceInAUD,
         meta: { description: def.description },
       });
     }

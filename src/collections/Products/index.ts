@@ -55,7 +55,7 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
     ingredientsHeading: true,
     otherIngredientsText: true,
     gallery: true,
-    priceInUSD: true,
+    priceInAUD: true,
     inventory: true,
     meta: true,
   },

@@ -40,7 +40,7 @@ export async function createBankTransferOrder(data: {
       customer: data.customer || undefined,
       customerEmail: data.customerEmail || undefined,
       amount: data.amount,
-      currency: "USD",
+      currency: "AUD",
       status: "processing",
     },
   });

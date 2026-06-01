@@ -465,12 +465,12 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                   : undefined;
 
               let image = galleryImage || metaImage || featuredImageObject;
-              let price = product?.priceInUSD;
+              let price = product?.priceInAUD;
 
               const isVariant = Boolean(variant) && typeof variant === "object";
 
               if (isVariant) {
-                price = variant?.priceInUSD;
+                price = variant?.priceInAUD;
 
                 const imageVariant = product.gallery?.find((item: any) => {
                   if (!item.variantOption) return false;

@@ -53,7 +53,7 @@ export const ProductItem: React.FC<Props> = ({
     }
   }
 
-  const itemPrice = variant?.priceInUSD || product.priceInUSD;
+  const itemPrice = variant?.priceInAUD || product.priceInAUD;
   const itemURL = `/products/${product.slug}${variant ? `?variant=${variant.id}` : ""}`;
 
   return (

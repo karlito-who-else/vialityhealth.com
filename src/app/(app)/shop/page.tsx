@@ -32,7 +32,7 @@ export default async function ShopPage({ searchParams }: Props) {
       slug: true,
       gallery: true,
       categories: true,
-      priceInUSD: true,
+      priceInAUD: true,
       featuredImage: true,
     },
     ...(sort ? { sort } : { sort: "title" }),

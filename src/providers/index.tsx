@@ -19,6 +19,18 @@ export const Providers: React.FC<{
           <SonnerProvider />
           <EcommerceProvider
             enableVariants={true}
+            currenciesConfig={{
+              defaultCurrency: "AUD",
+              supportedCurrencies: [
+                {
+                  code: "AUD",
+                  decimals: 2,
+                  label: "Australian Dollar",
+                  symbol: "A$",
+                  symbolDisplay: "symbol",
+                },
+              ],
+            }}
             api={{
               cartsFetchQuery: {
                 depth: 2,

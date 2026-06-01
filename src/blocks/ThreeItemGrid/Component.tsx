@@ -12,13 +12,13 @@ import type {
 type Props = { item: Product; priority?: boolean; size: "full" | "half" };
 
 const ThreeItemGridItem: React.FC<Props> = ({ item, size }) => {
-  let price = item.priceInUSD;
+  let price = item.priceInAUD;
 
   if (item.enableVariants && item.variants?.docs?.length) {
     const variant = item.variants.docs[0];
 
-    if (variant && typeof variant === "object" && variant.priceInUSD) {
-      price = variant.priceInUSD;
+    if (variant && typeof variant === "object" && variant.priceInAUD) {
+      price = variant.priceInAUD;
     }
   }
 

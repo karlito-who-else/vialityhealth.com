@@ -291,21 +291,21 @@ export const seedVialityMarketing = async ({
       title: "Inner Reset",
       slug: "inner-reset",
       description: "Daily balance, by design.",
-      priceInUSD: 88,
+      priceInAUD: 88,
       order: 0,
     },
     {
       title: "Evening Ritual",
       slug: "evening-ritual",
       description: "A quieter end to every day.",
-      priceInUSD: 75,
+      priceInAUD: 75,
       order: 1,
     },
     {
       title: "Clear Focus",
       slug: "clear-focus",
       description: "Calm clarity. Designed for consistency.",
-      priceInUSD: 90,
+      priceInAUD: 90,
       order: 2,
     },
   ];
@@ -323,7 +323,7 @@ export const seedVialityMarketing = async ({
       title: def.title,
       slug: def.slug,
       _status: "published" as const,
-      priceInUSD: def.priceInUSD,
+      priceInAUD: def.priceInAUD,
       meta: { description: def.description },
     };
     if (existing.docs.length > 0) {

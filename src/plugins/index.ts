@@ -167,6 +167,18 @@ export const plugins: Plugin[] = [
       isAdmin,
       isDocumentOwner,
     },
+    currencies: {
+      defaultCurrency: "AUD",
+      supportedCurrencies: [
+        {
+          code: "AUD",
+          decimals: 2,
+          label: "Australian Dollar",
+          symbol: "A$",
+          symbolDisplay: "symbol",
+        },
+      ],
+    },
     customers: {
       slug: "users",
     },
@@ -178,7 +190,7 @@ export const plugins: Plugin[] = [
           beforeChange: [
             ({ data, originalDoc, operation }) => {
               if (operation === "update" && !data.currency) {
-                data.currency = originalDoc?.currency || "USD";
+                data.currency = originalDoc?.currency || "AUD";
               }
               if (typeof data.subtotal === "number" && isNaN(data.subtotal)) {
                 data.subtotal = 0;

@@ -153,6 +153,17 @@ export const Settings: GlobalConfig = {
               defaultValue: "Subscribe & Save 15%",
             },
             {
+              name: "subscribeDiscountPercent",
+              type: "number",
+              defaultValue: 15,
+              min: 0,
+              max: 100,
+              admin: {
+                description:
+                  "Discount percentage applied to the subscription price. Default: 15%.",
+              },
+            },
+            {
               name: "subscribeDetail",
               type: "text",
               defaultValue: "Delivered every 30 days. Cancel anytime.",

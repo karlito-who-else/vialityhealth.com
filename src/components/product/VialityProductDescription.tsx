@@ -34,14 +34,15 @@ export function VialityProductDescription({
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [ingredientsOpen, setIngredientsOpen] = useState(false);
 
-  const oneTimePrice = product.priceInUSD || 88;
-  const subPrice = Math.round(oneTimePrice * 0.85);
+  const oneTimePrice = product.priceInAUD || 88;
+  const discountPercent = productContent?.subscribeDiscountPercent ?? 15;
+  const subPrice = Math.round(oneTimePrice * (1 - discountPercent / 100));
   const displayPrice = isSubscription ? subPrice : oneTimePrice;
 
   const collectionLabel = productContent?.collectionLabel || "viality — Flagship Collection";
   const supplyLabel = productContent?.supplyLabel || "60 Capsules · 30-Day Supply";
   const purchaseOptionLabel = productContent?.purchaseOptionLabel || "Purchase Option";
-  const subscribeLabel = productContent?.subscribeLabel || "Subscribe & Save 15%";
+  const subscribeLabel = productContent?.subscribeLabel || `Subscribe & Save ${discountPercent}%`;
   const subscribeDetail =
     productContent?.subscribeDetail || "Delivered every 30 days. Cancel anytime.";
   const oneTimeLabel = productContent?.oneTimeLabel || "One-Time Purchase";
@@ -105,8 +106,8 @@ export function VialityProductDescription({
             </div>
           </div>
           <div className="flex flex-col items-end">
-            <span className="text-sm font-medium">${subPrice}.00</span>
-            <span className="text-xs text-primary/35 line-through">${oneTimePrice}.00</span>
+            <span className="text-sm font-medium">${(subPrice / 100).toFixed(2)}</span>
+            <span className="text-xs text-primary/35 line-through">${(oneTimePrice / 100).toFixed(2)}</span>
           </div>
         </button>
 
@@ -129,7 +130,7 @@ export function VialityProductDescription({
             </div>
             <div className="text-xs uppercase tracking-widest font-medium">{oneTimeLabel}</div>
           </div>
-          <span className="text-sm font-medium">${oneTimePrice}.00</span>
+          <span className="text-sm font-medium">${(oneTimePrice / 100).toFixed(2)}</span>
         </button>
       </div>
 
@@ -159,7 +160,7 @@ export function VialityProductDescription({
             product={product}
             quantity={quantity}
             className="flex-1 h-12 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all flex items-center justify-center"
-            label={`Add to Cart — $${(displayPrice * quantity).toFixed(2)}`}
+            label={`Add to Cart — $${((displayPrice * quantity) / 100).toFixed(2)}`}
           />
         </div>
 

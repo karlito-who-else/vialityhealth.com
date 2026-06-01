@@ -293,7 +293,7 @@ export interface Order {
   transactions?: (number | Transaction)[] | null;
   status?: OrderStatus;
   amount?: number | null;
-  currency?: 'USD' | null;
+  currency?: 'AUD' | null;
   accessToken?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -362,8 +362,8 @@ export interface Product {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  priceInUSDEnabled?: boolean | null;
-  priceInUSD?: number | null;
+  priceInAUDEnabled?: boolean | null;
+  priceInAUD?: number | null;
   relatedProducts?: (number | Product)[] | null;
   meta?: {
     title?: string | null;
@@ -1251,8 +1251,8 @@ export interface Variant {
   product: number | Product;
   options: (number | VariantOption)[];
   inventory?: number | null;
-  priceInUSDEnabled?: boolean | null;
-  priceInUSD?: number | null;
+  priceInAUDEnabled?: boolean | null;
+  priceInAUD?: number | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1296,7 +1296,7 @@ export interface Transaction {
   order?: (number | null) | Order;
   cart?: (number | null) | Cart;
   amount?: number | null;
-  currency?: 'USD' | null;
+  currency?: 'AUD' | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1319,7 +1319,7 @@ export interface Cart {
   purchasedAt?: string | null;
   status?: ('active' | 'purchased' | 'abandoned') | null;
   subtotal?: number | null;
-  currency?: 'USD' | null;
+  currency?: 'AUD' | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2774,8 +2774,8 @@ export interface VariantsSelect<T extends boolean = true> {
   product?: T;
   options?: T;
   inventory?: T;
-  priceInUSDEnabled?: T;
-  priceInUSD?: T;
+  priceInAUDEnabled?: T;
+  priceInAUD?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -2842,8 +2842,8 @@ export interface ProductsSelect<T extends boolean = true> {
   enableVariants?: T;
   variantTypes?: T;
   variants?: T;
-  priceInUSDEnabled?: T;
-  priceInUSD?: T;
+  priceInAUDEnabled?: T;
+  priceInAUD?: T;
   relatedProducts?: T;
   meta?:
     | T
@@ -3381,6 +3381,10 @@ export interface Setting {
   supplyLabel?: string | null;
   purchaseOptionLabel?: string | null;
   subscribeLabel?: string | null;
+  /**
+   * Discount percentage applied to the subscription price. Default: 15%.
+   */
+  subscribeDiscountPercent?: number | null;
   subscribeDetail?: string | null;
   oneTimeLabel?: string | null;
   quantityLabel?: string | null;
@@ -3557,6 +3561,7 @@ export interface SettingsSelect<T extends boolean = true> {
   supplyLabel?: T;
   purchaseOptionLabel?: T;
   subscribeLabel?: T;
+  subscribeDiscountPercent?: T;
   subscribeDetail?: T;
   oneTimeLabel?: T;
   quantityLabel?: T;
