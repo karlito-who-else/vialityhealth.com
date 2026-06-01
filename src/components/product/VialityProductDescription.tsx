@@ -8,6 +8,7 @@ import { Suspense, useCallback, useMemo, useState } from "react";
 
 import { AddToCart } from "@/components/Cart/AddToCart";
 import { RichText } from "@/components/RichText";
+import { cn } from "@/utilities/cn";
 import type { Faq, Ingredient, Product, Setting, TrustBadge, Variant } from "@/payload-types";
 
 type IngredientItem = {
@@ -257,7 +258,7 @@ function BuyNowInner({
   quantity: number;
   label: string;
 }) {
-  const { addItem } = useCart();
+  const { addItem, cart } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -275,6 +276,33 @@ function BuyNowInner({
     return undefined;
   }, [product.enableVariants, searchParams, variants]);
 
+  const disabled = useMemo<boolean>(() => {
+    const existingItem = cart?.items?.find((item) => {
+      const productID = typeof item.product === "object" ? item.product?.id : item.product;
+      const variantID = item.variant
+        ? typeof item.variant === "object" ? item.variant?.id : item.variant
+        : undefined;
+      if (productID === product.id) {
+        if (product.enableVariants) return variantID === selectedVariant?.id;
+        return true;
+      }
+    });
+    if (existingItem) {
+      const existingQuantity = existingItem.quantity;
+      if (product.enableVariants) {
+        if (selectedVariant) return existingQuantity >= (selectedVariant.inventory || 0);
+        return false;
+      }
+      return existingQuantity >= (product.inventory || 0);
+    }
+    if (product.enableVariants) {
+      if (selectedVariant && selectedVariant.inventory === 0) return true;
+    } else {
+      if (product.inventory === 0) return true;
+    }
+    return false;
+  }, [selectedVariant, cart?.items, product]);
+
   const handleBuyNow = useCallback(() => {
     addItem({ product: product.id, variant: selectedVariant?.id ?? undefined }, quantity);
     router.push("/checkout");
@@ -282,11 +310,18 @@ function BuyNowInner({
 
   return (
     <button
+      aria-label={disabled ? "Out of stock" : label}
+      disabled={disabled}
       type="button"
       onClick={handleBuyNow}
-      className="w-full h-11 border border-primary/25 text-primary text-xs uppercase tracking-widest hover:border-primary/50 transition-colors"
+      className={cn(
+        "w-full h-11 border text-xs uppercase tracking-widest transition-colors",
+        disabled
+          ? "border-border text-muted-foreground cursor-not-allowed"
+          : "border-primary/25 text-primary hover:border-primary/50",
+      )}
     >
-      {label}
+      {disabled ? "Out of Stock" : label}
     </button>
   );
 }
