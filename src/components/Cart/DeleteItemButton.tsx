@@ -35,7 +35,7 @@ export function DeleteItemButton({
       <button
         aria-label="Remove cart item"
         className={clsx(
-          "ease hover:cursor-pointer flex size-4 items-center justify-center rounded-full bg-muted-foreground transition-all duration-200",
+          "ease hover:cursor-pointer flex size-4 items-center justify-center rounded-full bg-primary transition-all duration-200",
           {
             "cursor-not-allowed px-0": !itemId,
           },

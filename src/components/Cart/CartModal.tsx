@@ -6,19 +6,18 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "@/components/atoms/Link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import React, { startTransition, useCallback, useEffect, useMemo, useState, useOptimistic } from "react";
+import React, { startTransition, useCallback, useEffect, useMemo, useOptimistic, useState } from "react";
 
 import { Price } from "@/components/Price";
 import { Button } from "@/components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
 } from "@/components/ui/sheet";
-import type { CartItem } from "@/components/Cart";
 import { Product } from "@/payload-types";
 
 import { DeleteItemButton } from "./DeleteItemButton";
@@ -192,7 +191,7 @@ export function CartModal() {
                     <li className="flex w-full flex-col" key={item.id || i}>
                       <div className="flex flex-col gap-2 px-1 py-4">
                         <div className="flex flex-row gap-3">
-                          <div className="relative size-16 shrink-0 overflow-hidden rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
+                          <div className="relative size-16 shrink-0 rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
                             {image?.url && (
                               <Image
                                 alt={image?.alt || product?.title || ""}
@@ -202,7 +201,7 @@ export function CartModal() {
                                 width={94}
                               />
                             )}
-                            <div className="absolute -top-2 -left-2 z-10">
+                            <div className="absolute -top-2 -right-2 z-10">
                               <DeleteItemButton
                                 item={item}
                                 onRemove={handleRemoveItem}
@@ -231,7 +230,7 @@ export function CartModal() {
                             )}
                           </div>
                         </div>
-                        <div className="flex flex-row items-center">
+                        <div className="flex flex-row items-center border border-border/60 w-fit">
                           <EditItemQuantityButton
                             item={item}
                             type="minus"

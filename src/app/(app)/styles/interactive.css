@@ -2,12 +2,21 @@
   :where(a, button) {
     cursor: pointer;
 
+    &:where(:focus-visible) {
+      outline-style: none;
+    }
+  }
+
+  a {
     &:where(:focus, :hover) {
       color: var(--color-primary);
     }
+  }
 
-    &:where(:focus-visible) {
-      outline-style: none;
+  button {
+    &:where(:focus, :hover) {
+      background-color: var(--color-muted);
+      color: var(--color-muted-foreground);
     }
   }
 
