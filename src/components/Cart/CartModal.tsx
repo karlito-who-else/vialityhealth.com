@@ -3,20 +3,20 @@
 import { useCart } from "@payloadcms/plugin-ecommerce/client/react";
 import { ShoppingCart } from "lucide-react";
 // eslint-disable-next-line typescript/no-restricted-imports
-import Image from "next/image";
 import { Link } from "@/components/atoms/Link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { Price } from "@/components/Price";
 import { Button } from "@/components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
 } from "@/components/ui/sheet";
 import { Product } from "@/payload-types";
 
@@ -114,15 +114,9 @@ export function CartModal() {
 
                   return (
                     <li className="flex w-full flex-col" key={item.id || i}>
-                      <div className="relative flex w-full flex-row justify-between px-1 py-4">
-                        <div className="absolute z-40 -mt-2 ml-[55px]">
-                          <DeleteItemButton item={item} />
-                        </div>
-                        <Link
-                          className="z-30 flex flex-row space-x-4"
-                          href={`/products/${(item.product as Product)?.slug}`}
-                        >
-                          <div className="relative size-16 cursor-pointer overflow-hidden rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
+                      <div className="flex flex-col gap-2 px-1 py-4">
+                        <div className="flex flex-row gap-3">
+                          <div className="relative size-16 shrink-0 rounded-md border border-border bg-muted dark:border-card dark:bg-ink-well dark:hover:bg-ink">
                             {image?.url && (
                               <Image
                                 alt={image?.alt || product?.title || ""}
@@ -132,12 +126,19 @@ export function CartModal() {
                                 width={94}
                               />
                             )}
+                            <div className="absolute -top-2 -right-2 z-10">
+                              <DeleteItemButton item={item} />
+                            </div>
                           </div>
-
-                          <div className="flex flex-1 flex-col text-base">
-                            <span className="leading-tight">{product?.title}</span>
+                          <div className="flex min-w-0 flex-1 flex-col text-base">
+                            <Link
+                              className="truncate leading-tight"
+                              href={`/products/${(item.product as Product)?.slug}`}
+                            >
+                              {product?.title}
+                            </Link>
                             {isVariant && variant ? (
-                              <p className="text-sm text-muted-foreground capitalize">
+                              <p className="truncate text-sm capitalize text-muted-foreground">
                                 {(variant.options as any[])
                                   ?.map((option: any) => {
                                     if (typeof option === "object") return option.label;
@@ -146,22 +147,17 @@ export function CartModal() {
                                   .join(", ")}
                               </p>
                             ) : null}
+                            {typeof price === "number" && (
+                              <Price amount={price} className="text-sm" />
+                            )}
                           </div>
-                        </Link>
-                        <div className="flex h-16 flex-col justify-between">
-                          {typeof price === "number" && (
-                            <Price
-                              amount={price}
-                              className="flex justify-end space-y-2 text-right text-sm"
-                            />
-                          )}
-                          <div className="ml-auto flex h-9 flex-row items-center rounded-lg border">
-                            <EditItemQuantityButton item={item} type="minus" />
-                            <p className="w-6 text-center">
-                              <span className="w-full text-sm">{item.quantity}</span>
-                            </p>
-                            <EditItemQuantityButton item={item} type="plus" />
-                          </div>
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <EditItemQuantityButton item={item} type="minus" />
+                          <p className="w-6 text-center">
+                            <span className="w-full text-sm">{item.quantity}</span>
+                          </p>
+                          <EditItemQuantityButton item={item} type="plus" />
                         </div>
                       </div>
                     </li>
