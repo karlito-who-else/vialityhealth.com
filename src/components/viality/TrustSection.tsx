@@ -50,7 +50,7 @@ export function TrustSection({ heading, body, link, items }: TrustSectionProps) 
           </div>
 
           <div className="order-1 md:order-2">
-            <h2 className="font-serif italic text-4xl mb-6">{heading}</h2>
+            <h2 className="font-serif text-4xl mb-6">{heading}</h2>
             {body && <p className="text-primary/65 mb-10 leading-relaxed max-w-md">{body}</p>}
             {href && (
               <Link

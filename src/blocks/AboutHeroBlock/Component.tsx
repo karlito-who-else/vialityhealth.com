@@ -1,6 +1,6 @@
 "use client";
 
-import { LazyMotion, domAnimation, m, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 import type { AboutHeroBlock } from "@/payload-types";
@@ -79,7 +79,7 @@ export const AboutHeroBlockComponent: React.FC<
           initial="hidden"
           animate="show"
           custom={0.1}
-          className="font-serif italic text-primary-foreground leading-[1.05] mb-8"
+          className="font-serif text-primary-foreground leading-[1.05] mb-8"
           style={{ fontSize: "clamp(2.6rem, 7vw, 6.5rem)" }}
         >
           {(heading || "Wellness, refined.\nA quieter standard.").split("\n").map((line, i) => (

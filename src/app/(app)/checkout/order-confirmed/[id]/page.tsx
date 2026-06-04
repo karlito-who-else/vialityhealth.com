@@ -130,7 +130,7 @@ export default async function OrderConfirmed({
 
         {showBankInfo && (
           <div className="scheme-only-light py-6 md:py-32 px-6 bg-primary text-primary-foreground text-center">
-            <h1 className="font-serif italic text-4xl mb-4">Order placed</h1>
+            <h1 className="font-serif text-4xl mb-4">Order placed</h1>
             <p className="text-primary/70">
               {settings?.bankTransferNote ||
                 "Your order will be shipped once your bank transfer is confirmed. Please transfer the total amount to the account below:"}

@@ -47,7 +47,7 @@ export const AboutPhilosophyBlockComponent: React.FC<
           <m.h2
             variants={fadeUp}
             custom={0}
-            className="font-serif italic text-3xl md:text-4xl text-primary mb-8 leading-snug"
+            className="font-serif text-3xl md:text-4xl text-primary mb-8 leading-snug"
           >
             {heading || "Where science meets ritual — and neither is allowed to compromise the other."}
           </m.h2>
@@ -78,7 +78,7 @@ export const AboutPhilosophyBlockComponent: React.FC<
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             ) : (
-              <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+              <span className="text-primary/20 font-serif text-8xl tracking-wider">v</span>
             )}
             <div className="absolute bottom-5 left-5 z-10">
               <p className="text-xs uppercase tracking-widest text-primary/35">

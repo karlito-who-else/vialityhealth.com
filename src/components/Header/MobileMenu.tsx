@@ -1,11 +1,11 @@
 "use client";
 
-import { LazyMotion, domAnimation, m, AnimatePresence, type Variants, type Easing } from "framer-motion";
-import { X } from "lucide-react";
 import { Link } from "@/components/atoms/Link";
 import { resolveLinkHref } from "@/utilities/resolveLinkHref";
+import { AnimatePresence, LazyMotion, domAnimation, m, type Easing, type Variants } from "framer-motion";
+import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const overlayVariants: Variants = {
@@ -122,7 +122,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                   <Link
                     href="/"
                     onClick={() => setIsOpen(false)}
-                    className="font-serif italic font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
+                    className="font-serif font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
                     style={{ fontSize: "1.05rem", letterSpacing: "0.05em" }}
                   >
                     {siteTitle}
@@ -173,7 +173,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <span
-                            className="font-serif italic text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
+                            className="font-serif text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
                             style={{ fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)" }}
                           >
                             {item.link.label}

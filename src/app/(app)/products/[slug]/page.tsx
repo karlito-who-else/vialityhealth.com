@@ -135,7 +135,7 @@ export default async function ProductPage({ params }: Args) {
             </Suspense>
           ) : (
             <div className="absolute inset-0 bg-surface-placeholder flex items-center justify-center">
-              <span className="text-primary/20 font-serif italic text-8xl tracking-wider">v</span>
+              <span className="text-primary/20 font-serif text-8xl tracking-wider">v</span>
             </div>
           )}
 
@@ -160,7 +160,7 @@ export default async function ProductPage({ params }: Args) {
             <p className="text-xs uppercase tracking-widest text-primary/35 mb-6">
               {benefitsLabelTemplate.replace("{title}", product.title)}
             </p>
-            <h2 className="font-serif italic text-4xl md:text-5xl text-primary leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl text-primary leading-tight">
               {benefitsHeading}
             </h2>
           </div>
@@ -184,7 +184,7 @@ export default async function ProductPage({ params }: Args) {
             {usageRitualLabel}
           </p>
           <div>
-            <h2 className="font-serif italic text-3xl md:text-4xl text-primary mb-6">
+            <h2 className="font-serif text-3xl md:text-4xl text-primary mb-6">
               {usageRitualHeading}
             </h2>
             {usageRitualBody && (
@@ -215,7 +215,7 @@ export default async function ProductPage({ params }: Args) {
             <p className="text-xs uppercase tracking-widest text-primary-foreground/25 mb-4">
               {verificationLabel}
             </p>
-            <h2 className="font-serif italic text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
+            <h2 className="font-serif text-3xl md:text-4xl text-primary-foreground/90 leading-tight max-w-md">
               {verificationHeading.split("\n").map((line, i) => (
                 <span key={`line-${i}`}>
                   {i > 0 && <br />}
@@ -300,13 +300,13 @@ function RelatedProducts({
   return (
     <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
-        <h2 className="font-serif italic text-4xl text-primary mb-16">{completeRitualHeading}</h2>
+        <h2 className="font-serif text-4xl text-primary mb-16">{completeRitualHeading}</h2>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((product) => (
             <li key={product.id}>
               <Link href={`/products/${product.slug}`} className="group">
                 <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
-                  <span className="text-primary/20 font-serif italic text-6xl tracking-wider">
+                  <span className="text-primary/20 font-serif text-6xl tracking-wider">
                     v
                   </span>
                 </div>

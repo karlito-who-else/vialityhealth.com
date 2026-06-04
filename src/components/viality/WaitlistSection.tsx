@@ -24,7 +24,7 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="font-serif italic text-4xl mb-4"
+            className="font-serif text-4xl mb-4"
           >
             {heading}
           </m.h2>
