@@ -1,12 +1,13 @@
 "use client";
 import clsx from "clsx";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useCallback, useMemo } from "react";
 
 import { Category } from "@/payload-types";
 
 type Props = {
   category: Category;
+  className?: string;
 };
 
 const CategoryItemInner: React.FC<Props> = (props) => {
@@ -14,7 +15,7 @@ const CategoryItemInner: React.FC<Props> = (props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { category } = props;
+  const { category, className } = props;
   const isActive = useMemo(() => {
     return searchParams.get("category") === String(category.id);
   }, [category.id, searchParams]);
@@ -39,7 +40,7 @@ const CategoryItemInner: React.FC<Props> = (props) => {
       onClick={() => setQuery()}
       className={clsx("hover:cursor-pointer", {
         " underline": isActive,
-      })}
+      }, className)}
     >
       {category.title}
     </button>

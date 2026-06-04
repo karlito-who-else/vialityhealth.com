@@ -1,7 +1,7 @@
 import configPromise from "@payload-config";
 import clsx from "clsx";
 import { getPayload } from "payload";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 import { CategoryItem } from "./Categories.client";
 
@@ -21,7 +21,7 @@ async function CategoryList() {
         {categories.docs.map((category) => {
           return (
             <li key={category.id}>
-              <CategoryItem category={category} />
+              <CategoryItem category={category} className="uppercase" />
             </li>
           );
         })}
