@@ -35,40 +35,42 @@ export async function Footer() {
           )}
         </div>
 
-        <div>
-          <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">Explore</h4>
-          {navItems.length > 0 && (
-            <ul className="space-y-4 text-sm text-primary-foreground/70">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <Link href={resolveLinkHref(item.link)} className="hover:text-accent transition-colors">
-                    {item.link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <section className="grid grid-cols-2 gap-12">
+          <div>
+            <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">Explore</h4>
+            {navItems.length > 0 && (
+              <ul className="space-y-4 text-sm text-primary-foreground/70">
+                {navItems.map((item) => (
+                  <li key={item.id}>
+                    <Link href={resolveLinkHref(item.link)} className="hover:text-accent transition-colors">
+                      {item.link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-        <div>
-          <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">Connect</h4>
-          {socialLinks.length > 0 && (
-            <ul className="space-y-4 text-sm text-primary-foreground/70">
-              {socialLinks.map((link) => (
-                <li key={link.id}>
-                  <a
-                    href={link.url}
-                    className="hover:text-accent transition-colors"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+          <div>
+            <h4 className="uppercase tracking-widest text-xs font-semibold mb-6">Connect</h4>
+            {socialLinks.length > 0 && (
+              <ul className="space-y-4 text-sm text-primary-foreground/70">
+                {socialLinks.map((link) => (
+                  <li key={link.id}>
+                    <a
+                      href={link.url}
+                      className="hover:text-accent transition-colors"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
       </div>
 
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-primary-foreground/50">
