@@ -313,7 +313,7 @@ function RelatedProducts({
                 <div className="flex justify-between items-center">
                   <h3 className="uppercase tracking-widest text-xs font-medium">{product.title}</h3>
                   {typeof product.priceInAUD === "number" && (
-                    <span className="text-sm font-light">$${(product.priceInAUD / 100).toFixed(2)}</span>
+                    <span className="text-sm font-light">${(product.priceInAUD / 100).toFixed(2)}</span>
                   )}
                 </div>
               </Link>

@@ -64,7 +64,7 @@ export function FeaturedProductsSection({
                         {product.title}
                       </h3>
                       {typeof product.priceInAUD === "number" && (
-                        <span className="text-sm font-light">$${(product.priceInAUD / 100).toFixed(2)}</span>
+                        <span className="text-sm font-light">${(product.priceInAUD / 100).toFixed(2)}</span>
                       )}
                     </div>
                     <p className="text-primary/55 text-sm">{product.meta?.description || ""}</p>

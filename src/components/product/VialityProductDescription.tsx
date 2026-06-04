@@ -8,8 +8,8 @@ import { Suspense, useCallback, useMemo, useState } from "react";
 
 import { AddToCart } from "@/components/Cart/AddToCart";
 import { RichText } from "@/components/RichText";
-import { cn } from "@/utilities/cn";
 import type { Faq, Ingredient, Product, Setting, TrustBadge, Variant } from "@/payload-types";
+import { cn } from "@/utilities/cn";
 
 type IngredientItem = {
   ingredient: Ingredient;
@@ -161,7 +161,7 @@ export function VialityProductDescription({
             product={product}
             quantity={quantity}
             className="flex-1 h-12 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all flex items-center justify-center"
-            label={`Add to Cart — $${((displayPrice * quantity) / 100).toFixed(2)}`}
+            label={`Add to Cart — ${((displayPrice * quantity) / 100).toFixed(2)}`}
           />
         </div>
 
