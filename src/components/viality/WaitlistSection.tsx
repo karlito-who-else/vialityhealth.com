@@ -1,8 +1,8 @@
 "use client";
 
-import { useAction } from "next-safe-action/hooks";
-import { LazyMotion, domAnimation, m } from "framer-motion";
 import { subscribeToWaitlist } from "@/actions/waitlist";
+import { LazyMotion, domAnimation, m } from "framer-motion";
+import { useAction } from "next-safe-action/hooks";
 
 export type WaitlistSectionProps = {
   heading: string;
@@ -17,7 +17,7 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
 
   return (
     <LazyMotion features={domAnimation}>
-      <section className="scheme-only-light py-32 px-6 bg-primary text-primary-foreground text-center" data-component="WaitlistSection">
+      <section className="scheme-only-light py-6 md:py-32 px-6 bg-primary text-primary-foreground text-center" data-component="WaitlistSection">
         <div className="max-w-2xl mx-auto flex flex-col items-center">
           <m.h2
             initial={{ opacity: 0, y: 16 }}
