@@ -52,13 +52,11 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
         />
       ) : null}
 
-      <div className="uppercase font-mono text-primary/50 group-hover:text-primary flex justify-between items-center mt-4">
+      <div className="uppercase font-mono text-primary/50 group-hover:text-primary flex flex-col items-start items-center mt-4">
         <div>{title}</div>
 
         {typeof price === "number" && (
-          <div className="">
-            <Price amount={price} />
-          </div>
+          <Price amount={price} className="font-bold text-sm" />
         )}
       </div>
     </Link>
