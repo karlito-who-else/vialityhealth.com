@@ -75,7 +75,12 @@ const CreateAccountFormInner: React.FC = () => {
   );
 
   return (
-    <form className="max-w-lg py-4" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="max-w-lg py-4"
+      onSubmit={handleSubmit(onSubmit)}
+      tooldescription="Register a new user account with email and password. Automatically logs in the user after successful account creation."
+      toolname="createAccount"
+    >
       <div className="prose dark:prose-invert mb-6">
         <p>
           {`This is where new customers can signup and create a new account. To manage all users, `}
@@ -93,6 +98,7 @@ const CreateAccountFormInner: React.FC = () => {
           <Input
             id="email"
             {...register("email", { required: "Email is required." })}
+            toolparamdescription="The email address for the new account"
             type="email"
           />
           {errors.email && <FormError message={errors.email.message} />}
@@ -105,6 +111,7 @@ const CreateAccountFormInner: React.FC = () => {
           <Input
             id="password"
             {...register("password", { required: "Password is required." })}
+            toolparamdescription="The password for the new account (minimum 8 characters)"
             type="password"
           />
           {errors.password && <FormError message={errors.password.message} />}
@@ -120,6 +127,7 @@ const CreateAccountFormInner: React.FC = () => {
               required: "Please confirm your password.",
               validate: (value) => value === password.current || "The passwords do not match",
             })}
+            toolparamdescription="Re-enter the password to confirm it matches"
             type="password"
           />
           {errors.passwordConfirm && <FormError message={errors.passwordConfirm.message} />}

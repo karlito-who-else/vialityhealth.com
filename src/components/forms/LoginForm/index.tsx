@@ -56,17 +56,19 @@ const LoginFormInner: React.FC = () => {
             id="email"
             type="email"
             {...register("email", { required: "Email is required." })}
+            toolparamdescription="The account email address"
           />
           {errors.email && <FormError message={errors.email.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            {...register("password", { required: "Please provide a password." })}
-          />
+        <Label htmlFor="password">Password</Label>
+        <Input
+          id="password"
+          {...register("password", { required: "Please provide a password." })}
+          toolparamdescription="The account password"
+          type="password"
+        />
           {errors.password && <FormError message={errors.password.message} />}
         </FormItem>
 

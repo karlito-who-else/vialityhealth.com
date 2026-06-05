@@ -60,7 +60,12 @@ export const ForgotPasswordForm: React.FC = () => {
               <Link href="/admin/collections/users">login to the admin dashboard</Link>.
             </p>
           </div>
-          <form className="max-w-lg" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="max-w-lg"
+            onSubmit={handleSubmit(onSubmit)}
+            tooldescription="Send a password reset email to the provided email address. The email contains instructions to securely reset the account password."
+            toolname="requestPasswordReset"
+          >
             <Message className="mb-8" error={error} />
 
             <FormItem className="mb-8">
@@ -70,6 +75,7 @@ export const ForgotPasswordForm: React.FC = () => {
               <Input
                 id="email"
                 {...register("email", { required: "Please provide your email." })}
+                toolparamdescription="The email address associated with the account"
                 type="email"
               />
               {errors.email && <FormError message={errors.email.message} />}

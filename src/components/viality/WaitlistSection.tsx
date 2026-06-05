@@ -40,6 +40,8 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
               const formData = new FormData(e.currentTarget);
               execute({ email: formData.get("email") as string });
             }}
+            tooldescription="Subscribe an email address to the waitlist for early access and product updates."
+            toolname="subscribeToWaitlist"
           >
             <input
               type="email"
@@ -48,6 +50,7 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
               className="flex-1 bg-transparent border-b border-primary-foreground/25 px-4 py-3 text-xs focus:outline-none focus:border-accent placeholder:text-primary-foreground/30 uppercase tracking-widest transition-colors disabled:opacity-50"
               required
               disabled={isPending || !!success}
+              toolparamdescription="Email address to subscribe to the waitlist"
             />
             <button
               type="submit"

@@ -78,7 +78,12 @@ export const FindOrderForm: React.FC<Props> = ({ initialEmail }) => {
       <div className="prose dark:prose-invert mb-8">
         <p>{`Please enter your email and order ID below. We'll send you a link to view your order.`}</p>
       </div>
-      <form className="max-w-lg flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="max-w-lg flex flex-col gap-8"
+        onSubmit={handleSubmit(onSubmit)}
+        tooldescription="Look up an existing order by email and order ID. Sends a secure access link to the provided email address."
+        toolname="lookupOrder"
+      >
         <FormItem>
           <Label htmlFor="email" className="mb-2">
             Email address
@@ -86,6 +91,7 @@ export const FindOrderForm: React.FC<Props> = ({ initialEmail }) => {
           <Input
             id="email"
             {...register("email", { required: "Email is required." })}
+            toolparamdescription="The email address used when placing the order"
             type="email"
           />
           {errors.email && <FormError message={errors.email.message} />}
@@ -99,6 +105,7 @@ export const FindOrderForm: React.FC<Props> = ({ initialEmail }) => {
             {...register("orderID", {
               required: "Order ID is required.",
             })}
+            toolparamdescription="The unique order identifier (e.g. 64-character hex string)"
             type="text"
           />
           {errors.orderID && <FormError message={errors.orderID.message} />}

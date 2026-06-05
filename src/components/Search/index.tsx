@@ -33,7 +33,13 @@ const SearchInner: React.FC<Props> = (props) => {
   }
 
   return (
-    <form className={cn("relative w-full", className)} onSubmit={onSubmit}>
+    <form
+      className={cn("relative w-full", className)}
+      onSubmit={onSubmit}
+      toolautosubmit
+      tooldescription="Search the product catalog by keyword. Returns a list of matching products with name, price, and product URL."
+      toolname="searchProducts"
+    >
       <input
         autoComplete="off"
         className="w-full rounded-lg border bg-card px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground dark:border-card dark:bg-ink-well dark:text-primary-foreground dark:placeholder:text-muted-foreground"
@@ -41,6 +47,7 @@ const SearchInner: React.FC<Props> = (props) => {
         key={searchParams.get("q")}
         name="search"
         placeholder="Search for products..."
+        toolparamdescription="Search keywords for product name or description"
         type="text"
       />
       <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
