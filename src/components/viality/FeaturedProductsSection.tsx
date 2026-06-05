@@ -41,7 +41,7 @@ export function FeaturedProductsSection({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group cursor-pointer"
+                className="group cursor-pointer md:last:hidden"
               >
                 <Link href={`/products/${product.slug}`}>
                   <div className="aspect-3/4 mb-6 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
