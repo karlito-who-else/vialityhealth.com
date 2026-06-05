@@ -17,7 +17,35 @@ type IngredientItem = {
   id?: string | null;
 };
 
-export function VialityProductDescription({
+export function VialityProductDescription(
+  props: {
+    product: Product;
+    faqs: Faq[];
+    ingredients: IngredientItem[];
+    trustBadges: TrustBadge[];
+    productContent: Setting;
+  },
+) {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <VialityProductDescriptionInner {...props} />
+    </Suspense>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="p-8 xl:p-12 flex flex-col gap-8 mt-8 md:mt-8">
+      <div className="space-y-3 animate-pulse">
+        <div className="h-3 w-24 bg-primary/10" />
+        <div className="h-8 w-64 bg-primary/10" />
+        <div className="h-3 w-40 bg-primary/10" />
+      </div>
+    </div>
+  );
+}
+
+function VialityProductDescriptionInner({
   product,
   faqs,
   ingredients,
@@ -34,11 +62,43 @@ export function VialityProductDescription({
   const [isSubscription, setIsSubscription] = useState(true);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [ingredientsOpen, setIngredientsOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const oneTimePrice = product.priceInAUD || 88;
+  const variants = (product.variants?.docs || []) as Variant[];
+
+  const selectedVariant = useMemo<Variant | null>(() => {
+    if (!product.enableVariants || !variants.length) return null;
+    const variantId = searchParams.get("variant");
+    const found = variants.find(
+      (v): v is Variant => typeof v === "object" && String(v.id) === variantId,
+    );
+    return found ?? null;
+  }, [product.enableVariants, variants, searchParams]);
+
+  let oneTimePrice = selectedVariant?.priceInAUD ?? product.priceInAUD;
+  if (!oneTimePrice && variants.length > 0) {
+    const first = variants[0];
+    if (typeof first === "object" && first.priceInAUD) oneTimePrice = first.priceInAUD;
+  }
+  oneTimePrice ||= 88;
   const discountPercent = productContent?.subscribeDiscountPercent ?? 15;
   const subPrice = Math.round(oneTimePrice * (1 - discountPercent / 100));
   const displayPrice = isSubscription ? subPrice : oneTimePrice;
+
+  const variantOptions = useMemo(() => {
+    if (!product.enableVariants || !variants.length) return [];
+    return variants.filter((v): v is Variant => typeof v === "object");
+  }, [variants, product.enableVariants]);
+
+  const selectVariant = useCallback(
+    (variantId: number) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("variant", String(variantId));
+      router.replace(`?${params.toString()}`, { scroll: false });
+    },
+    [searchParams, router],
+  );
 
   const collectionLabel = productContent?.collectionLabel || "viality — Flagship Collection";
   const supplyLabel = productContent?.supplyLabel || "60 Capsules · 30-Day Supply";
@@ -78,6 +138,42 @@ export function VialityProductDescription({
           )}
         </div>
       </div>
+
+      {/* Variant options selector */}
+      {product.enableVariants && variantOptions.length > 1 && (
+        <div>
+          <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">
+            {product.variantTypes?.[0] && typeof product.variantTypes[0] === "object"
+              ? product.variantTypes[0].label
+              : "Strength"}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {variantOptions.map((variant) => {
+              const option = Array.isArray(variant.options) ? variant.options[0] : undefined;
+              const label =
+                option && typeof option === "object" && "label" in option
+                  ? (option as { label: string }).label
+                  : null;
+              const isSelected = selectedVariant?.id === variant.id;
+              return (
+                <button
+                  key={variant.id}
+                  type="button"
+                  onClick={() => selectVariant(variant.id)}
+                  className={cn(
+                    "px-4 py-2.5 text-xs uppercase tracking-widest border transition-all duration-200",
+                    isSelected
+                      ? "border-primary bg-primary/[0.03] text-primary"
+                      : "border-border/50 text-primary/50 hover:border-primary/30 hover:text-primary/70",
+                  )}
+                >
+                  {label ?? `Variant ${variant.id}`}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Subscribe & Save toggle */}
       <div className="space-y-2.5">

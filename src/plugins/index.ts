@@ -243,6 +243,17 @@ export const plugins: Plugin[] = [
     },
     products: {
       productsCollectionOverride: ProductsCollection,
+      variants: {
+        variantOptionsCollectionOverride: ({ defaultCollection }) => ({
+          ...defaultCollection,
+          fields: defaultCollection.fields.map((field) => {
+            if ("name" in field && field.name === "variantType") {
+              return { ...field, admin: { readOnly: undefined } } as typeof field;
+            }
+            return field;
+          }),
+        }),
+      },
     },
   }),
   vercelBlobStorage({

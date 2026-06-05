@@ -1,4 +1,4 @@
-import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from "payload";
+import type { CollectionSlug, File, GlobalSlug, Payload, PayloadRequest } from "payload";
 
 import { Address, Transaction, VariantOption } from "@/payload-types";
 
@@ -33,10 +33,10 @@ const collections: CollectionSlug[] = [
 const categories = ["Accessories", "T-Shirts", "Hats"];
 
 const sizeVariantOptions = [
-  { label: "Small", value: "small" },
-  { label: "Medium", value: "medium" },
-  { label: "Large", value: "large" },
-  { label: "X Large", value: "xlarge" },
+  { label: "5mg", value: "5mg" },
+  { label: "10mg", value: "10mg" },
+  { label: "15mg", value: "15mg" },
+  { label: "20mg", value: "20mg" },
 ];
 
 const colorVariantOptions = [
