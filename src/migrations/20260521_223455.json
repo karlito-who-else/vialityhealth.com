@@ -8873,8 +8873,8 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "_products_v_version_gallery_variant_option_id_variant_options_id_fk": {
-          "name": "_products_v_version_gallery_variant_option_id_variant_options_id_fk",
+        "_products_v_version_gallery_variant_option_id_variant_options_i": {
+          "name": "_products_v_version_gallery_variant_option_id_variant_options_i",
           "tableFrom": "_products_v_version_gallery",
           "tableTo": "variant_options",
           "columnsFrom": ["variant_option_id"],
