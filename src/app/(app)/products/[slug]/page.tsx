@@ -121,7 +121,6 @@ export default async function ProductPage({ params }: Args) {
   const labReportLabel = productContent?.labReportLabel || "View Lab Report";
   const requestCOALabel = productContent?.requestCOALabel || "Request Full COA";
   const completeRitualHeading = productContent?.completeRitualHeading || "Complete the Ritual";
-  const productDisclaimer = productContent?.productDisclaimer || "";
 
   return (
     <div className="min-h-screen bg-background pt-18">
@@ -275,15 +274,6 @@ export default async function ProductPage({ params }: Args) {
           completeRitualHeading={completeRitualHeading}
         />
       ) : null}
-
-      {/* DISCLAIMER */}
-      {productDisclaimer && (
-        <section className="bg-background border-t border-border/25 py-10 px-6 md:px-16">
-          <p className="mx-auto text-xs text-primary/28 leading-relaxed tracking-wide">
-            {productDisclaimer}
-          </p>
-        </section>
-      )}
     </div>
   );
 }

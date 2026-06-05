@@ -61,7 +61,7 @@ export function VialityProductDescription({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-        className="p-8 xl:p-12 flex flex-col gap-8 mt-8 md:mt-0"
+        className="p-8 xl:p-12 flex flex-col gap-8 mt-8 md:mt-8"
       >
       {/* Header */}
       <div>
