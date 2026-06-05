@@ -1,15 +1,14 @@
 "use client";
 
-import clsx from "clsx";
 import { Link } from "@/components/atoms/Link";
+import clsx from "clsx";
 import { usePathname, useSearchParams } from "next/navigation";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 import type { SortFilterItem as SortFilterItemType } from "@/lib/constants";
 import { createUrl } from "@/utilities/createUrl";
 
-import type { ListItem } from ".";
-import type { PathFilterItem as PathFilterItemType } from ".";
+import type { ListItem, PathFilterItem as PathFilterItemType } from ".";
 
 function PathFilterItemInner({ item }: { item: PathFilterItemType }) {
   const pathname = usePathname();
@@ -21,9 +20,9 @@ function PathFilterItemInner({ item }: { item: PathFilterItemType }) {
   newParams.delete("q");
 
   return (
-    <li className="mt-2 flex text-foreground" key={item.title}>
+    <li className="mt-2 flex text-foreground uppercase" key={item.title}>
       <DynamicTag
-        className={clsx("w-full text-sm underline-offset-4 hover:underline", {
+        className={clsx("w-full text-xs lg:text-lg underline-offset-4 hover:underline", {
           "underline underline-offset-4": active,
         })}
         href={createUrl(item.path, newParams)}
@@ -49,9 +48,9 @@ function SortFilterItemInner({ item }: { item: SortFilterItemType }) {
   const DynamicTag = active ? "p" : Link;
 
   return (
-    <li className="mt-2 flex text-sm text-foreground" key={item.title}>
+    <li className="mt-2 flex text-sm text-foreground uppercase" key={item.title}>
       <DynamicTag
-        className={clsx("w-full hover:underline hover:underline-offset-4", {
+        className={clsx("w-full text-xs lg:text-lg hover:underline hover:underline-offset-4", {
           "underline underline-offset-4": active,
         })}
         href={href}

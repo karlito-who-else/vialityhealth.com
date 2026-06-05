@@ -21,7 +21,7 @@ async function CategoryList() {
         {categories.docs.map((category) => {
           return (
             <li key={category.id}>
-              <CategoryItem category={category} className="uppercase" />
+              <CategoryItem category={category} className="text-xs lg:text-lg text-start uppercase" />
             </li>
           );
         })}
@@ -38,7 +38,7 @@ export function Categories() {
   return (
     <Suspense
       fallback={
-        <div className="col-span-2 hidden h-[400px] w-full flex-none py-4 lg:block">
+        <div className="col-span-2 hidden h-100 w-full flex-none py-4 lg:block">
           <div className={clsx(skeleton, activeAndTitles)} />
           <div className={clsx(skeleton, activeAndTitles)} />
           <div className={clsx(skeleton, items)} />
