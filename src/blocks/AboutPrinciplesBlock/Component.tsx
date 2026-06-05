@@ -29,7 +29,7 @@ export const AboutPrinciplesBlockComponent: React.FC<
   );
 
   return (
-    <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
+    <section className="bg-surface-section py-12 md:py-36 px-6 md:px-16">
       <div className="max-w-300 mx-auto">
         <m.div
           initial="hidden"
@@ -48,7 +48,7 @@ export const AboutPrinciplesBlockComponent: React.FC<
           <m.h2
             variants={fadeUp}
             custom={0}
-            className="font-serif text-4xl md:text-5xl text-primary"
+            className="text-balance font-serif text-4xl md:text-5xl text-primary"
           >
             {(heading || "Three principles.\nNo exceptions.").split("\n").map((line, i) => (
               <span key={`principles-line-${i}`}>

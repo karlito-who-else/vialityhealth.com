@@ -17,7 +17,7 @@ export const AboutCtaBlockComponent: React.FC<AboutCtaBlock & { id?: string }> =
   const secondary = items[1];
 
   return (
-    <section className="bg-surface-section py-28 md:py-36 px-6 md:px-16">
+    <section className="bg-surface-section py-12 md:py-36 px-6 md:px-16">
       <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <m.div
           className="max-w-lg mx-auto text-balance"
@@ -27,7 +27,7 @@ export const AboutCtaBlockComponent: React.FC<AboutCtaBlock & { id?: string }> =
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] as const }}
         >
           <h2
-            className="font-serif text-primary leading-tight"
+            className="text-balance font-serif text-primary leading-tight"
             style={{ fontSize: "clamp(2.2rem, 5vw, 4.5rem)" }}
           >
             {(heading || "Designed for\nconsistency.").split("\n").map((line, i) => (
