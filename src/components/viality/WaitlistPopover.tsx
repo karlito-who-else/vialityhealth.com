@@ -58,10 +58,11 @@ export function WaitlistPopover() {
         <XIcon className="size-4" />
       </button>
       <WaitlistSection
-        heading="Begin your daily reset."
+        heading="Join the waitlist and get 15% off"
         body={null}
         placeholder="YOUR EMAIL ADDRESS"
         buttonLabel="Join Waitlist"
+        legalText="* The 15% discount must be manually calculated when paying for your first order by bank transfer."
       />
     </div>
   );

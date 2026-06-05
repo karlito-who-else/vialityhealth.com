@@ -9,9 +9,10 @@ export type WaitlistSectionProps = {
   body?: string | null;
   placeholder: string;
   buttonLabel: string;
+  legalText?: string | null;
 };
 
-export function WaitlistSection({ heading, body, placeholder, buttonLabel }: WaitlistSectionProps) {
+export function WaitlistSection({ heading, body, placeholder, buttonLabel, legalText }: WaitlistSectionProps) {
   const { execute, result, isPending } = useAction(subscribeToWaitlist);
   const success = result.data?.success;
 
@@ -68,6 +69,11 @@ export function WaitlistSection({ heading, body, placeholder, buttonLabel }: Wai
           {result.serverError && (
             <p className="mt-4 text-xs text-red-300">
               Something went wrong. Please try again.
+            </p>
+          )}
+          {legalText && (
+            <p className="mt-6 text-[10px] text-primary-foreground/40 max-w-sm leading-relaxed">
+              {legalText}
             </p>
           )}
         </div>
