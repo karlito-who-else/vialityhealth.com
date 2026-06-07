@@ -555,6 +555,7 @@ export interface Page {
     | CarouselBlock
     | ThreeItemGridBlock
     | BannerBlock
+    | FaqBlock
     | FormBlock
     | VialityHeroBlock
     | VialityPhilosophyBlock
@@ -877,6 +878,31 @@ export interface BannerBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'banner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock".
+ */
+export interface FaqBlock {
+  heading?: string | null;
+  body?: string | null;
+  items?: (number | Faq)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  slug: string;
+  answer: string;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1211,19 +1237,6 @@ export interface VialityComplianceBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'vialityCompliance';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs".
- */
-export interface Faq {
-  id: number;
-  question: string;
-  slug: string;
-  answer: string;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2139,6 +2152,7 @@ export interface PagesSelect<T extends boolean = true> {
         carousel?: T | CarouselBlockSelect<T>;
         threeItemGrid?: T | ThreeItemGridBlockSelect<T>;
         banner?: T | BannerBlockSelect<T>;
+        faqBlock?: T | FaqBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         vialityHero?: T | VialityHeroBlockSelect<T>;
         vialityPhilosophy?: T | VialityPhilosophyBlockSelect<T>;
@@ -2356,6 +2370,17 @@ export interface ThreeItemGridBlockSelect<T extends boolean = true> {
 export interface BannerBlockSelect<T extends boolean = true> {
   style?: T;
   content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock_select".
+ */
+export interface FaqBlockSelect<T extends boolean = true> {
+  heading?: T;
+  body?: T;
+  items?: T;
   id?: T;
   blockName?: T;
 }

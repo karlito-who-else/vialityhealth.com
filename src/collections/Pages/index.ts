@@ -21,6 +21,7 @@ import { Banner } from "@/blocks/Banner/config";
 import { CallToAction } from "@/blocks/CallToAction/config";
 import { Carousel } from "@/blocks/Carousel/config";
 import { Content } from "@/blocks/Content/config";
+import { FaqBlock } from "@/blocks/FaqBlock/config";
 import { FormBlock } from "@/blocks/Form/config";
 import { MediaBlock } from "@/blocks/MediaBlock/config";
 import { ThreeItemGrid } from "@/blocks/ThreeItemGrid/config";
@@ -115,6 +116,7 @@ export const Pages: CollectionConfig = {
                 Carousel,
                 ThreeItemGrid,
                 Banner,
+                FaqBlock,
                 FormBlock,
                 VialityHero,
                 VialityPhilosophy,

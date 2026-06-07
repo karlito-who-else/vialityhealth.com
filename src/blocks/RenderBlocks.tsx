@@ -12,6 +12,7 @@ import { BannerBlock } from "@/blocks/Banner/Component";
 import { CallToActionBlock } from "@/blocks/CallToAction/Component";
 import { CarouselBlock } from "@/blocks/Carousel/Component";
 import { ContentBlock } from "@/blocks/Content/Component";
+import { FaqBlockComponent } from "@/blocks/FaqBlock/Component";
 import { FormBlock } from "@/blocks/Form/Component";
 import { MediaBlock } from "@/blocks/MediaBlock/Component";
 import { ThreeItemGridBlock } from "@/blocks/ThreeItemGrid/Component";
@@ -36,6 +37,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   carousel: CarouselBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
+  faqBlock: FaqBlockComponent,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   threeItemGrid: ThreeItemGridBlock,
