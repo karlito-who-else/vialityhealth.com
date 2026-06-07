@@ -63,7 +63,7 @@ export function HeaderClient({ className, header, settings }: Props) {
         >
           {logo && typeof logo !== "number" ? (
             <Image
-            fill
+              fill
               src={logo.url || ""}
               alt={logo.alt || siteTitle || "viality"}
               className="size-full dark:invert"

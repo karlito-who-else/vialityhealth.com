@@ -31,6 +31,8 @@ export type HeroSectionProps = {
     id?: string | null;
   }[] | null;
   scrollLabel: string;
+  logo?: { url?: string | null; alt?: string | null } | number | null;
+  siteTitle?: string | null;
 };
 
 export function HeroSection({
@@ -40,6 +42,8 @@ export function HeroSection({
   links,
   media,
   scrollLabel,
+  logo,
+  siteTitle,
 }: HeroSectionProps) {
   const items = links || [];
   const primary = items[0];
@@ -119,12 +123,23 @@ export function HeroSection({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {title}
+            {logo && typeof logo !== "number" ? (
+            <Image
+                src={logo.url || ""}
+                alt={logo.alt || siteTitle || "viality"}
+                className="size-full invert-100 dark:invert-0"
+                unoptimized
+                height={150}
+                width={300}
+            />
+          ) : (
+            title
+          )}
           </m.h1>
 
           {subtext && (
             <m.p
-              className="text-lg font-sans font-light text-white mt-6 md:mt-10 max-w-xs"
+              className="text-lg font-sans font-light text-white mt-2 md:mt-4 max-w-xs"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.55, duration: 1, ease: "easeOut" }}
