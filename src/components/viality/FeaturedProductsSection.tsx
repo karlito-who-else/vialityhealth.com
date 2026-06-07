@@ -63,9 +63,19 @@ export function FeaturedProductsSection({
                       <h3 className="uppercase tracking-widest text-xs font-medium">
                         {product.title}
                       </h3>
-                      {typeof product.priceInAUD === "number" && (
-                        <span className="text-sm font-light">${(product.priceInAUD / 100).toFixed(2)}</span>
-                      )}
+                      {(() => {
+                        const productPrice = product.priceInAUD;
+                        const variantPrices = product.variants?.docs?.flatMap((v) =>
+                          typeof v === "object" && v && typeof v.priceInAUD === "number"
+                            ? [v.priceInAUD]
+                            : [],
+                        ) ?? [];
+                        const price = typeof productPrice === "number" ? productPrice : Math.min(...variantPrices);
+                        const showPrice = typeof productPrice === "number" || variantPrices.length > 0;
+                        return showPrice ? (
+                          <span className="text-sm font-light">${(price / 100).toFixed(2)}</span>
+                        ) : null;
+                      })()}
                     </div>
                     <p className="text-primary/55 text-sm">{product.meta?.description || ""}</p>
                   </div>
