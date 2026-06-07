@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EB_Garamond, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { AdminBar } from "@/components/AdminBar";
@@ -12,20 +12,46 @@ import { InitTheme } from "@/providers/Theme/InitTheme";
 import { env } from "@/utilities/env";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 
+// Repalce with `next/font/google` when the font is added to that package
+import localFont from 'next/font/local';
+
+const iosevkaCharon = localFont({
+  src: [
+    {
+      path: '../../../public/fonts/IosevkaCharon-Light.ttf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../../../public/fonts/IosevkaCharon-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../../public/fonts/IosevkaCharon-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../../public/fonts/IosevkaCharon-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../../public/fonts/IosevkaCharon-Italic.ttf', // If you use italics
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-serif',
+})
+
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
   display: "swap",
 });
 
@@ -64,7 +90,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      className={[inter.variable, ebGaramond.variable].filter(Boolean).join(" ")}
+      className={[inter.variable, iosevkaCharon.variable].filter(Boolean).join(" ")}
       lang="en"
       suppressHydrationWarning
     >
