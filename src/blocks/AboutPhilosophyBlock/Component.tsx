@@ -68,7 +68,7 @@ export const AboutPhilosophyBlockComponent: React.FC<
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] as const }}
         >
-          <div className="aspect-3/4 bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
+          <div className="aspect-square bg-surface-placeholder relative overflow-hidden flex items-center justify-center">
             {media?.url ? (
               <Image
                 src={media.url}
