@@ -3382,7 +3382,7 @@ export interface Setting {
   purchaseOptionLabel?: string | null;
   subscribeLabel?: string | null;
   /**
-   * Discount percentage applied to the subscription price. Default: 15%.
+   * Discount percentage applied to the subscription price. Default: 10%.
    */
   subscribeDiscountPercent?: number | null;
   subscribeDetail?: string | null;

@@ -6,29 +6,41 @@ import { useAction } from "next-safe-action/hooks";
 
 export type WaitlistSectionProps = {
   heading: string;
+  subheading?: string | null;
   body?: string | null;
   placeholder: string;
   buttonLabel: string;
   legalText?: string | null;
 };
 
-export function WaitlistSection({ heading, body, placeholder, buttonLabel, legalText }: WaitlistSectionProps) {
+export function WaitlistSection({ heading, subheading, body, placeholder, buttonLabel, legalText }: WaitlistSectionProps) {
   const { execute, result, isPending } = useAction(subscribeToWaitlist);
   const success = result.data?.success;
 
   return (
     <LazyMotion features={domAnimation}>
-      <section className="scheme-only-light py-6 md:py-32 px-6 bg-primary text-primary-foreground text-center" data-component="WaitlistSection">
+      <section className="scheme-only-light py-6 md:py-16 px-6 bg-primary text-primary-foreground text-center" data-component="WaitlistSection">
         <div className="max-w-2xl mx-auto flex flex-col items-center">
           <m.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="font-serif text-4xl mb-4"
+            className="font-sans uppercase text-balance text-4xl mb-4"
           >
             {heading}
           </m.h2>
+          { subheading && (
+            <m.h3
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="uppercase text-primary-foreground/65 mb-10 text-sm max-w-sm text-balance leading-relaxed"
+            >
+              {subheading}
+            </m.h3>
+          )}
           {body && (
             <p className="text-primary-foreground/65 mb-10 text-sm max-w-md leading-relaxed">
               {body}

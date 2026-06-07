@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { XIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { WaitlistSection } from "./WaitlistSection";
 
 const COOKIE_NAME = "viality_waitlist_dismissed";
@@ -58,11 +58,12 @@ export function WaitlistPopover() {
         <XIcon className="size-4" />
       </button>
       <WaitlistSection
-        heading="Join the waitlist and get 15% off"
+        heading="Your VIP Pass"
+        subheading="Subscribe for product updates and discount offers"
         body={null}
         placeholder="YOUR EMAIL ADDRESS"
-        buttonLabel="Join Waitlist"
-        legalText="* The 15% discount must be manually calculated when paying for your first order by bank transfer."
+        buttonLabel="Sign up"
+        legalText=""
       />
     </div>
   );

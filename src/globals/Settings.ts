@@ -150,7 +150,7 @@ export const Settings: GlobalConfig = {
             {
               name: "subscribeLabel",
               type: "text",
-              defaultValue: "Subscribe & Save 15%",
+              defaultValue: "Subscribe & Save 10%",
             },
             {
               name: "subscribeDiscountPercent",
@@ -160,7 +160,7 @@ export const Settings: GlobalConfig = {
               max: 100,
               admin: {
                 description:
-                  "Discount percentage applied to the subscription price. Default: 15%.",
+                  "Discount percentage applied to the subscription price. Default: 10%.",
               },
             },
             {

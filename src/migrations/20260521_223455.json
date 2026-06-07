@@ -13795,7 +13795,7 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": false,
-          "default": "'Subscribe & Save 15%'"
+          "default": "'Subscribe & Save 10%'"
         },
         "subscribe_detail": {
           "name": "subscribe_detail",

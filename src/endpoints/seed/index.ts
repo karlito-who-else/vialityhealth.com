@@ -616,7 +616,7 @@ export const seed = async ({
         collectionLabel: "viality — Flagship Collection",
         supplyLabel: "60 Capsules · 30-Day Supply",
         purchaseOptionLabel: "Purchase Option",
-        subscribeLabel: "Subscribe & Save 15%",
+        subscribeLabel: "Subscribe & Save 10%",
         subscribeDetail: "Delivered every 30 days. Cancel anytime.",
         oneTimeLabel: "One-Time Purchase",
         quantityLabel: "Quantity",
