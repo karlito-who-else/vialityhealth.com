@@ -21,7 +21,7 @@ export function FeaturedProductsSection({
     <LazyMotion features={domAnimation}>
       <section className="py-24 px-6 bg-surface-warm" data-component="FeaturedProductsSection">
         <div className="max-w-7xl mx-auto">
-          <header className="flex justify-between items-end mb-16">
+          <header className="flex justify-between items-end mb-8">
             <h2 className="font-serif text-4xl text-primary">{heading}</h2>
             {shopAllLabel && (
               <Link

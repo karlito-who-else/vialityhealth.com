@@ -55,7 +55,7 @@ export const ArchiveBlock: React.FC<
   return (
     <section {...props} className="my-16" id={`block-${id}`}>
       {introContent && (
-        <div className="container mb-16">
+        <div className="container mb-8">
           <RichText className="ml-0 max-w-3xl" data={introContent} enableGutter={false} />
         </div>
       )}

@@ -290,7 +290,7 @@ function RelatedProducts({
   return (
     <section className="py-24 px-6 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
-        <h2 className="font-serif text-4xl text-primary mb-16">{completeRitualHeading}</h2>
+        <h2 className="font-serif text-4xl text-primary mb-8">{completeRitualHeading}</h2>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((product) => (
             <li key={product.id}>
