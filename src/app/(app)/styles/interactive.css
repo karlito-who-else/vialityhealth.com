@@ -13,6 +13,14 @@
     }
   }
 
+  body > footer {
+    a {
+      &:where(:focus, :hover) {
+        color: var(--color-muted-foreground);
+      }
+    }
+  }
+
   button {
     &:where(:focus, :hover) {
       background-color: var(--color-muted);
