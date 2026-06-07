@@ -32,7 +32,7 @@ export function PhilosophySection({ body, link }: PhilosophySectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.9 }}
-              className="font-serif text-2xl md:text-4xl leading-relaxed text-primary/90"
+              className="font-serif uppercase font-light text-2xl md:text-4xl leading-relaxed text-primary/90"
             >
               {body}
             </m.p>

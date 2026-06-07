@@ -122,7 +122,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                   <Link
                     href="/"
                     onClick={() => setIsOpen(false)}
-                    className="font-serif font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
+                    className="font-serif uppercase font-light font-light text-primary-foreground/30 hover:text-primary-foreground/55 transition-colors duration-300"
                     style={{ fontSize: "1.05rem", letterSpacing: "0.05em" }}
                   >
                     {siteTitle}
@@ -173,7 +173,7 @@ export function MobileMenu({ menu, siteTitle }: { menu: any[]; siteTitle: string
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <span
-                            className="font-serif text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
+                            className="font-serif uppercase font-light text-primary-foreground/85 leading-[1.1] transition-all duration-400 group-hover:text-primary-foreground group-hover:translate-x-1.5 inline-block"
                             style={{ fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)" }}
                           >
                             {item.link.label}

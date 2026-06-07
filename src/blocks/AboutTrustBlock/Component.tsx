@@ -51,7 +51,7 @@ export const AboutTrustBlockComponent: React.FC<
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               ) : (
-                <span className="text-primary/20 font-serif text-8xl tracking-wider">v</span>
+                <span className="text-primary/20 font-serif uppercase font-light text-8xl tracking-wider">v</span>
               )}
               <div className="absolute bottom-5 left-5 z-10">
                 <p className="text-xs uppercase tracking-widest text-primary/35">
@@ -78,7 +78,7 @@ export const AboutTrustBlockComponent: React.FC<
               <m.h2
                 variants={fadeUp}
                 custom={0}
-                className="font-serif text-4xl text-primary leading-snug mb-4"
+                className="font-serif uppercase font-light text-4xl text-primary leading-snug mb-4"
               >
                 {(heading || "The science is visible.\nBy design.").split("\n").map((line, i) => (
                   <span key={`trust-line-${i}`}>

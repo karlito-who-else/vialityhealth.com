@@ -21,7 +21,7 @@ export const BannerBlock: React.FC<
           "border-warning bg-warning/30": style === "warning",
         })}
       >
-        <RichText className="font-serif text-3xl md:text-4xl text-primary mb-8 leading-snug" data={content} enableGutter={false} enableProse={false} />
+        <RichText className="font-serif uppercase font-light text-3xl md:text-4xl text-primary mb-8 leading-snug" data={content} enableGutter={false} enableProse={false} />
       </div>
     </section>
   );

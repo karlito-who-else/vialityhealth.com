@@ -48,7 +48,7 @@ export const AboutPrinciplesBlockComponent: React.FC<
           <m.h2
             variants={fadeUp}
             custom={0}
-            className="text-balance font-serif text-4xl md:text-5xl text-primary"
+            className="text-balance font-serif uppercase font-light text-4xl md:text-5xl text-primary"
           >
             {(heading || "Three principles.\nNo exceptions.").split("\n").map((line, i) => (
               <span key={`principles-line-${i}`}>
@@ -70,10 +70,10 @@ export const AboutPrinciplesBlockComponent: React.FC<
               className="flex flex-col"
             >
               <div className="flex items-start gap-6 mb-8 pb-8 border-b border-primary/10">
-                <span className="font-serif text-5xl text-primary/12 leading-none select-none">
+                <span className="font-serif uppercase font-light text-5xl text-primary/12 leading-none select-none">
                   {principle.displayNumber}
                 </span>
-                <h3 className="font-serif text-3xl text-primary leading-none mt-1">
+                <h3 className="font-serif uppercase font-light text-3xl text-primary leading-none mt-1">
                   {principle.title}
                 </h3>
               </div>

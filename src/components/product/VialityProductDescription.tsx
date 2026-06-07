@@ -126,7 +126,7 @@ function VialityProductDescriptionInner({
       {/* Header */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">{collectionLabel}</p>
-        <h1 className="font-serif text-4xl xl:text-5xl text-primary leading-tight mb-2">
+        <h1 className="font-serif uppercase font-light text-4xl xl:text-5xl text-primary leading-tight mb-2">
           {product.title}
         </h1>
         <p className="text-xs uppercase tracking-widest text-primary/40 mb-5">{supplyLabel}</p>
@@ -280,7 +280,7 @@ function VialityProductDescriptionInner({
           onClick={() => setIngredientsOpen(!ingredientsOpen)}
           className="w-full grid grid-cols-[1fr_auto] items-center gap-6 py-4 text-left group"
         >
-          <span className="font-serif text-xl md:text-2xl text-primary group-hover:text-primary/70 transition-colors">
+          <span className="font-serif uppercase font-light text-xl md:text-2xl text-primary group-hover:text-primary/70 transition-colors">
             {ingredientsHeading}
           </span>
           <m.span
@@ -327,7 +327,7 @@ function VialityProductDescriptionInner({
       {/* FAQ */}
       <div className="border-t border-border/40 pt-6">
         <p className="text-xs uppercase tracking-widest text-primary/35 mb-4">{faqLabel}</p>
-        <h2 className="font-serif text-2xl text-primary leading-snug mb-6">{faqHeading}</h2>
+        <h2 className="font-serif uppercase font-light text-2xl text-primary leading-snug mb-6">{faqHeading}</h2>
         <div>
           {faqs.map((faq, i) => (
             <AccordionItem

@@ -27,7 +27,7 @@ export const AboutCtaBlockComponent: React.FC<AboutCtaBlock & { id?: string }> =
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] as const }}
         >
           <h2
-            className="text-balance font-serif text-primary leading-tight"
+            className="text-balance font-serif uppercase font-light text-primary leading-tight"
             style={{ fontSize: "clamp(2.2rem, 5vw, 4.5rem)" }}
           >
             {(heading || "Designed for\nconsistency.").split("\n").map((line, i) => (

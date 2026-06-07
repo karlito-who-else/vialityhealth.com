@@ -22,7 +22,7 @@ export function FeaturedProductsSection({
       <section className="py-24 px-6 bg-surface-warm" data-component="FeaturedProductsSection">
         <div className="max-w-7xl mx-auto">
           <header className="flex justify-between items-end mb-8">
-            <h2 className="font-serif text-4xl text-primary">{heading}</h2>
+            <h2 className="font-serif uppercase font-light text-4xl text-primary">{heading}</h2>
             {shopAllLabel && (
               <Link
                 href="/shop"
@@ -53,7 +53,7 @@ export function FeaturedProductsSection({
                         fill
                       />
                     ) : (
-                      <div className="text-primary/20 font-serif text-6xl tracking-wider">
+                      <div className="text-primary/20 font-serif uppercase font-light text-6xl tracking-wider">
                         v
                       </div>
                     )}
