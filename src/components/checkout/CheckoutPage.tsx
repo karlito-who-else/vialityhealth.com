@@ -115,7 +115,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
         toast.error(errorMessage);
       }
     },
-    [billingAddress, billingAddressSameAsShipping, shippingAddress],
+    [billingAddress, billingAddressSameAsShipping, email, shippingAddress],
   );
 
   const handleConfirmOrder = useCallback(async () => {
