@@ -3404,6 +3404,10 @@ export interface Setting {
   productDisclaimer?: string | null;
   collectionLabel?: string | null;
   supplyLabel?: string | null;
+  /**
+   * When disabled, the subscription option is hidden and only one-time purchase is shown.
+   */
+  subscribeEnabled?: boolean | null;
   purchaseOptionLabel?: string | null;
   subscribeLabel?: string | null;
   /**
@@ -3584,6 +3588,7 @@ export interface SettingsSelect<T extends boolean = true> {
   productDisclaimer?: T;
   collectionLabel?: T;
   supplyLabel?: T;
+  subscribeEnabled?: T;
   purchaseOptionLabel?: T;
   subscribeLabel?: T;
   subscribeDiscountPercent?: T;

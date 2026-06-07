@@ -143,6 +143,15 @@ export const Settings: GlobalConfig = {
               defaultValue: "60 Capsules · 30-Day Supply",
             },
             {
+              name: "subscribeEnabled",
+              type: "checkbox",
+              defaultValue: true,
+              admin: {
+                description:
+                  "When disabled, the subscription option is hidden and only one-time purchase is shown.",
+              },
+            },
+            {
               name: "purchaseOptionLabel",
               type: "text",
               defaultValue: "Purchase Option",

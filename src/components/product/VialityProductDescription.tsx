@@ -59,7 +59,8 @@ function VialityProductDescriptionInner({
   productContent: Setting;
 }) {
   const [quantity, setQuantity] = useState(1);
-  const [isSubscription, setIsSubscription] = useState(true);
+  const subscribeEnabled = productContent?.subscribeEnabled !== false;
+  const [isSubscription, setIsSubscription] = useState(subscribeEnabled);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [ingredientsOpen, setIngredientsOpen] = useState(false);
   const searchParams = useSearchParams();
@@ -175,61 +176,63 @@ function VialityProductDescriptionInner({
         </div>
       )}
 
-      {/* Subscribe & Save toggle */}
-      <div className="space-y-2.5">
-        <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">
-          {purchaseOptionLabel}
-        </p>
-        <button
-          type="button"
-          onClick={() => setIsSubscription(true)}
-          className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
-            isSubscription
-              ? "border-primary/60 bg-primary/[0.03]"
-              : "border-border/50 hover:border-primary/20"
-          }`}
-        >
-          <div className="flex items-center gap-3.5">
-            <div
-              className={`size-3.5 rounded-full border flex items-center justify-center transition-colors ${
-                isSubscription ? "border-primary" : "border-border"
-              }`}
-            >
-              {isSubscription && <div className="size-1.5 rounded-full bg-primary" />}
+      {subscribeEnabled && (
+        /* Subscribe & Save toggle */
+        <div className="space-y-2.5">
+          <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">
+            {purchaseOptionLabel}
+          </p>
+          <button
+            type="button"
+            onClick={() => setIsSubscription(true)}
+            className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
+              isSubscription
+                ? "border-primary/60 bg-primary/[0.03]"
+                : "border-border/50 hover:border-primary/20"
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <div
+                className={`size-3.5 rounded-full border flex items-center justify-center transition-colors ${
+                  isSubscription ? "border-primary" : "border-border"
+                }`}
+              >
+                {isSubscription && <div className="size-1.5 rounded-full bg-primary" />}
+              </div>
+              <div className="text-left">
+                <div className="text-xs uppercase tracking-widest font-medium">{subscribeLabel}</div>
+                <div className="text-xs text-primary/40 mt-0.5 tracking-wide">{subscribeDetail}</div>
+              </div>
             </div>
-            <div className="text-left">
-              <div className="text-xs uppercase tracking-widest font-medium">{subscribeLabel}</div>
-              <div className="text-xs text-primary/40 mt-0.5 tracking-wide">{subscribeDetail}</div>
+            <div className="flex flex-col items-end">
+              <span className="text-sm font-medium">${(subPrice / 100).toFixed(2)}</span>
+              <span className="text-xs text-primary/35 line-through">${(oneTimePrice / 100).toFixed(2)}</span>
             </div>
-          </div>
-          <div className="flex flex-col items-end">
-            <span className="text-sm font-medium">${(subPrice / 100).toFixed(2)}</span>
-            <span className="text-xs text-primary/35 line-through">${(oneTimePrice / 100).toFixed(2)}</span>
-          </div>
-        </button>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setIsSubscription(false)}
-          className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
-            !isSubscription
-              ? "border-primary/60 bg-primary/[0.03]"
-              : "border-border/50 hover:border-primary/20"
-          }`}
-        >
-          <div className="flex items-center gap-3.5">
-            <div
-              className={`size-3.5 rounded-full border flex items-center justify-center transition-colors ${
-                !isSubscription ? "border-primary" : "border-border"
-              }`}
-            >
-              {!isSubscription && <div className="size-1.5 rounded-full bg-primary" />}
+          <button
+            type="button"
+            onClick={() => setIsSubscription(false)}
+            className={`w-full flex items-center justify-between px-4 py-3.5 border transition-all duration-200 ${
+              !isSubscription
+                ? "border-primary/60 bg-primary/[0.03]"
+                : "border-border/50 hover:border-primary/20"
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <div
+                className={`size-3.5 rounded-full border flex items-center justify-center transition-colors ${
+                  !isSubscription ? "border-primary" : "border-border"
+                }`}
+              >
+                {!isSubscription && <div className="size-1.5 rounded-full bg-primary" />}
+              </div>
+              <div className="text-xs uppercase tracking-widest font-medium">{oneTimeLabel}</div>
             </div>
-            <div className="text-xs uppercase tracking-widest font-medium">{oneTimeLabel}</div>
-          </div>
-          <span className="text-sm font-medium">${(oneTimePrice / 100).toFixed(2)}</span>
-        </button>
-      </div>
+            <span className="text-sm font-medium">${(oneTimePrice / 100).toFixed(2)}</span>
+          </button>
+        </div>
+      )}
 
       {/* Quantity + Add to Cart */}
       <div className="space-y-3">
