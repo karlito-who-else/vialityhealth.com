@@ -6,7 +6,11 @@ import { adminOrSelf } from "@/access/adminOrSelf";
 import { publicAccess } from "@/access/publicAccess";
 import { checkRole } from "@/access/utilities";
 
+import { passwordResetTemplate } from "@/email/templates";
+import { getServerSideURL } from "@/utilities/getURL";
+
 import { ensureFirstUserIsAdmin } from "./hooks/ensureFirstUserIsAdmin";
+import { sendAccountCreatedEmail } from "./hooks/sendAccountCreatedEmail";
 
 export const Users: CollectionConfig = {
   slug: "users",
@@ -25,6 +29,18 @@ export const Users: CollectionConfig = {
   },
   auth: {
     tokenExpiration: 1209600,
+    forgotPassword: {
+      generateEmailHTML: (args) => {
+        const { user, token } = args || {};
+        if (!user || !token) return "";
+        const url = `${getServerSideURL()}/reset-password?token=${token}`;
+        const name = user.name || user.email;
+        return passwordResetTemplate(name, url);
+      },
+    },
+  },
+  hooks: {
+    afterChange: [sendAccountCreatedEmail],
   },
   fields: [
     {

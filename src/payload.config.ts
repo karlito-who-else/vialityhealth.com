@@ -110,8 +110,8 @@ export default buildConfig({
   }),
   //email: nodemailerAdapter(),
   email: resendAdapter({
-    defaultFromAddress: 'dev@payloadcms.com',
-    defaultFromName: 'Payload CMS',
+    defaultFromAddress: 'vialityhealth@gmail.com',
+    defaultFromName: 'Viality',
     apiKey: env.RESEND_API_KEY || '',
   }),
   endpoints: [],

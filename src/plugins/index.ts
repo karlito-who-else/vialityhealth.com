@@ -14,6 +14,7 @@ import { customerOnlyFieldAccess } from "@/access/customerOnlyFieldAccess";
 import { isAdmin } from "@/access/isAdmin";
 import { isDocumentOwner } from "@/access/isDocumentOwner";
 import { ProductsCollection } from "@/collections/Products";
+import { sendOrderEmails } from "@/collections/Orders/hooks/sendOrderEmails";
 import { Page, Product } from "@/payload-types";
 import { getServerSideURL } from "@/utilities/getURL";
 
@@ -204,6 +205,13 @@ export const plugins: Plugin[] = [
     orders: {
       ordersCollectionOverride: ({ defaultCollection }) => ({
         ...defaultCollection,
+        hooks: {
+          ...defaultCollection.hooks,
+          afterChange: [
+            ...(defaultCollection.hooks?.afterChange ?? []),
+            sendOrderEmails,
+          ],
+        },
         fields: [
           ...defaultCollection.fields,
           {
