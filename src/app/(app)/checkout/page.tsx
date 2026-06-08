@@ -22,7 +22,7 @@ export default async function Checkout() {
     : undefined;
 
   return (
-    <div className="container mx-auto min-h-[90vh] flex">
+    <div className="container mx-auto min-h-[90vh] flex px-4">
       {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '') && (
         <div>
           <Fragment>

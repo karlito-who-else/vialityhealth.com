@@ -202,7 +202,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
 
   return (
     <div className="flex flex-col items-stretch justify-stretch mx-auto my-8 md:flex-row grow gap-10 md:gap-6 lg:gap-8">
-      <div className="basis-full lg:basis-2/3 flex flex-col gap-8 justify-stretch">
+      <div className="basis-full lg:basis-2/3 flex flex-col gap-8 justify-stretch px-4">
         <h2 className="font-medium text-3xl">Contact</h2>
         {!user && (
           <div className=" bg-accent dark:bg-ink-well rounded-lg p-4 w-full flex items-center">

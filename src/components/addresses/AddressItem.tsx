@@ -37,7 +37,7 @@ export const AddressItem: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-4">
       <div className="grow">
         <p className="font-medium">
           {address.title && <span>{address.title} </span>}
