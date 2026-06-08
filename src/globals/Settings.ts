@@ -68,6 +68,28 @@ export const Settings: GlobalConfig = {
       ],
     },
     {
+      name: "siteBanner",
+      type: "group",
+      label: "Site Banner",
+      admin: {
+        description: "A global announcement banner displayed above the header on every page.",
+      },
+      fields: [
+        {
+          name: "enabled",
+          type: "checkbox",
+          label: "Enable site banner",
+          defaultValue: true,
+        },
+        {
+          name: "content",
+          type: "text",
+          label: "Banner text",
+          defaultValue: "Free shipping on orders over $200",
+        },
+      ],
+    },
+    {
       type: "tabs",
       tabs: [
         {

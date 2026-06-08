@@ -6,6 +6,7 @@ import { AdminBar } from "@/components/AdminBar";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
+import { SiteBanner } from "@/components/SiteBanner";
 import { AgeVerificationDialog } from "@/components/viality/AgeVerificationDialog";
 import { WaitlistPopover } from "@/components/viality/WaitlistPopover";
 import { Providers } from "@/providers";
@@ -102,6 +103,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Providers>
           <AdminBar />
           <LivePreviewListener />
+          <SiteBanner />
           <Header />
           <main>{children}</main>
           <Footer />

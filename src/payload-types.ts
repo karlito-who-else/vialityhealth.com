@@ -3393,6 +3393,13 @@ export interface Setting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * A global announcement banner displayed above the header on every page.
+   */
+  siteBanner?: {
+    enabled?: boolean | null;
+    content?: string | null;
+  };
   benefitsLabelTemplate?: string | null;
   benefitsHeading?: string | null;
   usageRitualLabel?: string | null;
@@ -3577,6 +3584,12 @@ export interface SettingsSelect<T extends boolean = true> {
         label?: T;
         url?: T;
         id?: T;
+      };
+  siteBanner?:
+    | T
+    | {
+        enabled?: T;
+        content?: T;
       };
   benefitsLabelTemplate?: T;
   benefitsHeading?: T;
