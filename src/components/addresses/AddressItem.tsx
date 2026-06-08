@@ -23,6 +23,11 @@ type Props = {
    * Hide all actions
    */
   hideActions?: boolean;
+  /**
+   * The kind of address this is. Used to scope HTML `autocomplete` tokens
+   * when the edit modal is opened.
+   */
+  addressType?: "shipping" | "billing";
 };
 
 export const AddressItem: React.FC<Props> = ({
@@ -31,6 +36,7 @@ export const AddressItem: React.FC<Props> = ({
   hideActions = false,
   beforeActions,
   afterActions,
+  addressType,
 }) => {
   if (!address) {
     return null;
@@ -68,6 +74,7 @@ export const AddressItem: React.FC<Props> = ({
                   initialData={address}
                   buttonText={"Edit"}
                   modalTitle={"Edit address"}
+                  addressType={addressType}
                 />
               )}
               {afterActions}

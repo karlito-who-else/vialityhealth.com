@@ -116,6 +116,7 @@ export const AccountForm: React.FC = () => {
               </Label>
               <Input
                 id="email"
+                autoComplete="email"
                 {...register("email", { required: "Please provide an email." })}
                 type="email"
               />
@@ -128,6 +129,7 @@ export const AccountForm: React.FC = () => {
               </Label>
               <Input
                 id="name"
+                autoComplete="name"
                 {...register("name", { required: "Please provide a name." })}
                 type="text"
               />
@@ -159,6 +161,7 @@ export const AccountForm: React.FC = () => {
               </Label>
               <Input
                 id="password"
+                autoComplete="new-password"
                 {...register("password", { required: "Please provide a new password." })}
                 type="password"
               />
@@ -171,6 +174,7 @@ export const AccountForm: React.FC = () => {
               </Label>
               <Input
                 id="passwordConfirm"
+                autoComplete="new-password"
                 {...register("passwordConfirm", {
                   required: "Please confirm your new password.",
                   validate: (value) => value === password.current || "The passwords do not match",

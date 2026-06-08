@@ -90,6 +90,7 @@ export const FindOrderForm: React.FC<Props> = ({ initialEmail }) => {
           </Label>
           <Input
             id="email"
+            autoComplete="email"
             {...register("email", { required: "Email is required." })}
             toolparamdescription="The email address used when placing the order"
             type="email"

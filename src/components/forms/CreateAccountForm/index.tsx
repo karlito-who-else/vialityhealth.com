@@ -97,6 +97,7 @@ const CreateAccountFormInner: React.FC = () => {
           </Label>
           <Input
             id="email"
+            autoComplete="email"
             {...register("email", { required: "Email is required." })}
             toolparamdescription="The email address for the new account"
             type="email"
@@ -110,6 +111,7 @@ const CreateAccountFormInner: React.FC = () => {
           </Label>
           <Input
             id="password"
+            autoComplete="new-password"
             {...register("password", { required: "Password is required." })}
             toolparamdescription="The password for the new account (minimum 8 characters)"
             type="password"
@@ -123,6 +125,7 @@ const CreateAccountFormInner: React.FC = () => {
           </Label>
           <Input
             id="passwordConfirm"
+            autoComplete="new-password"
             {...register("passwordConfirm", {
               required: "Please confirm your password.",
               validate: (value) => value === password.current || "The passwords do not match",

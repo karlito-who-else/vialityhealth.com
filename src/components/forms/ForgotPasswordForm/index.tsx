@@ -74,6 +74,7 @@ export const ForgotPasswordForm: React.FC = () => {
               </Label>
               <Input
                 id="email"
+                autoComplete="email"
                 {...register("email", { required: "Please provide your email." })}
                 toolparamdescription="The email address associated with the account"
                 type="email"

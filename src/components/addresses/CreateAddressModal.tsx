@@ -22,6 +22,7 @@ type Props = {
   callback?: (address: Partial<Address>) => void;
   skipSubmission?: boolean;
   disabled?: boolean;
+  addressType?: "shipping" | "billing";
 };
 
 export const CreateAddressModal: React.FC<Props> = ({
@@ -32,6 +33,7 @@ export const CreateAddressModal: React.FC<Props> = ({
   callback,
   skipSubmission,
   disabled,
+  addressType,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpenChange = (state: boolean) => {
@@ -66,6 +68,7 @@ export const CreateAddressModal: React.FC<Props> = ({
           initialData={initialData}
           callback={handleCallback}
           skipSubmission={skipSubmission}
+          addressType={addressType}
         />
       </DialogContent>
     </Dialog>

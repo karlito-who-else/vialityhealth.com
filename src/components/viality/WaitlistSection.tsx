@@ -59,6 +59,7 @@ export function WaitlistSection({ heading, subheading, body, placeholder, button
             <input
               type="email"
               name="email"
+              autoComplete="email"
               placeholder={placeholder}
               className="flex-1 bg-transparent border-b border-primary-foreground/25 px-4 py-3 text-xs focus:outline-none focus:border-accent placeholder:text-primary-foreground/30 uppercase tracking-widest transition-colors disabled:opacity-50"
               required

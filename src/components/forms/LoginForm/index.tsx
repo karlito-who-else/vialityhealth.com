@@ -47,7 +47,7 @@ const LoginFormInner: React.FC = () => {
   );
 
   return (
-    <form className="" onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="on" className="" onSubmit={handleSubmit(onSubmit)}>
       <Message className="classes.message" error={error} />
       <div className="flex flex-col gap-8">
         <FormItem>
@@ -55,6 +55,7 @@ const LoginFormInner: React.FC = () => {
           <Input
             id="email"
             type="email"
+            autoComplete="email"
             {...register("email", { required: "Email is required." })}
             toolparamdescription="The account email address"
           />
@@ -65,6 +66,7 @@ const LoginFormInner: React.FC = () => {
         <Label htmlFor="password">Password</Label>
         <Input
           id="password"
+          autoComplete="current-password"
           {...register("password", { required: "Please provide a password." })}
           toolparamdescription="The account password"
           type="password"

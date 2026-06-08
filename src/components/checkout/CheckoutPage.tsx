@@ -248,6 +248,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                   disabled={!emailEditable}
                   id="email"
                   name="email"
+                  autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   type="email"
@@ -293,10 +294,11 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                 </Button>
               }
               address={billingAddress}
+              addressType="billing"
             />
           </div>
         ) : user ? (
-          <CheckoutAddresses heading="Billing address" setAddress={setBillingAddress} />
+          <CheckoutAddresses heading="Billing address" setAddress={setBillingAddress} addressType="billing" />
         ) : (
           <CreateAddressModal
             disabled={!email || Boolean(emailEditable)}
@@ -304,6 +306,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
               setBillingAddress(address);
             }}
             skipSubmission={true}
+            addressType="billing"
           />
         )}
 
@@ -337,6 +340,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                     </Button>
                   }
                   address={shippingAddress}
+                  addressType="shipping"
                 />
               </div>
             ) : user ? (
@@ -344,6 +348,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                 heading="Shipping address"
                 description="Please select a shipping address."
                 setAddress={setShippingAddress}
+                addressType="shipping"
               />
             ) : (
               <CreateAddressModal
@@ -352,6 +357,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                 }}
                 disabled={!email || Boolean(emailEditable)}
                 skipSubmission={true}
+                addressType="shipping"
               />
             )}
           </>

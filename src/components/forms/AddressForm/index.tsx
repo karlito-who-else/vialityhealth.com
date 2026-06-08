@@ -45,13 +45,26 @@ type Props = {
    * If true, the form will not submit to the API.
    */
   skipSubmission?: boolean;
+  /**
+   * The kind of address this form represents. Used to scope the HTML
+   * `autocomplete` tokens (`shipping` or `billing`) so password managers
+   * and the browser autofill treat shipping and billing fields separately.
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete
+   */
+  addressType?: "shipping" | "billing";
 };
+
+const buildAutoComplete = (
+  detail: string,
+  addressType: Props["addressType"],
+): string => (addressType ? `${addressType} ${detail}` : detail);
 
 export const AddressForm: React.FC<Props> = ({
   addressID,
   initialData,
   callback,
   skipSubmission,
+  addressType,
 }) => {
   const {
     register,
@@ -71,13 +84,12 @@ export const AddressForm: React.FC<Props> = ({
     async (data: AddressFormValues) => {
       setSubmitError(null);
 
-      if (!user && status !== "loggedOut") {
-        setSubmitError("Verifying your session, please try again in a moment.");
-        return;
-      }
-
       if (!user) {
-        setSubmitError("Please sign in to save an address.");
+        if (status === "loggedOut") {
+          setSubmitError("Please sign in to save an address.");
+        } else {
+          setSubmitError("Verifying your session, please try again in a moment.");
+        }
         return;
       }
 
@@ -153,7 +165,7 @@ export const AddressForm: React.FC<Props> = ({
             <Label htmlFor="firstName">First name*</Label>
             <Input
               id="firstName"
-              autoComplete="given-name"
+              autoComplete={buildAutoComplete("given-name", addressType)}
               {...register("firstName", { required: "First name is required." })}
             />
             {errors.firstName && <FormError message={errors.firstName.message} />}
@@ -162,7 +174,7 @@ export const AddressForm: React.FC<Props> = ({
           <FormItem>
             <Label htmlFor="lastName">Last name*</Label>
             <Input
-              autoComplete="family-name"
+              autoComplete={buildAutoComplete("family-name", addressType)}
               id="lastName"
               {...register("lastName", { required: "Last name is required." })}
             />
@@ -172,13 +184,22 @@ export const AddressForm: React.FC<Props> = ({
 
         <FormItem>
           <Label htmlFor="phone">Phone</Label>
-          <Input type="tel" id="phone" autoComplete="mobile tel" {...register("phone")} />
+          <Input
+            type="tel"
+            id="phone"
+            autoComplete={buildAutoComplete("tel", addressType)}
+            {...register("phone")}
+          />
           {errors.phone && <FormError message={errors.phone.message} />}
         </FormItem>
 
         <FormItem>
           <Label htmlFor="company">Company</Label>
-          <Input id="company" autoComplete="organization" {...register("company")} />
+          <Input
+            id="company"
+            autoComplete={buildAutoComplete("organization", addressType)}
+            {...register("company")}
+          />
           {errors.company && <FormError message={errors.company.message} />}
         </FormItem>
 
@@ -186,7 +207,7 @@ export const AddressForm: React.FC<Props> = ({
           <Label htmlFor="addressLine1">Address line 1*</Label>
           <Input
             id="addressLine1"
-            autoComplete="address-line1"
+            autoComplete={buildAutoComplete("address-line1", addressType)}
             {...register("addressLine1", { required: "Address line 1 is required." })}
           />
           {errors.addressLine1 && <FormError message={errors.addressLine1.message} />}
@@ -194,7 +215,11 @@ export const AddressForm: React.FC<Props> = ({
 
         <FormItem>
           <Label htmlFor="addressLine2">Address line 2</Label>
-          <Input id="addressLine2" autoComplete="address-line2" {...register("addressLine2")} />
+          <Input
+            id="addressLine2"
+            autoComplete={buildAutoComplete("address-line2", addressType)}
+            {...register("addressLine2")}
+          />
           {errors.addressLine2 && <FormError message={errors.addressLine2.message} />}
         </FormItem>
 
@@ -202,7 +227,7 @@ export const AddressForm: React.FC<Props> = ({
           <Label htmlFor="city">City*</Label>
           <Input
             id="city"
-            autoComplete="address-level2"
+            autoComplete={buildAutoComplete("address-level2", addressType)}
             {...register("city", { required: "City is required." })}
           />
           {errors.city && <FormError message={errors.city.message} />}
@@ -210,7 +235,11 @@ export const AddressForm: React.FC<Props> = ({
 
         <FormItem>
           <Label htmlFor="state">State</Label>
-          <Input id="state" autoComplete="address-level1" {...register("state")} />
+          <Input
+            id="state"
+            autoComplete={buildAutoComplete("address-level1", addressType)}
+            {...register("state")}
+          />
           {errors.state && <FormError message={errors.state.message} />}
         </FormItem>
 
@@ -218,6 +247,7 @@ export const AddressForm: React.FC<Props> = ({
           <Label htmlFor="postalCode">Zip Code*</Label>
           <Input
             id="postalCode"
+            autoComplete={buildAutoComplete("postal-code", addressType)}
             {...register("postalCode", { required: "Postal code is required." })}
           />
           {errors.postalCode && <FormError message={errors.postalCode.message} />}
@@ -263,7 +293,7 @@ export const AddressForm: React.FC<Props> = ({
 
       {submitError && <FormError message={submitError} className="mb-4" />}
 
-      <Button type="submit" disabled={isSubmitting || (!user && status !== "loggedOut")}>
+      <Button type="submit" disabled={isSubmitting || !user}>
         {isSubmitting ? "Saving…" : "Save Address"}
       </Button>
     </form>

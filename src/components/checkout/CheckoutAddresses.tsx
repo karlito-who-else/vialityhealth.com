@@ -21,12 +21,14 @@ type Props = {
   heading?: string;
   description?: string;
   setSubmit?: React.Dispatch<React.SetStateAction<() => void | Promise<void>>>;
+  addressType?: "shipping" | "billing";
 };
 
 export const CheckoutAddresses: React.FC<Props> = ({
   setAddress,
   heading = "Addresses",
   description = "Please select or add your shipping and billing addresses.",
+  addressType,
 }) => {
   const { addresses } = useAddresses();
 
@@ -35,7 +37,7 @@ export const CheckoutAddresses: React.FC<Props> = ({
       <div>
         <p>No addresses found. Please add an address.</p>
 
-        <CreateAddressModal />
+        <CreateAddressModal addressType={addressType} />
       </div>
     );
   }
@@ -46,12 +48,12 @@ export const CheckoutAddresses: React.FC<Props> = ({
         <h3 className="text-xl font-medium mb-2">{heading}</h3>
         <p className="text-muted-foreground">{description}</p>
       </div>
-      <AddressesModal setAddress={setAddress} />
+      <AddressesModal setAddress={setAddress} addressType={addressType} />
     </div>
   );
 };
 
-const AddressesModal: React.FC<Props> = ({ setAddress }) => {
+const AddressesModal: React.FC<Props> = ({ setAddress, addressType }) => {
   const [open, setOpen] = useState(false);
   const handleOpenChange = (state: boolean) => {
     setOpen(state);
@@ -98,7 +100,7 @@ const AddressesModal: React.FC<Props> = ({ setAddress }) => {
             ))}
           </ul>
 
-          <CreateAddressModal />
+          <CreateAddressModal addressType={addressType} />
         </div>
       </DialogContent>
     </Dialog>
