@@ -234,6 +234,31 @@ export const plugins: Plugin[] = [
               ],
             },
           },
+          {
+            name: "shippingMethod",
+            type: "group",
+            label: "Shipping Method",
+            admin: {
+              position: "sidebar",
+            },
+            fields: [
+              {
+                name: "serviceName",
+                type: "text",
+                label: "Service Name",
+              },
+              {
+                name: "timeframe",
+                type: "text",
+                label: "Timeframe",
+              },
+              {
+                name: "cost",
+                type: "number",
+                label: "Cost",
+              },
+            ],
+          },
         ],
       }),
     },

@@ -23,12 +23,19 @@ type ShippingAddressInput = {
   phone?: string | null;
 };
 
+type ShippingMethodInput = {
+  serviceName: string;
+  timeframe: string;
+  cost: number;
+};
+
 export async function createBankTransferOrder(data: {
   items: OrderItemInput[];
   shippingAddress: ShippingAddressInput;
   customer?: number | null;
   customerEmail?: string | null;
   amount: number;
+  shippingMethod?: ShippingMethodInput | null;
 }) {
   const payload = await getPayload({ config: configPromise });
 
@@ -42,6 +49,7 @@ export async function createBankTransferOrder(data: {
       amount: data.amount,
       currency: "AUD",
       status: "processing",
+      shippingMethod: data.shippingMethod || undefined,
     },
   });
 

@@ -86,6 +86,7 @@ export default async function OrderConfirmed({
         createdAt: true,
         updatedAt: true,
         shippingAddress: true,
+        shippingMethod: true,
       },
     });
 
@@ -272,6 +273,25 @@ export default async function OrderConfirmed({
                   );
                 })}
               </ul>
+            </div>
+          )}
+
+          {order.shippingMethod && (
+            <div className="mt-8">
+              <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">
+                Shipping Method
+              </h2>
+              <div className="flex items-center justify-between px-4 py-3 border rounded-lg">
+                <div>
+                  <p className="text-sm font-medium">
+                    {(order.shippingMethod as any)?.serviceName}
+                  </p>
+                  <p className="text-xs text-primary/50 mt-0.5">
+                    {(order.shippingMethod as any)?.timeframe}
+                  </p>
+                </div>
+                <Price amount={(order.shippingMethod as any)?.cost} />
+              </div>
             </div>
           )}
 

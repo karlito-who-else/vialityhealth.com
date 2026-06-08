@@ -301,6 +301,47 @@ export const Settings: GlobalConfig = {
           ],
         },
         {
+          label: "Shipping",
+          fields: [
+            {
+              name: "shippingOptions",
+              type: "array",
+              label: "Shipping Options",
+              labels: {
+                singular: "Shipping Option",
+                plural: "Shipping Options",
+              },
+              fields: [
+                {
+                  name: "serviceName",
+                  type: "text",
+                  required: true,
+                  label: "Service Name",
+                },
+                {
+                  name: "timeframe",
+                  type: "text",
+                  required: true,
+                  label: "Timeframe",
+                  admin: {
+                    description:
+                      'e.g. "3-5 business days", "Next business day"',
+                  },
+                },
+                {
+                  name: "cost",
+                  type: "number",
+                  required: true,
+                  label: "Cost",
+                  admin: {
+                    description: "Cost in AUD (e.g. 9.99).",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: "Account & Orders",
           fields: [
             {

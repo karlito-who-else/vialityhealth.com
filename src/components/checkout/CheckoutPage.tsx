@@ -40,7 +40,13 @@ interface BankTransferInfo {
   swiftCode?: string | null;
 }
 
-export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ bankTransfer }) => {
+interface ShippingOption {
+  serviceName: string;
+  timeframe: string;
+  cost: number;
+}
+
+export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[] }> = ({ bankTransfer, shippingOptions }) => {
   const { user } = useAuth();
   const { push, refresh } = useRouter();
   const { cart, clearCart } = useCart();
@@ -58,6 +64,14 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
   const [billingAddressSameAsShipping, setBillingAddressSameAsShipping] = useState(true);
   const [isProcessingPayment, setProcessingPayment] = useState(false);
   const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
+  const [selectedShipping, setSelectedShipping] = useState<string | undefined>(
+    shippingOptions?.[0]?.serviceName,
+  );
+
+  const shippingCost =
+    shippingOptions?.find((opt) => opt.serviceName === selectedShipping)?.cost ?? 0;
+
+  const totalWithShipping = (cart?.subtotal ?? 0) + shippingCost;
 
   const cartIsEmpty = !cart || !cart.items || !cart.items.length;
 
@@ -90,12 +104,21 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
   const initiatePaymentIntent = useCallback(
     async (paymentID: string) => {
       try {
+        const pmData = {
+          ...(email ? { customerEmail: email } : {}),
+          billingAddress,
+          shippingAddress: billingAddressSameAsShipping ? billingAddress : shippingAddress,
+          ...(selectedShipping
+            ? {
+                shippingMethod: shippingOptions?.find(
+                  (opt) => opt.serviceName === selectedShipping,
+                ),
+              }
+            : {}),
+        };
+
         const paymentData = (await initiatePayment(paymentID, {
-          additionalData: {
-            ...(email ? { customerEmail: email } : {}),
-            billingAddress,
-            shippingAddress: billingAddressSameAsShipping ? billingAddress : shippingAddress,
-          },
+          additionalData: pmData,
         })) as Record<string, unknown>;
 
         if (paymentData) {
@@ -113,7 +136,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
         toast.error(errorMessage);
       }
     },
-    [billingAddress, billingAddressSameAsShipping, email, shippingAddress],
+    [billingAddress, billingAddressSameAsShipping, email, shippingAddress, selectedShipping, shippingOptions],
   );
 
   const handleConfirmOrder = useCallback(async () => {
@@ -133,6 +156,10 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
 
       const address = billingAddressSameAsShipping ? billingAddress : shippingAddress;
 
+      const shippingMethod = shippingOptions?.find(
+        (opt) => opt.serviceName === selectedShipping,
+      );
+
       const result = await createBankTransferOrder({
         items: orderItems,
         shippingAddress: {
@@ -150,7 +177,8 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
         },
         customer: user?.id || null,
         customerEmail: email || null,
-        amount: cart.subtotal || 0,
+        amount: totalWithShipping,
+        shippingMethod,
       });
 
       if (result?.orderID) {
@@ -174,7 +202,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
       toast.error(msg);
       setIsConfirmingOrder(false);
     }
-  }, [cart, canGoToPayment, billingAddressSameAsShipping, billingAddress, shippingAddress, user, email, clearCart, push]);
+  }, [cart, canGoToPayment, billingAddressSameAsShipping, billingAddress, shippingAddress, user, email, clearCart, push, shippingOptions, selectedShipping, totalWithShipping]);
 
   if (!bankTransfer && !stripe) return null;
 
@@ -363,10 +391,52 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
           </>
         )}
 
+        {shippingOptions && shippingOptions.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <h2 className="font-medium text-3xl">Shipping</h2>
+            {shippingOptions.map((option) => (
+              <button
+                key={option.serviceName}
+                type="button"
+                disabled={Boolean(paymentData)}
+                onClick={() => setSelectedShipping(option.serviceName)}
+                className={`w-full flex items-center justify-between px-4 py-3.5 border text-left ${
+                  selectedShipping === option.serviceName
+                    ? "border-primary/60 bg-primary/[0.03]"
+                    : "border-border/50"
+                }`}
+              >
+                <div className="flex items-center gap-3.5">
+                  <div
+                    className={`size-3.5 rounded-full border flex items-center justify-center ${
+                      selectedShipping === option.serviceName
+                        ? "border-primary"
+                        : "border-border"
+                    }`}
+                  >
+                    {selectedShipping === option.serviceName && (
+                      <div className="size-1.5 rounded-full bg-primary" />
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-xs uppercase tracking-widest font-medium">
+                      {option.serviceName}
+                    </div>
+                    <div className="text-xs text-primary/40 mt-0.5">
+                      {option.timeframe}
+                    </div>
+                  </div>
+                </div>
+                <Price amount={option.cost} />
+              </button>
+            ))}
+          </div>
+        )}
+
         {!paymentData && !isConfirmingOrder && (
           <Button
             className="self-start"
-            disabled={!canGoToPayment}
+            disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
             onClick={(e) => {
               e.preventDefault();
               if (bankTransfer) {
@@ -547,8 +617,19 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
           })}
           <hr />
           <div className="flex justify-between items-center gap-2">
-            <span className="uppercase">Total</span>{" "}
-            <Price className="text-3xl font-medium" amount={cart.subtotal || 0} />
+            <span className="uppercase">Subtotal</span>{" "}
+            <Price className="text-xl" amount={cart.subtotal || 0} />
+          </div>
+          {shippingCost > 0 && (
+            <div className="flex justify-between items-center gap-2">
+              <span className="uppercase">Shipping</span>{" "}
+              <Price className="text-xl" amount={shippingCost} />
+            </div>
+          )}
+          <hr />
+          <div className="flex justify-between items-center gap-2">
+            <span className="uppercase font-medium">Total</span>{" "}
+            <Price className="text-3xl font-medium" amount={totalWithShipping} />
           </div>
           {bankTransfer && (
             <div className="bg-card border rounded-lg p-4 text-sm space-y-1.5">

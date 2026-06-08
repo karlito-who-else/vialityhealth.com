@@ -295,6 +295,11 @@ export interface Order {
   amount?: number | null;
   currency?: 'AUD' | null;
   accessToken?: string | null;
+  shippingMethod?: {
+    serviceName?: string | null;
+    timeframe?: string | null;
+    cost?: number | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -2942,6 +2947,13 @@ export interface OrdersSelect<T extends boolean = true> {
   amount?: T;
   currency?: T;
   accessToken?: T;
+  shippingMethod?:
+    | T
+    | {
+        serviceName?: T;
+        timeframe?: T;
+        cost?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3442,6 +3454,20 @@ export interface Setting {
   accountNumber?: string | null;
   routingNumber?: string | null;
   swiftCode?: string | null;
+  shippingOptions?:
+    | {
+        serviceName: string;
+        /**
+         * e.g. "3-5 business days", "Next business day"
+         */
+        timeframe: string;
+        /**
+         * Cost in AUD (e.g. 9.99).
+         */
+        cost: number;
+        id?: string | null;
+      }[]
+    | null;
   loginWarning?: string | null;
   ordersLoginWarning?: string | null;
   alreadyLoggedInWarning?: string | null;
@@ -3627,6 +3653,14 @@ export interface SettingsSelect<T extends boolean = true> {
   accountNumber?: T;
   routingNumber?: T;
   swiftCode?: T;
+  shippingOptions?:
+    | T
+    | {
+        serviceName?: T;
+        timeframe?: T;
+        cost?: T;
+        id?: T;
+      };
   loginWarning?: T;
   ordersLoginWarning?: T;
   alreadyLoggedInWarning?: T;

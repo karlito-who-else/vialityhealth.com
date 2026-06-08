@@ -21,6 +21,15 @@ export default async function Checkout() {
       }
     : undefined;
 
+  const shippingOptions: { serviceName: string; timeframe: string; cost: number }[] =
+    (settings?.shippingOptions ?? [])
+      .filter(
+        (opt): opt is { serviceName: string; timeframe: string; cost: number } =>
+          typeof opt.serviceName === "string" &&
+          typeof opt.timeframe === "string" &&
+          typeof opt.cost === "number",
+      );
+
   return (
     <div className="container mx-auto min-h-[90vh] flex px-4">
       {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '') && (
@@ -49,7 +58,7 @@ export default async function Checkout() {
 
       <h1 className="sr-only">Checkout</h1>
 
-      <CheckoutPage bankTransfer={bankTransfer} />
+      <CheckoutPage bankTransfer={bankTransfer} shippingOptions={shippingOptions} />
     </div>
   );
 }
