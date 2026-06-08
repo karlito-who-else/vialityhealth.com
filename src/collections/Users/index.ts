@@ -6,6 +6,7 @@ import { adminOrSelf } from "@/access/adminOrSelf";
 import { publicAccess } from "@/access/publicAccess";
 import { checkRole } from "@/access/utilities";
 
+import { getDesignTokens } from "@/email/getDesignTokens";
 import { passwordResetTemplate } from "@/email/templates";
 import { getServerSideURL } from "@/utilities/getURL";
 
@@ -30,12 +31,13 @@ export const Users: CollectionConfig = {
   auth: {
     tokenExpiration: 1209600,
     forgotPassword: {
-      generateEmailHTML: (args) => {
-        const { user, token } = args || {};
-        if (!user || !token) return "";
+      generateEmailHTML: async (args) => {
+        const { user, token, req } = args || {};
+        if (!user || !token || !req) return "";
         const url = `${getServerSideURL()}/reset-password?token=${token}`;
         const name = user.name || user.email;
-        return passwordResetTemplate(name, url);
+        const tokens = await getDesignTokens({ payload: req.payload, req });
+        return passwordResetTemplate(name, url, tokens);
       },
     },
   },

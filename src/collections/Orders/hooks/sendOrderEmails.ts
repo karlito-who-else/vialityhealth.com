@@ -1,5 +1,6 @@
 import type { CollectionAfterChangeHook } from "payload";
 
+import { getDesignTokens } from "@/email/getDesignTokens";
 import { orderConfirmationTemplate, orderStatusTemplate } from "@/email/templates";
 import { getServerSideURL } from "@/utilities/getURL";
 
@@ -46,12 +47,14 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
       ? `${order.currency} ${(order.amount / 100).toFixed(2)}`
       : "";
 
+  const tokens = await getDesignTokens({ payload: req.payload, req });
+
   if (operation === "create") {
     try {
       await req.payload.sendEmail({
         to: recipient,
         subject: `Order confirmed - #${order.id}`,
-        html: orderConfirmationTemplate(customerName, order.id, items, total, orderURL),
+        html: orderConfirmationTemplate(customerName, order.id, items, total, orderURL, tokens),
       });
     } catch (err) {
       req.payload.logger.error({ msg: "Failed to send order confirmation email", err });
@@ -64,7 +67,7 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
       await req.payload.sendEmail({
         to: recipient,
         subject: `Order #${order.id} is now ${order.status}`,
-        html: orderStatusTemplate(customerName, order.id, order.status, orderURL),
+        html: orderStatusTemplate(customerName, order.id, order.status, orderURL, tokens),
       });
     } catch (err) {
       req.payload.logger.error({ msg: "Failed to send order status email", err });

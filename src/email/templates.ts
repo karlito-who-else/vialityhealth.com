@@ -1,30 +1,47 @@
-const baseTemplate = (content: string) => `
+export type DesignTokens = {
+  logoHTML: string;
+};
+
+const bg = "#f5f2ed";
+const cardBg = "#faf8f5";
+const foreground = "#272c35";
+const muted = "#7a7f8a";
+const border = "#e6e0d6";
+const accent = "#d4c8ac";
+const accentForeground = "#272c35";
+const fontFamily = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+const radius = "6px";
+
+const baseTemplate = (content: string, tokens: DesignTokens) => `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body style="margin:0;padding:0;background-color:#f4f4f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4;padding:40px 0;">
+<body style="margin:0;padding:0;background-color:${bg};font-family:${fontFamily};">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:${bg};padding:40px 0;">
     <tr>
       <td align="center">
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:${cardBg};border-radius:${radius};overflow:hidden;">
           <tr>
-            <td style="background-color:#0b3d2c;padding:32px 40px;text-align:center;">
-              <h1 style="color:#ffffff;margin:0;font-size:24px;font-weight:700;letter-spacing:-0.5px;">Viality</h1>
+            <td style="padding:32px 40px;text-align:center;">
+              ${tokens.logoHTML}
             </td>
           </tr>
           <tr>
-            <td style="padding:40px;font-size:16px;line-height:1.6;color:#333333;">
+            <td style="padding:0 40px 40px;font-size:16px;line-height:1.6;color:${foreground};">
               ${content}
             </td>
           </tr>
           <tr>
-            <td style="background-color:#f9f9f9;padding:24px 40px;text-align:center;border-top:1px solid #e5e5e5;">
-              <p style="margin:0;font-size:13px;color:#888888;">
+            <td style="background-color:${bg};padding:24px 40px;text-align:center;border-top:1px solid ${border};">
+              <p style="margin:0;font-size:13px;color:${muted};">
                 Viality Health<br>
-                <a href="https://vialityhealth.com" style="color:#0b3d2c;text-decoration:none;">vialityhealth.com</a>
+                <a href="https://vialityhealth.com" style="color:${foreground};text-decoration:none;">vialityhealth.com</a>
               </p>
             </td>
           </tr>
@@ -35,38 +52,41 @@ const baseTemplate = (content: string) => `
 </body>
 </html>`;
 
-export const passwordResetTemplate = (name: string, resetURL: string): string =>
-  baseTemplate(`
-    <h2 style="margin:0 0 16px;font-size:20px;color:#0b3d2c;">Reset your password</h2>
-    <p style="margin:0 0 20px;">Hi ${name},</p>
-    <p style="margin:0 0 20px;">We received a request to reset the password for your Viality account. Click the button below to set a new password.</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-      <tr>
-        <td style="background-color:#0b3d2c;border-radius:6px;">
-          <a href="${resetURL}" style="display:inline-block;padding:14px 32px;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;">Reset Password</a>
-        </td>
-      </tr>
-    </table>
-    <p style="margin:0 0 20px;">Or copy this link into your browser:</p>
-    <p style="margin:0 0 20px;word-break:break-all;font-size:14px;color:#0b3d2c;">${resetURL}</p>
-    <p style="margin:0 0 8px;font-size:14px;color:#888888;">If you didn't request this, you can safely ignore this email.</p>
-    <p style="margin:0;font-size:14px;color:#888888;">This link expires in 24 hours.</p>
-  `);
+const button = (href: string, label: string) => `
+  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
+    <tr>
+      <td style="background-color:${foreground};border-radius:${radius};">
+        <a href="${href}" style="display:inline-block;padding:14px 32px;color:${cardBg};text-decoration:none;font-size:15px;font-weight:600;">${label}</a>
+      </td>
+    </tr>
+  </table>`;
 
-export const accountCreatedTemplate = (name: string): string =>
+export const logoMarkup = (logoURL: string, alt: string) =>
+  `<img src="${logoURL}" alt="${alt}" style="height:32px;width:auto;display:block;margin:0 auto;" />`;
+
+export const textLogoMarkup = (siteName: string) =>
+  `<h1 style="color:${foreground};margin:0;font-size:22px;font-weight:700;letter-spacing:-0.5px;">${siteName}</h1>`;
+
+export const passwordResetTemplate = (name: string, resetURL: string, tokens: DesignTokens): string =>
   baseTemplate(`
-    <h2 style="margin:0 0 16px;font-size:20px;color:#0b3d2c;">Welcome to Viality</h2>
+    <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Reset your password</h2>
+    <p style="margin:0 0 20px;">Hi ${name},</p>
+    <p style="margin:0 0 20px;">We received a request to reset the password for your account. Click the button below to set a new password.</p>
+    ${button(resetURL, "Reset Password")}
+    <p style="margin:0 0 20px;">Or copy this link into your browser:</p>
+    <p style="margin:0 0 20px;word-break:break-all;font-size:14px;color:${foreground};">${resetURL}</p>
+    <p style="margin:0 0 8px;font-size:14px;color:${muted};">If you didn't request this, you can safely ignore this email.</p>
+    <p style="margin:0;font-size:14px;color:${muted};">This link expires in 24 hours.</p>
+  `, tokens);
+
+export const accountCreatedTemplate = (name: string, tokens: DesignTokens): string =>
+  baseTemplate(`
+    <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Welcome to Viality</h2>
     <p style="margin:0 0 20px;">Hi ${name},</p>
     <p style="margin:0 0 20px;">Your account has been created successfully. You can now browse our range of supplements, track your orders, and manage your preferences.</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-      <tr>
-        <td style="background-color:#0b3d2c;border-radius:6px;">
-          <a href="https://vialityhealth.com/shop" style="display:inline-block;padding:14px 32px;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;">Start Shopping</a>
-        </td>
-      </tr>
-    </table>
-    <p style="margin:0;font-size:14px;color:#888888;">If you have any questions, feel free to <a href="https://vialityhealth.com/contact" style="color:#0b3d2c;">contact us</a>.</p>
-  `);
+    ${button("https://vialityhealth.com/shop", "Start Shopping")}
+    <p style="margin:0;font-size:14px;color:${muted};">If you have any questions, feel free to <a href="https://vialityhealth.com/contact" style="color:${foreground};">contact us</a>.</p>
+  `, tokens);
 
 export const orderConfirmationTemplate = (
   name: string,
@@ -74,60 +94,50 @@ export const orderConfirmationTemplate = (
   items: { title: string; quantity: number; price: string }[],
   total: string,
   orderURL: string,
+  tokens: DesignTokens,
 ): string =>
   baseTemplate(`
-    <h2 style="margin:0 0 16px;font-size:20px;color:#0b3d2c;">Order confirmed</h2>
+    <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Order confirmed</h2>
     <p style="margin:0 0 20px;">Hi ${name},</p>
     <p style="margin:0 0 20px;">Thank you for your order! We're processing it now. Here's a summary:</p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border-collapse:collapse;">
       <tr>
-        <td style="padding:0 0 8px;font-size:14px;color:#888888;">Order #${orderID}</td>
-        <td style="padding:0 0 8px;font-size:14px;color:#888888;text-align:right;">${new Date().toLocaleDateString()}</td>
+        <td style="padding:0 0 8px;font-size:14px;color:${muted};">Order #${orderID}</td>
+        <td style="padding:0 0 8px;font-size:14px;color:${muted};text-align:right;">${new Date().toLocaleDateString()}</td>
       </tr>
       ${items.map((item) => `
         <tr>
-          <td style="padding:8px 0;border-top:1px solid #e5e5e5;font-size:15px;">${item.title} <span style="color:#888888;">× ${item.quantity}</span></td>
-          <td style="padding:8px 0;border-top:1px solid #e5e5e5;font-size:15px;text-align:right;">${item.price}</td>
+          <td style="padding:8px 0;border-top:1px solid ${border};font-size:15px;">${item.title} <span style="color:${muted};">× ${item.quantity}</span></td>
+          <td style="padding:8px 0;border-top:1px solid ${border};font-size:15px;text-align:right;">${item.price}</td>
         </tr>
       `).join("")}
       <tr>
-        <td style="padding:12px 0 0;border-top:2px solid #0b3d2c;font-size:16px;font-weight:700;">Total</td>
-        <td style="padding:12px 0 0;border-top:2px solid #0b3d2c;font-size:16px;font-weight:700;text-align:right;">${total}</td>
+        <td style="padding:12px 0 0;border-top:2px solid ${foreground};font-size:16px;font-weight:700;">Total</td>
+        <td style="padding:12px 0 0;border-top:2px solid ${foreground};font-size:16px;font-weight:700;text-align:right;">${total}</td>
       </tr>
     </table>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-      <tr>
-        <td style="background-color:#0b3d2c;border-radius:6px;">
-          <a href="${orderURL}" style="display:inline-block;padding:14px 32px;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;">View Order</a>
-        </td>
-      </tr>
-    </table>
-    <p style="margin:0;font-size:14px;color:#888888;">We'll send you an update when your order ships.</p>
-  `);
+    ${button(orderURL, "View Order")}
+    <p style="margin:0;font-size:14px;color:${muted};">We'll send you an update when your order ships.</p>
+  `, tokens);
 
 export const orderStatusTemplate = (
   name: string,
   orderID: string,
   status: string,
   orderURL: string,
+  tokens: DesignTokens,
 ): string =>
   baseTemplate(`
-    <h2 style="margin:0 0 16px;font-size:20px;color:#0b3d2c;">Order status update</h2>
+    <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Order status update</h2>
     <p style="margin:0 0 20px;">Hi ${name},</p>
     <p style="margin:0 0 20px;">Your order <strong>#${orderID}</strong> has been updated to:</p>
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
       <tr>
-        <td style="background-color:#0b3d2c;border-radius:6px;padding:12px 24px;">
-          <span style="color:#ffffff;font-size:16px;font-weight:600;text-transform:capitalize;">${status}</span>
+        <td style="background-color:${accent};border-radius:${radius};padding:12px 24px;">
+          <span style="color:${accentForeground};font-size:16px;font-weight:600;text-transform:capitalize;">${status}</span>
         </td>
       </tr>
     </table>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-      <tr>
-        <td style="background-color:#0b3d2c;border-radius:6px;">
-          <a href="${orderURL}" style="display:inline-block;padding:14px 32px;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;">View Order</a>
-        </td>
-      </tr>
-    </table>
-    <p style="margin:0;font-size:14px;color:#888888;">If you have any questions about this update, <a href="https://vialityhealth.com/contact" style="color:#0b3d2c;">contact us</a>.</p>
-  `);
+    ${button(orderURL, "View Order")}
+    <p style="margin:0;font-size:14px;color:${muted};">If you have any questions about this update, <a href="https://vialityhealth.com/contact" style="color:${foreground};">contact us</a>.</p>
+  `, tokens);

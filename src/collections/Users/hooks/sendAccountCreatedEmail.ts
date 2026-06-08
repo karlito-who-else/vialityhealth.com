@@ -1,5 +1,6 @@
 import type { CollectionAfterChangeHook } from "payload";
 
+import { getDesignTokens } from "@/email/getDesignTokens";
 import { accountCreatedTemplate } from "@/email/templates";
 
 export const sendAccountCreatedEmail: CollectionAfterChangeHook = async ({
@@ -12,10 +13,12 @@ export const sendAccountCreatedEmail: CollectionAfterChangeHook = async ({
   const name = doc.name || doc.email;
 
   try {
+    const tokens = await getDesignTokens({ payload: req.payload, req });
+
     await req.payload.sendEmail({
       to: doc.email,
       subject: "Welcome to Viality",
-      html: accountCreatedTemplate(name),
+      html: accountCreatedTemplate(name, tokens),
     });
   } catch (err) {
     req.payload.logger.error({ msg: "Failed to send account creation email", err });

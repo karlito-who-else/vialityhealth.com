@@ -41,6 +41,16 @@ export const Settings: GlobalConfig = {
       },
     },
     {
+      name: "emailLogo",
+      type: "upload",
+      relationTo: "media",
+      label: "Email Logo (PNG/JPG)",
+      admin: {
+        description:
+          "Upload a raster image (PNG or JPG) for use in transactional emails. Most email clients do not support SVG, so use a standard image format here.",
+      },
+    },
+    {
       name: "socialLinks",
       type: "array",
       label: "Social Links",
