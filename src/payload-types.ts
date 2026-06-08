@@ -3382,6 +3382,10 @@ export interface Setting {
    * Upload an SVG for the site logo. SVGs render inline at any size without quality loss.
    */
   logo?: (number | null) | Media;
+  /**
+   * Upload a raster image (PNG or JPG) for use in transactional emails. Most email clients do not support SVG, so use a standard image format here.
+   */
+  emailLogo?: (number | null) | Media;
   socialLinks?:
     | {
         label: string;
@@ -3566,6 +3570,7 @@ export interface SettingsSelect<T extends boolean = true> {
   defaultDescription?: T;
   defaultOGImage?: T;
   logo?: T;
+  emailLogo?: T;
   socialLinks?:
     | T
     | {
