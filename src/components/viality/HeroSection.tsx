@@ -128,9 +128,9 @@ export function HeroSection({
                 src={logo.url || ""}
                 alt={logo.alt || siteTitle || "viality"}
                 className="size-full invert-100 dark:invert-0"
-                unoptimized
                 height={150}
                 width={300}
+                priority
             />
           ) : (
             title

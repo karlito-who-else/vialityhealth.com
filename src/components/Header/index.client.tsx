@@ -1,15 +1,17 @@
 "use client";
 import { Link } from "@/components/atoms/Link";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useRef, Suspense, useEffect, useState } from "react";
 import type { Header, Setting } from "src/payload-types";
 
-import { Cart } from "@/components/Cart";
 import { cn } from "@/utilities/cn";
 import { resolveLinkHref } from "@/utilities/resolveLinkHref";
 
 import { MobileMenu } from "./MobileMenu";
+
+const Cart = dynamic(() => import("@/components/Cart"), { ssr: false });
 
 type Props = {
   className?: string;
@@ -25,13 +27,21 @@ export function HeaderClient({ className, header, settings }: Props) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const onHero = pathname === "/";
+  const scrollRaf = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60);
+      if (scrollRaf.current !== null) return;
+      scrollRaf.current = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 60);
+        scrollRaf.current = null;
+      });
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollRaf.current !== null) cancelAnimationFrame(scrollRaf.current);
+    };
   }, []);
 
   const transparent = onHero && !isScrolled;
@@ -67,7 +77,7 @@ export function HeaderClient({ className, header, settings }: Props) {
               src={logo.url || ""}
               alt={logo.alt || siteTitle || "viality"}
               className="size-full dark:invert"
-              unoptimized
+              priority
             />
           ) : (
             siteTitle || "viality"
