@@ -28,7 +28,7 @@ import { useAuth } from "@/providers/Auth";
 import { env } from "@/utilities/env";
 
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-const stripe = loadStripe(apiKey);
+const stripe = apiKey ? loadStripe(apiKey) : null;
 
 interface BankTransferInfo {
   heading?: string | null;
@@ -202,19 +202,6 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
     <div className="flex flex-col items-stretch justify-stretch mx-auto my-8 md:flex-row grow gap-10 md:gap-6 lg:gap-8">
       <div className="basis-full lg:basis-2/3 flex flex-col gap-8 justify-stretch px-4">
         <h2 className="font-medium text-3xl">Contact</h2>
-        {!user && (
-          <div className=" bg-accent dark:bg-ink-well rounded-lg p-4 w-full flex items-center">
-            <div className="prose">
-              <Button asChild className="no-underline text-inherit" variant="outline">
-                <Link href="/login">Log in</Link>
-              </Button>
-              <p className="mt-0">
-                <span className="mx-2">or</span>
-                <Link href="/create-account">create an account</Link>
-              </p>
-            </div>
-          </div>
-        )}
         {user ? (
           <div className="bg-accent dark:bg-card rounded-lg p-4 ">
             <div>
@@ -224,6 +211,29 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                 <Link className="underline" href="/logout">
                   Log out
                 </Link>
+              </p>
+            </div>
+          </div>
+        ) : !emailEditable && email ? (
+          <div className="bg-accent dark:bg-card rounded-lg p-4 ">
+            <div>
+              <p>{email}</p>{" "}
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span>Not you?</span>
+                <Link className="underline" href="/login">
+                  Log in
+                </Link>
+                <span>or</span>
+                <button
+                  className="underline bg-transparent border-0 p-0 cursor-pointer font-inherit"
+                  onClick={() => {
+                    setEmail("");
+                    setEmailEditable(true);
+                  }}
+                  type="button"
+                >
+                  Use a different email
+                </button>
               </p>
             </div>
           </div>
@@ -254,6 +264,13 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
               >
                 Continue as guest
               </Button>
+
+              <p className="mt-4 text-sm">
+                Already have an account?{" "}
+                <Link className="underline" href="/login">
+                  Log in
+                </Link>
+              </p>
             </div>
           </div>
         )}
