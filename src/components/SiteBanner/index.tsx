@@ -12,17 +12,14 @@ export async function SiteBanner() {
   }
 
   const items = Array.from({ length: 4 }, (_, i) => (
-    <span key={i} className="shrink-0">
+    <span key={i} className="shrink-0" style={{ paddingRight: "25vw" }}>
       {content}
     </span>
   ));
 
   return (
     <div className="bg-foreground text-background overflow-hidden text-xs uppercase tracking-widest py-2.5 leading-none">
-      <div
-        className="animate-marquee-banner flex w-fit"
-        style={{ columnGap: "3rem", paddingInline: "2rem" }}
-      >
+      <div className="animate-marquee-banner flex w-fit">
         {items}
       </div>
     </div>
