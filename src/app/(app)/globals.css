@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:where([data-theme="never"]));
+
 @import "./styles/admin.css";
 @import "./styles/colours.css";
 @import "./styles/interactive.css";

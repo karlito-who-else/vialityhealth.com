@@ -11,7 +11,7 @@ import { resolveLinkHref } from "@/utilities/resolveLinkHref";
 
 import { MobileMenu } from "./MobileMenu";
 
-const Cart = dynamic(() => import("@/components/Cart"), { ssr: false });
+const Cart = dynamic(() => import("@/components/Cart").then((mod) => ({ default: mod.Cart })), { ssr: false });
 
 type Props = {
   className?: string;

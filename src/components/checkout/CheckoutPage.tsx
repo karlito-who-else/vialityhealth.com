@@ -25,7 +25,6 @@ import { Label } from "@/components/ui/label";
 import { cssVariables } from "@/cssVariables";
 import { Address } from "@/payload-types";
 import { useAuth } from "@/providers/Auth";
-import { useTheme } from "@/providers/Theme";
 import { env } from "@/utilities/env";
 
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
@@ -46,7 +45,6 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
   const { push, refresh } = useRouter();
   const { cart, clearCart } = useCart();
   const [error, setError] = useState<null | string>(null);
-  const { theme } = useTheme();
   /**
    * State to manage the email input for guest checkout.
    */
@@ -183,7 +181,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
   if (cartIsEmpty && isProcessingPayment) {
     return (
       <div className="py-12 w-full items-center justify-center">
-        <div className="prose dark:prose-invert text-center max-w-none self-center mb-8">
+        <div className="prose text-center max-w-none self-center mb-8">
           <p>Processing your payment…</p>
         </div>
         <LoadingSpinner />
@@ -193,7 +191,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
 
   if (cartIsEmpty) {
     return (
-      <div className="prose dark:prose-invert py-12 w-full items-center">
+      <div className="prose py-12 w-full items-center">
         <p>Your cart is empty.</p>
         <Link href="/search">Continue shopping?</Link>
       </div>
@@ -206,7 +204,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
         <h2 className="font-medium text-3xl">Contact</h2>
         {!user && (
           <div className=" bg-accent dark:bg-ink-well rounded-lg p-4 w-full flex items-center">
-            <div className="prose dark:prose-invert">
+            <div className="prose">
               <Button asChild className="no-underline text-inherit" variant="outline">
                 <Link href="/login">Log in</Link>
               </Button>
@@ -397,12 +395,11 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo }> = ({ ba
                       colorPrimary: "#858585",
                       gridColumnSpacing: "20px",
                       gridRowSpacing: "20px",
-                      colorBackground: theme === "dark" ? "#0a0a0a" : cssVariables.colors.base0,
+                      colorBackground: cssVariables.colors.base0,
                       colorDanger: cssVariables.colors.error500,
                       colorDangerText: cssVariables.colors.error500,
-                      colorIcon:
-                        theme === "dark" ? cssVariables.colors.base0 : cssVariables.colors.base1000,
-                      colorText: theme === "dark" ? "#858585" : cssVariables.colors.base1000,
+                      colorIcon: cssVariables.colors.base1000,
+                      colorText: cssVariables.colors.base1000,
                       colorTextPlaceholder: "#858585",
                       fontFamily: "Geist, sans-serif",
                       fontSizeBase: "16px",

@@ -8,7 +8,6 @@ import { Header } from "@/components/Header";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
 import { WaitlistPopover } from "@/components/viality/WaitlistPopover";
 import { Providers } from "@/providers";
-import { InitTheme } from "@/providers/Theme/InitTheme";
 import { env } from "@/utilities/env";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 
@@ -92,10 +91,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html
       className={[inter.variable, iosevkaCharon.variable].filter(Boolean).join(" ")}
       lang="en"
-      suppressHydrationWarning
     >
       <head>
-        <InitTheme />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

@@ -81,7 +81,7 @@ const CreateAccountFormInner: React.FC = () => {
       tooldescription="Register a new user account with email and password. Automatically logs in the user after successful account creation."
       toolname="createAccount"
     >
-      <div className="prose dark:prose-invert mb-6">
+      <div className="prose mb-6">
         <p>
           {`This is where new customers can signup and create a new account. To manage all users, `}
           <Link href="/admin/collections/users">login to the admin dashboard</Link>.
@@ -137,7 +137,7 @@ const CreateAccountFormInner: React.FC = () => {
         {loading ? "Processing" : "Create Account"}
       </Button>
 
-      <div className="prose dark:prose-invert mt-8">
+      <div className="prose mt-8">
         <p>
           {"Already have an account? "}
           <Link href={`/login${allParams}`}>Login</Link>

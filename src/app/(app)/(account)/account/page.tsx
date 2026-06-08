@@ -62,7 +62,7 @@ export default async function AccountPage() {
         <h2 className="text-3xl font-medium mb-8">{recentOrdersHeading}</h2>
 
         {recentOrdersDescription && (
-          <div className="prose dark:prose-invert mb-8">
+          <div className="prose mb-8">
             <p>{recentOrdersDescription}</p>
           </div>
         )}
