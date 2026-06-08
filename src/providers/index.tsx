@@ -3,6 +3,7 @@ import { stripeAdapterClient } from "@payloadcms/plugin-ecommerce/payments/strip
 import React from "react";
 
 import { AuthProvider } from "@/providers/Auth";
+import { EcommerceAuthBridge } from "@/providers/EcommerceAuthBridge";
 import { SonnerProvider } from "@/providers/Sonner";
 
 import { env } from "@/utilities/env";
@@ -56,6 +57,7 @@ export const Providers: React.FC<{
               }),
             ]}
           >
+            <EcommerceAuthBridge />
             {children}
           </EcommerceProvider>
         </HeaderThemeProvider>
