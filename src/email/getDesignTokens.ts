@@ -1,6 +1,7 @@
 import type { Payload, PayloadRequest } from "payload";
 import type { Media } from "@/payload-types";
 
+import { getServerSideURL } from "@/utilities/getURL";
 import { logoMarkup, textLogoMarkup, type DesignTokens } from "./templates";
 
 type GetDesignTokensArgs = {
@@ -12,6 +13,14 @@ type SettingsWithEmailLogo = {
   siteName?: string | null;
   logo?: (number | null) | Media;
   emailLogo?: (number | null) | Media;
+};
+
+const toAbsoluteURL = (url: string): string => {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  const base = getServerSideURL().replace(/\/+$/, "");
+  return `${base}${url.startsWith("/") ? url : `/${url}`}`;
 };
 
 export const getDesignTokens = async ({
@@ -30,15 +39,15 @@ export const getDesignTokens = async ({
 
   const logo =
     emailLogo && typeof emailLogo === "object" && "url" in emailLogo && emailLogo.url
-      ? emailLogo
+      ? (emailLogo as Media)
       : siteLogo && typeof siteLogo === "object" && "url" in siteLogo && siteLogo.url
-        ? siteLogo
+        ? (siteLogo as Media)
         : null;
 
-  const logoHTML =
-    logo && typeof logo === "object" && "url" in logo && logo.url
-      ? logoMarkup(logo.url, logo.alt || siteName)
-      : textLogoMarkup(siteName);
+  const logoAlt = logo?.alt || siteName;
+  const logoURL = logo?.url ? toAbsoluteURL(logo.url) : null;
+
+  const logoHTML = logoURL ? logoMarkup(logoURL, logoAlt) : textLogoMarkup(siteName);
 
   return { logoHTML };
 };
