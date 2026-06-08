@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 import { getPayload } from "payload";
-import React from "react";
 
 import { LoginForm } from "@/components/forms/LoginForm";
 import { RenderParams } from "@/components/RenderParams";
@@ -26,7 +25,7 @@ export default async function Login() {
 
   return (
     <div className="container">
-      <div className="max-w-xl mx-auto my-12">
+      <div className="max-w-xl mx-auto my-12 px-4">
         <RenderParams />
 
         <h1 className="mb-4 text-3xl">{loginHeading}</h1>

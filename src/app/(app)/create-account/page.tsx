@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 import { getPayload } from "payload";
-import React from "react";
 
 import { CreateAccountForm } from "@/components/forms/CreateAccountForm";
 import { RenderParams } from "@/components/RenderParams";
@@ -25,7 +24,7 @@ export default async function CreateAccount() {
   }
 
   return (
-    <div className="container py-16">
+    <div className="container px-4 py-16">
       <h1 className="text-xl mb-4">{createAccountHeading}</h1>
       <RenderParams />
       <CreateAccountForm />

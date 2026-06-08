@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import React from "react";
 
 import { ForgotPasswordForm } from "@/components/forms/ForgotPasswordForm";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
 export default async function ForgotPasswordPage() {
   return (
-    <div className="container py-16">
+    <div className="container px-4 py-16">
       <ForgotPasswordForm />
     </div>
   );

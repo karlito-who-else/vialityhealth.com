@@ -2,7 +2,6 @@ import configPromise from "@payload-config";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers.js";
 import { getPayload } from "payload";
-import React from "react";
 
 import { FindOrderForm } from "@/components/forms/FindOrderForm";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
@@ -12,7 +11,7 @@ export default async function FindOrderPage() {
   const { user } = await payload.auth({ headers });
 
   return (
-    <div className="container py-16">
+    <div className="container px-4 py-16">
       <FindOrderForm initialEmail={user && "email" in user ? user.email : undefined} />
     </div>
   );
