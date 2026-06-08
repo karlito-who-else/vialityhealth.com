@@ -1,8 +1,9 @@
 "use client";
+
 import { useAddresses } from "@payloadcms/plugin-ecommerce/client/react";
 import { defaultCountries as supportedCountries } from "@payloadcms/plugin-ecommerce/client/react";
 import { deepMergeSimple } from "payload/shared";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { FormError } from "@/components/forms/FormError";
@@ -17,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/providers/Auth";
 import { Address, Config } from "@/payload-types";
 
 import { titles } from "./constants";
@@ -61,24 +63,63 @@ export const AddressForm: React.FC<Props> = ({
   });
 
   const { createAddress, updateAddress } = useAddresses();
+  const { user, status } = useAuth();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = useCallback(
     async (data: AddressFormValues) => {
+      setSubmitError(null);
+
+      if (!user && status !== "loggedOut") {
+        setSubmitError("Verifying your session, please try again in a moment.");
+        return;
+      }
+
+      if (!user) {
+        setSubmitError("Please sign in to save an address.");
+        return;
+      }
+
       const newData = deepMergeSimple(initialData || {}, data);
 
-      if (!skipSubmission) {
-        if (addressID) {
-          await updateAddress(addressID, newData);
-        } else {
-          await createAddress(newData);
+      setIsSubmitting(true);
+      try {
+        if (!skipSubmission) {
+          if (addressID) {
+            await updateAddress(addressID, newData);
+          } else {
+            await createAddress(newData);
+          }
         }
-      }
 
-      if (callback) {
-        callback(newData);
+        if (callback) {
+          callback(newData);
+        }
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Something went wrong saving your address. Please try again.";
+        const friendly =
+          message === "User must be logged in to update or create an address"
+            ? "Your session is no longer active. Please sign in again to save this address."
+            : message;
+        setSubmitError(friendly);
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [initialData, skipSubmission, callback, addressID, updateAddress, createAddress],
+    [
+      initialData,
+      skipSubmission,
+      callback,
+      addressID,
+      updateAddress,
+      createAddress,
+      user,
+      status,
+    ],
   );
 
   return (
@@ -108,7 +149,6 @@ export const AddressForm: React.FC<Props> = ({
             </Select>
             {errors.title && <FormError message={errors.title.message} />}
           </FormItem>
-
           <FormItem>
             <Label htmlFor="firstName">First name*</Label>
             <Input
@@ -221,7 +261,11 @@ export const AddressForm: React.FC<Props> = ({
         </FormItem>
       </div>
 
-      <Button type="submit">Save Address</Button>
+      {submitError && <FormError message={submitError} className="mb-4" />}
+
+      <Button type="submit" disabled={isSubmitting || (!user && status !== "loggedOut")}>
+        {isSubmitting ? "Saving…" : "Save Address"}
+      </Button>
     </form>
   );
 };
