@@ -376,6 +376,10 @@ function BuyNowInner({
   }, [product.enableVariants, searchParams, variants]);
 
   const disabled = useMemo<boolean>(() => {
+    if (product.enableVariants && variants.length && !selectedVariant) {
+      return true;
+    }
+
     const existingItem = cart?.items?.find((item) => {
       const productID = typeof item.product === "object" ? item.product?.id : item.product;
       const variantID = item.variant
@@ -400,16 +404,24 @@ function BuyNowInner({
       if (product.inventory === 0) return true;
     }
     return false;
-  }, [selectedVariant, cart?.items, product]);
+  }, [selectedVariant, cart?.items, product, variants.length]);
 
   const handleBuyNow = useCallback(() => {
     addItem({ product: product.id, variant: selectedVariant?.id ?? undefined }, quantity);
     router.push("/checkout");
   }, [addItem, product, selectedVariant, quantity, router]);
 
+  const requiresVariant = product.enableVariants && variants.length > 0 && !selectedVariant;
+  const buttonLabel = requiresVariant ? "Select an option" : disabled ? "Out of Stock" : label;
+  const ariaLabel = requiresVariant
+    ? "Select a variant to buy now"
+    : disabled
+      ? "Out of stock"
+      : label;
+
   return (
     <button
-      aria-label={disabled ? "Out of stock" : label}
+      aria-label={ariaLabel}
       disabled={disabled}
       type="button"
       onClick={handleBuyNow}
@@ -420,7 +432,7 @@ function BuyNowInner({
           : "border-primary/25 text-primary hover:border-primary/50",
       )}
     >
-      {disabled ? "Out of Stock" : label}
+      {buttonLabel}
     </button>
   );
 }

@@ -57,6 +57,10 @@ function AddToCartInner(props: Props) {
   );
 
   const disabled = useMemo<boolean>(() => {
+    if (product.enableVariants && variants.length && !selectedVariant) {
+      return true;
+    }
+
     const existingItem = cart?.items?.find((item) => {
       const productID = typeof item.product === "object" ? item.product?.id : item.product;
       const variantID = item.variant
@@ -96,11 +100,23 @@ function AddToCartInner(props: Props) {
     }
 
     return false;
-  }, [selectedVariant, cart?.items, product]);
+  }, [selectedVariant, cart?.items, product, variants.length]);
+
+  const requiresVariant = product.enableVariants && variants.length > 0 && !selectedVariant;
+  const labelText = requiresVariant
+    ? "Select an option"
+    : disabled
+      ? "Out of Stock"
+      : (label || "Add to Cart");
+  const ariaLabel = requiresVariant
+    ? "Select a variant to add to cart"
+    : disabled
+      ? "Out of stock"
+      : "Add to cart";
 
   return (
     <button
-      aria-label={disabled ? "Out of stock" : "Add to cart"}
+      aria-label={ariaLabel}
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"
@@ -109,7 +125,7 @@ function AddToCartInner(props: Props) {
         "w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/88 active:scale-[0.99] transition-all"
       }
     >
-      {disabled ? "Out of Stock" : (label || "Add to Cart")}
+      {labelText}
     </button>
   );
 }
