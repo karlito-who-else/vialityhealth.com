@@ -102,7 +102,7 @@ function VialityProductDescriptionInner({
   );
 
   const collectionLabel = productContent?.collectionLabel || "viality — Flagship Collection";
-  const supplyLabel = productContent?.supplyLabel || "60 Capsules · 30-Day Supply";
+  const supplyLabel = productContent?.supplyLabel || "";
   const purchaseOptionLabel = productContent?.purchaseOptionLabel || "Purchase Option";
   const subscribeLabel = productContent?.subscribeLabel || `Subscribe & Save ${discountPercent}%`;
   const subscribeDetail =
