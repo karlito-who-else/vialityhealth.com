@@ -16,6 +16,7 @@ const variables = {
   PAYLOAD_PUBLIC_SERVER_URL: process.env.PAYLOAD_PUBLIC_SERVER_URL || `https://${process.env.VERCEL_URL}`,
   PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
   PREVIEW_SECRET: process.env.PREVIEW_SECRET,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   STRIPE_WEBHOOKS_SIGNING_SECRET: process.env.STRIPE_WEBHOOKS_SIGNING_SECRET,
   VERCEL_PROJECT_PRODUCTION_URL: process.env.VERCEL_PROJECT_PRODUCTION_URL,
@@ -34,6 +35,7 @@ const clientVariablesSchema = z.object({
   PAYLOAD_PUBLIC_SERVER_URL: z.string().optional(),
   PAYLOAD_SECRET: z.string().optional(),
   PREVIEW_SECRET: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOKS_SIGNING_SECRET: z.string().optional(),
   VERCEL_PROJECT_PRODUCTION_URL: z.string().optional(),
@@ -45,12 +47,13 @@ const serverVariablesSchema = z.object({
   KLAVIYO_LIST_ID_NEWSLETTER: z.string(),
   // KLAVIYO_LIST_ID_OUT_OF_STOCK_NOTIFICATIONS: z.string(),
   // KLAVIYO_URL: z.string(),
-  PAYLOAD_PUBLIC_SERVER_URL: z.string().optional(),
+  PAYLOAD_PUBLIC_SERVER_URL: z.string(),
   PAYLOAD_SECRET: z.string(),
   PREVIEW_SECRET: z.string().optional(),
+  RESEND_API_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOKS_SIGNING_SECRET: z.string(),
-  VERCEL_PROJECT_PRODUCTION_URL: z.string().optional(),
+  VERCEL_PROJECT_PRODUCTION_URL: z.string(),
 });
 
 const envSchema = z.intersection(

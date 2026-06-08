@@ -3,16 +3,17 @@ import { fileURLToPath } from "url";
 
 // import { Pool } from '@neondatabase/serverless';
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { resendAdapter } from '@payloadcms/email-resend';
 import {
-  BoldFeature,
-  EXPERIMENTAL_TableFeature,
-  IndentFeature,
-  ItalicFeature,
-  LinkFeature,
-  OrderedListFeature,
-  UnderlineFeature,
-  UnorderedListFeature,
-  lexicalEditor,
+    BoldFeature,
+    EXPERIMENTAL_TableFeature,
+    IndentFeature,
+    ItalicFeature,
+    LinkFeature,
+    OrderedListFeature,
+    UnderlineFeature,
+    UnorderedListFeature,
+    lexicalEditor,
 } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 
@@ -33,6 +34,7 @@ import { Header } from "@/globals/Header";
 import { Settings } from "@/globals/Settings";
 
 import { plugins } from "./plugins";
+import { env } from "./utilities/env";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -107,6 +109,11 @@ export default buildConfig({
     },
   }),
   //email: nodemailerAdapter(),
+  email: resendAdapter({
+    defaultFromAddress: 'dev@payloadcms.com',
+    defaultFromName: 'Payload CMS',
+    apiKey: env.RESEND_API_KEY || '',
+  }),
   endpoints: [],
   globals: [About, Header, Footer, Settings],
   plugins,
