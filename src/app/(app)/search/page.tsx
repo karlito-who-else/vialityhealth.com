@@ -1,0 +1,106 @@
+import configPromise from "@payload-config";
+import { getPayload } from "payload";
+
+import { Grid } from "@/components/Grid";
+import { ProductGridItem } from "@/components/ProductGridItem";
+
+export const metadata = {
+  description: "Search for products in the store.",
+  title: "Search",
+};
+
+type SearchParams = { [key: string]: string | string[] | undefined };
+
+type Props = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function SearchPage({ searchParams }: Props) {
+  const [{ q: searchValue, sort, category }, payload] = await Promise.all([
+    searchParams,
+    getPayload({ config: configPromise }),
+  ]);
+
+  const products = await payload.find({
+    collection: "products",
+    depth: 1,
+    draft: false,
+    overrideAccess: false,
+    select: {
+      title: true,
+      slug: true,
+      gallery: true,
+      categories: true,
+      priceInAUD: true,
+      featuredImage: true,
+    },
+    ...(sort ? { sort } : { sort: "title" }),
+    ...(searchValue || category
+      ? {
+          where: {
+            and: [
+              {
+                _status: {
+                  equals: "published",
+                },
+              },
+              ...(searchValue
+                ? [
+                    {
+                      or: [
+                        {
+                          title: {
+                            like: searchValue,
+                          },
+                        },
+                        {
+                          description: {
+                            like: searchValue,
+                          },
+                        },
+                      ],
+                    },
+                  ]
+                : []),
+              ...(category
+                ? [
+                    {
+                      categories: {
+                        contains: category,
+                      },
+                    },
+                  ]
+                : []),
+            ],
+          },
+        }
+      : {}),
+  });
+
+  const resultsText = products.docs.length > 1 ? "results" : "result";
+
+  return (
+    <div>
+      {searchValue ? (
+        <p className="mb-4">
+          {products.docs?.length === 0
+            ? "There are no products that match "
+            : `Showing ${products.docs.length} ${resultsText} for `}
+          <span className="font-bold">&quot;{searchValue}&quot;</span>
+        </p>
+      ) : null}
+
+      {!searchValue && products.docs?.length === 0 && (
+        <p className="mb-4">No products found. Please try different filters.</p>
+      )}
+
+      {products?.docs.length > 0 ? (
+        <Grid className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.docs.map((product) => {
+            return <ProductGridItem key={product.id} product={product} />;
+          })}
+        </Grid>
+      ) : null}
+    </div>
+  );
+}
