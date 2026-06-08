@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
 import { AddressItem } from "@/components/addresses/AddressItem";
+import { BankTransferInfo } from "@/components/BankTransferInfo";
 import { OrderStatus } from "@/components/OrderStatus";
 import { Price } from "@/components/Price";
 import { ProductItem } from "@/components/ProductItem";
@@ -94,6 +95,7 @@ export default async function Order({ params, searchParams }: PageProps) {
         createdAt: true,
         updatedAt: true,
         shippingAddress: true,
+        transactions: true,
       },
     });
 
@@ -209,6 +211,12 @@ export default async function Order({ params, searchParams }: PageProps) {
           </div>
         )}
       </div>
+
+      {settings?.bankTransferEnabled && (!order.transactions || order.transactions.length === 0) && (
+        <div className="mt-8">
+          <BankTransferInfo settings={settings} amount={order.amount} />
+        </div>
+      )}
     </div>
   );
 }
