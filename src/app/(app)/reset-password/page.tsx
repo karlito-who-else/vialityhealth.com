@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
 import { ResetPasswordForm } from "@/components/forms/ResetPasswordForm";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
-function ResetPasswordPageContent() {
+type Props = {
+  searchParams: Promise<{ token?: string }>;
+};
+
+export default async function ResetPasswordPage({ searchParams }: Props) {
+  const { token } = await searchParams;
+
   return (
     <div className="container px-4 py-16">
       <div className="max-w-xl mx-auto">
-        <ResetPasswordForm />
+        <ResetPasswordForm token={token} />
       </div>
     </div>
-  );
-}
-
-export default function ResetPasswordPage() {
-  return (
-    <Suspense>
-      <ResetPasswordPageContent />
-    </Suspense>
   );
 }
 
