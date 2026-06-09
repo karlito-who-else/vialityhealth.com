@@ -69,7 +69,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   );
 
   const shippingCost =
-    shippingOptions?.find((opt) => opt.serviceName === selectedShipping)?.cost ?? 0;
+    (shippingOptions?.find((opt) => opt.serviceName === selectedShipping)?.cost ?? 0) * 100;
 
   const totalWithShipping = (cart?.subtotal ?? 0) + shippingCost;
 
@@ -427,7 +427,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                     </div>
                   </div>
                 </div>
-                <Price amount={option.cost} />
+                <Price amount={option.cost * 100} />
               </button>
             ))}
           </div>
