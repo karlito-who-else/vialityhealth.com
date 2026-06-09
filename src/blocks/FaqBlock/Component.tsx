@@ -61,9 +61,7 @@ export const FaqBlockComponent: React.FC<FaqBlock & { id?: string }> = ({
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-4 text-sm text-primary/55 font-light leading-[1.85]">
-                        {faq.answer}
-                      </p>
+                      <div className="pb-4 text-sm text-primary/55 font-light leading-[1.85] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: faq.answer }} />
                     </m.div>
                   )}
                 </AnimatePresence>

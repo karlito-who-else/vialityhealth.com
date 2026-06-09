@@ -495,7 +495,7 @@ function AccordionItem({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="pb-4 text-sm text-primary/55 font-light leading-[1.85]">{a}</p>
+            <div className="pb-4 text-sm text-primary/55 font-light leading-[1.85] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: a }} />
           </m.div>
         )}
       </AnimatePresence>
