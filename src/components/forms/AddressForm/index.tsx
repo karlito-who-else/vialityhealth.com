@@ -84,7 +84,7 @@ export const AddressForm: React.FC<Props> = ({
     async (data: AddressFormValues) => {
       setSubmitError(null);
 
-      if (!user) {
+      if (!skipSubmission && !user) {
         if (status === "loggedOut") {
           setSubmitError("Please sign in to save an address.");
         } else {
@@ -293,7 +293,7 @@ export const AddressForm: React.FC<Props> = ({
 
       {submitError && <FormError message={submitError} className="mb-4" />}
 
-      <Button type="submit" disabled={isSubmitting || !user}>
+      <Button type="submit" disabled={isSubmitting || (!skipSubmission && !user)}>
         {isSubmitting ? "Saving…" : "Save Address"}
       </Button>
     </form>
