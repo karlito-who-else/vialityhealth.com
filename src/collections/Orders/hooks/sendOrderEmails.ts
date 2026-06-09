@@ -55,6 +55,7 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
         to: recipient,
         subject: `Order confirmed - #${order.id}`,
         html: orderConfirmationTemplate(customerName, order.id, items, total, orderURL, tokens),
+        from: "orders@mail.vialityhealth.com",
       });
     } catch (err) {
       req.payload.logger.error({ msg: "Failed to send order confirmation email", err });
@@ -68,6 +69,7 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
         to: recipient,
         subject: `Order #${order.id} is now ${order.status}`,
         html: orderStatusTemplate(customerName, order.id, order.status, orderURL, tokens),
+        from: "orders@mail.vialityhealth.com",
       });
     } catch (err) {
       req.payload.logger.error({ msg: "Failed to send order status email", err });

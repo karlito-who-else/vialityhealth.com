@@ -110,7 +110,7 @@ export default buildConfig({
   }),
   //email: nodemailerAdapter(),
   email: resendAdapter({
-    defaultFromAddress: 'noreply@mail.vialityhealth.com',
+    defaultFromAddress: 'support@mail.vialityhealth.com',
     defaultFromName: 'Viality',
     apiKey: env.RESEND_API_KEY || '',
   }),

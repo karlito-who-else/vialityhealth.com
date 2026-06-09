@@ -19,6 +19,7 @@ export const sendAccountCreatedEmail: CollectionAfterChangeHook = async ({
       to: doc.email,
       subject: "Welcome to Viality",
       html: accountCreatedTemplate(name, tokens),
+      from: "hello@mail.vialityhealth.com",
     });
   } catch (err) {
     req.payload.logger.error({ msg: "Failed to send account creation email", err });
