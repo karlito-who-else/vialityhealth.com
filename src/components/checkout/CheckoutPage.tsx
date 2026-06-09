@@ -590,7 +590,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                       <Media className="relative *:object-contain size-32" fill imgClassName="rounded-lg" resource={image} />
                     )}
 
-                  <div className="flex grow justify-between items-center">
+                  <div className="flex flex-col grow justify-between items-center">
                     <div className="flex flex-col gap-1">
                       <p className="font-medium text-lg">{title}</p>
                       {variant && typeof variant === "object" && (

@@ -65,7 +65,7 @@ export const ProductItem: React.FC<Props> = ({
           )}
         </div>
       </div>
-      <div className="flex grow justify-between items-center">
+      <div className="flex flex-col grow justify-between items-center">
         <div className="flex flex-col gap-1">
           <p className="font-medium text-lg">
             <Link href={itemURL}>{title}</Link>
