@@ -38,6 +38,7 @@ interface BankTransferInfo {
   accountNumber?: string | null;
   routingNumber?: string | null;
   swiftCode?: string | null;
+  bankTransferFooter?: string | null;
 }
 
 interface ShippingOption {
@@ -670,6 +671,9 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                   </>
                 )}
               </dl>
+              {bankTransfer.bankTransferFooter && (
+                <p className="text-xs text-primary/50 mt-2">{bankTransfer.bankTransferFooter}</p>
+              )}
             </div>
           )}
         </div>

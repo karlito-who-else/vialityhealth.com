@@ -18,6 +18,7 @@ export default async function Checkout() {
         accountNumber: settings.accountNumber,
         routingNumber: settings.routingNumber,
         swiftCode: settings.swiftCode,
+        bankTransferFooter: settings.bankTransferFooter,
       }
     : undefined;
 

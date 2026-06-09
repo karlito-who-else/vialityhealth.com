@@ -3454,6 +3454,7 @@ export interface Setting {
   accountNumber?: string | null;
   routingNumber?: string | null;
   swiftCode?: string | null;
+  bankTransferFooter?: string | null;
   shippingOptions?:
     | {
         serviceName: string;
@@ -3653,6 +3654,7 @@ export interface SettingsSelect<T extends boolean = true> {
   accountNumber?: T;
   routingNumber?: T;
   swiftCode?: T;
+  bankTransferFooter?: T;
   shippingOptions?:
     | T
     | {

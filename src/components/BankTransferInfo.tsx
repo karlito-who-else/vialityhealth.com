@@ -9,6 +9,7 @@ type Settings = {
   accountNumber?: string | null;
   routingNumber?: string | null;
   swiftCode?: string | null;
+  bankTransferFooter?: string | null;
 };
 
 type Props = {
@@ -57,6 +58,9 @@ export function BankTransferInfo({ settings, amount }: Props) {
           </div>
         )}
       </div>
+      {settings?.bankTransferFooter && (
+        <p className="text-xs text-primary/50 mt-2">{settings.bankTransferFooter}</p>
+      )}
       {amount && (
         <div className="border-t pt-3 mt-3">
           <div className="flex justify-between text-base font-medium">

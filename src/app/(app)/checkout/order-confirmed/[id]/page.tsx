@@ -180,6 +180,9 @@ export default async function OrderConfirmed({
                 </div>
               )}
             </div>
+            {settings?.bankTransferFooter && (
+              <p className="text-xs text-primary/50">{settings.bankTransferFooter}</p>
+            )}
             {order.amount && (
               <div className="border-t pt-3 mt-3">
                 <div className="flex justify-between text-base font-medium">

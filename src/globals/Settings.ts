@@ -298,6 +298,11 @@ export const Settings: GlobalConfig = {
               type: "text",
               label: "SWIFT / BIC Code",
             },
+            {
+              name: "bankTransferFooter",
+              type: "text",
+              label: "Bank Transfer Footer",
+            },
           ],
         },
         {
