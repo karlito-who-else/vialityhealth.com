@@ -112,7 +112,7 @@ export default async function ProductPage({ params }: Args) {
   const benefitsHeading = productContent?.benefitsHeading || "A quieter standard of vitality.";
   const usageRitualLabel = productContent?.usageRitualLabel || "Usage Ritual";
   const usageRitualHeading = productContent?.usageRitualHeading || "Unhurried. Intentional. Daily.";
-  const usageRitualBody = productContent?.usageRitualBody || "";
+  const usageRitualBody = productContent?.usageRitualBody || null;
   const usageRitualDisclaimer = productContent?.usageRitualDisclaimer || "";
   const verificationLabel = productContent?.verificationLabel || "Verification";
   const verificationHeading =
@@ -177,7 +177,7 @@ export default async function ProductPage({ params }: Args) {
       </section>
 
       {/* USAGE RITUAL */}
-      <section className="bg-background py-20 md:py-28 px-6 md:px-16 border-t border-border/30">
+      {usageRitualBody ? <section className="bg-background py-20 md:py-28 px-6 md:px-16 border-t border-border/30">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-[200px_1fr] gap-10 md:gap-20 items-start">
           <p className="text-xs uppercase tracking-widest text-primary/35 md:pt-1">
             {usageRitualLabel}
@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: Args) {
             )}
           </div>
         </div>
-      </section>
+      </section> : null}
 
       {/* LAB REPORTS */}
       <section className="scheme-only-light bg-ink py-20 md:py-24 px-6 md:px-16 relative overflow-hidden">
