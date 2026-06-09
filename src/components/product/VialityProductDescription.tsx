@@ -270,7 +270,7 @@ function VialityProductDescriptionInner({
       {shippingText && <p className="text-xs text-primary/30 leading-relaxed">{shippingText}</p>}
 
       {/* INGREDIENTS */}
-      <div className="border-t border-border/40 pt-6">
+      {ingredients.length ? <div className="border-t border-border/40 pt-6">
         <button
           type="button"
           onClick={() => setIngredientsOpen(!ingredientsOpen)}
@@ -318,7 +318,7 @@ function VialityProductDescriptionInner({
             </m.div>
           )}
         </AnimatePresence>
-        </div>
+      </div> : null}
 
       <div className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
         {product.description ? (
