@@ -125,20 +125,13 @@ function VialityProductDescriptionInner({
         className="p-8 xl:p-12 flex flex-col gap-8 mt-8 md:mt-8"
       >
       {/* Header */}
-      <div>
+      <header>
         <p className="text-xs uppercase tracking-widest text-primary/35 mb-3">{collectionLabel}</p>
         <h1 className="font-serif uppercase font-light text-4xl xl:text-5xl text-primary leading-tight mb-2">
           {product.title}
         </h1>
         <p className="text-xs uppercase tracking-widest text-primary/40 mb-5">{supplyLabel}</p>
-        <div className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
-          {product.description ? (
-            <RichText data={product.description} />
-          ) : (
-            "Modern rituals for internal balance. A quietly precise daily formula — designed for consistency, and held to a standard most wellness products never meet."
-          )}
-        </div>
-      </div>
+      </header>
 
       {/* Variant options selector */}
       {product.enableVariants && variantOptions.length > 1 && (
@@ -325,10 +318,18 @@ function VialityProductDescriptionInner({
             </m.div>
           )}
         </AnimatePresence>
+        </div>
+
+      <div className="text-sm text-primary/60 font-light leading-[1.8] max-w-sm">
+        {product.description ? (
+          <RichText data={product.description} />
+        ) : (
+          "Modern rituals for internal balance. A quietly precise daily formula — designed for consistency, and held to a standard most wellness products never meet."
+        )}
       </div>
 
       {/* FAQ */}
-      <div className="border-t border-border/40 pt-6">
+      {faqs.length ? <div className="border-t border-border/40 pt-6">
         <p className="text-xs uppercase tracking-widest text-primary/35 mb-4">{faqLabel}</p>
         <h2 className="font-serif uppercase font-light text-2xl text-primary leading-snug mb-6">{faqHeading}</h2>
         <div>
@@ -342,7 +343,7 @@ function VialityProductDescriptionInner({
             />
           ))}
         </div>
-      </div>
+      </div> : null}
       </m.div>
     </LazyMotion>
   );
