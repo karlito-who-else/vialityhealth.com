@@ -1,7 +1,6 @@
 "use client";
 
-import { useAddresses } from "@payloadcms/plugin-ecommerce/client/react";
-import { defaultCountries as supportedCountries } from "@payloadcms/plugin-ecommerce/client/react";
+import { defaultCountries as supportedCountries, useAddresses } from "@payloadcms/plugin-ecommerce/client/react";
 import { deepMergeSimple } from "payload/shared";
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,14 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
-import { useAuth } from "@/providers/Auth";
 import { Address, Config } from "@/payload-types";
+import { useAuth } from "@/providers/Auth";
 
 import { titles } from "./constants";
 
@@ -270,7 +269,7 @@ export const AddressForm: React.FC<Props> = ({
               <SelectValue placeholder="Country" />
             </SelectTrigger>
             <SelectContent>
-              {supportedCountries.map((country) => {
+              {supportedCountries.filter((country) => country.value === "AU").map((country) => {
                 const value = typeof country === "string" ? country : country.value;
                 const label =
                   typeof country === "string"
