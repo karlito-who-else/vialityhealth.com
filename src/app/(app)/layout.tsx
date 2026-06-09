@@ -99,13 +99,13 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="group/body">
+      <body className="group/body min-h-screen flex flex-col">
         <Providers>
           <AdminBar />
           <LivePreviewListener />
           <SiteBanner />
           <Header />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
           <AgeVerificationDialog />
           <WaitlistPopover />
