@@ -22,7 +22,7 @@ function PathFilterItemInner({ item }: { item: PathFilterItemType }) {
   return (
     <li className="mt-2 flex text-foreground uppercase" key={item.title}>
       <DynamicTag
-        className={clsx("w-full text-xs lg:text-lg underline-offset-4 hover:underline", {
+        className={clsx("w-full text-xs lg:text-md underline-offset-4 hover:underline", {
           "underline underline-offset-4": active,
         })}
         href={createUrl(item.path, newParams)}
@@ -50,7 +50,7 @@ function SortFilterItemInner({ item }: { item: SortFilterItemType }) {
   return (
     <li className="mt-2 flex text-sm text-foreground uppercase" key={item.title}>
       <DynamicTag
-        className={clsx("w-full text-xs lg:text-lg hover:underline hover:underline-offset-4", {
+        className={clsx("w-full text-xs lg:text-md hover:underline hover:underline-offset-4", {
           "underline underline-offset-4": active,
         })}
         href={href}

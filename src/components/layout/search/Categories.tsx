@@ -21,7 +21,7 @@ async function CategoryList() {
         {categories.docs.map((category) => {
           return (
             <li key={category.id}>
-              <CategoryItem category={category} className="text-xs lg:text-lg text-start uppercase" />
+              <CategoryItem category={category} className="text-xs lg:text-md text-start uppercase" />
             </li>
           );
         })}
