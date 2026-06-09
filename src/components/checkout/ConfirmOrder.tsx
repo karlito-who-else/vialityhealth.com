@@ -30,6 +30,7 @@ const ConfirmOrderInner: React.FC = () => {
         confirmOrder("stripe", {
           additionalData: {
             paymentIntentID,
+            ...(email ? { customerEmail: email } : {}),
           },
         }).then((result) => {
           if (result && typeof result === "object" && "orderID" in result && result.orderID) {
