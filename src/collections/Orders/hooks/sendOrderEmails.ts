@@ -17,13 +17,25 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
 }) => {
   const order = doc;
 
-  const recipient = order.customerEmail;
-  if (!recipient) return;
+  let recipient = order.customerEmail;
+  let customerName = recipient || "";
 
-  let customerName = recipient;
-  if (order.customer && typeof order.customer === "object" && "name" in order.customer) {
-    customerName = order.customer.name || recipient;
+  if (!recipient && order.customer) {
+    const customerId = typeof order.customer === "object" ? order.customer.id : order.customer;
+    try {
+      const user = await req.payload.findByID({
+        collection: "users",
+        id: customerId,
+        depth: 0,
+      });
+      recipient = user?.email;
+      customerName = user?.name || recipient || "";
+    } catch {
+      // user lookup failed
+    }
   }
+
+  if (!recipient) return;
 
   const serverURL = getServerSideURL();
   const orderURL = `${serverURL}/orders/${order.id}?email=${encodeURIComponent(recipient)}&accessToken=${order.accessToken}`;
