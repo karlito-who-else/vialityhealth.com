@@ -32,7 +32,12 @@ export default async function SearchPage({ searchParams }: Props) {
       gallery: true,
       categories: true,
       priceInAUD: true,
+      priceInAUDEnabled: true,
       featuredImage: true,
+      variants: true,
+    },
+    populate: {
+      variants: { title: true, priceInAUD: true, priceInAUDEnabled: true },
     },
     ...(sort ? { sort } : { sort: "title" }),
     ...(searchValue || category

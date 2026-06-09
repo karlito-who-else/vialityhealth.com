@@ -18,14 +18,11 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
   const variants = product.variants?.docs;
 
   if (variants && variants.length > 0) {
-    const variant = variants[0];
-    if (
-      variant &&
-      typeof variant === "object" &&
-      variant?.priceInAUD &&
-      typeof variant.priceInAUD === "number"
-    ) {
-      price = variant.priceInAUD;
+    const prices = variants
+      .map((v) => (typeof v === "object" && v ? v.priceInAUD : null))
+      .filter((p): p is number => typeof p === "number");
+    if (prices.length > 0) {
+      price = Math.min(...prices);
     }
   }
 
