@@ -1,8 +1,8 @@
+import { Link } from "@/components/atoms/Link";
 import configPromise from "@payload-config";
 import { ChevronLeftIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers.js";
-import { Link } from "@/components/atoms/Link";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
@@ -141,7 +141,7 @@ export default async function Order({ params, searchParams }: PageProps) {
           <div></div>
         )}
 
-        <h1 className="text-sm uppercase font-mono px-2 bg-primary/10 rounded tracking-wider">
+        <h1 className="text-sm uppercase font-sans px-2 bg-primary/10 rounded tracking-wider">
           <span className="">{`${orderNumberPrefix}${order.id}`}</span>
         </h1>
       </div>
@@ -149,7 +149,7 @@ export default async function Order({ params, searchParams }: PageProps) {
       <div className="bg-card border rounded-lg px-6 py-4 flex flex-col gap-12">
         <div className="flex flex-col gap-6 lg:flex-row lg:justify-between">
           <div className="">
-            <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{orderDateLabel}</p>
+            <p className="font-sans uppercase text-primary/50 mb-1 text-sm">{orderDateLabel}</p>
             <p className="text-lg">
               <time dateTime={order.createdAt}>
                 {formatDateTime({ date: order.createdAt, format: "MMMM dd, yyyy" })}
@@ -158,13 +158,13 @@ export default async function Order({ params, searchParams }: PageProps) {
           </div>
 
           <div className="">
-            <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{totalLabel}</p>
+            <p className="font-sans uppercase text-primary/50 mb-1 text-sm">{totalLabel}</p>
             {order.amount && <Price className="text-lg" amount={order.amount} />}
           </div>
 
           {order.status && (
             <div className="grow max-w-1/3">
-              <p className="font-mono uppercase text-primary/50 mb-1 text-sm">{statusLabel}</p>
+              <p className="font-sans uppercase text-primary/50 mb-1 text-sm">{statusLabel}</p>
               <OrderStatus className="text-sm" status={order.status} />
             </div>
           )}
@@ -172,7 +172,7 @@ export default async function Order({ params, searchParams }: PageProps) {
 
         {order.items && (
           <div>
-            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">{itemsLabel}</h2>
+            <h2 className="font-sans text-primary/50 mb-4 uppercase text-sm">{itemsLabel}</h2>
             <ul className="flex flex-col gap-6">
               {order.items?.map((item, index) => {
                 if (typeof item.product === "string") {
@@ -202,7 +202,7 @@ export default async function Order({ params, searchParams }: PageProps) {
 
         {order.shippingAddress && (
           <div>
-            <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">
+            <h2 className="font-sans text-primary/50 mb-4 uppercase text-sm">
               {shippingAddressLabel}
             </h2>
 

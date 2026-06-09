@@ -2,7 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 // eslint-disable-next-line typescript/no-restricted-imports
-import { test, expect, Page } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -119,7 +119,7 @@ test.describe("Frontend", () => {
     await expect(productCard).toBeVisible();
 
     const firstCard = page.locator("div.grid > a").first();
-    const title = firstCard.locator("div.font-mono > div").first();
+    const title = firstCard.locator("div.font-sans > div").first();
     await expect(title).not.toHaveText("Hoodie");
 
     const priceSort = page.getByText("Price: Low to high");
@@ -207,7 +207,7 @@ test.describe("Frontend", () => {
 
     await checkout(page, testPaymentDetails, guestEmail);
 
-    const orderHeader = await page.locator("h1.text-sm.uppercase.font-mono > span").textContent();
+    const orderHeader = await page.locator("h1.text-sm.uppercase.font-sans > span").textContent();
     const orderNumber = orderHeader?.replace(/^Order #/, "").trim();
 
     await page.goto(`${baseURL}/find-order`);
@@ -322,7 +322,7 @@ test.describe("Frontend", () => {
     });
     await checkout(page, testPaymentDetails);
     await expectOrderIsDisplayed(page);
-    const orderHeader = await page.locator("h1.text-sm.uppercase.font-mono > span").textContent();
+    const orderHeader = await page.locator("h1.text-sm.uppercase.font-sans > span").textContent();
     const orderNumber = orderHeader?.replace(/^Order #/, "").trim();
 
     await page.goto(`${baseURL}/admin/collections/orders`);
@@ -627,7 +627,7 @@ test.describe("Frontend", () => {
   }
 
   async function expectOrderIsDisplayed(page: Page): Promise<void> {
-    const orderHeader = await page.locator("h1.text-sm.uppercase.font-mono > span").textContent();
+    const orderHeader = await page.locator("h1.text-sm.uppercase.font-sans > span").textContent();
     expect(orderHeader).toContain("Order #");
 
     const orderNumber = orderHeader?.replace(/^Order #/, "").trim();

@@ -196,7 +196,7 @@ export default async function OrderConfirmed({
 
         <div className="bg-card border rounded-lg p-6">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <h2 className="text-sm uppercase font-mono px-2 bg-primary/10 rounded tracking-wider">
+            <h2 className="text-sm uppercase font-sans px-2 bg-primary/10 rounded tracking-wider">
               {`${orderNumberPrefix}${order.id}`}
             </h2>
 
@@ -208,7 +208,7 @@ export default async function OrderConfirmed({
           <div className="flex flex-col gap-6">
             <div className="flex justify-between">
               <div>
-                <p className="font-mono uppercase text-primary/50 mb-1 text-sm">
+                <p className="font-sans uppercase text-primary/50 mb-1 text-sm">
                   {orderDateLabel}
                 </p>
                 <p className="text-lg">
@@ -222,7 +222,7 @@ export default async function OrderConfirmed({
               </div>
 
               <div className="text-right">
-                <p className="font-mono uppercase text-primary/50 mb-1 text-sm">
+                <p className="font-sans uppercase text-primary/50 mb-1 text-sm">
                   {totalLabel}
                 </p>
                 {order.amount && (
@@ -231,7 +231,7 @@ export default async function OrderConfirmed({
               </div>
 
               <div>
-                <p className="font-mono uppercase text-primary/50 mb-1 text-sm">
+                <p className="font-sans uppercase text-primary/50 mb-1 text-sm">
                   {statusLabel}
                 </p>
                 {order.status && (
@@ -243,7 +243,7 @@ export default async function OrderConfirmed({
 
           {order.items && (
             <div className="mt-8">
-              <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">
+              <h2 className="font-sans text-primary/50 mb-4 uppercase text-sm">
                 {itemsLabel}
               </h2>
               <ul className="flex flex-col gap-6">
@@ -281,7 +281,7 @@ export default async function OrderConfirmed({
 
           {order.shippingMethod && (
             <div className="mt-8">
-              <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">
+              <h2 className="font-sans text-primary/50 mb-4 uppercase text-sm">
                 Shipping Method
               </h2>
               <div className="flex items-center justify-between px-4 py-3 border rounded-lg">
@@ -300,7 +300,7 @@ export default async function OrderConfirmed({
 
           {order.shippingAddress && (
             <div className="mt-8">
-              <h2 className="font-mono text-primary/50 mb-4 uppercase text-sm">
+              <h2 className="font-sans text-primary/50 mb-4 uppercase text-sm">
                 {shippingAddressLabel}
               </h2>
 

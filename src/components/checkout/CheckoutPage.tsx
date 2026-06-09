@@ -594,7 +594,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                     <div className="flex flex-col gap-1">
                       <p className="font-medium text-lg">{title}</p>
                       {variant && typeof variant === "object" && (
-                        <p className="text-sm font-mono text-primary/50 tracking-widest">
+                        <p className="text-sm font-sans text-primary/50 tracking-widest">
                           {(variant.options as any[])
                             ?.map((option: any) => {
                               if (typeof option === "object") return option.label;
