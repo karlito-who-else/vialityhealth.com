@@ -28,7 +28,7 @@ export function WaitlistPopover() {
 
     const showTimeout = setTimeout(() => {
       popover.showPopover();
-    }, 2000);
+    }, 30000);
 
     function onToggle(e: Event) {
       const event = e as ToggleEvent;

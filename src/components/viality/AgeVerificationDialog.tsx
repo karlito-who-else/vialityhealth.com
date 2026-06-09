@@ -53,12 +53,8 @@ export function AgeVerificationDialog() {
 
     function onToggle(e: Event) {
       const event = e as ToggleEvent;
-      if (event.newState === "closed") {
-        if (confirmedRef.current) {
-          setCookie(COOKIE_NAME, "true", 365);
-        } else {
-          sendAway();
-        }
+      if (event.newState === "closed" && confirmedRef.current) {
+        setCookie(COOKIE_NAME, "true", 365);
       }
     }
 
