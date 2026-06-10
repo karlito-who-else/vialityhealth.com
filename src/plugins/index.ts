@@ -214,11 +214,11 @@ export const plugins: Plugin[] = [
         },
         fields: [
           ...defaultCollection.fields.map((field) => {
-            if ("name" in field && field.name === "status") {
+            if ("name" in field && field.name === "status" && field.type === "select") {
               return {
                 ...field,
                 options: [
-                  ...((field as { options?: unknown[] }).options ?? []),
+                  ...(field.options ?? []),
                   {
                     label: "Out for Delivery",
                     value: "out_for_delivery",
