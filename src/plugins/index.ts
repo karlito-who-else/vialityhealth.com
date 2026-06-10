@@ -213,7 +213,21 @@ export const plugins: Plugin[] = [
           ],
         },
         fields: [
-          ...defaultCollection.fields,
+          ...defaultCollection.fields.map((field) => {
+            if ("name" in field && field.name === "status") {
+              return {
+                ...field,
+                options: [
+                  ...((field as { options?: unknown[] }).options ?? []),
+                  {
+                    label: "Out for Delivery",
+                    value: "out_for_delivery",
+                  },
+                ],
+              };
+            }
+            return field;
+          }),
           {
             name: "accessToken",
             type: "text",
@@ -258,6 +272,25 @@ export const plugins: Plugin[] = [
                 label: "Cost",
               },
             ],
+          },
+          {
+            name: "shippingTrackingUrl",
+            type: "text",
+            label: "Shipping Tracking URL",
+            admin: {
+              position: "sidebar",
+            },
+          },
+          {
+            name: "shippingLabels",
+            type: "upload",
+            relationTo: "media",
+            label: "Shipping Label Images",
+            hasMany: true,
+            admin: {
+              position: "sidebar",
+              description: "Photos of shipping labels attached to the package",
+            },
           },
         ],
       }),

@@ -10,7 +10,7 @@
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "OrderStatus".
  */
-export type OrderStatus = ('processing' | 'completed' | 'cancelled' | 'refunded') | null;
+export type OrderStatus = ('processing' | 'completed' | 'cancelled' | 'refunded' | 'out_for_delivery') | null;
 /**
  * Supported timezones in IANA format.
  *
@@ -300,6 +300,11 @@ export interface Order {
     timeframe?: string | null;
     cost?: number | null;
   };
+  shippingTrackingUrl?: string | null;
+  /**
+   * Photos of shipping labels attached to the package
+   */
+  shippingLabels?: (number | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2954,6 +2959,8 @@ export interface OrdersSelect<T extends boolean = true> {
         timeframe?: T;
         cost?: T;
       };
+  shippingTrackingUrl?: T;
+  shippingLabels?: T;
   updatedAt?: T;
   createdAt?: T;
 }

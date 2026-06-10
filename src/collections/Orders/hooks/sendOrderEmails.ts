@@ -1,7 +1,7 @@
 import type { CollectionAfterChangeHook } from "payload";
 
 import { getDesignTokens } from "@/email/getDesignTokens";
-import { orderConfirmationTemplate, orderStatusTemplate } from "@/email/templates";
+import { formatStatus, orderConfirmationTemplate, orderStatusTemplate } from "@/email/templates";
 import { getServerSideURL } from "@/utilities/getURL";
 
 type OrderItem = {
@@ -76,11 +76,45 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
   }
 
   if (operation === "update" && previousDoc?.status !== order.status) {
+    const shippingTrackingUrl = order.shippingTrackingUrl ?? undefined;
+
+    const shippingLabels: { url: string; alt: string }[] = [];
+    if (order.shippingLabels?.length) {
+      const labelIds: number[] = (order.shippingLabels as (number | { id: number })[]).map(
+        (label) => (typeof label === "object" ? label.id : label),
+      );
+      for (const id of labelIds) {
+        try {
+          const media = await req.payload.findByID({
+            collection: "media",
+            id,
+            depth: 0,
+          });
+          if (media?.url) {
+            const imageUrl = media.url.startsWith("http")
+              ? media.url
+              : `${serverURL.replace(/\/+$/, "")}${media.url.startsWith("/") ? media.url : `/${media.url}`}`;
+            shippingLabels.push({ url: imageUrl, alt: media.alt || "Shipping label" });
+          }
+        } catch {
+          // media lookup failed
+        }
+      }
+    }
+
     try {
       await req.payload.sendEmail({
         to: recipient,
-        subject: `Order #${order.id} is now ${order.status}`,
-        html: orderStatusTemplate(customerName, order.id, order.status, orderURL, tokens),
+        subject: `Order #${order.id} is now ${formatStatus(order.status || "")}`,
+        html: orderStatusTemplate(
+          customerName,
+          order.id,
+          formatStatus(order.status || ""),
+          orderURL,
+          tokens,
+          shippingTrackingUrl,
+          shippingLabels,
+        ),
         from: "orders@mail.vialityhealth.com",
       });
     } catch (err) {

@@ -67,6 +67,12 @@ export const logoMarkup = (logoURL: string, alt: string) =>
 export const textLogoMarkup = (siteName: string) =>
   `<h1 style="color:${foreground};margin:0;font-size:22px;font-weight:700;letter-spacing:-0.5px;">${siteName}</h1>`;
 
+export const formatStatus = (status: string): string =>
+  status
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
 export const passwordResetTemplate = (name: string, resetURL: string, tokens: DesignTokens): string =>
   baseTemplate(`
     <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Reset your password</h2>
@@ -126,6 +132,8 @@ export const orderStatusTemplate = (
   status: string,
   orderURL: string,
   tokens: DesignTokens,
+  shippingTrackingUrl?: string,
+  shippingLabels?: { url: string; alt: string }[],
 ): string =>
   baseTemplate(`
     <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Order status update</h2>
@@ -134,10 +142,26 @@ export const orderStatusTemplate = (
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
       <tr>
         <td style="background-color:${accent};border-radius:${radius};padding:12px 24px;">
-          <span style="color:${accentForeground};font-size:16px;font-weight:600;text-transform:capitalize;">${status}</span>
+          <span style="color:${accentForeground};font-size:16px;font-weight:600;">${formatStatus(status)}</span>
         </td>
       </tr>
     </table>
+    ${shippingTrackingUrl ? `
+    <h3 style="margin:0 0 12px;font-size:16px;color:${foreground};font-weight:600;">Tracking</h3>
+    <p style="margin:0 0 24px;">
+      <a href="${shippingTrackingUrl}" style="color:${foreground};text-decoration:underline;">Track your shipment</a>
+    </p>` : ""}
+    ${shippingLabels?.length ? `
+    <h3 style="margin:0 0 12px;font-size:16px;color:${foreground};font-weight:600;">Shipping Labels</h3>
+    <p style="margin:0 0 20px;font-size:14px;color:${muted};">Images of the shipping labels attached to your package:</p>
+    ${shippingLabels.map((label) => `
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+      <tr>
+        <td style="background-color:${bg};border-radius:${radius};padding:8px;">
+          <img src="${label.url}" alt="${label.alt}" style="display:block;max-width:100%;height:auto;border-radius:4px;" />
+        </td>
+      </tr>
+    </table>`).join("")}` : ""}
     ${button(orderURL, "View Order")}
     <p style="margin:0;font-size:14px;color:${muted};">If you have any questions about this update, <a href="https://vialityhealth.com/contact" style="color:${foreground};">contact us</a>.</p>
   `, tokens);
