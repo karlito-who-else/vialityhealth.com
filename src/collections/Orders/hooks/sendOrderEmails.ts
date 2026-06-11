@@ -1,7 +1,9 @@
 import type { CollectionAfterChangeHook } from "payload";
 
 import { getDesignTokens } from "@/email/getDesignTokens";
+import type { BankTransferSettings } from "@/email/templates";
 import { formatStatus, orderConfirmationTemplate, orderStatusTemplate } from "@/email/templates";
+import type { Setting } from "@/payload-types";
 import { getServerSideURL } from "@/utilities/getURL";
 
 type OrderItem = {
@@ -61,13 +63,43 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
 
   const tokens = await getDesignTokens({ payload: req.payload, req });
 
+  const settings = await req.payload.findGlobal({
+    slug: "settings",
+    depth: 0,
+    req,
+  }) as Setting;
+
+  const bankTransferSettings: BankTransferSettings | null =
+    settings.bankTransferEnabled && (!order.transactions || (order.transactions as unknown[])?.length === 0)
+      ? {
+          bankTransferHeading: settings.bankTransferHeading,
+          bankTransferNote: settings.bankTransferNote,
+          bankName: settings.bankName,
+          accountName: settings.accountName,
+          accountNumber: settings.accountNumber,
+          routingNumber: settings.routingNumber,
+          swiftCode: settings.swiftCode,
+          bankTransferFooter: settings.bankTransferFooter,
+        }
+      : null;
+
   if (operation === "create") {
     try {
       await req.payload.sendEmail({
         to: recipient,
         subject: `Order confirmed - #${order.id}`,
-        html: orderConfirmationTemplate(customerName, order.id, items, total, orderURL, tokens),
+        html: orderConfirmationTemplate(
+          customerName,
+          order.id,
+          items,
+          total,
+          orderURL,
+          tokens,
+          bankTransferSettings,
+          order.amount,
+        ),
         from: "orders@mail.vialityhealth.com",
+        replyTo: "orders@vialityhealth.com",
       });
     } catch (err) {
       req.payload.logger.error({ msg: "Failed to send order confirmation email", err });
@@ -114,8 +146,11 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
           tokens,
           shippingTrackingUrl,
           shippingLabels,
+          bankTransferSettings,
+          order.amount,
         ),
         from: "orders@mail.vialityhealth.com",
+        replyTo: "orders@vialityhealth.com",
       });
     } catch (err) {
       req.payload.logger.error({ msg: "Failed to send order status email", err });

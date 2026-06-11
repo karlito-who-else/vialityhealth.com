@@ -37,7 +37,15 @@ export const Users: CollectionConfig = {
         const url = `${getServerSideURL()}/reset-password?token=${token}`;
         const name = user.name || user.email;
         const tokens = await getDesignTokens({ payload: req.payload, req });
-        return passwordResetTemplate(name, url, tokens);
+        const html = passwordResetTemplate(name, url, tokens);
+        await req.payload.sendEmail({
+          to: user.email,
+          subject: "Reset your password",
+          html,
+          from: "support@mail.vialityhealth.com",
+          replyTo: "support@vialityhealth.com",
+        });
+        return "";
       },
     },
   },

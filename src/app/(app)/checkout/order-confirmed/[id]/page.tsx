@@ -1,12 +1,6 @@
-import configPromise from "@payload-config";
-import { ChevronLeftIcon } from "lucide-react";
-import type { Metadata } from "next";
-import { headers as getHeaders } from "next/headers.js";
-import { notFound } from "next/navigation";
-import { getPayload } from "payload";
-
 import { AddressItem } from "@/components/addresses/AddressItem";
 import { Link } from "@/components/atoms/Link";
+import { BankTransferInfo } from "@/components/BankTransferInfo";
 import { OrderStatus } from "@/components/OrderStatus";
 import { Price } from "@/components/Price";
 import { ProductItem } from "@/components/ProductItem";
@@ -15,6 +9,12 @@ import type { Order } from "@/payload-types";
 import { formatDateTime } from "@/utilities/formatDateTime";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
+import configPromise from "@payload-config";
+import { ChevronLeftIcon } from "lucide-react";
+import type { Metadata } from "next";
+import { headers as getHeaders } from "next/headers.js";
+import { notFound } from "next/navigation";
+import { getPayload } from "payload";
 
 export const dynamic = "force-dynamic";
 
@@ -143,54 +143,10 @@ export default async function OrderConfirmed({
           <h1 className="text-2xl font-medium">Order placed</h1>
         )}
 
+
         {showBankInfo && (
-          <div className="bg-card border rounded-lg p-6 space-y-3">
-            <h2 className="font-semibold text-lg">
-              {settings?.bankTransferHeading || "Bank Transfer"}
-            </h2>
-            <div className="space-y-2 text-sm">
-              {settings?.bankName && (
-                <div className="flex justify-between">
-                  <span className="text-primary/60">Bank</span>
-                  <span className="font-medium">{settings.bankName}</span>
-                </div>
-              )}
-              {settings?.accountName && (
-                <div className="flex justify-between">
-                  <span className="text-primary/60">Account Name</span>
-                  <span className="font-medium">{settings.accountName}</span>
-                </div>
-              )}
-              {settings?.accountNumber && (
-                <div className="flex justify-between">
-                  <span className="text-primary/60">Account Number</span>
-                  <span className="font-medium">{settings.accountNumber}</span>
-                </div>
-              )}
-              {settings?.routingNumber && (
-                <div className="flex justify-between">
-                  <span className="text-primary/60">Routing / Sort Code</span>
-                  <span className="font-medium">{settings.routingNumber}</span>
-                </div>
-              )}
-              {settings?.swiftCode && (
-                <div className="flex justify-between">
-                  <span className="text-primary/60">SWIFT / BIC</span>
-                  <span className="font-medium">{settings.swiftCode}</span>
-                </div>
-              )}
-            </div>
-            {settings?.bankTransferFooter && (
-              <p className="text-xs text-primary/50">{settings.bankTransferFooter}</p>
-            )}
-            {order.amount && (
-              <div className="border-t pt-3 mt-3">
-                <div className="flex justify-between text-base font-medium">
-                  <span>Total to transfer</span>
-                  <Price amount={order.amount} />
-                </div>
-              </div>
-            )}
+          <div className="mt-8">
+            <BankTransferInfo settings={settings} amount={order.amount} />
           </div>
         )}
 

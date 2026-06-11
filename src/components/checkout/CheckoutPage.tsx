@@ -1,16 +1,10 @@
 "use client";
 
-import { Link } from "@/components/atoms/Link";
-import { useAddresses, useCart, usePayments } from "@payloadcms/plugin-ecommerce/client/react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { useRouter } from "next/navigation";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
-
 import { createBankTransferOrder } from "@/actions/createBankTransferOrder";
 import { AddressItem } from "@/components/addresses/AddressItem";
 import { CreateAddressModal } from "@/components/addresses/CreateAddressModal";
+import { Link } from "@/components/atoms/Link";
+import { BankTransferInfo } from "@/components/BankTransferInfo";
 import { CheckoutAddresses } from "@/components/checkout/CheckoutAddresses";
 import { CheckoutForm } from "@/components/forms/CheckoutForm";
 import { FormItem } from "@/components/forms/FormItem";
@@ -26,6 +20,12 @@ import { cssVariables } from "@/cssVariables";
 import { Address } from "@/payload-types";
 import { useAuth } from "@/providers/Auth";
 import { env } from "@/utilities/env";
+import { useAddresses, useCart, usePayments } from "@payloadcms/plugin-ecommerce/client/react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripe = apiKey ? loadStripe(apiKey) : null;
@@ -633,49 +633,10 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
             <Price className="text-3xl font-medium" amount={totalWithShipping} />
           </div>
           {bankTransfer && (
-            <div className="bg-card border rounded-lg p-4 text-sm space-y-1.5">
-              <h4 className="font-semibold text-base">{bankTransfer.heading || "Bank Transfer"}</h4>
-              <p className="text-primary/70">
-                {bankTransfer.note ||
-                  "Your order will be shipped once your bank transfer is confirmed. Please transfer the total amount to the account below:"}
-              </p>
-              <dl className="mt-2 space-y-1 [&_dd]:mb-1.5">
-                {bankTransfer.bankName && (
-                  <>
-                    <dt className="font-medium">Bank:</dt>
-                    <dd>{bankTransfer.bankName}</dd>
-                  </>
-                )}
-                {bankTransfer.accountName && (
-                  <>
-                    <dt className="font-medium">Account Name:</dt>
-                    <dd>{bankTransfer.accountName}</dd>
-                  </>
-                )}
-                {bankTransfer.accountNumber && (
-                  <>
-                    <dt className="font-medium">Account Number:</dt>
-                    <dd>{bankTransfer.accountNumber}</dd>
-                  </>
-                )}
-                {bankTransfer.routingNumber && (
-                  <>
-                    <dt className="font-medium">Routing / Sort Code / BSB:</dt>
-                    <dd>{bankTransfer.routingNumber}</dd>
-                  </>
-                )}
-                {bankTransfer.swiftCode && (
-                  <>
-                    <dt className="font-medium">SWIFT / BIC:</dt>
-                    <dd>{bankTransfer.swiftCode}</dd>
-                  </>
-                )}
-              </dl>
-              {bankTransfer.bankTransferFooter && (
-                <p className="text-xs text-primary/50 mt-2">{bankTransfer.bankTransferFooter}</p>
-              )}
-            </div>
-          )}
+          <div className="mt-8">
+            <BankTransferInfo settings={bankTransfer} amount={totalWithShipping} />
+          </div>
+        )}
         </div>
       )}
     </div>

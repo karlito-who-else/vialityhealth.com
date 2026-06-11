@@ -60,6 +60,7 @@ export async function sendOrderAccessEmail({
       subject: `Access your order #${order.id}`,
       html: emailBody,
       from: "orders@mail.vialityhealth.com",
+      replyTo: "orders@vialityhealth.com",
     });
 
     return { success: true };

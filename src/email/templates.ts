@@ -67,6 +67,66 @@ export const logoMarkup = (logoURL: string, alt: string) =>
 export const textLogoMarkup = (siteName: string) =>
   `<h1 style="color:${foreground};margin:0;font-size:22px;font-weight:700;letter-spacing:-0.5px;">${siteName}</h1>`;
 
+export type BankTransferSettings = {
+  bankTransferHeading?: string | null;
+  bankTransferNote?: string | null;
+  bankName?: string | null;
+  accountName?: string | null;
+  accountNumber?: string | null;
+  routingNumber?: string | null;
+  swiftCode?: string | null;
+  bankTransferFooter?: string | null;
+};
+
+const bankTransferInfoHTML = (settings: BankTransferSettings, amount?: number | null): string => {
+  const hasDetails = settings.bankName || settings.accountName || settings.accountNumber || settings.routingNumber || settings.swiftCode;
+  if (!hasDetails) return "";
+
+  const rows: string[] = [];
+
+  if (settings.bankName) {
+    rows.push(`<tr><td style="padding:2px 0;font-size:13px;font-weight:600;color:${muted};">Bank</td></tr>
+<tr><td style="padding:0 0 6px;font-size:15px;">${settings.bankName}</td></tr>`);
+  }
+  if (settings.accountName) {
+    rows.push(`<tr><td style="padding:2px 0;font-size:13px;font-weight:600;color:${muted};">Account Name</td></tr>
+<tr><td style="padding:0 0 6px;font-size:15px;">${settings.accountName}</td></tr>`);
+  }
+  if (settings.accountNumber) {
+    rows.push(`<tr><td style="padding:2px 0;font-size:13px;font-weight:600;color:${muted};">Account Number</td></tr>
+<tr><td style="padding:0 0 6px;font-size:15px;">${settings.accountNumber}</td></tr>`);
+  }
+  if (settings.routingNumber) {
+    rows.push(`<tr><td style="padding:2px 0;font-size:13px;font-weight:600;color:${muted};">Routing / Sort Code / BSB</td></tr>
+<tr><td style="padding:0 0 6px;font-size:15px;">${settings.routingNumber}</td></tr>`);
+  }
+  if (settings.swiftCode) {
+    rows.push(`<tr><td style="padding:2px 0;font-size:13px;font-weight:600;color:${muted};">SWIFT / BIC</td></tr>
+<tr><td style="padding:0 0 6px;font-size:15px;">${settings.swiftCode}</td></tr>`);
+  }
+
+  return `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;background-color:${bg};border-radius:${radius};">
+      <tr>
+        <td style="padding:20px;">
+          <h3 style="margin:0 0 8px;font-size:16px;font-weight:600;color:${foreground};">${settings.bankTransferHeading || "Bank Transfer"}</h3>
+          ${settings.bankTransferNote ? `<p style="margin:0 0 12px;font-size:14px;color:${muted};">${settings.bankTransferNote}</p>` : ""}
+          <table role="presentation" cellpadding="0" cellspacing="0">
+            ${rows.join("")}
+          </table>
+          ${settings.bankTransferFooter ? `<p style="margin:12px 0 0;font-size:12px;color:${muted};">${settings.bankTransferFooter}</p>` : ""}
+          ${amount ? `
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;border-top:1px solid ${border};">
+            <tr>
+              <td style="padding:12px 0 0;font-size:15px;font-weight:700;color:${foreground};">Total to transfer</td>
+              <td style="padding:12px 0 0;font-size:15px;font-weight:700;color:${foreground};text-align:right;">AUD ${(amount / 100).toFixed(2)}</td>
+            </tr>
+          </table>` : ""}
+        </td>
+      </tr>
+    </table>`;
+};
+
 export const formatStatus = (status: string): string =>
   status
     .split("_")
@@ -101,6 +161,8 @@ export const orderConfirmationTemplate = (
   total: string,
   orderURL: string,
   tokens: DesignTokens,
+  bankTransferSettings?: BankTransferSettings | null,
+  amount?: number | null,
 ): string =>
   baseTemplate(`
     <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Order confirmed</h2>
@@ -122,6 +184,7 @@ export const orderConfirmationTemplate = (
         <td style="padding:12px 0 0;border-top:2px solid ${foreground};font-size:16px;font-weight:700;text-align:right;">${total}</td>
       </tr>
     </table>
+    ${bankTransferSettings ? bankTransferInfoHTML(bankTransferSettings, amount) : ""}
     ${button(orderURL, "View Order")}
     <p style="margin:0;font-size:14px;color:${muted};">We'll send you an update when your order ships.</p>
   `, tokens);
@@ -134,6 +197,8 @@ export const orderStatusTemplate = (
   tokens: DesignTokens,
   shippingTrackingUrl?: string,
   shippingLabels?: { url: string; alt: string }[],
+  bankTransferSettings?: BankTransferSettings | null,
+  amount?: number | null,
 ): string =>
   baseTemplate(`
     <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Order status update</h2>
@@ -146,6 +211,7 @@ export const orderStatusTemplate = (
         </td>
       </tr>
     </table>
+    ${bankTransferSettings ? bankTransferInfoHTML(bankTransferSettings, amount) : ""}
     ${shippingTrackingUrl ? `
     <h3 style="margin:0 0 12px;font-size:16px;color:${foreground};font-weight:600;">Tracking</h3>
     <p style="margin:0 0 24px;">

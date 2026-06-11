@@ -26,38 +26,39 @@ export function BankTransferInfo({ settings, amount }: Props) {
       {settings?.bankTransferNote && (
         <p className="text-sm text-primary/70">{settings.bankTransferNote}</p>
       )}
-      <div className="space-y-2 text-sm">
-        {settings?.bankName && (
-          <div className="flex justify-between">
-            <span className="text-primary/60">Bank</span>
-            <span className="font-medium">{settings.bankName}</span>
-          </div>
+
+      <dl className="mt-2 space-y-1 [&_dd]:mb-1.5">
+        {settings.bankName && (
+          <>
+            <dt className="font-medium">Bank:</dt>
+            <dd>{settings.bankName}</dd>
+          </>
         )}
-        {settings?.accountName && (
-          <div className="flex justify-between">
-            <span className="text-primary/60">Account Name</span>
-            <span className="font-medium">{settings.accountName}</span>
-          </div>
+        {settings.accountName && (
+          <>
+            <dt className="font-medium">Account Name:</dt>
+            <dd>{settings.accountName}</dd>
+          </>
         )}
-        {settings?.accountNumber && (
-          <div className="flex justify-between">
-            <span className="text-primary/60">Account Number</span>
-            <span className="font-medium">{settings.accountNumber}</span>
-          </div>
+        {settings.accountNumber && (
+          <>
+            <dt className="font-medium">Account Number:</dt>
+            <dd>{settings.accountNumber}</dd>
+          </>
         )}
-        {settings?.routingNumber && (
-          <div className="flex justify-between">
-            <span className="text-primary/60">Routing / Sort Code</span>
-            <span className="font-medium">{settings.routingNumber}</span>
-          </div>
+        {settings.routingNumber && (
+          <>
+            <dt className="font-medium">Routing / Sort Code / BSB:</dt>
+            <dd>{settings.routingNumber}</dd>
+          </>
         )}
-        {settings?.swiftCode && (
-          <div className="flex justify-between">
-            <span className="text-primary/60">SWIFT / BIC</span>
-            <span className="font-medium">{settings.swiftCode}</span>
-          </div>
+        {settings.swiftCode && (
+          <>
+            <dt className="font-medium">SWIFT / BIC:</dt>
+            <dd>{settings.swiftCode}</dd>
+          </>
         )}
-      </div>
+      </dl>
       {settings?.bankTransferFooter && (
         <p className="text-xs text-primary/50 mt-2">{settings.bankTransferFooter}</p>
       )}
