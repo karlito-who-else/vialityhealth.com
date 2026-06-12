@@ -22,16 +22,27 @@ const nextConfig: NextConfig = {
       {
         pathname: "/api/media/file/**",
       },
+      {
+        pathname: "/media/**",
+      },
     ],
     qualities: [75, 90, 100],
-    remotePatterns: [NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
-      const url = new URL(item);
+    remotePatterns: [
+      ...([NEXT_PUBLIC_SERVER_URL].map((item) => {
+        const url = new URL(item);
 
-      return {
-        hostname: url.hostname,
-        protocol: url.protocol.replace(":", "") as "http" | "https",
-      };
-    }),
+        return {
+          hostname: url.hostname,
+          protocol: url.protocol.replace(":", "") as "http" | "https",
+          pathname: "/**",
+        };
+      })),
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+        pathname: "/**",
+      },
+    ],
   },
   reactStrictMode: true,
   redirects,
