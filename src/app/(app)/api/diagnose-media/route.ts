@@ -20,8 +20,8 @@ export async function GET(): Promise<Response> {
     sort: "createdAt",
   });
 
-  const localUrls: { id: number; filename: string; url: string; createdAt: string }[] = [];
-  const blobUrls: { id: number; filename: string; url: string; createdAt: string }[] = [];
+  const local: { id: unknown; filename: unknown; url: unknown; createdAt: unknown }[] = [];
+  const blob: { id: unknown; filename: unknown; url: unknown; createdAt: unknown }[] = [];
 
   for (const item of mediaItems) {
     const entry = {
@@ -31,49 +31,46 @@ export async function GET(): Promise<Response> {
       createdAt: item.createdAt,
     };
 
-    if (item.url && (item.url as string).startsWith("/")) {
-      localUrls.push(entry);
-    } else if (item.url && (item.url as string).startsWith("http")) {
-      blobUrls.push(entry);
+    if (entry.url && String(entry.url).startsWith("/")) {
+      local.push(entry);
+    } else if (entry.url && String(entry.url).startsWith("http")) {
+      blob.push(entry);
     } else {
-      localUrls.push(entry);
+      local.push(entry);
     }
   }
 
-  let blobStoreFiles: { url: string; pathname: string }[] = [];
+  let blobs: { url: string; pathname: string }[] = [];
 
-  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-  if (blobToken) {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       let cursor: string | undefined;
       do {
         const result = await list({ cursor, limit: 1000 });
-        blobStoreFiles.push(
-          ...result.blobs.map((b) => ({ url: b.url, pathname: b.pathname })),
-        );
+        blobs.push(...result.blobs.map((b) => ({ url: b.url, pathname: b.pathname })));
         cursor = result.cursor;
       } while (cursor);
-    } catch (e) {
-      blobStoreFiles = [];
+    } catch {
+      blobs = [];
     }
   }
 
-  const matchedOnBlob = localUrls.filter((local) =>
-    blobStoreFiles.some(
-      (blob) =>
-        blob.pathname.endsWith(local.filename) ||
-        blob.url.endsWith(encodeURIComponent(local.filename)),
+  const matched = local.filter((l) =>
+    blobs.some(
+      (b) =>
+        b.pathname.endsWith(String(l.filename)) ||
+        b.url.endsWith(encodeURIComponent(String(l.filename))),
     ),
   );
 
   return Response.json({
     totalMediaItems: mediaItems.length,
-    localUrlCount: localUrls.length,
-    blobUrlCount: blobUrls.length,
-    blobStoreFileCount: blobStoreFiles.length,
-    matchedOnBlob: matchedOnBlob.map((m) => ({ id: m.id, filename: m.filename })),
-    localUrls,
-    blobUrls,
-    blobStorePaths: blobStoreFiles.map((b) => b.pathname),
+    localUrlCount: local.length,
+    blobUrlCount: blob.length,
+    blobStoreFileCount: blobs.length,
+    matchedOnBlob: matched.map((m) => ({ id: m.id, filename: m.filename })),
+    localUrls: local,
+    blobUrls: blob,
+    blobStorePaths: blobs.map((b) => b.pathname),
   });
 }
