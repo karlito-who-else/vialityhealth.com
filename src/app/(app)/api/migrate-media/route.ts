@@ -5,6 +5,8 @@ import { getPayload } from "payload";
 
 import { checkRole } from "@/access/utilities";
 
+const PROXY_BASE = "/api/blob-proxy";
+
 export async function POST(): Promise<Response> {
   const [payload, requestHeaders] = await Promise.all([getPayload({ config }), headers()]);
 
@@ -36,8 +38,11 @@ export async function POST(): Promise<Response> {
   const skipped: { id: unknown; filename: unknown; reason: string }[] = [];
 
   for (const item of mediaItems) {
-    if (item.url && String(item.url).startsWith("http")) {
-      skipped.push({ id: item.id, filename: item.filename, reason: "already has blob URL" });
+    const currentUrl = String(item.url || "");
+
+    // Already pointing to our proxy — skip
+    if (currentUrl.startsWith(PROXY_BASE)) {
+      skipped.push({ id: item.id, filename: item.filename, reason: "already proxied" });
       continue;
     }
 
@@ -48,15 +53,15 @@ export async function POST(): Promise<Response> {
       continue;
     }
 
-    const oldUrl = String(item.url);
+    const fileUrl = `${PROXY_BASE}/${encodeURIComponent(String(item.filename))}`;
 
     await payload.update({
       collection: "media",
       id: item.id,
-      data: { url: match.url },
+      data: { url: fileUrl },
     });
 
-    updated.push({ id: item.id, filename: item.filename, oldUrl, newUrl: match.url });
+    updated.push({ id: item.id, filename: item.filename, oldUrl: currentUrl, newUrl: fileUrl });
   }
 
   return Response.json({
