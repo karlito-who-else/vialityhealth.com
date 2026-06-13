@@ -1,4 +1,4 @@
-import { get } from "@vercel/blob";
+import { head, get } from "@vercel/blob";
 import { type NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -9,19 +9,26 @@ export async function GET(
 ) {
   const { filename } = await params;
 
-  if (!filename) {
-    return new Response("Missing filename", { status: 400 });
+  if (!filename || !process.env.BLOB_READ_WRITE_TOKEN) {
+    return new Response(null, { status: 400 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return new Response("Blob storage not configured", { status: 500 });
-  }
-
+  // Try redirecting to the download URL first (fastest path)
   try {
-    const result = await get(filename, { access: "public" });
+    const meta = await head(filename, { token: process.env.BLOB_READ_WRITE_TOKEN });
+    if (meta?.downloadUrl) {
+      return Response.redirect(meta.downloadUrl, 302);
+    }
+  } catch {
+    // fall through to get() below
+  }
+
+  // Fallback: proxy through function using SDK
+  try {
+    const result = await get(filename, { access: "private" });
 
     if (!result) {
-      return new Response("Not found", { status: 404 });
+      return new Response(null, { status: 404 });
     }
 
     const headers: Record<string, string> = {
