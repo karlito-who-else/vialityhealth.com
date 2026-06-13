@@ -17,10 +17,11 @@ export async function GET(
   try {
     const meta = await head(filename, { token: process.env.BLOB_READ_WRITE_TOKEN });
     if (meta?.downloadUrl) {
+      console.error("downloadUrl:", meta.downloadUrl);
       return Response.redirect(meta.downloadUrl, 302);
     }
-  } catch {
-    // fall through to get() below
+  } catch (e) {
+    console.error("head() failed:", String(e));
   }
 
   // Fallback: proxy through function using SDK
@@ -44,7 +45,8 @@ export async function GET(
       status: result.statusCode,
       headers,
     });
-  } catch {
-    return new Response("Internal Server Error", { status: 500 });
+  } catch (e) {
+    console.error("get() failed:", String(e));
+    return new Response(String(e), { status: 500 });
   }
 }
