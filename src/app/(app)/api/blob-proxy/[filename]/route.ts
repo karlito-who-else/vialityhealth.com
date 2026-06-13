@@ -1,4 +1,4 @@
-import { list, get } from "@vercel/blob";
+import { head, get } from "@vercel/blob";
 import { type NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -18,23 +18,25 @@ export async function GET(
   }
 
   try {
-    const result = await list({ prefix: filename, limit: 1, token });
-    const blob = result.blobs?.[0];
+    const meta = await head(filename, { token });
+    console.error("head result:", JSON.stringify(meta));
 
-    if (!blob?.url) {
+    if (!meta?.url) {
       return new Response(
-        JSON.stringify({ error: "Blob not found", filename }),
+        JSON.stringify({ error: "Blob not found by head()" }),
         { status: 404, headers: { "content-type": "application/json" } },
       );
     }
 
-    const getResult = await get(blob.pathname, { access: "private", token });
+    const getResult = await get(meta.pathname, { access: "private", token });
 
     if (!getResult || getResult.statusCode !== 200 || !getResult.stream) {
       return new Response(
         JSON.stringify({
-          error: "get() returned non-200",
-          statusCode: getResult?.statusCode,
+          error: `get() returned status ${getResult?.statusCode}`,
+          downloadUrl: meta.downloadUrl,
+          url: meta.url,
+          pathname: meta.pathname,
         }),
         { status: 502, headers: { "content-type": "application/json" } },
       );
