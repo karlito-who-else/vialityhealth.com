@@ -8,44 +8,37 @@ export async function GET(
   { params }: { params: Promise<{ filename: string }> },
 ) {
   const { filename } = await params;
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
 
-  const tokenStatus = process.env.BLOB_READ_WRITE_TOKEN
-    ? `set (len=${process.env.BLOB_READ_WRITE_TOKEN.length})`
-    : "NOT SET";
-
-  if (!filename) {
-    return new Response(JSON.stringify({ error: "Missing filename", tokenStatus }), {
-      status: 400,
-      headers: { "content-type": "application/json" },
-    });
+  if (!filename || !token) {
+    return new Response(
+      JSON.stringify({ error: "Missing filename or BLOB_READ_WRITE_TOKEN" }),
+      { status: 400, headers: { "content-type": "application/json" } },
+    );
   }
 
   try {
-    console.error("Starting list(), token:", tokenStatus);
-    const result = await list({ prefix: filename, limit: 1 });
+    const result = await list({ prefix: filename, limit: 1, token });
     const blob = result.blobs?.[0];
 
     if (!blob?.url) {
       return new Response(
-        JSON.stringify({ error: "Blob not found", filename, tokenStatus }),
+        JSON.stringify({ error: "Blob not found", filename }),
         { status: 404, headers: { "content-type": "application/json" } },
       );
     }
 
-    console.error("blob found:", blob.url);
-
-    const getResult = await get(blob.url, {
-      access: "private",
-    });
+    const getResult = await get(blob.url, { access: "private", token });
 
     if (!getResult || getResult.statusCode !== 200 || !getResult.stream) {
       return new Response(
-        JSON.stringify({ error: "get() returned non-200", statusCode: getResult?.statusCode }),
+        JSON.stringify({
+          error: "get() returned non-200",
+          statusCode: getResult?.statusCode,
+        }),
         { status: 502, headers: { "content-type": "application/json" } },
       );
     }
-
-    console.error("get succeeded, contentType:", getResult.blob?.contentType);
 
     return new Response(getResult.stream as ReadableStream, {
       headers: {
@@ -57,9 +50,8 @@ export async function GET(
     });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
-    console.error("blob proxy error:", msg);
     return new Response(
-      JSON.stringify({ error: msg, tokenStatus }),
+      JSON.stringify({ error: msg }),
       { status: 502, headers: { "content-type": "application/json" } },
     );
   }
