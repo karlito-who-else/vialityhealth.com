@@ -28,7 +28,7 @@ export async function GET(
       );
     }
 
-    const getResult = await get(blob.url, { access: "private", token });
+    const getResult = await get(blob.pathname, { access: "private", token });
 
     if (!getResult || getResult.statusCode !== 200 || !getResult.stream) {
       return new Response(
