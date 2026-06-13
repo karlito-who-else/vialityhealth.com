@@ -1,4 +1,4 @@
-import { head, get } from "@vercel/blob";
+import { get, head } from "@vercel/blob";
 import { type NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -13,40 +13,40 @@ export async function GET(
     return new Response(null, { status: 400 });
   }
 
-  // Try redirecting to the download URL first (fastest path)
-  try {
-    const meta = await head(filename, { token: process.env.BLOB_READ_WRITE_TOKEN });
-    if (meta?.downloadUrl) {
-      console.error("downloadUrl:", meta.downloadUrl);
-      return Response.redirect(meta.downloadUrl, 302);
+  // Try get() with both access modes
+  for (const access of ["public", "private"] as const) {
+    try {
+      const blob = await head(filename);
+      console.error(`head(${filename}): ${blob?.url} dl=${blob?.downloadUrl}`);
+    } catch {
+      // ignore
     }
-  } catch (e) {
-    console.error("head() failed:", String(e));
+
+    try {
+      const result = await get(filename, { access });
+
+      if (!result) {
+        console.error(`get ${access}: null`);
+        continue;
+      }
+
+      const headers: Record<string, string> = {
+        "Content-Type": result.blob.contentType || "application/octet-stream",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      };
+
+      if (result.blob.size) {
+        headers["Content-Length"] = String(result.blob.size);
+      }
+
+      return new Response(result.stream as ReadableStream, {
+        status: result.statusCode,
+        headers,
+      });
+    } catch (e) {
+      console.error(`get ${access} failed:`, String(e));
+    }
   }
 
-  // Fallback: proxy through function using SDK
-  try {
-    const result = await get(filename, { access: "private" });
-
-    if (!result) {
-      return new Response(null, { status: 404 });
-    }
-
-    const headers: Record<string, string> = {
-      "Content-Type": result.blob.contentType || "application/octet-stream",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    };
-
-    if (result.blob.size) {
-      headers["Content-Length"] = String(result.blob.size);
-    }
-
-    return new Response(result.stream as ReadableStream, {
-      status: result.statusCode,
-      headers,
-    });
-  } catch (e) {
-    console.error("get() failed:", String(e));
-    return new Response(String(e), { status: 500 });
-  }
+  return new Response("Blob proxy failed", { status: 502 });
 }
