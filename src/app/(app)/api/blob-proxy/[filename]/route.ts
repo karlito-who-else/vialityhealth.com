@@ -20,7 +20,7 @@ export async function GET(
   try {
     const result = await get(filename, { access: "public" });
 
-    if (!result || result.statusCode === 404) {
+    if (!result) {
       return new Response("Not found", { status: 404 });
     }
 
