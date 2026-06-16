@@ -306,6 +306,21 @@ export const Settings: GlobalConfig = {
           ],
         },
         {
+          label: "TagadaPay",
+          fields: [
+            {
+              name: "tagadaPayEnabled",
+              type: "checkbox",
+              label: "Enable TagadaPay checkout",
+              defaultValue: false,
+              admin: {
+                description:
+                  "When enabled, users can choose TagadaPay's hosted checkout instead of Stripe.",
+              },
+            },
+          ],
+        },
+        {
           label: "Shipping",
           fields: [
             {

@@ -310,6 +310,22 @@ export const plugins: Plugin[] = [
     products: {
       productsCollectionOverride: ProductsCollection,
       variants: {
+        variantsCollectionOverride: ({ defaultCollection }) => ({
+          ...defaultCollection,
+          fields: [
+            ...defaultCollection.fields,
+            {
+              name: "tagadaPayVariantId",
+              type: "text",
+              label: "TagadaPay Variant ID",
+              admin: {
+                description:
+                  "The variant ID in TagadaPay's catalog for product mapping. Required when using TagadaPay checkout.",
+                position: "sidebar",
+              },
+            },
+          ],
+        }),
         variantOptionsCollectionOverride: ({ defaultCollection }) => ({
           ...defaultCollection,
           fields: defaultCollection.fields.map((field) => {

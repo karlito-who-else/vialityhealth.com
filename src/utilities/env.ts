@@ -12,7 +12,10 @@ const variables = {
   NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY: process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY,
   NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL || `https://${process.env.VERCEL_URL}`,
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  NEXT_PUBLIC_TAGADAPAY_ENABLED: process.env.NEXT_PUBLIC_TAGADAPAY_ENABLED,
   NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+  TAGADAPAY_API_KEY: process.env.TAGADAPAY_API_KEY,
+  TAGADAPAY_STORE_ID: process.env.TAGADAPAY_STORE_ID,
   PAYLOAD_PUBLIC_SERVER_URL: process.env.PAYLOAD_PUBLIC_SERVER_URL || `https://${process.env.VERCEL_URL}`,
   PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
   PREVIEW_SECRET: process.env.PREVIEW_SECRET,
@@ -25,6 +28,7 @@ const variables = {
 const sharedVariablesSchema = z.object({
   NEXT_PUBLIC_SERVER_URL: z.string().optional(),
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+  NEXT_PUBLIC_TAGADAPAY_ENABLED: z.string().optional(),
   NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
 });
 
@@ -38,6 +42,8 @@ const clientVariablesSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOKS_SIGNING_SECRET: z.string().optional(),
+  TAGADAPAY_API_KEY: z.string().optional(),
+  TAGADAPAY_STORE_ID: z.string().optional(),
   VERCEL_PROJECT_PRODUCTION_URL: z.string().optional(),
 });
 
@@ -53,6 +59,8 @@ const serverVariablesSchema = z.object({
   RESEND_API_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOKS_SIGNING_SECRET: z.string(),
+  TAGADAPAY_API_KEY: z.string(),
+  TAGADAPAY_STORE_ID: z.string(),
   VERCEL_PROJECT_PRODUCTION_URL: z.string(),
 });
 

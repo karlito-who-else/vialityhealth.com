@@ -71,6 +71,9 @@ importers:
       '@stripe/stripe-js':
         specifier: ^9.7.0
         version: 9.7.0
+      '@tagadapay/node-sdk':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@vercel/blob':
         specifier: ^2.4.0
         version: 2.4.0
@@ -3656,6 +3659,11 @@ packages:
   '@szmarczak/http-timer@5.0.1':
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
     engines: {node: '>=14.16'}
+
+  '@tagadapay/node-sdk@1.2.1':
+    resolution: {integrity: sha512-AyIkquKMV08JFtRK5o6XKGrRlVVZR9+RIG8RYqAVx1SNOpHJyQpLsDj7f/UhrkDB+IhKfarOW+PAO8s/EeIEJw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   '@tailwindcss/node@4.1.18':
     resolution: {integrity: sha512-DoR7U1P7iYhw16qJ49fgXUlry1t4CpXeErJHnQ44JgTSKMaZUdf17cfn5mHchfJ4KRBZRFA/Coo+MUF5+gOaCQ==}
@@ -12418,6 +12426,8 @@ snapshots:
   '@szmarczak/http-timer@5.0.1':
     dependencies:
       defer-to-connect: 2.0.1
+
+  '@tagadapay/node-sdk@1.2.1': {}
 
   '@tailwindcss/node@4.1.18':
     dependencies:

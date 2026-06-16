@@ -1,6 +1,7 @@
 "use client";
 
 import { createBankTransferOrder } from "@/actions/createBankTransferOrder";
+import { createTagadaPayCheckout } from "@/actions/createTagadaPayCheckout";
 import { AddressItem } from "@/components/addresses/AddressItem";
 import { CreateAddressModal } from "@/components/addresses/CreateAddressModal";
 import { Link } from "@/components/atoms/Link";
@@ -47,7 +48,7 @@ interface ShippingOption {
   cost: number;
 }
 
-export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[] }> = ({ bankTransfer, shippingOptions }) => {
+export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[]; tagadaPayEnabled?: boolean }> = ({ bankTransfer, shippingOptions, tagadaPayEnabled }) => {
   const { user } = useAuth();
   const { push, refresh } = useRouter();
   const { cart, clearCart } = useCart();
@@ -65,6 +66,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   const [billingAddressSameAsShipping, setBillingAddressSameAsShipping] = useState(true);
   const [isProcessingPayment, setProcessingPayment] = useState(false);
   const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
+  const [isProcessingTagadaPay, setIsProcessingTagadaPay] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState<string | undefined>(
     shippingOptions?.[0]?.serviceName,
   );
@@ -205,9 +207,53 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
     }
   }, [cart, canGoToPayment, billingAddressSameAsShipping, billingAddress, shippingAddress, user, email, clearCart, push, shippingOptions, selectedShipping, totalWithShipping]);
 
-  if (!bankTransfer && !stripe) return null;
+  const handleTagadaPayCheckout = useCallback(async () => {
+    if (!cart || !cart.items) return;
 
-  if (cartIsEmpty && isProcessingPayment) {
+    setIsProcessingTagadaPay(true);
+
+    try {
+      const tagadaPayItems = cart.items
+        .filter((item): item is NonNullable<typeof item> => item !== null)
+        .map((item) => {
+          const variant = item.variant;
+          const tagadaPayVariantId =
+            variant && typeof variant === "object"
+              ? (variant as any).tagadaPayVariantId
+              : undefined;
+
+          if (!tagadaPayVariantId) {
+            throw new Error(
+              "One or more items in your cart are not configured for TagadaPay checkout. Please configure the TagadaPay Variant ID in the product settings.",
+            );
+          }
+
+          return {
+            tagadaPayVariantId,
+            quantity: item.quantity || 1,
+          };
+        });
+
+      const result = await createTagadaPayCheckout({
+        items: tagadaPayItems,
+        cartId: cart.id as number | undefined,
+        customerEmail: email || user?.email,
+      });
+
+      if (result?.redirectUrl) {
+        window.location.href = result.redirectUrl;
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Something went wrong.";
+      setError(msg);
+      toast.error(msg);
+      setIsProcessingTagadaPay(false);
+    }
+  }, [cart, email, user]);
+
+  if (!bankTransfer && !stripe && !tagadaPayEnabled) return null;
+
+  if (cartIsEmpty && (isProcessingPayment || isProcessingTagadaPay)) {
     return (
       <div className="py-12 w-full items-center justify-center">
         <div className="prose text-center max-w-none self-center mb-8">
@@ -435,26 +481,51 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
         )}
 
         {!paymentData && !isConfirmingOrder && (
-          <Button
-            className="self-start"
-            disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
-            onClick={(e) => {
-              e.preventDefault();
-              if (bankTransfer) {
-                handleConfirmOrder();
-              } else {
-                void initiatePaymentIntent("stripe");
-              }
-            }}
-          >
-            {bankTransfer ? "Confirm order" : "Go to payment"}
-          </Button>
+          <div className="flex flex-wrap gap-4">
+            {bankTransfer && (
+              <Button
+                className="self-start"
+                disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleConfirmOrder();
+                }}
+              >
+                Confirm order (Bank Transfer)
+              </Button>
+            )}
+            {tagadaPayEnabled && (
+              <Button
+                className="self-start"
+                disabled={isProcessingTagadaPay || (!email && !user)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  void handleTagadaPayCheckout();
+                }}
+                variant={bankTransfer ? "outline" : "default"}
+              >
+                {isProcessingTagadaPay ? "Redirecting…" : "Pay with TagadaPay"}
+              </Button>
+            )}
+            {!tagadaPayEnabled && !bankTransfer && (
+              <Button
+                className="self-start"
+                disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  void initiatePaymentIntent("stripe");
+                }}
+              >
+                Go to payment
+              </Button>
+            )}
+          </div>
         )}
 
-        {isConfirmingOrder && (
+        {(isConfirmingOrder || isProcessingTagadaPay) && (
           <div className="flex items-center gap-3 text-primary/70">
             <LoadingSpinner className="w-5 h-5" />
-            <span>Creating your order…</span>
+            <span>{isProcessingTagadaPay ? "Redirecting to TagadaPay…" : "Creating your order…"}</span>
           </div>
         )}
 

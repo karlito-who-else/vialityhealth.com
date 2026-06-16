@@ -22,6 +22,8 @@ export default async function Checkout() {
       }
     : undefined;
 
+  const tagadaPayEnabled = (settings as any)?.tagadaPayEnabled === true;
+
   const shippingOptions: { serviceName: string; timeframe: string; cost: number }[] =
     (settings?.shippingOptions ?? [])
       .filter(
@@ -33,7 +35,7 @@ export default async function Checkout() {
 
   return (
     <div className="container mx-auto min-h-[90vh] flex px-4">
-      {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '') && (
+      {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || tagadaPayEnabled) && (
         <div>
           <Fragment>
             {"To enable checkout, you must "}
@@ -59,7 +61,11 @@ export default async function Checkout() {
 
       <h1 className="sr-only">Checkout</h1>
 
-      <CheckoutPage bankTransfer={bankTransfer} shippingOptions={shippingOptions} />
+      <CheckoutPage
+        bankTransfer={bankTransfer}
+        shippingOptions={shippingOptions}
+        tagadaPayEnabled={tagadaPayEnabled}
+      />
     </div>
   );
 }
