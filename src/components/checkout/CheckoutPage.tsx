@@ -6,6 +6,7 @@ import { AddressItem } from "@/components/addresses/AddressItem";
 import { CreateAddressModal } from "@/components/addresses/CreateAddressModal";
 import { Link } from "@/components/atoms/Link";
 import { BankTransferInfo } from "@/components/BankTransferInfo";
+import { BankfulForm } from "@/components/checkout/BankfulForm";
 import { CheckoutAddresses } from "@/components/checkout/CheckoutAddresses";
 import { CheckoutForm } from "@/components/forms/CheckoutForm";
 import { FormItem } from "@/components/forms/FormItem";
@@ -48,7 +49,7 @@ interface ShippingOption {
   cost: number;
 }
 
-export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[]; tagadaPayEnabled?: boolean }> = ({ bankTransfer, shippingOptions, tagadaPayEnabled }) => {
+export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[]; tagadaPayEnabled?: boolean; bankfulEnabled?: boolean }> = ({ bankTransfer, shippingOptions, tagadaPayEnabled, bankfulEnabled }) => {
   const { user } = useAuth();
   const { push, refresh } = useRouter();
   const { cart, clearCart } = useCart();
@@ -59,7 +60,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   const [email, setEmail] = useState("");
   const [emailEditable, setEmailEditable] = useState(true);
   const [paymentData, setPaymentData] = useState<null | Record<string, unknown>>(null);
-  const { initiatePayment } = usePayments();
+  const { confirmOrder, initiatePayment } = usePayments();
   const { addresses } = useAddresses();
   const [shippingAddress, setShippingAddress] = useState<Partial<Address>>();
   const [billingAddress, setBillingAddress] = useState<Partial<Address>>();
@@ -67,6 +68,8 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   const [isProcessingPayment, setProcessingPayment] = useState(false);
   const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
   const [isProcessingTagadaPay, setIsProcessingTagadaPay] = useState(false);
+  const [isProcessingBankful, setIsProcessingBankful] = useState(false);
+  const [showBankfulForm, setShowBankfulForm] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState<string | undefined>(
     shippingOptions?.[0]?.serviceName,
   );
@@ -251,7 +254,73 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
     }
   }, [cart, email, user]);
 
-  if (!bankTransfer && !stripe && !tagadaPayEnabled) return null;
+  const handleBankfulPayment = useCallback(
+    async (cardDetails: { cardNumber: string; cardExpiry: string; cardCvv: string; firstName?: string; lastName?: string }) => {
+      if (!cart || !cart.items || !canGoToPayment) return;
+
+      setIsProcessingBankful(true);
+      setError(null);
+
+      try {
+        const pmData = {
+          ...(email ? { customerEmail: email } : {}),
+          billingAddress,
+          shippingAddress: billingAddressSameAsShipping ? billingAddress : shippingAddress,
+          ...(selectedShipping
+            ? {
+                shippingMethod: shippingOptions?.find(
+                  (opt) => opt.serviceName === selectedShipping,
+                ),
+              }
+            : {}),
+          cardData: cardDetails,
+        };
+
+        const result = (await initiatePayment("bankful", {
+          additionalData: pmData,
+        })) as Record<string, unknown>;
+
+        if (result?.message) {
+          const confirmResult = (await confirmOrder("bankful", {
+            additionalData: {
+              transactionId: result.transactionId,
+              ...(email ? { customerEmail: email } : {}),
+            },
+          })) as Record<string, unknown>;
+
+          if (confirmResult && confirmResult.orderID) {
+            const queryParams = new URLSearchParams();
+            if (email) {
+              queryParams.set("email", email);
+            }
+            if (confirmResult.accessToken) {
+              queryParams.set("accessToken", confirmResult.accessToken as string);
+            }
+
+            const queryString = queryParams.toString();
+            const redirectUrl = `/checkout/order-confirmed/${confirmResult.orderID}${queryString ? `?${queryString}` : ""}`;
+
+            clearCart();
+            push(redirectUrl);
+          }
+        }
+      } catch (error) {
+        const errorData = error instanceof Error ? (() => { try { return JSON.parse(error.message); } catch { return {}; } })() : {};
+        let errorMessage = error instanceof Error ? error.message : "An error occurred while processing payment.";
+
+        if (errorData?.cause?.code === "OutOfStock") {
+          errorMessage = "One or more items in your cart are out of stock.";
+        }
+
+        setError(errorMessage);
+        toast.error(errorMessage);
+        setIsProcessingBankful(false);
+      }
+    },
+    [billingAddress, billingAddressSameAsShipping, email, shippingAddress, selectedShipping, shippingOptions, cart, canGoToPayment, user, clearCart, push, initiatePayment, confirmOrder],
+  );
+
+  if (!bankTransfer && !stripe && !tagadaPayEnabled && !bankfulEnabled) return null;
 
   if (cartIsEmpty && (isProcessingPayment || isProcessingTagadaPay)) {
     return (
@@ -480,7 +549,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
           </div>
         )}
 
-        {!paymentData && !isConfirmingOrder && (
+        {!paymentData && !isConfirmingOrder && !isProcessingBankful && (
           <div className="flex flex-wrap gap-4">
             {bankTransfer && (
               <Button
@@ -494,6 +563,19 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                 Confirm order (Bank Transfer)
               </Button>
             )}
+            {bankfulEnabled && !showBankfulForm && (
+              <Button
+                className="self-start"
+                disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowBankfulForm(true);
+                }}
+                variant={bankTransfer || tagadaPayEnabled ? "outline" : "default"}
+              >
+                Pay with Card
+              </Button>
+            )}
             {tagadaPayEnabled && (
               <Button
                 className="self-start"
@@ -502,12 +584,12 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                   e.preventDefault();
                   void handleTagadaPayCheckout();
                 }}
-                variant={bankTransfer ? "outline" : "default"}
+                variant={bankTransfer || bankfulEnabled ? "outline" : "default"}
               >
                 {isProcessingTagadaPay ? "Redirecting…" : "Pay with TagadaPay"}
               </Button>
             )}
-            {!tagadaPayEnabled && !bankTransfer && (
+            {!tagadaPayEnabled && !bankTransfer && !bankfulEnabled && (
               <Button
                 className="self-start"
                 disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
@@ -522,10 +604,29 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
           </div>
         )}
 
-        {(isConfirmingOrder || isProcessingTagadaPay) && (
+        {showBankfulForm && (
+          <div>
+            <h2 className="font-medium text-3xl mb-4">Card Payment</h2>
+            <BankfulForm
+              onCardDetails={(cardDetails) => {
+                void handleBankfulPayment(cardDetails);
+              }}
+              isProcessing={isProcessingBankful}
+              error={error}
+            />
+          </div>
+        )}
+
+        {(isConfirmingOrder || isProcessingTagadaPay || isProcessingBankful) && (
           <div className="flex items-center gap-3 text-primary/70">
             <LoadingSpinner className="w-5 h-5" />
-            <span>{isProcessingTagadaPay ? "Redirecting to TagadaPay…" : "Creating your order…"}</span>
+            <span>
+              {isProcessingTagadaPay
+                ? "Redirecting to TagadaPay…"
+                : isProcessingBankful
+                ? "Processing your payment…"
+                : "Creating your order…"}
+            </span>
           </div>
         )}
 

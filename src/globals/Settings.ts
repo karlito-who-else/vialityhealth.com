@@ -321,6 +321,21 @@ export const Settings: GlobalConfig = {
           ],
         },
         {
+          label: "Bankful",
+          fields: [
+            {
+              name: "bankfulEnabled",
+              type: "checkbox",
+              label: "Enable Bankful card payments",
+              defaultValue: false,
+              admin: {
+                description:
+                  "When enabled, users can pay directly with a credit or debit card via Bankful.",
+              },
+            },
+          ],
+        },
+        {
           label: "Shipping",
           fields: [
             {

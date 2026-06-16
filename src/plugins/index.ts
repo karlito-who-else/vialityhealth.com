@@ -1,5 +1,6 @@
 import { ecommercePlugin } from "@payloadcms/plugin-ecommerce";
 import { stripeAdapter } from "@payloadcms/plugin-ecommerce/payments/stripe";
+import { bankfulAdapter } from "@/payments/bankful";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { mcpPlugin } from "@payloadcms/plugin-mcp";
 import { seoPlugin } from "@payloadcms/plugin-seo";
@@ -305,6 +306,9 @@ export const plugins: Plugin[] = [
           // eslint-disable-next-line node/no-process-env
           webhookSecret: process.env.STRIPE_WEBHOOKS_SIGNING_SECRET!,
         }),
+        ...(process.env.BANKFUL_USERNAME && process.env.BANKFUL_PASSWORD
+          ? [bankfulAdapter()]
+          : []),
       ],
     },
     products: {

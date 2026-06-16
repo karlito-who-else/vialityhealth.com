@@ -1276,6 +1276,10 @@ export interface Variant {
   inventory?: number | null;
   priceInAUDEnabled?: boolean | null;
   priceInAUD?: number | null;
+  /**
+   * The variant ID in TagadaPay's catalog for product mapping. Required when using TagadaPay checkout.
+   */
+  tagadaPayVariantId?: string | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -2811,6 +2815,7 @@ export interface VariantsSelect<T extends boolean = true> {
   inventory?: T;
   priceInAUDEnabled?: T;
   priceInAUD?: T;
+  tagadaPayVariantId?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -3462,6 +3467,14 @@ export interface Setting {
   routingNumber?: string | null;
   swiftCode?: string | null;
   bankTransferFooter?: string | null;
+  /**
+   * When enabled, users can choose TagadaPay's hosted checkout instead of Stripe.
+   */
+  tagadaPayEnabled?: boolean | null;
+  /**
+   * When enabled, users can pay directly with a credit or debit card via Bankful.
+   */
+  bankfulEnabled?: boolean | null;
   shippingOptions?:
     | {
         serviceName: string;
@@ -3662,6 +3675,8 @@ export interface SettingsSelect<T extends boolean = true> {
   routingNumber?: T;
   swiftCode?: T;
   bankTransferFooter?: T;
+  tagadaPayEnabled?: T;
+  bankfulEnabled?: T;
   shippingOptions?:
     | T
     | {
