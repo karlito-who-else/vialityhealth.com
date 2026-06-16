@@ -640,8 +640,18 @@ export const seed = async ({
         verificationHeading: "Verified clarity,\nbatch by batch.",
         verificationBody:
           "Certificates of Analysis are available for every production run. We don't ask you to take our word for it — the data is there, and it belongs to you.",
-        labReportLabel: "View Lab Report",
-        requestCOALabel: "Request Full COA",
+        labReportLink: {
+          type: "custom" as const,
+          label: "View Lab Report",
+          url: "#",
+          newTab: true,
+        },
+        requestCOALink: {
+          type: "custom" as const,
+          label: "View Full COA",
+          url: "#",
+          newTab: true,
+        },
         completeRitualHeading: "Complete the Ritual",
         productDisclaimer:
           "This product is not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. Individual results may vary. Always consult a qualified healthcare professional before beginning any new supplement routine, especially if you are pregnant, nursing, taking medications, or have an existing health condition.",

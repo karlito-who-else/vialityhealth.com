@@ -10,6 +10,7 @@ import { Gallery } from "@/components/product/Gallery";
 import { VialityProductDescription } from "@/components/product/VialityProductDescription";
 import type { Faq, Ingredient, Media, Product } from "@/payload-types";
 import { getCachedGlobal } from "@/utilities/getGlobals";
+import { resolveLinkHref } from "@/utilities/resolveLinkHref";
 
 type Args = {
   params: Promise<{
@@ -105,7 +106,7 @@ export default async function ProductPage({ params }: Args) {
   ] = await Promise.all([
     marketingPayload.find({ collection: "benefits", sort: "order", limit: 10 }),
     marketingPayload.find({ collection: "trustBadges", sort: "order", limit: 10 }),
-    getCachedGlobal("settings", 1)(),
+    getCachedGlobal("settings", 2)(),
   ]);
 
   const benefitsLabelTemplate = productContent?.benefitsLabelTemplate || "Why {title}";
@@ -118,8 +119,8 @@ export default async function ProductPage({ params }: Args) {
   const verificationHeading =
     productContent?.verificationHeading || "Verified clarity,\nbatch by batch.";
   const verificationBody = productContent?.verificationBody || "";
-  const labReportLabel = productContent?.labReportLabel || "View Lab Report";
-  const requestCOALabel = productContent?.requestCOALabel || "Request Full COA";
+  const labReportLabel = productContent?.labReportLink?.label || "View Lab Report";
+  const requestCOALabel = productContent?.requestCOALink?.label || "View Full COA";
   const completeRitualHeading = productContent?.completeRitualHeading || "Complete the Ritual";
 
   return (
@@ -229,40 +230,54 @@ export default async function ProductPage({ params }: Args) {
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-            <button type="button" className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-xs uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {productContent?.labReportLink && (
+              <Link
+                href={resolveLinkHref(productContent.labReportLink)}
+                target={productContent.labReportLink.newTab ? "_blank" : undefined}
+                rel={productContent.labReportLink.newTab ? "noopener noreferrer" : undefined}
+                className="flex items-center gap-3 px-7 py-4 border border-primary-foreground/20 text-primary-foreground/70 text-xs uppercase tracking-widest hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-all"
               >
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-              </svg>
-              {labReportLabel}
-            </button>
-            <button type="button" className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-xs uppercase tracking-widest hover:bg-primary-foreground/12 transition-all">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+                {labReportLabel}
+              </Link>
+            )}
+            {productContent?.requestCOALink && (
+              <Link
+                href={resolveLinkHref(productContent.requestCOALink)}
+                target={productContent.requestCOALink.newTab ? "_blank" : undefined}
+                rel={productContent.requestCOALink.newTab ? "noopener noreferrer" : undefined}
+                className="flex items-center gap-3 px-7 py-4 bg-primary-foreground/8 border border-primary-foreground/10 text-primary-foreground/60 text-xs uppercase tracking-widest hover:bg-primary-foreground/12 transition-all"
               >
-                <line x1="7" y1="17" x2="17" y2="7" />
-                <polyline points="7 7 17 7 17 17" />
-              </svg>
-              {requestCOALabel}
-            </button>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+                {requestCOALabel}
+              </Link>
+            )}
           </div>
         </div>
       </section>

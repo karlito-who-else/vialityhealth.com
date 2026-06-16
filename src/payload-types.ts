@@ -3433,8 +3433,32 @@ export interface Setting {
   verificationLabel?: string | null;
   verificationHeading?: string | null;
   verificationBody?: string | null;
-  labReportLabel?: string | null;
-  requestCOALabel?: string | null;
+  /**
+   * Link to the lab report document. Can be an internal CMS page or external URL.
+   */
+  labReportLink: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
+  /**
+   * Link to request a full Certificate of Analysis. Can be an internal CMS page or external URL.
+   */
+  requestCOALink: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
   completeRitualHeading?: string | null;
   productDisclaimer?: string | null;
   collectionLabel?: string | null;
@@ -3647,8 +3671,24 @@ export interface SettingsSelect<T extends boolean = true> {
   verificationLabel?: T;
   verificationHeading?: T;
   verificationBody?: T;
-  labReportLabel?: T;
-  requestCOALabel?: T;
+  labReportLink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  requestCOALink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
   completeRitualHeading?: T;
   productDisclaimer?: T;
   collectionLabel?: T;

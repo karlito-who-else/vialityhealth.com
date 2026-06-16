@@ -1,12 +1,17 @@
 import type { GlobalConfig } from "payload";
 
 import { adminOnly } from "@/access/adminOnly";
+import { link } from "@/fields/link";
+import { revalidateSettings } from "@/globals/Settings/hooks/revalidateSettings";
 
 export const Settings: GlobalConfig = {
   slug: "settings",
   access: {
     read: () => true,
     update: adminOnly,
+  },
+  hooks: {
+    afterChange: [revalidateSettings],
   },
   fields: [
     {
@@ -143,16 +148,28 @@ export const Settings: GlobalConfig = {
               defaultValue:
                 "Certificates of Analysis are available for every production run. We don't ask you to take our word for it — the data is there, and it belongs to you.",
             },
-            {
-              name: "labReportLabel",
-              type: "text",
-              defaultValue: "View Lab Report",
-            },
-            {
-              name: "requestCOALabel",
-              type: "text",
-              defaultValue: "Request Full COA",
-            },
+            link({
+              appearances: false,
+              overrides: {
+                name: "labReportLink",
+                label: "Lab Report Link",
+                admin: {
+                  description:
+                    "Link to the lab report document. Can be an internal CMS page or external URL.",
+                },
+              },
+            }),
+            link({
+              appearances: false,
+              overrides: {
+                name: "requestCOALink",
+                label: "View COA Link",
+                admin: {
+                  description:
+                    "Link to request a full Certificate of Analysis. Can be an internal CMS page or external URL.",
+                },
+              },
+            }),
             {
               name: "completeRitualHeading",
               type: "text",
