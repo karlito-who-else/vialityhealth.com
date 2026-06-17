@@ -22,7 +22,7 @@ import { useAddresses, useCart, usePayments } from "@payloadcms/plugin-ecommerce
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-import React, { startTransition, Suspense, useCallback, useEffect, useOptimistic, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useOptimistic, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
@@ -49,6 +49,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   const { user } = useAuth();
   const { push, refresh } = useRouter();
   const { cart, clearCart, decrementItem, incrementItem } = useCart();
+  const [isPending, startTransition] = useTransition();
 
   type OptimisticAction =
     | { type: "decrement_item"; id: string }
@@ -503,19 +504,21 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
           <div className="border-t border-primary-foreground/15 pt-5 space-y-2.5 mb-6">
             <div className="flex justify-between text-sm text-primary-foreground/50">
               <span>Subtotal</span>
-              <span>${(cart?.subtotal ? cart.subtotal / 100 : 0).toFixed(2)}</span>
+              <span className={`transition-opacity duration-300 ${isPending ? "opacity-40" : ""}`}>
+                ${(optimisticCart?.subtotal ? optimisticCart.subtotal / 100 : 0).toFixed(2)}
+              </span>
             </div>
             {shippingCost > 0 && (
               <div className="flex justify-between text-sm text-primary-foreground/50">
                 <span>Shipping</span>
-                <span>${(shippingCost / 100).toFixed(2)}</span>
+                <span className={`transition-opacity duration-300 ${isPending ? "opacity-40" : ""}`}>${(shippingCost / 100).toFixed(2)}</span>
               </div>
             )}
           </div>
 
           <div className="border-t border-primary-foreground/15 pt-6">
             <p className="text-primary-foreground/50 text-xs uppercase tracking-widest mb-2">Total due</p>
-            <p className="text-primary-foreground font-semibold text-5xl tracking-tight">
+            <p className={`text-primary-foreground font-semibold text-5xl tracking-tight transition-opacity duration-300 ${isPending ? "opacity-40" : ""}`}>
               ${(totalWithShipping / 100).toFixed(2)}
             </p>
           </div>
@@ -625,7 +628,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
         <div className="block lg:hidden sticky top-0 z-30 bg-primary text-primary-foreground border-t border-primary-foreground/20 shadow-lg shadow-black/20">
           <div className="px-5 pt-5 pb-7">
             <p className="text-primary-foreground/60 text-xs uppercase tracking-widest mb-1">Total due</p>
-            <p className="text-primary-foreground font-extrabold text-4xl">
+            <p className={`text-primary-foreground font-extrabold text-4xl transition-opacity duration-300 ${isPending ? "opacity-40" : ""}`}>
               ${(totalWithShipping / 100).toFixed(2)}
             </p>
           </div>
