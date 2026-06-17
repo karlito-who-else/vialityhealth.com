@@ -19,7 +19,7 @@ type Props = {
 
 export function BankTransferInfo({ settings, amount }: Props) {
   return (
-    <div className="bg-card border rounded-lg p-6 space-y-3">
+    <div className="bg-card border border-muted rounded-lg p-6 space-y-3">
       <h2 className="font-semibold text-lg">
         {settings?.bankTransferHeading || "Bank Transfer"}
       </h2>

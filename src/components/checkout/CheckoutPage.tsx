@@ -22,7 +22,7 @@ import { useAddresses, useCart, usePayments } from "@payloadcms/plugin-ecommerce
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, { startTransition, Suspense, useCallback, useEffect, useOptimistic, useState } from "react";
 import { toast } from "sonner";
 
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
@@ -48,7 +48,63 @@ interface ShippingOption {
 export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[]; tagadaPayEnabled?: boolean; bankfulEnabled?: boolean }> = ({ bankTransfer, shippingOptions, tagadaPayEnabled, bankfulEnabled }) => {
   const { user } = useAuth();
   const { push, refresh } = useRouter();
-  const { cart, clearCart } = useCart();
+  const { cart, clearCart, decrementItem, incrementItem } = useCart();
+
+  type OptimisticAction =
+    | { type: "decrement_item"; id: string }
+    | { type: "increment_item"; id: string };
+
+  const [optimisticCart, addOptimisticUpdate] = useOptimistic(
+    cart,
+    (state, action: OptimisticAction) => {
+      if (!state?.items) return state;
+      switch (action.type) {
+        case "decrement_item": {
+          return {
+            ...state,
+            items: state.items.map((item) =>
+              item.id === action.id
+                ? { ...item, quantity: Math.max(1, (item.quantity || 1) - 1) }
+                : item,
+            ),
+          };
+        }
+        case "increment_item": {
+          return {
+            ...state,
+            items: state.items.map((item) =>
+              item.id === action.id
+                ? { ...item, quantity: (item.quantity || 0) + 1 }
+                : item,
+            ),
+          };
+        }
+        default:
+          return state;
+      }
+    },
+  );
+
+  const handleDecrementItem = useCallback(
+    (itemId: string) => {
+      startTransition(async () => {
+        addOptimisticUpdate({ type: "decrement_item", id: itemId });
+        await decrementItem(itemId);
+      });
+    },
+    [addOptimisticUpdate, decrementItem],
+  );
+
+  const handleIncrementItem = useCallback(
+    (itemId: string) => {
+      startTransition(async () => {
+        addOptimisticUpdate({ type: "increment_item", id: itemId });
+        await incrementItem(itemId);
+      });
+    },
+    [addOptimisticUpdate, incrementItem],
+  );
+
   const [error, setError] = useState<null | string>(null);
   const [email, setEmail] = useState("");
   const [emailEditable, setEmailEditable] = useState(true);
@@ -350,7 +406,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
           </Link>
 
           <div className="space-y-5 mb-8">
-            {cart?.items?.map((item, index) => {
+            {optimisticCart?.items?.map((item, index) => {
               if (typeof item.product !== "object" || !item.product) return null;
               if (!item.quantity) return null;
 
@@ -409,7 +465,25 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                   <span className="text-primary-foreground/70 text-sm flex-1 leading-snug">{title}</span>
                   <div className="flex items-center gap-2 shrink-0">
                     <div className="flex items-center bg-primary-foreground/10 rounded-lg overflow-hidden">
+                      <button
+                        disabled={!item.id}
+                        onClick={(e) => { e.preventDefault(); if (item.id) handleDecrementItem(item.id); }}
+                        className="w-6 h-6 flex items-center justify-center text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        type="button"
+                        aria-label="Decrease quantity"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      </button>
                       <span className="w-6 text-center text-sm font-bold text-primary-foreground tabular-nums">{quantity}</span>
+                      <button
+                        disabled={!item.id}
+                        onClick={(e) => { e.preventDefault(); if (item.id) handleIncrementItem(item.id); }}
+                        className="w-6 h-6 flex items-center justify-center text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        type="button"
+                        aria-label="Increase quantity"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      </button>
                     </div>
                     <div className="flex w-20 flex-col items-end text-right">
                       <span className="text-primary-foreground font-semibold text-sm">
@@ -465,7 +539,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
               </Link>
             </div>
             <div className="space-y-3 mb-5">
-              {cart?.items?.map((item, index) => {
+              {optimisticCart?.items?.map((item, index) => {
                 if (typeof item.product !== "object" || !item.product) return null;
                 if (!item.quantity) return null;
 
@@ -508,11 +582,32 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="block truncate text-primary-foreground/90 text-sm">
-                        {title} <span className="text-primary-foreground/50">×{quantity}</span>
+                        {title}
                       </span>
                     </div>
-                    <div className="shrink-0 text-right">
-                      <span className="block text-primary-foreground font-semibold text-sm">
+                    <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center bg-primary-foreground/10 rounded-lg overflow-hidden">
+                        <button
+                          disabled={!item.id}
+                          onClick={(e) => { e.preventDefault(); if (item.id) handleDecrementItem(item.id); }}
+                          className="w-5 h-5 flex items-center justify-center text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                          type="button"
+                          aria-label="Decrease quantity"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <span className="w-5 text-center text-xs font-bold text-primary-foreground tabular-nums">{quantity}</span>
+                        <button
+                          disabled={!item.id}
+                          onClick={(e) => { e.preventDefault(); if (item.id) handleIncrementItem(item.id); }}
+                          className="w-5 h-5 flex items-center justify-center text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                          type="button"
+                          aria-label="Increase quantity"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                      </div>
+                      <span className="text-primary-foreground font-semibold text-xs">
                         {typeof price === "number" ? `$${(price / 100).toFixed(2)}` : ""}
                       </span>
                     </div>
@@ -601,7 +696,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
               <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Delivery Details</h2>
 
               {billingAddress ? (
-                <div className="mb-4">
+                <div className="mb-4 p-4 border border-muted">
                   <AddressItem
                     actions={
                       <Button
@@ -690,7 +785,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                   {shippingOptions.map((option) => (
                     <label
                       key={option.serviceName}
-                      className={`flex items-center justify-between gap-4 border rounded-xl px-4 py-3.5 cursor-pointer transition-colors ${
+                      className={`flex items-center justify-between gap-4 border border-muted rounded-xl px-4 py-3.5 cursor-pointer transition-colors ${
                         selectedShipping === option.serviceName
                           ? "border-primary bg-primary/[0.03]"
                           : "border-border hover:border-primary/30"
@@ -736,8 +831,8 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
               {/* Payment method selection */}
               <div className="space-y-3 mb-6">
                 {bankTransfer && (
-                  <label className={`flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors ${
-                    "border-primary bg-primary/[0.03]"
+                  <label className={`flex items-start gap-3 border border-muted rounded-xl px-4 py-4 cursor-pointer transition-colors ${
+                    "bg-primary/[0.03]"
                   }`}>
                     <input className="accent-primary mt-0.5 shrink-0" type="radio" checked name="paymentMethod" />
                     <div className="flex-1 min-w-0">
@@ -746,17 +841,17 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                           <span className="font-semibold text-sm text-foreground">Bank Transfer</span>
                         </div>
-                        <span className="bg-success/20 text-success text-[11px] font-bold px-2 py-0.5 rounded-full">Fee Free</span>
+                        <span className="bg-success/20 text-success text-[11px] font-bold px-2 py-0.5 rounded-full">Fee additional fee</span>
                       </div>
                       <p className="text-xs text-muted-foreground leading-relaxed">
-                        Transfer the exact amount to our bank account. Details will be provided after checkout.
+                        Transfer the exact amount to our bank account. Details are prodived below and will be emailed to you after checkout.
                       </p>
                     </div>
                   </label>
                 )}
 
                 {bankfulEnabled && (
-                  <label className={`flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30`}>
+                  <label className={`flex items-start gap-3 border border-muted rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30`}>
                     <input className="accent-primary mt-0.5 shrink-0" type="radio" name="paymentMethod" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -771,7 +866,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                 )}
 
                 {tagadaPayEnabled && (
-                  <label className="flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
+                  <label className="flex items-start gap-3 border border-muted rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
                     <input className="accent-primary mt-0.5 shrink-0" type="radio" name="paymentMethod" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -786,7 +881,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                 )}
 
                 {!tagadaPayEnabled && !bankTransfer && !bankfulEnabled && stripe && (
-                  <label className="flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
+                  <label className="flex items-start gap-3 border border-muted rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
                     <input className="accent-primary mt-0.5 shrink-0" type="radio" checked name="paymentMethod" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -818,7 +913,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                       onClick={(e) => { e.preventDefault(); setShowBankfulForm(true); }}
                       className={`w-full font-bold py-4 rounded-xl transition-colors text-base ${
                         bankTransfer || tagadaPayEnabled
-                          ? "bg-primary-foreground border-2 border-primary text-primary hover:bg-accent"
+                          ? "bg-primary-foreground border-2 text-primary hover:bg-accent"
                           : "bg-primary text-primary-foreground hover:bg-primary/90"
                       }`}
                     >
@@ -831,7 +926,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                       onClick={(e) => { e.preventDefault(); void handleTagadaPayCheckout(); }}
                       className={`w-full font-bold py-4 rounded-xl transition-colors text-base ${
                         bankTransfer || bankfulEnabled
-                          ? "bg-primary-foreground border-2 border-primary text-primary hover:bg-accent"
+                          ? "bg-primary-foreground border-2 text-primary hover:bg-accent"
                           : "bg-primary text-primary-foreground hover:bg-primary/90"
                       }`}
                     >
@@ -944,10 +1039,10 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
               </Suspense>
 
               {/* ── Order totals (shown inside form in mobile, and in sidebar on desktop) ── */}
-              <div className="mt-10 border-t border-border pt-6">
+              {/* <div className="mt-10 border-t border-border pt-6">
                 <div className="flex justify-between text-sm text-muted-foreground mb-2">
                   <span>Subtotal</span>
-                  <span>${(cart?.subtotal ? cart.subtotal / 100 : 0).toFixed(2)}</span>
+              <span>${(optimisticCart?.subtotal ? optimisticCart.subtotal / 100 : 0).toFixed(2)}</span>
                 </div>
                 {shippingCost > 0 && (
                   <div className="flex justify-between text-sm text-muted-foreground mb-2">
@@ -961,7 +1056,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                     ${(totalWithShipping / 100).toFixed(2)}
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               {bankTransfer && (
                 <div className="mt-8">
