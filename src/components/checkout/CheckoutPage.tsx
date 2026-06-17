@@ -833,11 +833,11 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
 
               {/* Payment method selection */}
               <div className="space-y-3 mb-6">
-                {bankTransfer && (
+                  {bankTransfer && (
                   <label className={`flex items-start gap-3 border border-muted rounded-xl px-4 py-4 cursor-pointer transition-colors ${
                     "bg-primary/[0.03]"
                   }`}>
-                    <input className="accent-primary mt-0.5 shrink-0" type="radio" checked name="paymentMethod" />
+                    <input className="accent-primary mt-0.5 shrink-0" type="radio" defaultChecked name="paymentMethod" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <div className="flex items-center gap-2">
@@ -885,7 +885,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
 
                 {!tagadaPayEnabled && !bankTransfer && !bankfulEnabled && stripe && (
                   <label className="flex items-start gap-3 border border-muted rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
-                    <input className="accent-primary mt-0.5 shrink-0" type="radio" checked name="paymentMethod" />
+                    <input className="accent-primary mt-0.5 shrink-0" type="radio" defaultChecked name="paymentMethod" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-semibold text-sm text-foreground">Credit Card (Stripe)</span>

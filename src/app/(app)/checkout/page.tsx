@@ -6,6 +6,8 @@ import { env } from "@/utilities/env";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 
+export const dynamic = "force-dynamic";
+
 export default async function Checkout() {
   const settings = await getCachedGlobal("settings", 1)();
 
