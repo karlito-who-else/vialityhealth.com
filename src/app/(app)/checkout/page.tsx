@@ -35,7 +35,7 @@ export default async function Checkout() {
       );
 
   return (
-    <div className="container mx-auto min-h-[90vh] flex px-4">
+    <div className="mx-auto min-h-[90vh] flex">
       {!(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || tagadaPayEnabled || bankfulEnabled) && (
         <div>
           <Fragment>

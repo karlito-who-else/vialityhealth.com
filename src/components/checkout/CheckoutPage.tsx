@@ -9,14 +9,10 @@ import { BankTransferInfo } from "@/components/BankTransferInfo";
 import { BankfulForm } from "@/components/checkout/BankfulForm";
 import { CheckoutAddresses } from "@/components/checkout/CheckoutAddresses";
 import { CheckoutForm } from "@/components/forms/CheckoutForm";
-import { FormItem } from "@/components/forms/FormItem";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Media } from "@/components/Media";
-import { Message } from "@/components/Message";
-import { Price } from "@/components/Price";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cssVariables } from "@/cssVariables";
 import { Address } from "@/payload-types";
@@ -54,9 +50,6 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   const { push, refresh } = useRouter();
   const { cart, clearCart } = useCart();
   const [error, setError] = useState<null | string>(null);
-  /**
-   * State to manage the email input for guest checkout.
-   */
   const [email, setEmail] = useState("");
   const [emailEditable, setEmailEditable] = useState(true);
   const [paymentData, setPaymentData] = useState<null | Record<string, unknown>>(null);
@@ -85,7 +78,6 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
     (email || user) && billingAddress && (billingAddressSameAsShipping || shippingAddress),
   );
 
-  // On initial load wait for addresses to be loaded and check to see if we can prefill a default one
   useEffect(() => {
     if (!shippingAddress) {
       if (addresses && addresses.length > 0) {
@@ -343,385 +335,36 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
   }
 
   return (
-    <div className="flex flex-col items-stretch justify-stretch mx-auto my-8 md:flex-row grow gap-10 md:gap-6 lg:gap-8">
-      <div className="basis-full lg:basis-2/3 flex flex-col gap-8 justify-stretch px-4">
-        <h2 className="font-medium text-3xl">Contact</h2>
-        {user ? (
-          <div className="bg-accent dark:bg-card rounded-lg p-4 ">
-            <div>
-              <p>{user.email}</p>{" "}
-              <p>
-                Not you?{" "}
-                <Link className="underline" href="/logout">
-                  Log out
-                </Link>
-              </p>
-            </div>
-          </div>
-        ) : !emailEditable && email ? (
-          <div className="bg-accent dark:bg-card rounded-lg p-4 ">
-            <div>
-              <p>{email}</p>{" "}
-              <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span>Not you?</span>
-                <Link className="underline" href="/login">
-                  Log in
-                </Link>
-                <span>or</span>
-                <button
-                  className="underline bg-transparent border-0 p-0 cursor-pointer font-inherit"
-                  onClick={() => {
-                    setEmail("");
-                    setEmailEditable(true);
-                  }}
-                  type="button"
-                >
-                  Use a different email
-                </button>
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-accent dark:bg-ink-well rounded-lg p-4 ">
-            <div>
-              <p className="mb-4">Enter your email to checkout as a guest.</p>
-
-              <FormItem className="mb-6">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  disabled={!emailEditable}
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  type="email"
-                />
-              </FormItem>
-
-              <Button
-                disabled={!email || !emailEditable}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setEmailEditable(false);
-                }}
-                variant="default"
-              >
-                Continue as guest
-              </Button>
-
-              <p className="mt-4 text-sm">
-                Already have an account?{" "}
-                <Link className="underline" href="/login">
-                  Log in
-                </Link>
-              </p>
-            </div>
-          </div>
-        )}
-
-        <h2 className="font-medium text-3xl">Address</h2>
-
-        {billingAddress ? (
-          <div>
-            <AddressItem
-              actions={
-                <Button
-                  variant={"outline"}
-                  disabled={Boolean(paymentData)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setBillingAddress(undefined);
-                  }}
-                >
-                  Remove
-                </Button>
-              }
-              address={billingAddress}
-              addressType="billing"
+    <div className="min-h-screen lg:grid lg:grid-cols-2 w-full">
+      {/* ── Left sidebar — Order summary (desktop) ── */}
+      <div className="hidden lg:flex flex-col bg-primary text-primary-foreground sticky top-0 h-screen">
+        <div className="flex-1 mx-auto w-full max-w-[480px] px-12 pt-16 pb-16 flex flex-col">
+          <Link className="mb-14 block" href="/shop">
+            <img
+              alt="Logo"
+              width="140"
+              height="140"
+              className="h-[130px] w-auto opacity-90"
+              src="/AussiePeptides-Logo-white.png"
             />
-          </div>
-        ) : user ? (
-          <CheckoutAddresses heading="Billing address" setAddress={setBillingAddress} addressType="billing" />
-        ) : (
-          <CreateAddressModal
-            disabled={!email || Boolean(emailEditable)}
-            callback={(address) => {
-              setBillingAddress(address);
-            }}
-            skipSubmission={true}
-            addressType="billing"
-          />
-        )}
+          </Link>
 
-        <div className="flex gap-4 items-center">
-          <Checkbox
-            id="shippingTheSameAsBilling"
-            checked={billingAddressSameAsShipping}
-            disabled={Boolean(paymentData || (!user && (!email || Boolean(emailEditable))))}
-            onCheckedChange={(state) => {
-              setBillingAddressSameAsShipping(state as boolean);
-            }}
-          />
-          <Label htmlFor="shippingTheSameAsBilling">Shipping is the same as billing</Label>
-        </div>
+          <div className="space-y-5 mb-8">
+            {cart?.items?.map((item, index) => {
+              if (typeof item.product !== "object" || !item.product) return null;
+              if (!item.quantity) return null;
 
-        {!billingAddressSameAsShipping && (
-          <>
-            {shippingAddress ? (
-              <div>
-                <AddressItem
-                  actions={
-                    <Button
-                      variant={"outline"}
-                      disabled={Boolean(paymentData)}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShippingAddress(undefined);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  }
-                  address={shippingAddress}
-                  addressType="shipping"
-                />
-              </div>
-            ) : user ? (
-              <CheckoutAddresses
-                heading="Shipping address"
-                description="Please select a shipping address."
-                setAddress={setShippingAddress}
-                addressType="shipping"
-              />
-            ) : (
-              <CreateAddressModal
-                callback={(address) => {
-                  setShippingAddress(address);
-                }}
-                disabled={!email || Boolean(emailEditable)}
-                skipSubmission={true}
-                addressType="shipping"
-              />
-            )}
-          </>
-        )}
-
-        {shippingOptions && shippingOptions.length > 0 && (
-          <div className="flex flex-col gap-3">
-            <h2 className="font-medium text-3xl">Shipping</h2>
-            {shippingOptions.map((option) => (
-              <button
-                key={option.serviceName}
-                type="button"
-                disabled={Boolean(paymentData)}
-                onClick={() => setSelectedShipping(option.serviceName)}
-                className={`w-full flex items-center justify-between px-4 py-3.5 border text-left ${
-                  selectedShipping === option.serviceName
-                    ? "border-primary/60 bg-primary/[0.03]"
-                    : "border-border/50"
-                }`}
-              >
-                <div className="flex items-center gap-3.5">
-                  <div
-                    className={`size-3.5 rounded-full border flex items-center justify-center ${
-                      selectedShipping === option.serviceName
-                        ? "border-primary"
-                        : "border-border"
-                    }`}
-                  >
-                    {selectedShipping === option.serviceName && (
-                      <div className="size-1.5 rounded-full bg-primary" />
-                    )}
-                  </div>
-                  <div>
-                    <div className="text-xs uppercase tracking-widest font-medium">
-                      {option.serviceName}
-                    </div>
-                    <div className="text-xs text-primary/40 mt-0.5">
-                      {option.timeframe}
-                    </div>
-                  </div>
-                </div>
-                <Price amount={option.cost * 100} />
-              </button>
-            ))}
-          </div>
-        )}
-
-        {!paymentData && !isConfirmingOrder && !isProcessingBankful && (
-          <div className="flex flex-wrap gap-4">
-            {bankTransfer && (
-              <Button
-                className="self-start"
-                disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleConfirmOrder();
-                }}
-              >
-                Confirm order (Bank Transfer)
-              </Button>
-            )}
-            {bankfulEnabled && !showBankfulForm && (
-              <Button
-                className="self-start"
-                disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setShowBankfulForm(true);
-                }}
-                variant={bankTransfer || tagadaPayEnabled ? "outline" : "default"}
-              >
-                Pay with Card
-              </Button>
-            )}
-            {tagadaPayEnabled && (
-              <Button
-                className="self-start"
-                disabled={isProcessingTagadaPay || (!email && !user)}
-                onClick={(e) => {
-                  e.preventDefault();
-                  void handleTagadaPayCheckout();
-                }}
-                variant={bankTransfer || bankfulEnabled ? "outline" : "default"}
-              >
-                {isProcessingTagadaPay ? "Redirecting…" : "Pay with TagadaPay"}
-              </Button>
-            )}
-            {!tagadaPayEnabled && !bankTransfer && !bankfulEnabled && (
-              <Button
-                className="self-start"
-                disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
-                onClick={(e) => {
-                  e.preventDefault();
-                  void initiatePaymentIntent("stripe");
-                }}
-              >
-                Go to payment
-              </Button>
-            )}
-          </div>
-        )}
-
-        {showBankfulForm && (
-          <div>
-            <h2 className="font-medium text-3xl mb-4">Card Payment</h2>
-            <BankfulForm
-              onCardDetails={(cardDetails) => {
-                void handleBankfulPayment(cardDetails);
-              }}
-              isProcessing={isProcessingBankful}
-              error={error}
-            />
-          </div>
-        )}
-
-        {(isConfirmingOrder || isProcessingTagadaPay || isProcessingBankful) && (
-          <div className="flex items-center gap-3 text-primary/70">
-            <LoadingSpinner className="w-5 h-5" />
-            <span>
-              {isProcessingTagadaPay
-                ? "Redirecting to TagadaPay…"
-                : isProcessingBankful
-                ? "Processing your payment…"
-                : "Creating your order…"}
-            </span>
-          </div>
-        )}
-
-        {!paymentData?.["clientSecret"] && error && (
-          <div className="my-8">
-            <Message error={error} />
-
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                refresh();
-              }}
-              variant="default"
-            >
-              Try again
-            </Button>
-          </div>
-        )}
-
-        <Suspense fallback={<React.Fragment />}>
-          {/* @ts-ignore */}
-          {paymentData && paymentData?.["clientSecret"] && (
-            <div className="pb-16">
-              <h2 className="font-medium text-3xl">Payment</h2>
-              {error && <p>{`Error: ${error}`}</p>}
-              <Elements
-                options={{
-                  appearance: {
-                    theme: "stripe",
-                    variables: {
-                      borderRadius: "6px",
-                      colorPrimary: "#858585",
-                      gridColumnSpacing: "20px",
-                      gridRowSpacing: "20px",
-                      colorBackground: cssVariables.colors.base0,
-                      colorDanger: cssVariables.colors.error500,
-                      colorDangerText: cssVariables.colors.error500,
-                      colorIcon: cssVariables.colors.base1000,
-                      colorText: cssVariables.colors.base1000,
-                      colorTextPlaceholder: "#858585",
-                      fontFamily: "Geist, sans-serif",
-                      fontSizeBase: "16px",
-                      fontWeightBold: "600",
-                      fontWeightNormal: "500",
-                      spacingUnit: "4px",
-                    },
-                  },
-                  clientSecret: paymentData["clientSecret"] as string,
-                }}
-                stripe={stripe}
-              >
-                <div className="flex flex-col gap-8">
-                  <CheckoutForm
-                    customerEmail={email}
-                    billingAddress={billingAddress}
-                    setProcessingPayment={setProcessingPayment}
-                  />
-                  <Button
-                    variant="ghost"
-                    className="self-start"
-                    onClick={() => setPaymentData(null)}
-                  >
-                    Cancel payment
-                  </Button>
-                </div>
-              </Elements>
-            </div>
-          )}
-        </Suspense>
-      </div>
-
-      {!cartIsEmpty && (
-        <div className="basis-full lg:basis-1/3 lg:pl-8 p-8 border-none bg-primary/5 flex flex-col gap-8 rounded-lg">
-          <h2 className="text-3xl font-medium">Your cart</h2>
-          {cart?.items?.map((item, index) => {
-            if (typeof item.product === "object" && item.product) {
-              const {
-                product,
-                product: { id: _id, featuredImage, meta, title, gallery },
-                quantity,
-                variant,
-              } = item;
-
-              if (!quantity) return null;
+              const { product, quantity, variant } = item;
+              const { title, gallery, featuredImage, meta } = product;
 
               const galleryImage =
                 gallery?.[0]?.image && typeof gallery[0].image === "object"
                   ? gallery[0].image
                   : undefined;
-
               const metaImage =
                 meta?.image && typeof meta.image === "object"
                   ? meta.image
                   : undefined;
-
               const featuredImageObject =
                 featuredImage && typeof featuredImage === "object"
                   ? featuredImage
@@ -734,83 +377,601 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
 
               if (isVariant) {
                 price = variant?.priceInAUD;
-
-                const imageVariant = product.gallery?.find((item: any) => {
-                  if (!item.variantOption) return false;
+                const imageVariant = product.gallery?.find((g: any) => {
+                  if (!g.variantOption) return false;
                   const variantOptionID =
-                    typeof item.variantOption === "object"
-                      ? item.variantOption.id
-                      : item.variantOption;
-
-                  const hasMatch = variant?.options?.some((option: any) => {
-                    if (typeof option === "object") return option.id === variantOptionID;
-                    else return option === variantOptionID;
+                    typeof g.variantOption === "object"
+                      ? g.variantOption.id
+                      : g.variantOption;
+                  const hasMatch = variant?.options?.some((o: any) => {
+                    if (typeof o === "object") return o.id === variantOptionID;
+                    return o === variantOptionID;
                   });
-
                   return hasMatch;
                 });
-
-              if (imageVariant && typeof imageVariant.image === "object") {
-                image = imageVariant.image;
-              }
+                if (imageVariant && typeof imageVariant.image === "object") {
+                  image = imageVariant.image;
+                }
               }
 
               return (
-                <div className="flex items-start gap-4" key={item.id || index}>
-
+                <div className="flex items-center gap-4" key={item.id || index}>
+                  <div className="relative shrink-0">
                     {image && typeof image !== "string" && (
-                      <Media className="relative *:object-contain size-32" fill imgClassName="rounded-lg" resource={image} />
+                      <Media
+                        className="w-13 h-13 rounded-lg object-contain bg-primary-foreground/10"
+                        fill
+                        imgClassName="rounded-lg"
+                        resource={image}
+                      />
                     )}
-
-                  <div className="flex flex-col grow justify-between items-center">
-                    <div className="flex flex-col gap-1">
-                      <p className="font-medium text-lg">{title}</p>
-                      {variant && typeof variant === "object" && (
-                        <p className="text-sm font-sans text-primary/50 tracking-widest">
-                          {(variant.options as any[])
-                            ?.map((option: any) => {
-                              if (typeof option === "object") return option.label;
-                              return null;
-                            })
-                            .join(", ")}
-                        </p>
-                      )}
-                      <div>
-                        {"x"}
-                        {quantity}
-                      </div>
+                  </div>
+                  <span className="text-primary-foreground/70 text-sm flex-1 leading-snug">{title}</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center bg-primary-foreground/10 rounded-lg overflow-hidden">
+                      <span className="w-6 text-center text-sm font-bold text-primary-foreground tabular-nums">{quantity}</span>
                     </div>
-
-                    {typeof price === "number" && <Price amount={price} />}
+                    <div className="flex w-20 flex-col items-end text-right">
+                      <span className="text-primary-foreground font-semibold text-sm">
+                        {typeof price === "number" ? `$${(price / 100).toFixed(2)}` : ""}
+                      </span>
+                    </div>
                   </div>
                 </div>
               );
-            }
-            return null;
-          })}
-          <hr />
-          <div className="flex justify-between items-center gap-2">
-            <span className="uppercase">Subtotal</span>{" "}
-            <Price className="text-xl" amount={cart.subtotal || 0} />
+            })}
           </div>
-          {shippingCost > 0 && (
-            <div className="flex justify-between items-center gap-2">
-              <span className="uppercase">Shipping</span>{" "}
-              <Price className="text-xl" amount={shippingCost} />
+
+          <Link className="inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground text-sm transition-colors mb-8" href="/shop">
+            <span className="text-lg leading-none">+</span> Add more items
+          </Link>
+
+          <div className="border-t border-primary-foreground/15 pt-5 space-y-2.5 mb-6">
+            <div className="flex justify-between text-sm text-primary-foreground/50">
+              <span>Subtotal</span>
+              <span>${(cart?.subtotal ? cart.subtotal / 100 : 0).toFixed(2)}</span>
             </div>
-          )}
-          <hr />
-          <div className="flex justify-between items-center gap-2">
-            <span className="uppercase font-medium">Total</span>{" "}
-            <Price className="text-3xl font-medium" amount={totalWithShipping} />
+            {shippingCost > 0 && (
+              <div className="flex justify-between text-sm text-primary-foreground/50">
+                <span>Shipping</span>
+                <span>${(shippingCost / 100).toFixed(2)}</span>
+              </div>
+            )}
           </div>
-          {bankTransfer && (
-          <div className="mt-8">
-            <BankTransferInfo settings={bankTransfer} amount={totalWithShipping} />
+
+          <div className="border-t border-primary-foreground/15 pt-6">
+            <p className="text-primary-foreground/50 text-xs uppercase tracking-widest mb-2">Total due</p>
+            <p className="text-primary-foreground font-semibold text-5xl tracking-tight">
+              ${(totalWithShipping / 100).toFixed(2)}
+            </p>
           </div>
-        )}
         </div>
-      )}
+      </div>
+
+      {/* ── Right side — Checkout form ── */}
+      <div className="bg-background flex flex-col">
+        {/* Mobile header */}
+        <div className="block lg:hidden bg-primary text-primary-foreground">
+          <div className="px-5 pt-6 pb-5">
+            <div className="flex items-center justify-between mb-8">
+              <Link href="/shop">
+                <img
+                  alt="Logo"
+                  width="120"
+                  height="120"
+                  className="h-14 w-auto opacity-90"
+                  src="/AussiePeptides-Logo-white.png"
+                />
+              </Link>
+            </div>
+            <div className="space-y-3 mb-5">
+              {cart?.items?.map((item, index) => {
+                if (typeof item.product !== "object" || !item.product) return null;
+                if (!item.quantity) return null;
+
+                const { product, quantity } = item;
+                const { title, gallery, featuredImage, meta } = product;
+
+                const galleryImage =
+                  gallery?.[0]?.image && typeof gallery[0].image === "object"
+                    ? gallery[0].image
+                    : undefined;
+                const metaImage =
+                  meta?.image && typeof meta.image === "object"
+                    ? meta.image
+                    : undefined;
+                const featuredImageObject =
+                  featuredImage && typeof featuredImage === "object"
+                    ? featuredImage
+                    : undefined;
+
+                let image = galleryImage || metaImage || featuredImageObject;
+                let price = product?.priceInAUD;
+
+                const isVariant = Boolean(item.variant) && typeof item.variant === "object";
+
+                if (isVariant) {
+                  price = item.variant?.priceInAUD;
+                }
+
+                return (
+                  <div className="flex items-center gap-3" key={item.id || index}>
+                    <div className="relative shrink-0">
+                      {image && typeof image !== "string" && (
+                        <Media
+                          className="w-12 h-12 rounded-lg object-contain bg-primary-foreground/10"
+                          fill
+                          imgClassName="rounded-lg"
+                          resource={image}
+                        />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="block truncate text-primary-foreground/90 text-sm">
+                        {title} <span className="text-primary-foreground/50">×{quantity}</span>
+                      </span>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <span className="block text-primary-foreground font-semibold text-sm">
+                        {typeof price === "number" ? `$${(price / 100).toFixed(2)}` : ""}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <Link className="inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground text-sm transition-colors mb-2" href="/shop">
+              <span className="text-lg leading-none">+</span> Add more items
+            </Link>
+          </div>
+        </div>
+
+        {/* Mobile sticky total bar */}
+        <div className="block lg:hidden sticky top-0 z-30 bg-primary text-primary-foreground border-t border-primary-foreground/20 shadow-lg shadow-black/20">
+          <div className="px-5 pt-5 pb-7">
+            <p className="text-primary-foreground/60 text-xs uppercase tracking-widest mb-1">Total due</p>
+            <p className="text-primary-foreground font-extrabold text-4xl">
+              ${(totalWithShipping / 100).toFixed(2)}
+            </p>
+          </div>
+        </div>
+
+        {/* ── Form content ── */}
+        <div className="flex-1 max-w-md mx-auto w-full lg:max-w-[760px] px-5 lg:px-12 py-8 lg:pt-16 lg:pb-16">
+          <div className="space-y-10">
+            {/* ── Contact ── */}
+            <section>
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Contact</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
+                  {user ? (
+                    <div className="flex items-center gap-3 rounded-xl border border-border bg-accent px-4 py-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground">{user.email}</p>
+                      </div>
+                      <Link className="text-xs font-medium text-primary hover:underline shrink-0" href="/logout">
+                        Log out
+                      </Link>
+                    </div>
+                  ) : !emailEditable && email ? (
+                    <div className="flex items-center gap-3 rounded-xl border border-border bg-accent px-4 py-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      <p className="text-sm text-foreground flex-1">{email}</p>
+                      <button
+                        className="text-xs font-medium text-primary hover:underline shrink-0 bg-transparent border-0 p-0 cursor-pointer"
+                        onClick={() => { setEmail(""); setEmailEditable(true); }}
+                        type="button"
+                      >
+                        Change
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="sm:col-span-2">
+                      <label className="block text-sm font-medium text-foreground mb-1">Email *</label>
+                      <input
+                        required
+                        placeholder="email@example.com"
+                        className="w-full bg-primary-foreground border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={!emailEditable}
+                      />
+                      <div className="mt-3 flex items-center gap-3">
+                        <Button
+                          disabled={!email || !emailEditable}
+                          onClick={(e) => { e.preventDefault(); setEmailEditable(false); }}
+                          variant="default"
+                        >
+                          Continue as guest
+                        </Button>
+                        <Link className="text-xs font-medium text-primary hover:underline" href="/login">
+                          Log in
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* ── Delivery Details ── */}
+            <section className="scroll-mt-24">
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Delivery Details</h2>
+
+              {billingAddress ? (
+                <div className="mb-4">
+                  <AddressItem
+                    actions={
+                      <Button
+                        variant="outline"
+                        disabled={Boolean(paymentData)}
+                        onClick={(e) => { e.preventDefault(); setBillingAddress(undefined); }}
+                      >
+                        Change
+                      </Button>
+                    }
+                    address={billingAddress}
+                    addressType="billing"
+                  />
+                </div>
+              ) : user ? (
+                <div className="mb-4">
+                  <CheckoutAddresses heading="Billing address" setAddress={setBillingAddress} addressType="billing" />
+                </div>
+              ) : (
+                <CreateAddressModal
+                  disabled={!email || Boolean(emailEditable)}
+                  callback={(address) => { setBillingAddress(address); }}
+                  skipSubmission={true}
+                  addressType="billing"
+                />
+              )}
+
+              <div className="flex items-center gap-3 mt-4 mb-4">
+                <Checkbox
+                  id="shippingTheSameAsBilling"
+                  checked={billingAddressSameAsShipping}
+                  disabled={Boolean(paymentData || (!user && (!email || Boolean(emailEditable))))}
+                  onCheckedChange={(state) => {
+                    setBillingAddressSameAsShipping(state as boolean);
+                  }}
+                />
+                <Label htmlFor="shippingTheSameAsBilling">
+                  Shipping is the same as billing
+                </Label>
+              </div>
+
+              {!billingAddressSameAsShipping && (
+                <>
+                  {shippingAddress ? (
+                    <div className="mb-4">
+                      <AddressItem
+                        actions={
+                          <Button
+                            variant="outline"
+                            disabled={Boolean(paymentData)}
+                            onClick={(e) => { e.preventDefault(); setShippingAddress(undefined); }}
+                          >
+                            Change
+                          </Button>
+                        }
+                        address={shippingAddress}
+                        addressType="shipping"
+                      />
+                    </div>
+                  ) : user ? (
+                    <div className="mb-4">
+                      <CheckoutAddresses
+                        heading="Shipping address"
+                        description="Please select a shipping address."
+                        setAddress={setShippingAddress}
+                        addressType="shipping"
+                      />
+                    </div>
+                  ) : (
+                    <CreateAddressModal
+                      callback={(address) => { setShippingAddress(address); }}
+                      disabled={!email || Boolean(emailEditable)}
+                      skipSubmission={true}
+                      addressType="shipping"
+                    />
+                  )}
+                </>
+              )}
+            </section>
+
+            {/* ── Shipping Method ── */}
+            {shippingOptions && shippingOptions.length > 0 && (
+              <section>
+                <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Shipping Method</h2>
+                <div className="space-y-3">
+                  {shippingOptions.map((option) => (
+                    <label
+                      key={option.serviceName}
+                      className={`flex items-center justify-between gap-4 border rounded-xl px-4 py-3.5 cursor-pointer transition-colors ${
+                        selectedShipping === option.serviceName
+                          ? "border-primary bg-primary/[0.03]"
+                          : "border-border hover:border-primary/30"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          className="accent-primary"
+                          type="radio"
+                          value={option.serviceName}
+                          checked={selectedShipping === option.serviceName}
+                          onChange={() => setSelectedShipping(option.serviceName)}
+                          disabled={Boolean(paymentData)}
+                        />
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-primary"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+                            <span className="font-medium text-sm text-foreground">
+                              {option.serviceName}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-0.5">{option.timeframe}</p>
+                        </div>
+                      </div>
+                      <span className="font-semibold text-sm shrink-0">
+                        ${(option.cost * 100 / 100).toFixed(2)}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <div className="mt-3 text-right">
+                  <Link className="text-xs font-medium text-primary transition-colors hover:text-primary/70" href="/shop">
+                    + Add more items
+                  </Link>
+                </div>
+              </section>
+            )}
+
+            {/* ── Payment ── */}
+            <section>
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Payment</h2>
+
+              {/* Payment method selection */}
+              <div className="space-y-3 mb-6">
+                {bankTransfer && (
+                  <label className={`flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors ${
+                    "border-primary bg-primary/[0.03]"
+                  }`}>
+                    <input className="accent-primary mt-0.5 shrink-0" type="radio" checked name="paymentMethod" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                          <span className="font-semibold text-sm text-foreground">Bank Transfer</span>
+                        </div>
+                        <span className="bg-success/20 text-success text-[11px] font-bold px-2 py-0.5 rounded-full">Fee Free</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Transfer the exact amount to our bank account. Details will be provided after checkout.
+                      </p>
+                    </div>
+                  </label>
+                )}
+
+                {bankfulEnabled && (
+                  <label className={`flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30`}>
+                    <input className="accent-primary mt-0.5 shrink-0" type="radio" name="paymentMethod" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                        <span className="font-semibold text-sm text-foreground">Credit / Debit Card</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Pay securely with your credit or debit card.
+                      </p>
+                    </div>
+                  </label>
+                )}
+
+                {tagadaPayEnabled && (
+                  <label className="flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
+                    <input className="accent-primary mt-0.5 shrink-0" type="radio" name="paymentMethod" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                        <span className="font-semibold text-sm text-foreground">TagadaPay</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Pay securely with TagadaPay hosted checkout.
+                      </p>
+                    </div>
+                  </label>
+                )}
+
+                {!tagadaPayEnabled && !bankTransfer && !bankfulEnabled && stripe && (
+                  <label className="flex items-start gap-3 border rounded-xl px-4 py-4 cursor-pointer transition-colors border-border hover:border-primary/30">
+                    <input className="accent-primary mt-0.5 shrink-0" type="radio" checked name="paymentMethod" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-sm text-foreground">Credit Card (Stripe)</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Pay securely with Stripe.
+                      </p>
+                    </div>
+                  </label>
+                )}
+              </div>
+
+              {/* Action buttons */}
+              {!paymentData && !isConfirmingOrder && !isProcessingBankful && (
+                <div className="flex flex-col gap-3">
+                  {bankTransfer && (
+                    <button
+                      disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
+                      onClick={(e) => { e.preventDefault(); handleConfirmOrder(); }}
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed font-bold py-4 rounded-xl transition-colors text-base"
+                    >
+                      {isConfirmingOrder ? "Creating your order…" : "Confirm order (Bank Transfer)"}
+                    </button>
+                  )}
+                  {bankfulEnabled && !showBankfulForm && (
+                    <button
+                      disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
+                      onClick={(e) => { e.preventDefault(); setShowBankfulForm(true); }}
+                      className={`w-full font-bold py-4 rounded-xl transition-colors text-base ${
+                        bankTransfer || tagadaPayEnabled
+                          ? "bg-primary-foreground border-2 border-primary text-primary hover:bg-accent"
+                          : "bg-primary text-primary-foreground hover:bg-primary/90"
+                      }`}
+                    >
+                      Pay with Card
+                    </button>
+                  )}
+                  {tagadaPayEnabled && (
+                    <button
+                      disabled={isProcessingTagadaPay || (!email && !user)}
+                      onClick={(e) => { e.preventDefault(); void handleTagadaPayCheckout(); }}
+                      className={`w-full font-bold py-4 rounded-xl transition-colors text-base ${
+                        bankTransfer || bankfulEnabled
+                          ? "bg-primary-foreground border-2 border-primary text-primary hover:bg-accent"
+                          : "bg-primary text-primary-foreground hover:bg-primary/90"
+                      }`}
+                    >
+                      {isProcessingTagadaPay ? "Redirecting…" : "Pay with TagadaPay"}
+                    </button>
+                  )}
+                  {!tagadaPayEnabled && !bankTransfer && !bankfulEnabled && (
+                    <button
+                      disabled={!canGoToPayment || (shippingOptions && shippingOptions.length > 0 && !selectedShipping)}
+                      onClick={(e) => { e.preventDefault(); void initiatePaymentIntent("stripe"); }}
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed font-bold py-4 rounded-xl transition-colors text-base"
+                    >
+                      Go to payment
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {showBankfulForm && (
+                <div>
+                  <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Card Payment</h2>
+                  <BankfulForm
+                    onCardDetails={(cardDetails) => { void handleBankfulPayment(cardDetails); }}
+                    isProcessing={isProcessingBankful}
+                    error={error}
+                  />
+                </div>
+              )}
+
+              {(isConfirmingOrder || isProcessingTagadaPay || isProcessingBankful) && (
+                <div className="flex items-center gap-3 mt-4 text-sm text-muted-foreground">
+                  <LoadingSpinner className="w-5 h-5" />
+                  <span>
+                    {isProcessingTagadaPay
+                      ? "Redirecting to TagadaPay…"
+                      : isProcessingBankful
+                      ? "Processing your payment…"
+                      : "Creating your order…"}
+                  </span>
+                </div>
+              )}
+
+              {!paymentData?.["clientSecret"] && error && (
+                <div className="my-6">
+                  <div className="rounded-xl border border-error bg-error/10 px-4 py-3">
+                    <p className="text-sm text-destructive">{error}</p>
+                  </div>
+                  <Button
+                    onClick={(e) => { e.preventDefault(); refresh(); }}
+                    variant="default"
+                    className="mt-3"
+                  >
+                    Try again
+                  </Button>
+                </div>
+              )}
+
+              <Suspense fallback={<React.Fragment />}>
+                {/* @ts-ignore */}
+                {paymentData && paymentData?.["clientSecret"] && (
+                  <div className="mt-6">
+                    <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">Complete Payment</h2>
+                    {error && (
+                      <div className="rounded-xl border border-error bg-error/10 px-4 py-3 mb-4">
+                        <p className="text-sm text-destructive">{`Error: ${error}`}</p>
+                      </div>
+                    )}
+                    <Elements
+                      options={{
+                        appearance: {
+                          theme: "stripe",
+                          variables: {
+                            borderRadius: "6px",
+                            colorPrimary: "#858585",
+                            gridColumnSpacing: "20px",
+                            gridRowSpacing: "20px",
+                            colorBackground: cssVariables.colors.base0,
+                            colorDanger: cssVariables.colors.error500,
+                            colorDangerText: cssVariables.colors.error500,
+                            colorIcon: cssVariables.colors.base1000,
+                            colorText: cssVariables.colors.base1000,
+                            colorTextPlaceholder: "#858585",
+                            fontFamily: "Geist, sans-serif",
+                            fontSizeBase: "16px",
+                            fontWeightBold: "600",
+                            fontWeightNormal: "500",
+                            spacingUnit: "4px",
+                          },
+                        },
+                        clientSecret: paymentData["clientSecret"] as string,
+                      }}
+                      stripe={stripe}
+                    >
+                      <div className="flex flex-col gap-4">
+                        <CheckoutForm
+                          customerEmail={email}
+                          billingAddress={billingAddress}
+                          setProcessingPayment={setProcessingPayment}
+                        />
+                        <Button
+                          variant="ghost"
+                          onClick={() => setPaymentData(null)}
+                        >
+                          Cancel payment
+                        </Button>
+                      </div>
+                    </Elements>
+                  </div>
+                )}
+              </Suspense>
+
+              {/* ── Order totals (shown inside form in mobile, and in sidebar on desktop) ── */}
+              <div className="mt-10 border-t border-border pt-6">
+                <div className="flex justify-between text-sm text-muted-foreground mb-2">
+                  <span>Subtotal</span>
+                  <span>${(cart?.subtotal ? cart.subtotal / 100 : 0).toFixed(2)}</span>
+                </div>
+                {shippingCost > 0 && (
+                  <div className="flex justify-between text-sm text-muted-foreground mb-2">
+                    <span>Shipping</span>
+                    <span>${(shippingCost / 100).toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="border-t border-border pt-4 mt-4">
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Total due</p>
+                  <p className="text-foreground font-bold text-3xl tracking-tight">
+                    ${(totalWithShipping / 100).toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              {bankTransfer && (
+                <div className="mt-8">
+                  <BankTransferInfo settings={bankTransfer} amount={totalWithShipping} />
+                </div>
+              )}
+            </section>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
