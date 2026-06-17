@@ -27,7 +27,7 @@ export function BankTransferInfo({ settings, amount }: Props) {
         <p className="text-sm text-primary/70">{settings.bankTransferNote}</p>
       )}
 
-      <dl className="mt-2 space-y-1 [&_dd]:mb-1.5">
+      <dl className="mt-2 space-y-1 [&_dd]:mb-1.5 md:[&_dd]:mb-0 md:grid md:grid-cols-2 gap-4">
         {settings.bankName && (
           <>
             <dt className="font-medium">Bank:</dt>
