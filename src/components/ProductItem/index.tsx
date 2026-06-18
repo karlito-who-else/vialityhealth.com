@@ -63,14 +63,14 @@ export const ProductItem: React.FC<Props> = ({
   
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-stretch justify-stretch w-20 aspect-3/4 p-2 rounded-lg border border-muted">
+      <div className="flex items-stretch justify-stretch w-28 aspect-3/4 p-2 rounded-lg border border-muted">
         <div className="relative w-full h-full">
           {mediaResource && (
             <Media className="" fill imgClassName="rounded-lg object-cover" resource={mediaResource} />
           )}
         </div>
       </div>
-      <div className="flex flex-col grow justify-between items-center">
+      <div className="flex flex-col grow justify-between">
         <div className="flex flex-col gap-1">
           <p className="font-medium text-lg">
             <Link href={itemURL}>{title}</Link>
@@ -92,8 +92,8 @@ export const ProductItem: React.FC<Props> = ({
         </div>
 
         {itemPrice && quantity && (
-          <div className="text-right">
-            <p className="font-medium text-lg">Subtotal</p>
+          <div className="mt-4">
+            <p className="font-medium text-sm">Subtotal</p>
             <Price
               className="font-sans text-primary/50 text-sm"
               amount={itemPrice * quantity}
