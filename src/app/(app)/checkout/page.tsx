@@ -66,6 +66,7 @@ export default async function Checkout() {
 
       <CheckoutPage
         bankTransfer={bankTransfer}
+        settings={settings}
         shippingOptions={shippingOptions}
         tagadaPayEnabled={tagadaPayEnabled}
         bankfulEnabled={bankfulEnabled}

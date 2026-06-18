@@ -24,6 +24,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useOptimistic, useState, useTransition } from "react";
 import { toast } from "sonner";
+import type { Setting } from "src/payload-types";
 
 const apiKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripe = apiKey ? loadStripe(apiKey) : null;
@@ -45,11 +46,13 @@ interface ShippingOption {
   cost: number;
 }
 
-export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingOptions?: ShippingOption[]; tagadaPayEnabled?: boolean; bankfulEnabled?: boolean }> = ({ bankTransfer, shippingOptions, tagadaPayEnabled, bankfulEnabled }) => {
+export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings: Setting; shippingOptions?: ShippingOption[]; tagadaPayEnabled?: boolean; bankfulEnabled?: boolean }> = ({ bankTransfer, settings, shippingOptions, tagadaPayEnabled, bankfulEnabled }) => {
   const { user } = useAuth();
   const { push, refresh } = useRouter();
   const { cart, clearCart, decrementItem, incrementItem } = useCart();
   const [isPending, startTransition] = useTransition();
+
+  const { logo } = settings;
 
   type OptimisticAction =
     | { type: "decrement_item"; id: string }
@@ -396,14 +399,18 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
       {/* ── Left sidebar — Order summary (desktop) ── */}
       <div className="hidden lg:flex flex-col bg-primary text-primary-foreground sticky top-0 h-screen">
         <div className="flex-1 mx-auto w-full max-w-[480px] px-12 pt-16 pb-16 flex flex-col">
-          <Link className="mb-14 block" href="/shop">
-            <img
-              alt="Logo"
-              width="140"
-              height="140"
-              className="h-[130px] w-auto opacity-90"
-              src="/AussiePeptides-Logo-white.png"
+          <Link  className="h-20 w-full relative mb-14 block" href="/shop">
+            {logo && typeof logo !== "number" ? (
+            <Media
+              fill
+              src={logo.url || ""}
+              alt={logo.alt || siteTitle || "viality"}
+              className="size-full object-contain"
+              priority
             />
+          ) : (
+            siteTitle || "viality"
+          )}
           </Link>
 
           <div className="space-y-5 mb-8">
@@ -456,7 +463,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                   <div className="relative shrink-0">
                     {image && typeof image !== "string" && (
                       <Media
-                        className="w-13 h-13 rounded-lg object-contain bg-primary-foreground/10"
+                        className="w-13 rounded-lg object-contain bg-primary-foreground/10"
                         fill
                         imgClassName="rounded-lg"
                         resource={image}
@@ -531,14 +538,17 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
         <div className="block lg:hidden bg-primary text-primary-foreground">
           <div className="px-5 pt-6 pb-5">
             <div className="flex items-center justify-between mb-8">
-              <Link href="/shop">
-                <img
-                  alt="Logo"
-                  width="120"
-                  height="120"
-                  className="h-14 w-auto opacity-90"
-                  src="/AussiePeptides-Logo-white.png"
-                />
+              <Link className="h-20 w-full relative" href="/shop">
+                {logo && typeof logo !== "number" ? (
+            <Media
+              src={logo.url || ""}
+              alt={logo.alt || siteTitle || "viality"}
+              className="size-full object-contain"
+              priority
+            />
+          ) : (
+            siteTitle || "viality"
+          )}
               </Link>
             </div>
             <div className="space-y-3 mb-5">
@@ -576,7 +586,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; shippingO
                     <div className="relative shrink-0">
                       {image && typeof image !== "string" && (
                         <Media
-                          className="w-12 h-12 rounded-lg object-contain bg-primary-foreground/10"
+                          className="w-12 rounded-lg object-contain bg-primary-foreground/10"
                           fill
                           imgClassName="rounded-lg"
                           resource={image}
