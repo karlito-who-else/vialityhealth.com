@@ -400,10 +400,10 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
       {/* ── Left sidebar — Order summary (desktop) ── */}
       <div className="hidden lg:flex flex-col bg-primary text-primary-foreground sticky top-0 h-screen">
         <div className="flex-1 mx-auto w-full max-w-[480px] px-12 pt-16 pb-16 flex flex-col">
-          <Link  className="h-20 w-full relative mb-14 block" href="/shop">
+          <Link  className="h-20 w-full relative mb-14 block invert" href="/shop">
             {logo && typeof logo !== "number" ? (
-            <Image
-              fill
+              <Image
+            fill
               src={logo.url || ""}
               alt={logo.alt}
               className="size-full object-contain"
@@ -541,7 +541,8 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
             <div className="flex items-center justify-between mb-8">
               <Link className="h-20 w-full relative" href="/shop">
                 {logo && typeof logo !== "number" ? (
-            <Image
+                  <Image
+            fill
               src={logo.url || ""}
               alt={logo.alt}
               className="size-full object-contain"
