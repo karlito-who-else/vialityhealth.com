@@ -76,18 +76,7 @@ export default async function OrderConfirmed({
               ]),
         ],
       },
-      select: {
-        amount: true,
-        currency: true,
-        items: true,
-        customerEmail: true,
-        customer: true,
-        status: true,
-        createdAt: true,
-        updatedAt: true,
-        shippingAddress: true,
-        shippingMethod: true,
-      },
+
     });
 
     const canAccessAsGuest =

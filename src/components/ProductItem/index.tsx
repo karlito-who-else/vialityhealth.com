@@ -30,9 +30,12 @@ export const ProductItem: React.FC<Props> = ({
   const firstGalleryImage =
     typeof product.gallery?.[0]?.image !== "string" ? product.gallery?.[0]?.image : undefined;
 
-  let image = firstGalleryImage || metaImage;
+  const featuredImage =
+    product.featuredImage && typeof product.featuredImage !== "string" ? product.featuredImage : undefined;
 
   const isVariant = Boolean(variant) && typeof variant === "object";
+
+  let image = firstGalleryImage || metaImage || featuredImage;
 
   if (isVariant) {
     const imageVariant = product.gallery?.find((item) => {
@@ -53,15 +56,17 @@ export const ProductItem: React.FC<Props> = ({
     }
   }
 
+  const mediaResource = image && typeof image !== "string" ? image : null;
+
   const itemPrice = variant?.priceInAUD || product.priceInAUD;
   const itemURL = `/products/${product.slug}${variant ? `?variant=${variant.id}` : ""}`;
   
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-stretch justify-stretch size-20 p-2 rounded-lg border border-muted">
+      <div className="flex items-stretch justify-stretch w-20 aspect-3/4 p-2 rounded-lg border border-muted">
         <div className="relative w-full h-full">
-          {image && typeof image !== "string" && (
-            <Media className="" fill imgClassName="rounded-lg object-cover" resource={image} />
+          {mediaResource && (
+            <Media className="" fill imgClassName="rounded-lg object-cover" resource={mediaResource} />
           )}
         </div>
       </div>
