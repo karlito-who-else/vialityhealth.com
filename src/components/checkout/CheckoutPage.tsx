@@ -21,6 +21,7 @@ import { env } from "@/utilities/env";
 import { useAddresses, useCart, usePayments } from "@payloadcms/plugin-ecommerce/client/react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { Suspense, useCallback, useEffect, useOptimistic, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -401,15 +402,15 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
         <div className="flex-1 mx-auto w-full max-w-[480px] px-12 pt-16 pb-16 flex flex-col">
           <Link  className="h-20 w-full relative mb-14 block" href="/shop">
             {logo && typeof logo !== "number" ? (
-            <Media
+            <Image
               fill
               src={logo.url || ""}
-              alt={logo.alt || siteTitle || "viality"}
+              alt={logo.alt}
               className="size-full object-contain"
               priority
             />
           ) : (
-            siteTitle || "viality"
+            "viality"
           )}
           </Link>
 
@@ -540,14 +541,14 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
             <div className="flex items-center justify-between mb-8">
               <Link className="h-20 w-full relative" href="/shop">
                 {logo && typeof logo !== "number" ? (
-            <Media
+            <Image
               src={logo.url || ""}
-              alt={logo.alt || siteTitle || "viality"}
+              alt={logo.alt}
               className="size-full object-contain"
               priority
             />
           ) : (
-            siteTitle || "viality"
+            "viality"
           )}
               </Link>
             </div>
