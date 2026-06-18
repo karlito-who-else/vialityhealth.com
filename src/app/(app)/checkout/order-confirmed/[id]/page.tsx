@@ -150,7 +150,7 @@ export default async function OrderConfirmed({
           </div>
         )}
 
-        <div className="bg-card border rounded-lg p-6">
+        <div className="bg-card border border-muted rounded-lg p-6">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <h2 className="text-sm uppercase font-sans px-2 bg-primary/10 rounded tracking-wider">
               {`${orderNumberPrefix}${order.id}`}
@@ -240,7 +240,7 @@ export default async function OrderConfirmed({
               <h2 className="font-sans text-primary/50 mb-4 uppercase text-sm">
                 Shipping Method
               </h2>
-              <div className="flex items-center justify-between px-4 py-3 border rounded-lg">
+              <div className="flex items-center justify-between px-4 py-3 border border-muted rounded-lg">
                 <div>
                   <p className="text-sm font-medium">
                     {(order.shippingMethod as any)?.serviceName}
