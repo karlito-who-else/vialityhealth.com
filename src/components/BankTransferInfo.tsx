@@ -63,7 +63,7 @@ export function BankTransferInfo({ settings, amount }: Props) {
         <p className="text-xs text-primary/50 mt-2">{settings.bankTransferFooter}</p>
       )}
       {amount && (
-        <div className="border-t pt-3 mt-3">
+        <div className="border-t border-muted pt-3 mt-3">
           <div className="flex justify-between text-base font-medium">
             <span>Total to transfer</span>
             <Price amount={amount} />
