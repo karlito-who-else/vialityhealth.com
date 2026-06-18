@@ -184,7 +184,7 @@ export const Settings: GlobalConfig = {
             {
               name: "collectionLabel",
               type: "text",
-              defaultValue: "viality — Flagship Collection",
+              defaultValue: "viality — The Collection",
             },
             {
               name: "supplyLabel",

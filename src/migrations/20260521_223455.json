@@ -13774,7 +13774,7 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": false,
-          "default": "'viality — Flagship Collection'"
+          "default": "'viality — The Collection'"
         },
         "supply_label": {
           "name": "supply_label",

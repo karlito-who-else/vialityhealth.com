@@ -101,7 +101,7 @@ function VialityProductDescriptionInner({
     [searchParams, router],
   );
 
-  const collectionLabel = productContent?.collectionLabel || "viality — Flagship Collection";
+  const collectionLabel = productContent?.collectionLabel || "viality — The Collection";
   const supplyLabel = productContent?.supplyLabel || "";
   const purchaseOptionLabel = productContent?.purchaseOptionLabel || "Purchase Option";
   const subscribeLabel = productContent?.subscribeLabel || `Subscribe & Save ${discountPercent}%`;

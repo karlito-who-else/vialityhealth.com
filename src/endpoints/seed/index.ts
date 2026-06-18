@@ -613,7 +613,7 @@ export const seed = async ({
         defaultTitle: "viality — Wellness, refined.",
         defaultDescription:
           "viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.",
-        collectionLabel: "viality — Flagship Collection",
+        collectionLabel: "viality — The Collection",
         supplyLabel: "",
         purchaseOptionLabel: "Purchase Option",
         subscribeLabel: "Subscribe & Save 10%",
