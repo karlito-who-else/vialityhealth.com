@@ -614,7 +614,7 @@ export const seed = async ({
         defaultDescription:
           "viality — modern rituals for internal balance. Premium clinical wellness, formulated with precision and held to a quieter standard.",
         collectionLabel: "viality — Flagship Collection",
-        supplyLabel: "60 Capsules · 30-Day Supply",
+        supplyLabel: "",
         purchaseOptionLabel: "Purchase Option",
         subscribeLabel: "Subscribe & Save 10%",
         subscribeDetail: "Delivered every 30 days. Cancel anytime.",
