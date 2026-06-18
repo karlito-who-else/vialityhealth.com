@@ -464,7 +464,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
                   <div className="relative shrink-0">
                     {image && typeof image !== "string" && (
                       <Media
-                        className="w-13 rounded-lg object-contain bg-primary-foreground/10"
+                        className="w-13 aspect-3/4 rounded-lg object-contain bg-primary-foreground/10"
                         fill
                         imgClassName="rounded-lg"
                         resource={image}
@@ -587,7 +587,7 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
                     <div className="relative shrink-0">
                       {image && typeof image !== "string" && (
                         <Media
-                          className="w-12 rounded-lg object-contain bg-primary-foreground/10"
+                          className="w-12 aspect-3/4 rounded-lg object-contain bg-primary-foreground/10"
                           fill
                           imgClassName="rounded-lg"
                           resource={image}
