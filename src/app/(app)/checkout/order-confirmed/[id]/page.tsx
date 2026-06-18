@@ -116,6 +116,7 @@ export default async function OrderConfirmed({
   }
 
   const showBankInfo = settings?.bankTransferEnabled;
+  const orderHoldMessage = settings?.orderHoldMessage || "We will hold your order for 72 hours";
 
   return (
     <div className="container mx-auto min-h-[90vh] py-12">
@@ -265,6 +266,12 @@ export default async function OrderConfirmed({
             </div>
           )}
         </div>
+
+        {orderHoldMessage && (
+          <div className="bg-card border border-muted rounded-lg p-6 text-center">
+            <p className="text-primary/80 text-balance">{orderHoldMessage}</p>
+          </div>
+        )}
       </div>
     </div>
   );

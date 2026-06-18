@@ -55,10 +55,10 @@ export const ProductItem: React.FC<Props> = ({
 
   const itemPrice = variant?.priceInAUD || product.priceInAUD;
   const itemURL = `/products/${product.slug}${variant ? `?variant=${variant.id}` : ""}`;
-
+  
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-stretch justify-stretch size-20 p-2 rounded-lg border">
+      <div className="flex items-stretch justify-stretch size-20 p-2 rounded-lg border border-muted">
         <div className="relative w-full h-full">
           {image && typeof image !== "string" && (
             <Media className="" fill imgClassName="rounded-lg object-cover" resource={image} />

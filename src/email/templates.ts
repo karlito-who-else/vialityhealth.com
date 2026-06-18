@@ -163,6 +163,7 @@ export const orderConfirmationTemplate = (
   tokens: DesignTokens,
   bankTransferSettings?: BankTransferSettings | null,
   amount?: number | null,
+  orderHoldMessage?: string | null,
 ): string =>
   baseTemplate(`
     <h2 style="margin:0 0 16px;font-size:20px;color:${foreground};font-weight:600;">Order confirmed</h2>
@@ -185,6 +186,7 @@ export const orderConfirmationTemplate = (
       </tr>
     </table>
     ${bankTransferSettings ? bankTransferInfoHTML(bankTransferSettings, amount) : ""}
+    ${orderHoldMessage ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;background-color:${bg};border-radius:${radius};"><tr><td style="padding:16px 20px;font-size:14px;color:${foreground};text-align:center;">${orderHoldMessage}</td></tr></table>` : ""}
     ${button(orderURL, "View Order")}
     <p style="margin:0;font-size:14px;color:${muted};">We'll send you an update when your order ships.</p>
   `, tokens);

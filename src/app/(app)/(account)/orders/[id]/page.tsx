@@ -39,6 +39,7 @@ export default async function Order({ params, searchParams }: PageProps) {
   const itemsLabel = settings?.itemsLabel || "Items";
   const itemUnavailableText = settings?.itemUnavailableText || "This item is no longer available.";
   const shippingAddressLabel = settings?.shippingAddressLabel || "Shipping Address";
+  const orderHoldMessage = settings?.orderHoldMessage || "We will hold your order for 72 hours";
 
   const [{ id }, { email = "", accessToken = "" }] = await Promise.all([params, searchParams]);
 
@@ -211,6 +212,12 @@ export default async function Order({ params, searchParams }: PageProps) {
           </div>
         )}
       </div>
+
+      {orderHoldMessage && (
+        <div className="bg-card border rounded-lg p-6 text-center mt-8">
+          <p className="text-primary/80 text-balance">{orderHoldMessage}</p>
+        </div>
+      )}
 
       {settings?.bankTransferEnabled && (!order.transactions || order.transactions.length === 0) && (
         <div className="mt-8">

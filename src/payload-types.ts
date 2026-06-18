@@ -3499,6 +3499,10 @@ export interface Setting {
    * When enabled, users can pay directly with a credit or debit card via Bankful.
    */
   bankfulEnabled?: boolean | null;
+  /**
+   * A message displayed on the order confirmation screen and included in the order confirmation email.
+   */
+  orderHoldMessage?: string | null;
   shippingOptions?:
     | {
         serviceName: string;
@@ -3717,6 +3721,7 @@ export interface SettingsSelect<T extends boolean = true> {
   bankTransferFooter?: T;
   tagadaPayEnabled?: T;
   bankfulEnabled?: T;
+  orderHoldMessage?: T;
   shippingOptions?:
     | T
     | {

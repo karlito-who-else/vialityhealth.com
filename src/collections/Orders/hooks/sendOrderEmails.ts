@@ -69,6 +69,8 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
     req,
   }) as Setting;
 
+  const orderHoldMessage = settings?.orderHoldMessage || null;
+
   const bankTransferSettings: BankTransferSettings | null =
     settings.bankTransferEnabled && (!order.transactions || (order.transactions as unknown[])?.length === 0)
       ? {
@@ -97,6 +99,7 @@ export const sendOrderEmails: CollectionAfterChangeHook = async ({
           tokens,
           bankTransferSettings,
           order.amount,
+          orderHoldMessage,
         ),
         from: "orders@mail.vialityhealth.com",
         replyTo: "orders@vialityhealth.com",

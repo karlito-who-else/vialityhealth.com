@@ -353,6 +353,20 @@ export const Settings: GlobalConfig = {
           ],
         },
         {
+          label: "Orders",
+          fields: [
+            {
+              name: "orderHoldMessage",
+              type: "textarea",
+              defaultValue: "We will hold your order for 72 hours",
+              label: "Order Hold Message",
+              admin: {
+                description: "A message displayed on the order confirmation screen and included in the order confirmation email.",
+              },
+            },
+          ],
+        },
+        {
           label: "Shipping",
           fields: [
             {
