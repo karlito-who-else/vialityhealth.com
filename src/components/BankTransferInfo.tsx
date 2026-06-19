@@ -23,6 +23,11 @@ export function BankTransferInfo({ settings, amount }: Props) {
       <h2 className="font-semibold text-lg">
         {settings?.bankTransferHeading || "Bank Transfer"}
       </h2>
+
+      {settings?.bankTransferFooter && (
+        <p className="mt-2 mb-8 font-bold">{settings.bankTransferFooter}</p>
+      )}
+
       {settings?.bankTransferNote && (
         <p className="text-sm text-primary/70">{settings.bankTransferNote}</p>
       )}
@@ -59,9 +64,7 @@ export function BankTransferInfo({ settings, amount }: Props) {
           </>
         )}
       </dl>
-      {settings?.bankTransferFooter && (
-        <p className="text-xs text-primary/50 mt-2">{settings.bankTransferFooter}</p>
-      )}
+
       {amount && (
         <div className="border-t border-muted pt-3 mt-3">
           <div className="flex justify-between text-base font-medium">

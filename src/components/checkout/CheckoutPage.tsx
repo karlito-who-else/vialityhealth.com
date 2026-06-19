@@ -1053,26 +1053,6 @@ export const CheckoutPage: React.FC<{ bankTransfer?: BankTransferInfo; settings:
                 )}
               </Suspense>
 
-              {/* ── Order totals (shown inside form in mobile, and in sidebar on desktop) ── */}
-              {/* <div className="mt-10 border-t border-border pt-6">
-                <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                  <span>Subtotal</span>
-              <span>${(optimisticCart?.subtotal ? optimisticCart.subtotal / 100 : 0).toFixed(2)}</span>
-                </div>
-                {shippingCost > 0 && (
-                  <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                    <span>Shipping</span>
-                    <span>${(shippingCost / 100).toFixed(2)}</span>
-                  </div>
-                )}
-                <div className="border-t border-border pt-4 mt-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Total due</p>
-                  <p className="text-foreground font-bold text-3xl tracking-tight">
-                    ${(totalWithShipping / 100).toFixed(2)}
-                  </p>
-                </div>
-              </div> */}
-
               {bankTransfer && (
                 <div className="mt-8">
                   <BankTransferInfo settings={bankTransfer} amount={totalWithShipping} />
